@@ -274,29 +274,39 @@ _{Explain here how the data archiving feature will be implemented}_
 
 **Target user profile**:
 
-* has a need to manage a significant number of contacts
+* tuition centre is of small scale (around 50 students
+* and 3 tutors)
 * prefer desktop apps over other types
-* can type fast
 * prefers typing to mouse interactions
 * is reasonably comfortable using CLI apps
 
-**Value proposition**: manage contacts faster than a typical mouse/GUI driven app
+**Value proposition**: TutorPal helps small tuition centre owners
+manage students effortlessly by centralizing student contact info,
+grades, attendance, payment status, subject assignments, tutors,
+and class schedules in one easy-to-use command-line system. 
+This helps save time, reduce errors, and focus on teaching
+instead of paperwork.
+
 
 
 ### User stories
 
 Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
-| Priority | As a …​                                    | I want to …​                 | So that I can…​                                                        |
-|----------|--------------------------------------------|------------------------------|------------------------------------------------------------------------|
-| `* * *`  | new user                                   | see usage instructions       | refer to instructions when I forget how to use the App                 |
-| `* * *`  | user                                       | add a new person             |                                                                        |
-| `* * *`  | user                                       | delete a person              | remove entries that I no longer need                                   |
-| `* * *`  | user                                       | find a person by name        | locate details of persons without having to go through the entire list |
-| `* *`    | user                                       | hide private contact details | minimize chance of someone else seeing them by accident                |
-| `*`      | user with many persons in the address book | sort persons by name         | locate a person easily                                                 |
+| Priority | As a …​              | I want to …​                 | So that I can…​                                                        |
+|----------|----------------------|------------------------------|------------------------------------------------------------------------|
+| `* * *`  | new user             | see usage instructions       | refer to instructions when I forget how to use the App                 |
+| `* * *`  | user                 | add a student's contact      | collate all students' details in one place                             |
+| `* * *`  | user                 | delete a student's contact   | remove entries that I no longer need, maintaining a clean record       |
+| `* * *`  | user                 | find a person by name        | locate details of persons without having to go through the entire list |
+| `* * *`  | tuition centre owner | record payment status        | collect my fees on time                                                |
+| `* * *`  | tuition centre owner | list all my student details  | Get a overview of the students in my tuition centre                    |
+| `* *`    | tutor                | record attendance            | Track any students who may be missing classes                          |
+| `* *`    | tutor                | filter students by tags      | Find the right group of people easily                                  |
+| `*`      | user                 | view students' grade history | Better understand their academic performance                           |
+| `*`      | tuition centre owner | Set reminders for payments   | Do not forget to ask for pending payments                              |
 
-*{More to be added}*
+
 
 ### Use cases
 
