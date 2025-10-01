@@ -33,12 +33,12 @@ You can reach us at the email `e1334289@u.nus.edu`
 
 ### Johnny Doe
 
-<img src="images/johndoe.png" width="200px">
+<img src="images/robin.png" width="200px">
 
-[[github](http://github.com/johndoe)] [[portfolio](team/johndoe.md)]
+[[github](http://github.com/lvbrobinhood)] [[portfolio](https://www.linkedin.com/in/robin-low-voon-bin)]
 
 * Role: Developer
-* Responsibilities: Data
+* Responsibilities: CSS Expert
 
 ### Siang Jun
 
