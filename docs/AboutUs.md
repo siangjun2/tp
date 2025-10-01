@@ -19,7 +19,7 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 [[github](https://github.com/johndoe)]
 [[portfolio](team/johndoe.md)]
 
-- Role: Project Advisor
+* Role: Project Advisor
 
 ### Jane Doe
 
@@ -28,8 +28,8 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 [[github](http://github.com/johndoe)]
 [[portfolio](team/johndoe.md)]
 
-- Role: Team Lead
-- Responsibilities: UI
+* Role: Team Lead
+* Responsibilities: UI
 
 ### Johnny Doe
 
@@ -37,8 +37,8 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 [[github](http://github.com/johndoe)] [[portfolio](team/johndoe.md)]
 
-- Role: Developer
-- Responsibilities: Data
+* Role: Developer
+* Responsibilities: Data
 
 ### Jean Doe
 
@@ -47,8 +47,8 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 [[github](http://github.com/johndoe)]
 [[portfolio](team/johndoe.md)]
 
-- Role: Developer
-- Responsibilities: Dev Ops + Threading
+* Role: Developer
+* Responsibilities: Dev Ops + Threading
 
 ### Chong Rui
 
@@ -57,5 +57,5 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 [[github](http://github.com/leechongrui)]
 [[portfolio](https://www.linkedin.com/in/lee-chong-rui/)]
 
-- Role: Developer / Peer Supporter
-- Responsibilities: UI/ UX
+* Role: Developer / Peer Supporter
+* Responsibilities: UI/ UX
