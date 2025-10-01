@@ -22,7 +22,7 @@ You can reach us at the email `e1334289@u.nus.edu`
 * Responsibilities: UI, Peer Support, Testing
 
 
-### Jane Doe
+### Yeo Yong Sheng
 
 <img src="images/miloepeng.png" width="200px">
 
@@ -32,7 +32,7 @@ You can reach us at the email `e1334289@u.nus.edu`
 * Role: Team Secretary
 * Responsibilities: UI, Peer Support
 
-### Johnny Doe
+### Low Voon Bin Robin
 
 <img src="images/robin.png" width="200px">
 

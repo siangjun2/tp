@@ -120,7 +120,6 @@ How the parsing works:
 
 <puml src="diagrams/ModelClassDiagram.puml" width="450" />
 
-
 The `Model` component,
 
 * stores the address book data i.e., all `Person` objects (which are contained in a `UniquePersonList` object).
@@ -135,7 +134,6 @@ The `Model` component,
 <puml src="diagrams/BetterModelClassDiagram.puml" width="450" />
 
 </box>
-
 
 ### Storage component
 
@@ -193,7 +191,6 @@ Step 3. The user executes `add n/David …​` to add a new person. The `add` co
 Step 4. The user now decides that adding the person was a mistake, and decides to undo that action by executing the `undo` command. The `undo` command will call `Model#undoAddressBook()`, which will shift the `currentStatePointer` once to the left, pointing it to the previous address book state, and restores the address book to that state.
 
 <puml src="diagrams/UndoRedoState3.puml" alt="UndoRedoState3" />
-
 
 <box type="info" seamless>
 
@@ -288,7 +285,6 @@ This helps save time, reduce errors, and focus on teaching
 instead of paperwork.
 
 
-
 ### User stories
 
 Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
@@ -306,47 +302,118 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `*`      | user                 | view students' grade history | Better understand their academic performance                           |
 | `*`      | tuition centre owner | Set reminders for payments   | Do not forget to ask for pending payments                              |
 
+_{More to be added}_
+(For all use cases below, the **System** is the `TutorPal` and the **Actor** is the `Tuition Centre Admin`, unless specified otherwise)
 
-
-### Use cases
-
-(For all use cases below, the **System** is the `AddressBook` and the **Actor** is the `user`, unless specified otherwise)
-
-**Use case: Delete a person**
+**Use case: Add new student/tutor**
 
 **MSS**
 
-1.  User requests to list persons
-2.  AddressBook shows a list of persons
-3.  User requests to delete a specific person in the list
-4.  AddressBook deletes the person
+1.  Admin enters the add command with all required details in the correct format (e.g., add r/student n/Kevin p/98761234 e/kevin@gmail.com a/Kent Ridge c/s4mon1600).
+2.  TutorPal checks the entered details.
+3.  TutorPal adds the new student/tuitor and displays a success message
 
     Use case ends.
 
 **Extensions**
 
-* 2a. The list is empty.
+- 2a. Missing required parameter: TutorPal detects an error in the entered details (e.g. missing or invalid parameter).
 
-  Use case ends.
+  - 2a1. TutorPal displays an error message ad requests the correct input.
+  - 2a2. Admin enters new details.
+  - Steps 2a1-2a2 are repeated until the details are correct.
+  - Use case resumes from step 3.
 
-* 3a. The given index is invalid.
+- 2b. TutorPal detects a duplicate (same name and phone number).
+  - 2b1. TutorPal displays a duplicate error message.
+  - Use case ends.
 
-    * 3a1. AddressBook shows an error message.
+**Use case: Delete student/tutor**
 
-      Use case resumes at step 2.
+**MSS**
 
-*{More to be added}*
+1.  Admin enters the delete command with a valid index (e.g., delete 5).
+2.  TutorPal deletes the contact at the specified index and displays a success message.
+
+    Use case ends.
+
+**Extensions**
+
+- 1a. TutorPal detects an invalid index (non-numeric or out of range).
+  - 1a1. TutorPal displays an error message and requests a valid index.
+  - 1a2. Admin enters a new index.
+  - Steps 1a1-1a2 are repeated until a valid index is entered.
+  - Use case resumes from step 2.
+
+**Use case: List students/tutors (with optional filter)**
+
+**MSS**
+
+1.  Admin enters the list command, optionally with a filter (e.g., list, list c/s4mon1600, list t/Yeo Yong Sheng).
+2.  If the filter is valid, TutorPal displays the list of matching contacts with all attributes in a table format.
+
+    Use case ends.
+
+**Extensions**
+
+- 1a. TutorPal detects an invalid filter (e.g., both class and tutor, or invalid format).
+
+  - 1a1. TutorPal displays an error message and requests a valid filter.
+  - 1a2. Admin enters a new filter.
+  - Steps 1a1-1a2 are repeated until a valid filter is entered.
+  - Use case resumes from step 2.
+
+- 2a. No matching records found.
+  - 2a1. TutorPal displays a 'not found' message.
+  - Use case ends.
+
+**Use case: Find student/tutor by name**
+
+**MSS**
+
+1.  Admin enters the find command with a name parameter (e.g., find n/chong).
+2.  TutorPal displays matching contacts with their information and index.
+
+    Use case ends.
+
+**Extensions**
+
+- 1a. TutorPal detects a missing or invalid name parameter.
+
+  - 1a1. TutorPal displays an error message and requests a valid name.
+  - 1a2. Admin enters a new name.
+  - Steps 1a1-1a2 are repeated until a valid name is entered.
+  - Use case resumes from step 2.
+
+- 2a. No matching records found.
+  - 2a1. TutorPal displays a 'not found' message.
+  - Use case ends.
+
+**Use case: Mark payment status for student**
+
+**MSS**
+
+1.  Admin enters the payment command with a valid index and status (e.g., payment 3 s/paid).
+2.  TutorPal updates the payment status for the student and displays a success message.
+
+    Use case ends.
+
+**Extensions**
+
+- 1a. TutorPal detects an invalid index or status, or the index refers to a tutor.
+  - 1a1. TutorPal displays an error message and requests correct input.
+  - 1a2. Admin enters new input.
+  - Steps 1a1-1a2 are repeated until a valid name is entered.
+  - Use case resumes from step 2.
 
 ### Non-Functional Requirements
-
 1.  Should run on Windows 10+, macOS 12+, Ubuntu 22.04+ with Java 17+.
-2.  Should have relatively fast startup on boot i.e. < 3000ms. 
+2.  Should have relatively fast startup on boot i.e. < 3000ms.
 3.  Should have relatively smooth usage up to 1,000 persons; no UI freezes >1000 ms.
 4.  Should be able to execute commands e.g. add/edit/delete/find/list in <1000 ms on a dataset of 1,000 persons.
 5.  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
 6.  Should function offline without internet access.
 7.  Data should be saved locally. Local data loaded on startup.
-
 
 ### Glossary
 
