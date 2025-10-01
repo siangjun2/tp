@@ -51,12 +51,12 @@ You can reach us at the email `e1334289@u.nus.edu`
 * Role: Project Advisor, Developer, Peer supporter, Member, Coder, Moral support, Devil's advocate
 * Responsibilities: UI, Documentation, Data, Testing, Tracking issues
 
-### James Doe
+### Chong Rui
 
-<img src="images/johndoe.png" width="200px">
+<img src="images/leechongrui.png" width="200px">
 
-[[github](http://github.com/johndoe)]
-[[portfolio](team/johndoe.md)]
+[[github](http://github.com/leechongrui)]
+[[portfolio](https://www.linkedin.com/in/lee-chong-rui/)]
 
-* Role: Developer
-* Responsibilities: UI
+* Role: Developer / Peer Supporter
+* Responsibilities: UI/ UX
