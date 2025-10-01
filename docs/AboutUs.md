@@ -7,7 +7,7 @@
 
 We are a team based in the [School of Computing, National University of Singapore](http://www.comp.nus.edu.sg).
 
-You can reach us at the email `seer[at]comp.nus.edu.sg`
+You can reach us at the email `e1334289@u.nus.edu`
 
 ## Project team
 
@@ -23,13 +23,13 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 ### Jane Doe
 
-<img src="images/johndoe.png" width="200px">
+<img src="images/miloepeng.png" width="200px">
 
-[[github](http://github.com/johndoe)]
-[[portfolio](team/johndoe.md)]
+[[github](https://github.com/Miloepeng?tab=repositories)]
+[[portfolio](https://www.linkedin.com/in/yong-sheng-yeo-158b2029a/ )]
 
-* Role: Team Lead
-* Responsibilities: UI
+* Role: Team Secretary
+* Responsibilities: UI, Peer Support
 
 ### Johnny Doe
 
