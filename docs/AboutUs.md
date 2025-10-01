@@ -16,7 +16,7 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 <img src="images/hui-x1ng.png" width="200px">
 
 [[github](https://github.com/hui-x1ng)]
-[[portfolio](team/zichen.md)]
+[[portfolio](https://www.linkedin.com/in/zichen-jiang-666356322/)]
 
 * Role: Testing
 * Responsibilities: UI
