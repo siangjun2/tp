@@ -274,29 +274,39 @@ _{Explain here how the data archiving feature will be implemented}_
 
 **Target user profile**:
 
-* has a need to manage a significant number of contacts
+* tuition centre is of small scale (around 50 students
+* and 3 tutors)
 * prefer desktop apps over other types
-* can type fast
 * prefers typing to mouse interactions
 * is reasonably comfortable using CLI apps
 
-**Value proposition**: manage contacts faster than a typical mouse/GUI driven app
+**Value proposition**: TutorPal helps small tuition centre owners
+manage students effortlessly by centralizing student contact info,
+grades, attendance, payment status, subject assignments, tutors,
+and class schedules in one easy-to-use command-line system. 
+This helps save time, reduce errors, and focus on teaching
+instead of paperwork.
+
 
 
 ### User stories
 
 Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
-| Priority | As a …​                                    | I want to …​                 | So that I can…​                                                        |
-|----------|--------------------------------------------|------------------------------|------------------------------------------------------------------------|
-| `* * *`  | new user                                   | see usage instructions       | refer to instructions when I forget how to use the App                 |
-| `* * *`  | user                                       | add a new person             |                                                                        |
-| `* * *`  | user                                       | delete a person              | remove entries that I no longer need                                   |
-| `* * *`  | user                                       | find a person by name        | locate details of persons without having to go through the entire list |
-| `* *`    | user                                       | hide private contact details | minimize chance of someone else seeing them by accident                |
-| `*`      | user with many persons in the address book | sort persons by name         | locate a person easily                                                 |
+| Priority | As a …​              | I want to …​                 | So that I can…​                                                        |
+|----------|----------------------|------------------------------|------------------------------------------------------------------------|
+| `* * *`  | new user             | see usage instructions       | refer to instructions when I forget how to use the App                 |
+| `* * *`  | user                 | add a student's contact      | collate all students' details in one place                             |
+| `* * *`  | user                 | delete a student's contact   | remove entries that I no longer need, maintaining a clean record       |
+| `* * *`  | user                 | find a person by name        | locate details of persons without having to go through the entire list |
+| `* * *`  | tuition centre owner | record payment status        | collect my fees on time                                                |
+| `* * *`  | tuition centre owner | list all my student details  | Get a overview of the students in my tuition centre                    |
+| `* *`    | tutor                | record attendance            | Track any students who may be missing classes                          |
+| `* *`    | tutor                | filter students by tags      | Find the right group of people easily                                  |
+| `*`      | user                 | view students' grade history | Better understand their academic performance                           |
+| `*`      | tuition centre owner | Set reminders for payments   | Do not forget to ask for pending payments                              |
 
-*{More to be added}*
+
 
 ### Use cases
 
@@ -329,16 +339,31 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ### Non-Functional Requirements
 
-1.  Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
-2.  Should be able to hold up to 1000 persons without a noticeable sluggishness in performance for typical usage.
-3.  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
+1.  Should run on Windows 10+, macOS 12+, Ubuntu 22.04+ with Java 17+.
+2.  Should have relatively fast startup on boot i.e. < 3000ms. 
+3.  Should have relatively smooth usage up to 1,000 persons; no UI freezes >1000 ms.
+4.  Should be able to execute commands e.g. add/edit/delete/find/list in <1000 ms on a dataset of 1,000 persons.
+5.  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
+6.  Should function offline without internet access.
+7.  Data should be saved locally. Local data loaded on startup.
 
-*{More to be added}*
 
 ### Glossary
 
 * **Mainstream OS**: Windows, Linux, Unix, MacOS
-* **Private contact detail**: A contact detail that is not meant to be shared with others
+* **CLI (Command Line Interface)**: A text-based interface where users interact with the application by typing commands instead of using graphical buttons and menus
+* **Student**: A person enrolled in the tuition centre who receives educational instruction. Their information includes contact details, class assignments, payment status, and academic records
+* **Tutor**: An educator employed by the tuition centre to teach students. Can be assigned to multiple classes
+* **Class Code**: A standardized identifier for classes in the format `sXdddHHMM` where:
+  - `sX` represents the secondary level (s1-s5)
+  - `ddd` represents the day of the week (mon, tue, wed, thu, fri)
+  - `HHMM` represents the time in 24-hour format (e.g., s4mon1600 means Secondary 4, Monday, 4:00 PM)
+* **Payment Status**: The current state of a student's tuition fee payment. Can be `paid` (fees received), `unpaid` (fees due but not received), or `overdue` (fees past due date)
+* **Index**: A positive integer used to identify a specific entry in the currently displayed contact list. Used in commands like `delete` and `payment`
+* **Contact**: A record in TutorPal containing information about a student or tutor, including name, phone number, email, and address
+* **Parameter**: A value provided by the user as part of a command, prefixed with identifiers like `n/` (name), `p/` (phone), `e/` (email), `c/` (class)
+* **Role**: The classification of a contact as either a `student` or `tutor` in the system
+* **Command**: An instruction typed by the user to perform an action in TutorPal (e.g., `add`, `delete`, `list`, `find`, `payment`)
 
 --------------------------------------------------------------------------------------------------------------------
 
