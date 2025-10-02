@@ -34,7 +34,7 @@ You can reach us at the email `e1334289@u.nus.edu`
 
 ### Low Voon Bin Robin
 
-<img src="images/robin.png" width="200px">
+<img src="images/lvbrobinhood.png" width="200px">
 
 [[github](http://github.com/lvbrobinhood)] [[portfolio](https://www.linkedin.com/in/robin-low-voon-bin)]
 
@@ -43,7 +43,7 @@ You can reach us at the email `e1334289@u.nus.edu`
 
 ### Siang Jun
 
-<img src="images/siangjun.png.jpg" width="200px">
+<img src="images/siangjun2.png" width="200px">
 
 [[github](http://github.com/siangjun2)]
 [[portfolio](https://www.linkedin.com/in/siang-jun-lee/)]
