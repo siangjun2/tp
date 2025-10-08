@@ -7,7 +7,6 @@ import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import seedu.address.logic.Messages;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
@@ -33,9 +32,11 @@ public class AddCommandIntegrationTest {
         Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
         expectedModel.addPerson(validPerson);
 
-        assertCommandSuccess(new AddCommand(validPerson), model,
-                String.format(AddCommand.MESSAGE_SUCCESS, Messages.format(validPerson)),
-                expectedModel);
+        String role = validPerson.getRole().toString();
+        String name = validPerson.getName().toString();
+        String capitalizedRole = role.substring(0, 1).toUpperCase() + role.substring(1);
+        String expectedMessage = String.format(AddCommand.MESSAGE_SUCCESS, capitalizedRole, name);
+        assertCommandSuccess(new AddCommand(validPerson), model, expectedMessage, expectedModel);
     }
 
     @Test

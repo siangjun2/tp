@@ -2,13 +2,14 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_CLASS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_ROLE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
 import seedu.address.commons.util.ToStringBuilder;
-import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.person.Person;
@@ -20,23 +21,27 @@ public class AddCommand extends Command {
 
     public static final String COMMAND_WORD = "add";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a person to the address book. "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a student or tutor to the system. "
             + "Parameters: "
+            + PREFIX_ROLE + "ROLE "
             + PREFIX_NAME + "NAME "
             + PREFIX_PHONE + "PHONE "
             + PREFIX_EMAIL + "EMAIL "
-            + PREFIX_ADDRESS + "ADDRESS "
+            + "[" + PREFIX_ADDRESS + "ADDRESS] "
+            + PREFIX_CLASS + "CLASS "
+            + "[" + PREFIX_CLASS + "MORE_CLASSES]... "
             + "[" + PREFIX_TAG + "TAG]...\n"
             + "Example: " + COMMAND_WORD + " "
-            + PREFIX_NAME + "John Doe "
-            + PREFIX_PHONE + "98765432 "
-            + PREFIX_EMAIL + "johnd@example.com "
-            + PREFIX_ADDRESS + "311, Clementi Ave 2, #02-25 "
-            + PREFIX_TAG + "friends "
-            + PREFIX_TAG + "owesMoney";
+            + PREFIX_ROLE + "student "
+            + PREFIX_NAME + "Kevin "
+            + PREFIX_PHONE + "98761234 "
+            + PREFIX_EMAIL + "kevin@gmail.com "
+            + PREFIX_ADDRESS + "Kent Ridge "
+            + PREFIX_CLASS + "s4mon1600 "
+            + PREFIX_CLASS + "s4wed1400";
 
-    public static final String MESSAGE_SUCCESS = "New person added: %1$s";
-    public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book";
+    public static final String MESSAGE_SUCCESS = "%1$s %2$s added successfully";
+    public static final String MESSAGE_DUPLICATE_PERSON = "This student/tutor already exists in the system";
 
     private final Person toAdd;
 
@@ -57,7 +62,11 @@ public class AddCommand extends Command {
         }
 
         model.addPerson(toAdd);
-        return new CommandResult(String.format(MESSAGE_SUCCESS, Messages.format(toAdd)));
+        String role = toAdd.getRole().toString();
+        String name = toAdd.getName().toString();
+        // Capitalize first letter of role for display
+        String capitalizedRole = role.substring(0, 1).toUpperCase() + role.substring(1);
+        return new CommandResult(String.format(MESSAGE_SUCCESS, capitalizedRole, name));
     }
 
     @Override

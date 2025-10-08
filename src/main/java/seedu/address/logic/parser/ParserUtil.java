@@ -10,9 +10,11 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.Address;
+import seedu.address.model.person.Class;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
+import seedu.address.model.person.Role;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -93,6 +95,48 @@ public class ParserUtil {
             throw new ParseException(Email.MESSAGE_CONSTRAINTS);
         }
         return new Email(trimmedEmail);
+    }
+
+    /**
+     * Parses a {@code String role} into a {@code Role}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code role} is invalid.
+     */
+    public static Role parseRole(String role) throws ParseException {
+        requireNonNull(role);
+        String trimmedRole = role.trim();
+        if (!Role.isValidRole(trimmedRole)) {
+            throw new ParseException(Role.MESSAGE_CONSTRAINTS);
+        }
+        return new Role(trimmedRole);
+    }
+
+    /**
+     * Parses a {@code String className} into a {@code Class}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code className} is invalid.
+     */
+    public static Class parseClass(String className) throws ParseException {
+        requireNonNull(className);
+        String trimmedClass = className.trim();
+        if (!Class.isValidClass(trimmedClass)) {
+            throw new ParseException(Class.MESSAGE_CONSTRAINTS);
+        }
+        return new Class(trimmedClass);
+    }
+
+    /**
+     * Parses {@code Collection<String> classes} into a {@code Set<Class>}.
+     */
+    public static Set<Class> parseClasses(Collection<String> classes) throws ParseException {
+        requireNonNull(classes);
+        final Set<Class> classSet = new HashSet<>();
+        for (String className : classes) {
+            classSet.add(parseClass(className));
+        }
+        return classSet;
     }
 
     /**
