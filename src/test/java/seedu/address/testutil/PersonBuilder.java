@@ -100,6 +100,22 @@ public class PersonBuilder {
         return this;
     }
 
+    /**
+     * Sets the {@code Role} of the {@code Person} that we are building.
+     */
+    public PersonBuilder withRole(String role) {
+        this.role = new Role(role);
+        return this;
+    }
+
+    /**
+     * Parses the {@code classes} into a {@code Set<Class>} and set it to the {@code Person} that we are building.
+     */
+    public PersonBuilder withClasses(String ... classes) {
+        this.classes = SampleDataUtil.getClassSet(classes);
+        return this;
+    }
+
     public Person build() {
         return new Person(name, phone, email, role, address, classes, tags);
     }
