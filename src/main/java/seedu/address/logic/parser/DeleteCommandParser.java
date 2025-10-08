@@ -18,7 +18,7 @@ public class DeleteCommandParser implements Parser<DeleteCommand> {
      */
     public DeleteCommand parse(String args) throws ParseException {
         try {
-            Index index = ParserUtil.parseIndex(args);
+            Index index = ParserUtil.parseIndex(args);  // parses args, throws exception if it is not non-zero uint
             return new DeleteCommand(index);
         } catch (ParseException pe) {
             throw new ParseException(
