@@ -95,4 +95,5 @@ public class PaymentCommand extends Command {
                 .add("paymentStatus", paymentStatus)
                 .toString();
     }
+    
 }
