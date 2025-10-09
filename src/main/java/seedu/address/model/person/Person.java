@@ -26,7 +26,7 @@ public class Person {
     private final Address address;
     private final Set<Class> classes = new HashSet<>();
     private final Set<Tag> tags = new HashSet<>();
-    private final String paymentStatus; 
+    private final String paymentStatus;
 
     /**
      * Every field must be present and not null.
@@ -151,7 +151,7 @@ public class Person {
                 .add("address", address)
                 .add("classes", classes)
                 .add("tags", tags)
-                .add("paymentStatus", paymentStatus) 
+                .add("paymentStatus", paymentStatus)
                 .toString();
     }
 }
