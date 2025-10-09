@@ -41,7 +41,8 @@ public class ListCommandTest {
     @Test
     public void execute_listWithClassFilter_showsFilteredList() {
         // Test with a class filter
-        ClassContainsKeywordsPredicate predicate = new ClassContainsKeywordsPredicate(java.util.Arrays.asList("s4mon1600"));
+        ClassContainsKeywordsPredicate predicate =
+                new ClassContainsKeywordsPredicate(java.util.Arrays.asList("s4mon1600"));
         ListCommand listCommand = new ListCommand(predicate);
         // Update expected model to show filtered results
         expectedModel.updateFilteredPersonList(predicate);
