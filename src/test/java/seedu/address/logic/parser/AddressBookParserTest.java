@@ -88,8 +88,12 @@ public class AddressBookParserTest {
         ListCommand command = (ListCommand) parser.parseCommand(ListCommand.COMMAND_WORD);
         assertEquals(new ListCommand(), command);
         // Test list command with class filter
-        ListCommand filteredCommand = (ListCommand) parser.parseCommand(ListCommand.COMMAND_WORD + " c/s4mon1600");
-        assertEquals(new ListCommand(new seedu.address.model.person.ClassContainsKeywordsPredicate(Arrays.asList("s4mon1600"))), filteredCommand);
+        ListCommand filteredCommand =
+                (ListCommand) parser.parseCommand(ListCommand.COMMAND_WORD + " c/s4mon1600");
+        assertEquals(
+                new ListCommand(new seedu.address.model.person.ClassContainsKeywordsPredicate(
+                        Arrays.asList("s4mon1600"))),
+                filteredCommand);
     }
 
     @Test

@@ -45,8 +45,13 @@ public class ListCommandTest {
         ListCommand listCommand = new ListCommand(predicate);
         // Update expected model to show filtered results
         expectedModel.updateFilteredPersonList(predicate);
-        String expectedMessage = String.format(ListCommand.MESSAGE_SUCCESS_FILTERED, String.join(", ", predicate.getKeywords())) + "\n"
-        + String.format(seedu.address.logic.Messages.MESSAGE_PERSONS_LISTED_OVERVIEW, expectedModel.getFilteredPersonList().size());
+        String classMsg = String.format(
+                ListCommand.MESSAGE_SUCCESS_FILTERED,
+                String.join(", ", predicate.getKeywords()));
+        String countMsg = String.format(
+                seedu.address.logic.Messages.MESSAGE_PERSONS_LISTED_OVERVIEW,
+                expectedModel.getFilteredPersonList().size());
+        String expectedMessage = classMsg + "\n" + countMsg;
         assertCommandSuccess(listCommand, model, expectedMessage, expectedModel);
     }
 }
