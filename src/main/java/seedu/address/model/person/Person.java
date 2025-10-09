@@ -154,5 +154,4 @@ public class Person {
                 .add("paymentStatus", paymentStatus)
                 .toString();
     }
-    
 }
