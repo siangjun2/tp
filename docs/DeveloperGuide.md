@@ -289,18 +289,18 @@ instead of paperwork.
 
 Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
-| Priority | As a …​              | I want to …​                 | So that I can…​                                                        |
+| Priority | As a …​               | I want to …​                  | So that I can…​                                                        |
 |----------|----------------------|------------------------------|------------------------------------------------------------------------|
 | `* * *`  | new user             | see usage instructions       | refer to instructions when I forget how to use the App                 |
 | `* * *`  | user                 | add a student's contact      | collate all students' details in one place                             |
 | `* * *`  | user                 | delete a student's contact   | remove entries that I no longer need, maintaining a clean record       |
 | `* * *`  | user                 | find a person by name        | locate details of persons without having to go through the entire list |
 | `* * *`  | tuition centre owner | record payment status        | collect my fees on time                                                |
-| `* * *`  | tuition centre owner | list all my student details  | Get a overview of the students in my tuition centre                    |
-| `* *`    | tutor                | record attendance            | Track any students who may be missing classes                          |
-| `* *`    | tutor                | filter students by tags      | Find the right group of people easily                                  |
-| `*`      | user                 | view students' grade history | Better understand their academic performance                           |
-| `*`      | tuition centre owner | Set reminders for payments   | Do not forget to ask for pending payments                              |
+| `* * *`  | tuition centre owner | list all my student details  | get a overview of the students in my tuition centre                    |
+| `* *`    | tutor                | record attendance            | track any students who may be missing classes                          |
+| `* *`    | tutor                | filter students by tags      | find the right group of people easily                                  |
+| `*`      | user                 | view students' grade history | better understand their academic performance                           |
+| `*`      | tuition centre owner | Set reminders for payments   | do not forget to ask for pending payments                              |
 
 _{More to be added}_
 (For all use cases below, the **System** is the `TutorPal` and the **Actor** is the `Tuition Centre Admin`, unless specified otherwise)

@@ -34,7 +34,6 @@ public class ListCommandParser implements Parser<ListCommand> {
             if (classKeyword.isEmpty()) {
                 throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ListCommand.MESSAGE_USAGE));
             }
-            
             List<String> keywords = Arrays.asList(classKeyword);
             return new ListCommand(new ClassContainsKeywordsPredicate(keywords));
         }

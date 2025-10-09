@@ -43,14 +43,11 @@ public class ListCommandTest {
         // Test with a class filter
         ClassContainsKeywordsPredicate predicate = new ClassContainsKeywordsPredicate(java.util.Arrays.asList("s4mon1600"));
         ListCommand listCommand = new ListCommand(predicate);
-        
         // Update expected model to show filtered results
         expectedModel.updateFilteredPersonList(predicate);
-        
         String expectedMessage = String.format(ListCommand.MESSAGE_SUCCESS_FILTERED, String.join(", ", predicate.getKeywords())) + "\n"
                 + String.format(seedu.address.logic.Messages.MESSAGE_PERSONS_LISTED_OVERVIEW, 
                 expectedModel.getFilteredPersonList().size());
-        
         assertCommandSuccess(listCommand, model, expectedMessage, expectedModel);
     }
 }
