@@ -26,12 +26,21 @@ public class Person {
     private final Address address;
     private final Set<Class> classes = new HashSet<>();
     private final Set<Tag> tags = new HashSet<>();
+    private final String paymentStatus; 
 
     /**
      * Every field must be present and not null.
      */
     public Person(Name name, Phone phone, Email email, Role role, Address address,
                   Set<Class> classes, Set<Tag> tags) {
+        this(name, phone, email, role, address, classes, tags, "unpaid"); // 调用重载构造函数
+    }
+
+    /**
+     * Constructor with payment status.
+     */
+    public Person(Name name, Phone phone, Email email, Role role, Address address,
+                  Set<Class> classes, Set<Tag> tags, String paymentStatus) {
         requireAllNonNull(name, phone, email, role, address, classes, tags);
         this.name = name;
         this.phone = phone;
@@ -40,6 +49,7 @@ public class Person {
         this.address = address;
         this.classes.addAll(classes);
         this.tags.addAll(tags);
+        this.paymentStatus = paymentStatus != null ? paymentStatus : "unpaid";
     }
 
     public Name getName() {
@@ -79,6 +89,13 @@ public class Person {
     }
 
     /**
+     * Returns the payment status of this person.
+     */
+    public String getPaymentStatus() {
+        return paymentStatus;
+    }
+
+    /**
      * Returns true if both persons have the same name and phone number.
      * This defines a weaker notion of equality between two persons.
      */
@@ -114,13 +131,14 @@ public class Person {
                 && role.equals(otherPerson.role)
                 && address.equals(otherPerson.address)
                 && classes.equals(otherPerson.classes)
-                && tags.equals(otherPerson.tags);
+                && tags.equals(otherPerson.tags)
+                && paymentStatus.equals(otherPerson.paymentStatus); // 新增比较
     }
 
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, email, role, address, classes, tags);
+        return Objects.hash(name, phone, email, role, address, classes, tags, paymentStatus); // 新增
     }
 
     @Override
@@ -133,7 +151,7 @@ public class Person {
                 .add("address", address)
                 .add("classes", classes)
                 .add("tags", tags)
+                .add("paymentStatus", paymentStatus) 
                 .toString();
     }
-
 }
