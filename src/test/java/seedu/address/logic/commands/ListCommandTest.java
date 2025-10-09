@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
+import seedu.address.model.person.ClassContainsKeywordsPredicate;
 
 /**
  * Contains integration tests (interaction with the Model) and unit tests for ListCommand.
@@ -35,5 +36,23 @@ public class ListCommandTest {
     public void execute_listIsFiltered_showsEverything() {
         showPersonAtIndex(model, INDEX_FIRST_PERSON);
         assertCommandSuccess(new ListCommand(), model, ListCommand.MESSAGE_SUCCESS, expectedModel);
+    }
+
+    @Test
+    public void execute_listWithClassFilter_showsFilteredList() {
+        // Test with a class filter
+        ClassContainsKeywordsPredicate predicate =
+                new ClassContainsKeywordsPredicate(java.util.Arrays.asList("s4mon1600"));
+        ListCommand listCommand = new ListCommand(predicate);
+        // Update expected model to show filtered results
+        expectedModel.updateFilteredPersonList(predicate);
+        String classMsg = String.format(
+                ListCommand.MESSAGE_SUCCESS_FILTERED,
+                String.join(", ", predicate.getKeywords()));
+        String countMsg = String.format(
+                seedu.address.logic.Messages.MESSAGE_PERSONS_LISTED_OVERVIEW,
+                expectedModel.getFilteredPersonList().size());
+        String expectedMessage = classMsg + "\n" + countMsg;
+        assertCommandSuccess(listCommand, model, expectedMessage, expectedModel);
     }
 }
