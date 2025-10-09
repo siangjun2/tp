@@ -280,7 +280,7 @@ _{Explain here how the data archiving feature will be implemented}_
 **Value proposition**: TutorPal helps small tuition centre owners
 manage students effortlessly by centralizing student contact info,
 grades, attendance, payment status, subject assignments, tutors,
-and class schedules in one easy-to-use command-line system. 
+and class schedules in one easy-to-use command-line system.
 This helps save time, reduce errors, and focus on teaching
 instead of paperwork.
 
