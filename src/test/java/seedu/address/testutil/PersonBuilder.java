@@ -121,6 +121,9 @@ public class PersonBuilder {
         return this;
     }
 
+    /**
+     * Parses the {@code Payment} of the {@code Person} that we are building.
+     */
     public PersonBuilder withPayment(String paymentStatus) {
         this.paymentStatus = new Payment(paymentStatus);
         return this;
