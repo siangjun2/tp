@@ -7,6 +7,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ROLE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_STATUS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
 import java.util.Set;
@@ -56,13 +57,16 @@ public class AddCommandParser implements Parser<AddCommand> {
                 : new Address("-");
         Set<Class> classList = ParserUtil.parseClasses(argMultimap.getAllValues(PREFIX_CLASS));
         Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
+        //Defaults the payment status to unpaid if not provided
+        Payment paymentStatus = argMultimap.getValue(PREFIX_STATUS).isPresent()
+            ? ParserUtil.parsePayment(argMultimap.getValue(PREFIX_STATUS).get())
+            : new Payment("unpaid");
 
         if (classList.isEmpty()) {
             throw new ParseException("At least one class must be specified using c/ prefix");
         }
 
-        Person person = new Person(name, phone, email, role, address, classList, tagList,
-            new Payment("unpaid"));
+        Person person = new Person(name, phone, email, role, address, classList, tagList, paymentStatus);
 
         return new AddCommand(person);
     }
