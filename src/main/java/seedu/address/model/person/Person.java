@@ -26,13 +26,13 @@ public class Person {
     private final Address address;
     private final Set<Class> classes = new HashSet<>();
     private final Set<Tag> tags = new HashSet<>();
-    private final String paymentStatus;
+    private final Payment paymentStatus;
 
     /**
      * Constructor with payment status.
      */
     public Person(Name name, Phone phone, Email email, Role role, Address address,
-                  Set<Class> classes, Set<Tag> tags, String paymentStatus) {
+                  Set<Class> classes, Set<Tag> tags, Payment paymentStatus) {
         requireAllNonNull(name, phone, email, role, address, classes, tags);
         this.name = name;
         this.phone = phone;
@@ -41,7 +41,7 @@ public class Person {
         this.address = address;
         this.classes.addAll(classes);
         this.tags.addAll(tags);
-        this.paymentStatus = paymentStatus != null ? paymentStatus : "unpaid";
+        this.paymentStatus = paymentStatus;
     }
 
     public Name getName() {
@@ -83,7 +83,7 @@ public class Person {
     /**
      * Returns the payment status of this person.
      */
-    public String getPaymentStatus() {
+    public Payment getPaymentStatus() {
         return paymentStatus;
     }
 

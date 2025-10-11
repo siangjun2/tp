@@ -13,14 +13,14 @@ public class Payment {
             "Work in progress";
 
     /*
-     * Role must be exactly "student" or "tutor" (case-insensitive)
+     * Payment status must be exactly "unpaid", "overdue" or "paid"
      */
     public static final String VALIDATION_REGEX = "(?i)(unpaid|overdue|paid)";
 
     public final String value;
 
     /**
-     * Constructs a {@code Role}.
+     * Constructs a {@code Payment}.
      *
      * @param paymentStatus A valid payment status.
      */
@@ -32,7 +32,7 @@ public class Payment {
     }
 
     /**
-     * Returns true if a given string is a valid role.
+     * Returns true if a given string is a valid payment.
      */
     public static boolean isValidPayment(String test) {
         return test.matches(VALIDATION_REGEX);

@@ -18,6 +18,7 @@ import seedu.address.model.person.Address;
 import seedu.address.model.person.Class;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
+import seedu.address.model.person.Payment;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Role;
@@ -60,7 +61,8 @@ public class AddCommandParser implements Parser<AddCommand> {
             throw new ParseException("At least one class must be specified using c/ prefix");
         }
 
-        Person person = new Person(name, phone, email, role, address, classList, tagList, "unpaid");
+        Person person = new Person(name, phone, email, role, address, classList, tagList,
+            new Payment("unpaid"));
 
         return new AddCommand(person);
     }

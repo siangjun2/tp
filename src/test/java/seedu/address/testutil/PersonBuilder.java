@@ -7,6 +7,7 @@ import seedu.address.model.person.Address;
 import seedu.address.model.person.Class;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
+import seedu.address.model.person.Payment;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Role;
@@ -117,7 +118,7 @@ public class PersonBuilder {
     }
 
     public Person build() {
-        return new Person(name, phone, email, role, address, classes, tags, "unpaid");
+        return new Person(name, phone, email, role, address, classes, tags, new Payment("unpaid"));
     }
 
 }
