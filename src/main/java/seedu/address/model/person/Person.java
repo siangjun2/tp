@@ -33,7 +33,7 @@ public class Person {
      */
     public Person(Name name, Phone phone, Email email, Role role, Address address,
                   Set<Class> classes, Set<Tag> tags) {
-        this(name, phone, email, role, address, classes, tags, "unpaid"); // 调用重载构造函数
+        this(name, phone, email, role, address, classes, tags, "unpaid");
     }
 
     /**
@@ -132,13 +132,13 @@ public class Person {
                 && address.equals(otherPerson.address)
                 && classes.equals(otherPerson.classes)
                 && tags.equals(otherPerson.tags)
-                && paymentStatus.equals(otherPerson.paymentStatus); // 新增比较
+                && paymentStatus.equals(otherPerson.paymentStatus);
     }
 
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, email, role, address, classes, tags, paymentStatus); // 新增
+        return Objects.hash(name, phone, email, role, address, classes, tags, paymentStatus);
     }
 
     @Override
