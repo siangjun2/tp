@@ -80,7 +80,7 @@ public class PersonCard extends UiPart<Region> {
                 });
 
         // Style payment status
-        String paymentValue = person.getPaymentStatus();
+        String paymentValue = person.getPaymentStatus().toString();
         paymentStatus.setText(paymentValue);
         if ("paid".equalsIgnoreCase(paymentValue)) {
             paymentStatus.getStyleClass().add("payment-paid");
