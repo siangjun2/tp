@@ -6,13 +6,15 @@
     "role": "student",
     "address": "123, Jurong West Ave 6, #08-111",
     "classes": [ "s4mon1600" ],
-    "tags": [ "friends" ]
+    "tags": [ "friends" ],
+    "payment" : "unpaid"
   }, {
     "name": "Alice Pauline",
     "phone": "94351253",
     "email": "pauline@example.com",
     "role": "student",
     "address": "4th street",
-    "classes": [ "s4mon1600" ]
+    "classes": [ "s4mon1600" ],
+    "payment" : "unpaid"
   } ]
 }

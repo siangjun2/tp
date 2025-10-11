@@ -24,6 +24,7 @@ import seedu.address.model.Model;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
+import seedu.address.model.person.Payment;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.tag.Tag;
@@ -100,10 +101,11 @@ public class EditCommand extends Command {
         Email updatedEmail = editPersonDescriptor.getEmail().orElse(personToEdit.getEmail());
         Address updatedAddress = editPersonDescriptor.getAddress().orElse(personToEdit.getAddress());
         Set<Tag> updatedTags = editPersonDescriptor.getTags().orElse(personToEdit.getTags());
+        Payment updatedPayment = editPersonDescriptor.getPayment().orElse(personToEdit.getPaymentStatus());
 
         // Role and classes cannot be edited, so we keep the original values
         return new Person(updatedName, updatedPhone, updatedEmail, personToEdit.getRole(),
-                updatedAddress, personToEdit.getClasses(), updatedTags);
+                updatedAddress, personToEdit.getClasses(), updatedTags, updatedPayment);
     }
 
     @Override
@@ -140,6 +142,7 @@ public class EditCommand extends Command {
         private Email email;
         private Address address;
         private Set<Tag> tags;
+        private Payment paymentStatus;
 
         public EditPersonDescriptor() {}
 
@@ -153,6 +156,7 @@ public class EditCommand extends Command {
             setEmail(toCopy.email);
             setAddress(toCopy.address);
             setTags(toCopy.tags);
+            setPayment(toCopy.paymentStatus);
         }
 
         /**
@@ -194,6 +198,14 @@ public class EditCommand extends Command {
             return Optional.ofNullable(address);
         }
 
+        public void setPayment(Payment paymentStatus) {
+            this.paymentStatus = paymentStatus;
+        }
+
+        public Optional<Payment> getPayment() {
+            return Optional.ofNullable(paymentStatus);
+        }
+
         /**
          * Sets {@code tags} to this object's {@code tags}.
          * A defensive copy of {@code tags} is used internally.
@@ -227,7 +239,8 @@ public class EditCommand extends Command {
                     && Objects.equals(phone, otherEditPersonDescriptor.phone)
                     && Objects.equals(email, otherEditPersonDescriptor.email)
                     && Objects.equals(address, otherEditPersonDescriptor.address)
-                    && Objects.equals(tags, otherEditPersonDescriptor.tags);
+                    && Objects.equals(tags, otherEditPersonDescriptor.tags)
+                    && Objects.equals(paymentStatus, otherEditPersonDescriptor.paymentStatus);
         }
 
         @Override
@@ -238,6 +251,7 @@ public class EditCommand extends Command {
                     .add("email", email)
                     .add("address", address)
                     .add("tags", tags)
+                    .add("payment", paymentStatus)
                     .toString();
         }
     }

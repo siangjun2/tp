@@ -7,7 +7,8 @@
     "role" : "student",
     "address" : "123, Jurong West Ave 6, #08-111",
     "classes" : [ "s4mon1600" ],
-    "tags" : [ "friends" ]
+    "tags" : [ "friends" ],
+    "payment" : "unpaid"
   }, {
     "name" : "Benson Meier",
     "phone" : "98765432",
@@ -15,7 +16,8 @@
     "role" : "student",
     "address" : "311, Clementi Ave 2, #02-25",
     "classes" : [ "s3tue1400" ],
-    "tags" : [ "owesMoney", "friends" ]
+    "tags" : [ "owesMoney", "friends" ],
+    "payment" : "unpaid"
   }, {
     "name" : "Carl Kurz",
     "phone" : "95352563",
@@ -23,7 +25,8 @@
     "role" : "tutor",
     "address" : "wall street",
     "classes" : [ "s1mon0900" ],
-    "tags" : [ ]
+    "tags" : [ ],
+    "payment" : "unpaid"
   }, {
     "name" : "Daniel Meier",
     "phone" : "87652533",
@@ -31,7 +34,8 @@
     "role" : "student",
     "address" : "10th street",
     "classes" : [ "s5thu1600" ],
-    "tags" : [ "friends" ]
+    "tags" : [ "friends" ],
+    "payment" : "unpaid"
   }, {
     "name" : "Elle Meyer",
     "phone" : "94822241",
@@ -39,7 +43,8 @@
     "role" : "student",
     "address" : "michegan ave",
     "classes" : [ "s2mon1000" ],
-    "tags" : [ ]
+    "tags" : [ ],
+    "payment" : "unpaid"
   }, {
     "name" : "Fiona Kunz",
     "phone" : "94824271",
@@ -47,7 +52,8 @@
     "role" : "tutor",
     "address" : "little tokyo",
     "classes" : [ "s3wed1400" ],
-    "tags" : [ ]
+    "tags" : [ ],
+    "payment" : "unpaid"
   }, {
     "name" : "George Best",
     "phone" : "94824421",
@@ -55,6 +61,7 @@
     "role" : "student",
     "address" : "4th street",
     "classes" : [ "s4fri1500" ],
-    "tags" : [ ]
+    "tags" : [ ],
+    "payment" : "unpaid"
   } ]
 }

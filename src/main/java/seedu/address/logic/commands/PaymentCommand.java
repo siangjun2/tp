@@ -9,6 +9,7 @@ import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
+import seedu.address.model.person.Payment;
 import seedu.address.model.person.Person;
 
 /**
@@ -29,7 +30,7 @@ public class PaymentCommand extends Command {
             "Index belongs to a tutor. Please provide an index tied to a student instead";
 
     private final Index index;
-    private final String paymentStatus;
+    private final Payment paymentStatus;
 
     /**
      * Creates a PaymentCommand to update the payment status of the specified person.
@@ -38,7 +39,7 @@ public class PaymentCommand extends Command {
         requireNonNull(index);
         requireNonNull(paymentStatus);
         this.index = index;
-        this.paymentStatus = paymentStatus;
+        this.paymentStatus = new Payment(paymentStatus);
     }
 
     @Override
@@ -67,7 +68,7 @@ public class PaymentCommand extends Command {
     /**
      * Creates and returns a {@code Person} with the updated payment status.
      */
-    private Person createPersonWithPaymentStatus(Person person, String paymentStatus) {
+    private Person createPersonWithPaymentStatus(Person person, Payment paymentStatus) {
         return new Person(person.getName(), person.getPhone(), person.getEmail(),
                 person.getRole(), person.getAddress(), person.getClasses(),
                 person.getTags(), paymentStatus);
