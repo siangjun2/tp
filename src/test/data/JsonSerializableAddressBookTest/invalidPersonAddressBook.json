@@ -5,6 +5,7 @@
     "email": "invalid@email!3e",
     "role": "student",
     "address": "4th street",
-    "classes": [ "s4mon1600" ]
+    "classes": [ "s4mon1600" ],
+    "payment" : "unpaid"
   } ]
 }

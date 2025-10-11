@@ -34,6 +34,7 @@ class JsonAdaptedPerson {
     private final String address;
     private final List<JsonAdaptedClass> classes = new ArrayList<>();
     private final List<JsonAdaptedTag> tags = new ArrayList<>();
+    private final String paymentStatus;
 
     /**
      * Constructs a {@code JsonAdaptedPerson} with the given person details.
@@ -42,7 +43,7 @@ class JsonAdaptedPerson {
     public JsonAdaptedPerson(@JsonProperty("name") String name, @JsonProperty("phone") String phone,
             @JsonProperty("email") String email, @JsonProperty("role") String role,
             @JsonProperty("address") String address, @JsonProperty("classes") List<JsonAdaptedClass> classes,
-            @JsonProperty("tags") List<JsonAdaptedTag> tags) {
+            @JsonProperty("tags") List<JsonAdaptedTag> tags, @JsonProperty("payment") String payment) {
         this.name = name;
         this.phone = phone;
         this.email = email;
@@ -54,6 +55,7 @@ class JsonAdaptedPerson {
         if (tags != null) {
             this.tags.addAll(tags);
         }
+        this.paymentStatus = payment;
     }
 
     /**
@@ -71,6 +73,7 @@ class JsonAdaptedPerson {
         tags.addAll(source.getTags().stream()
                 .map(JsonAdaptedTag::new)
                 .collect(Collectors.toList()));
+        paymentStatus = source.getPaymentStatus().value;
     }
 
     /**
@@ -129,10 +132,18 @@ class JsonAdaptedPerson {
         }
         final Address modelAddress = new Address(address);
 
+        if (paymentStatus == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Payment.class.getSimpleName()));
+        }
+        if (!Payment.isValidPayment(paymentStatus)) {
+            throw new IllegalValueException(Payment.MESSAGE_CONSTRAINTS);
+        }
+        final Payment modelPayment = new Payment(paymentStatus);
+
         final Set<Class> modelClasses = new HashSet<>(personClasses);
         final Set<Tag> modelTags = new HashSet<>(personTags);
         return new Person(modelName, modelPhone, modelEmail, modelRole, modelAddress, modelClasses, modelTags,
-            new Payment("unpaid"));
+            modelPayment);
     }
 
 }
