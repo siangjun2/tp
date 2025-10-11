@@ -103,7 +103,7 @@ public class EditCommand extends Command {
 
         // Role and classes cannot be edited, so we keep the original values
         return new Person(updatedName, updatedPhone, updatedEmail, personToEdit.getRole(),
-                updatedAddress, personToEdit.getClasses(), updatedTags);
+                updatedAddress, personToEdit.getClasses(), updatedTags, "unpaid");
     }
 
     @Override
