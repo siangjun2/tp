@@ -78,17 +78,18 @@ add r/ROLE n/NAME p/PHONE e/EMAIL c/CLASS [a/ADDRESS] [c/MORE_CLASSES]... [t/TAG
 
 Examples:
 add r/student n/Kevin p/98761234 e/kevin@gmail.com a/Kent Ridge c/s4mon1600 c/s4wed1400
-add r/tutor n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal c/math101
+add r/tutor n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal c/s2tue1400
 Notes:
 
 Details:
-ROLE must be either student or tutor.
-At least one class (c/CLASS) is required.
-Tags (t/TAG) and address (a/ADDRESS) are optional.
+* ROLE must be either student or tutor.
+* At least one class (c/CLASS) is required.
+* CLASS format: First 2 characters must be s1, s2, s3, s4, or s5 (class level), followed by 3 lowercase letters for the day (mon, tue, wed, thu, fri, sat, sun), and ending with 4 digits representing time in 24-hour format (e.g., s4mon1600 for Secondary 4 Monday 4:00 PM).
+* Tags (t/TAG) and address (a/ADDRESS) are optional.
 
 <box type="tip" seamless>
 
-**Tip:** A person can have any number of tags (including 0)
+**Tip:** A person can have any number of tags (including 0) and any number of classes (minimum 1).
 </box>
 
 ### Listing all persons : `list`
@@ -197,7 +198,7 @@ _Details coming soon ..._
 
 Action     | Format, Examples
 -----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-**Add**    | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague`
+**Add**    | `add r/ROLE n/NAME p/PHONE e/EMAIL c/CLASS [a/ADDRESS] [c/MORE_CLASSES]... [t/TAG]…​` <br> e.g., `add r/student n/Kevin p/98761234 e/kevin@gmail.com a/Kent Ridge c/s4mon1600 c/s4wed1400`
 **Clear**  | `clear`
 **Delete** | `delete INDEX`<br> e.g., `delete 3`
 **Edit**   | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`

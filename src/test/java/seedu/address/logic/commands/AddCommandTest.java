@@ -246,4 +246,113 @@ public class AddCommandTest {
         assertEquals(expectedMessage, result.getFeedbackToUser());
     }
 
+    @Test
+    public void execute_studentWithMultipleClasses_success() throws Exception {
+        Person student = new PersonBuilder()
+                .withRole("student")
+                .withClasses("s4mon1600", "s4wed1400")
+                .build();
+        ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
+        
+        CommandResult result = new AddCommand(student).execute(modelStub);
+        
+        assertEquals(Arrays.asList(student), modelStub.personsAdded);
+        assertTrue(result.getFeedbackToUser().contains("Student"));
+    }
+
+    @Test
+    public void execute_tutorWithMultipleClasses_success() throws Exception {
+        Person tutor = new PersonBuilder()
+                .withRole("tutor")
+                .withClasses("math101", "physics201")
+                .build();
+        ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
+        
+        CommandResult result = new AddCommand(tutor).execute(modelStub);
+        
+        assertEquals(Arrays.asList(tutor), modelStub.personsAdded);
+        assertTrue(result.getFeedbackToUser().contains("Tutor"));
+    }
+
+    @Test
+    public void execute_personWithAllOptionalFields_success() throws Exception {
+        Person person = new PersonBuilder()
+                .withAddress("123 Main St")
+                .withTags("friend", "colleague")
+                .withClasses("cs2103", "cs2101")
+                .build();
+        ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
+        
+        CommandResult result = new AddCommand(person).execute(modelStub);
+        
+        assertEquals(Arrays.asList(person), modelStub.personsAdded);
+    }
+
+    @Test
+    public void execute_duplicatePersonDifferentRole_throwsCommandException() {
+        Person student = new PersonBuilder().withRole("student").withName("Alice").build();
+        Person tutor = new PersonBuilder().withRole("tutor").withName("Alice").build();
+        
+        ModelStubWithPerson modelStub = new ModelStubWithPerson(student);
+        AddCommand addCommand = new AddCommand(tutor);
+        
+        // Assuming same name with different role is still considered duplicate
+        assertThrows(CommandException.class, AddCommand.MESSAGE_DUPLICATE_PERSON, () -> addCommand.execute(modelStub));
+    }
+
+    @Test
+    public void execute_invalidClassFormat_throwsIllegalArgumentException() {
+        // Invalid class level (not s1-s5)
+        assertThrows(IllegalArgumentException.class, () -> 
+            new PersonBuilder().withClasses("s6mon1600").build());
+        
+        // Invalid day format (not 3 lowercase letters)
+        assertThrows(IllegalArgumentException.class, () -> 
+            new PersonBuilder().withClasses("s4MON1600").build());
+        
+        assertThrows(IllegalArgumentException.class, () -> 
+            new PersonBuilder().withClasses("s4mo1600").build());
+        
+        // Invalid time format (not 4 digits)
+        assertThrows(IllegalArgumentException.class, () -> 
+            new PersonBuilder().withClasses("s4mon160").build());
+        
+        assertThrows(IllegalArgumentException.class, () -> 
+            new PersonBuilder().withClasses("s4mon16000").build());
+        
+        // Completely invalid format
+        assertThrows(IllegalArgumentException.class, () -> 
+            new PersonBuilder().withClasses("invalid").build());
+        
+        assertThrows(IllegalArgumentException.class, () -> 
+            new PersonBuilder().withClasses("math101").build());
+    }
+
+    @Test
+    public void execute_validClassFormat_success() throws Exception {
+        // Test valid class formats: s1-s5 + 3 letter day + 4 digit time
+        Person personWithValidClasses = new PersonBuilder()
+                .withClasses("s1mon1600", "s2tue1400", "s3wed1800", "s4thu1000", "s5fri1530")
+                .build();
+        ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
+        
+        CommandResult result = new AddCommand(personWithValidClasses).execute(modelStub);
+        
+        assertEquals(Arrays.asList(personWithValidClasses), modelStub.personsAdded);
+    }
+
+    @Test
+    public void execute_validClassAllDays_success() throws Exception {
+        // Test all valid day abbreviations
+        Person person = new PersonBuilder()
+                .withClasses("s4mon1600", "s4tue1600", "s4wed1600", "s4thu1600", 
+                           "s4fri1600", "s4sat1600", "s4sun1600")
+                .build();
+        ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
+        
+        CommandResult result = new AddCommand(person).execute(modelStub);
+        
+        assertEquals(Arrays.asList(person), modelStub.personsAdded);
+    }
+
 }
