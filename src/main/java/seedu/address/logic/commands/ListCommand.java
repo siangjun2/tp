@@ -60,7 +60,6 @@ public class ListCommand extends Command {
     @Override
     public CommandResult execute(Model model) {
         requireNonNull(model);
-        
         if (classPredicate == null && tutorPredicate == null) {
             model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
             return new CommandResult(MESSAGE_SUCCESS);
@@ -74,7 +73,6 @@ public class ListCommand extends Command {
             // Handle tutor predicate
             List<String> tutorClasses = tutorPredicate.findTutorClasses(model.getAddressBook().getPersonList());
             tutorPredicate.setTutorClassKeywords(tutorClasses);
-            
             model.updateFilteredPersonList(tutorPredicate);
             String joinedTutorNames = String.join(", ", tutorPredicate.getTutorNames());
             return new CommandResult(
@@ -95,21 +93,17 @@ public class ListCommand extends Command {
         }
 
         ListCommand otherListCommand = (ListCommand) other;
-        
         // Compare predicates
         if (classPredicate == null && otherListCommand.classPredicate == null
                 && tutorPredicate == null && otherListCommand.tutorPredicate == null) {
             return true;
         }
-        
         if (classPredicate != null && otherListCommand.classPredicate != null) {
             return classPredicate.equals(otherListCommand.classPredicate);
         }
-        
         if (tutorPredicate != null && otherListCommand.tutorPredicate != null) {
             return tutorPredicate.equals(otherListCommand.tutorPredicate);
         }
-        
         return false;
     }
 

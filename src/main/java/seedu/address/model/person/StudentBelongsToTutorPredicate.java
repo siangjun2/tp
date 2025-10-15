@@ -41,12 +41,10 @@ public class StudentBelongsToTutorPredicate implements Predicate<Person> {
         if (!"student".equalsIgnoreCase(person.getRole().value)) {
             return false;
         }
-        
         // If we haven't found the tutor's classes yet, return false
         if (tutorClassKeywords == null || tutorClassKeywords.isEmpty()) {
             return false;
         }
-        
         // Check if student has any classes that match the tutor's classes
         return tutorClassKeywords.stream()
                 .anyMatch(tutorClass -> person.getClasses().stream()
@@ -90,4 +88,5 @@ public class StudentBelongsToTutorPredicate implements Predicate<Person> {
                 .add("tutorClassKeywords", tutorClassKeywords)
                 .toString();
     }
+
 }

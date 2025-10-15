@@ -45,7 +45,6 @@ public class ListCommandParser implements Parser<ListCommand> {
             if (tutorName.isEmpty()) {
                 throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ListCommand.MESSAGE_USAGE));
             }
-            
             // For now, we'll pass the tutor name to the predicate
             // The actual tutor finding logic will be handled in the predicate or command execution
             List<String> tutorNames = new ArrayList<>();
