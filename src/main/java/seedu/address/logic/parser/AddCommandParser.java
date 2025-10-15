@@ -63,7 +63,7 @@ public class AddCommandParser implements Parser<AddCommand> {
             : new Payment("unpaid");
 
         if (classList.isEmpty()) {
-            throw new ParseException("At least one class must be specified using c/ prefix");
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, "At least one class must be specified using c/ prefix"));
         }
 
         Person person = new Person(name, phone, email, role, address, classList, tagList, paymentStatus);
