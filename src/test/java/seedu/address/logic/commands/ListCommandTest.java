@@ -47,7 +47,7 @@ public class ListCommandTest {
         // Update expected model to show filtered results
         expectedModel.updateFilteredPersonList(predicate);
         String classMsg = String.format(
-                ListCommand.MESSAGE_SUCCESS_FILTERED,
+                ListCommand.MESSAGE_SUCCESS_FILTERED_CLASS,
                 String.join(", ", predicate.getKeywords()));
         String countMsg = String.format(
                 seedu.address.logic.Messages.MESSAGE_PERSONS_LISTED_OVERVIEW,
