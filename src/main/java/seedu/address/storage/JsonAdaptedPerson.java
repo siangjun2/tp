@@ -35,15 +35,14 @@ class JsonAdaptedPerson {
     private final List<JsonAdaptedClass> classes = new ArrayList<>();
     private final List<JsonAdaptedTag> tags = new ArrayList<>();
     private final String paymentStatus;
+    private final Boolean isMarked;
 
-    /**
-     * Constructs a {@code JsonAdaptedPerson} with the given person details.
-     */
     @JsonCreator
     public JsonAdaptedPerson(@JsonProperty("name") String name, @JsonProperty("phone") String phone,
-            @JsonProperty("email") String email, @JsonProperty("role") String role,
-            @JsonProperty("address") String address, @JsonProperty("classes") List<JsonAdaptedClass> classes,
-            @JsonProperty("tags") List<JsonAdaptedTag> tags, @JsonProperty("payment") String payment) {
+                             @JsonProperty("email") String email, @JsonProperty("role") String role,
+                             @JsonProperty("address") String address, @JsonProperty("classes") List<JsonAdaptedClass> classes,
+                             @JsonProperty("tags") List<JsonAdaptedTag> tags, @JsonProperty("payment") String payment,
+                             @JsonProperty("isMarked") Boolean isMarked) {
         this.name = name;
         this.phone = phone;
         this.email = email;
@@ -56,11 +55,9 @@ class JsonAdaptedPerson {
             this.tags.addAll(tags);
         }
         this.paymentStatus = payment;
+        this.isMarked = isMarked;
     }
 
-    /**
-     * Converts a given {@code Person} into this class for Jackson use.
-     */
     public JsonAdaptedPerson(Person source) {
         name = source.getName().fullName;
         phone = source.getPhone().value;
@@ -74,13 +71,9 @@ class JsonAdaptedPerson {
                 .map(JsonAdaptedTag::new)
                 .collect(Collectors.toList()));
         paymentStatus = source.getPaymentStatus().value;
+        isMarked = source.isMarked();
     }
 
-    /**
-     * Converts this Jackson-friendly adapted person object into the model's {@code Person} object.
-     *
-     * @throws IllegalValueException if there were any data constraints violated in the adapted person.
-     */
     public Person toModelType() throws IllegalValueException {
         final List<Class> personClasses = new ArrayList<>();
         for (JsonAdaptedClass classItem : classes) {
@@ -140,10 +133,13 @@ class JsonAdaptedPerson {
         }
         final Payment modelPayment = new Payment(paymentStatus);
 
+        // Default to false if isMarked is null (for backward compatibility)
+        final boolean modelIsMarked = (isMarked != null) ? isMarked : false;
+
         final Set<Class> modelClasses = new HashSet<>(personClasses);
         final Set<Tag> modelTags = new HashSet<>(personTags);
         return new Person(modelName, modelPhone, modelEmail, modelRole, modelAddress, modelClasses, modelTags,
-            modelPayment);
+                modelPayment, modelIsMarked);
     }
 
 }

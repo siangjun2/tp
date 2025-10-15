@@ -66,7 +66,7 @@ public class AddCommandParser implements Parser<AddCommand> {
             throw new ParseException("At least one class must be specified using c/ prefix");
         }
 
-        Person person = new Person(name, phone, email, role, address, classList, tagList, paymentStatus);
+        Person person = new Person(name, phone, email, role, address, classList, tagList, paymentStatus, false);
 
         return new AddCommand(person);
     }
