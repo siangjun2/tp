@@ -181,23 +181,23 @@ public class AddCommandParserTest {
                 "At least one class must be specified using c/ prefix");
 
         // missing role prefix
-        assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB 
+        assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB
                 + CLASS_DESC_BOB, expectedMessage);
 
         // missing name prefix
-        assertParseFailure(parser, ROLE_DESC_BOB + VALID_NAME_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB 
+        assertParseFailure(parser, ROLE_DESC_BOB + VALID_NAME_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
                 + ADDRESS_DESC_BOB + CLASS_DESC_BOB, expectedMessage);
 
         // missing phone prefix
-        assertParseFailure(parser, ROLE_DESC_BOB + NAME_DESC_BOB + VALID_PHONE_BOB + EMAIL_DESC_BOB 
+        assertParseFailure(parser, ROLE_DESC_BOB + NAME_DESC_BOB + VALID_PHONE_BOB + EMAIL_DESC_BOB
                 + ADDRESS_DESC_BOB + CLASS_DESC_BOB, expectedMessage);
 
         // missing email prefix
-        assertParseFailure(parser, ROLE_DESC_BOB + NAME_DESC_BOB + PHONE_DESC_BOB + VALID_EMAIL_BOB 
+        assertParseFailure(parser, ROLE_DESC_BOB + NAME_DESC_BOB + PHONE_DESC_BOB + VALID_EMAIL_BOB
                 + ADDRESS_DESC_BOB + CLASS_DESC_BOB, expectedMessage);
 
         // missing class prefix
-        assertParseFailure(parser, ROLE_DESC_BOB + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB 
+        assertParseFailure(parser, ROLE_DESC_BOB + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
                 + ADDRESS_DESC_BOB, expectedMessageMissingClass);
 
         // all prefixes missing
