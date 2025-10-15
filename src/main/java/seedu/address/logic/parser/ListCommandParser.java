@@ -1,5 +1,9 @@
 package seedu.address.logic.parser;
 
+import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_CLASS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_TUTOR;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,10 +11,6 @@ import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.ClassContainsKeywordsPredicate;
 import seedu.address.model.person.StudentBelongsToTutorPredicate;
-
-import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_CLASS;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_TUTOR;
 
 /**
  * Parses input arguments and creates a new ListCommand object
