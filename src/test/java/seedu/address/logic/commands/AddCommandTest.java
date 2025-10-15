@@ -203,4 +203,47 @@ public class AddCommandTest {
         }
     }
 
+    @Test
+    public void execute_missingRole_throwsNullPointerException() {
+        Person personMissingRole = new PersonBuilder().withRole(null).build();
+        assertThrows(NullPointerException.class, () -> new AddCommand(personMissingRole));
+    }
+
+    @Test
+    public void execute_missingName_throwsNullPointerException() {
+        Person personMissingName = new PersonBuilder().withName(null).build();
+        assertThrows(NullPointerException.class, () -> new AddCommand(personMissingName));
+    }
+
+    @Test
+    public void execute_missingPhone_throwsNullPointerException() {
+        Person personMissingPhone = new PersonBuilder().withPhone(null).build();
+        assertThrows(NullPointerException.class, () -> new AddCommand(personMissingPhone));
+    }
+
+    @Test
+    public void execute_missingEmail_throwsNullPointerException() {
+        Person personMissingEmail = new PersonBuilder().withEmail(null).build();
+        assertThrows(NullPointerException.class, () -> new AddCommand(personMissingEmail));
+    }
+
+    @Test
+    public void execute_missingClass_throwsIllegalArgumentException() {
+        Person personMissingClass = new PersonBuilder().withClasses().build();
+        assertThrows(IllegalArgumentException.class, () -> new AddCommand(personMissingClass));
+    }
+
+    @Test
+    public void execute_onlyRequiredFields_success() throws Exception {
+        Person person = new PersonBuilder().withAddress("-").withTags().build();
+        ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
+        AddCommand addCommand = new AddCommand(person);
+
+        CommandResult result = addCommand.execute(modelStub);
+        String expectedMessage = String.format(AddCommand.MESSAGE_SUCCESS,
+                person.getRole().toString().substring(0, 1).toUpperCase() + person.getRole().toString().substring(1),
+                person.getName().toString());
+        assertEquals(expectedMessage, result.getFeedbackToUser());
+    }
+
 }

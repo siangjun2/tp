@@ -46,4 +46,26 @@ public class AddCommandIntegrationTest {
                 AddCommand.MESSAGE_DUPLICATE_PERSON);
     }
 
+    @Test
+    public void execute_personWithMultipleClassesAndTags_success() {
+        Person person = new PersonBuilder()
+            .withClasses("math101", "phy102")
+            .withTags("friend", "teammate")
+            .build();
+
+        Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
+        expectedModel.addPerson(person);
+
+        String role = person.getRole().toString();
+        String name = person.getName().toString();
+        String capitalizedRole = role.substring(0, 1).toUpperCase() + role.substring(1);
+        String expectedMessage = String.format(AddCommand.MESSAGE_SUCCESS, capitalizedRole, name);
+        assertCommandSuccess(new AddCommand(person), model, expectedMessage, expectedModel);
+    }
+
+    @Test
+    public void execute_missingRequiredField_failure() {
+        Person personMissingEmail = new PersonBuilder().withEmail(null).build();
+        assertCommandFailure(new AddCommand(personMissingEmail), model, "NullPointerException");
+    }
 }
