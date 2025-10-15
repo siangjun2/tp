@@ -15,6 +15,11 @@ public class StudentBelongsToTutorPredicate implements Predicate<Person> {
     private final List<String> tutorNames;
     private List<String> tutorClassKeywords;
 
+    /**
+     * Constructs the Predicate with the tutor name we wish to find whom
+     * the students are under.
+     * @param tutorNames Name of the tutor.
+     */
     public StudentBelongsToTutorPredicate(List<String> tutorNames) {
         this.tutorNames = tutorNames;
         this.tutorClassKeywords = null; // Will be populated when we find the tutor
@@ -59,7 +64,8 @@ public class StudentBelongsToTutorPredicate implements Predicate<Person> {
         return allPersons.stream()
                 .filter(person -> "tutor".equalsIgnoreCase(person.getRole().value))
                 .filter(person -> tutorNames.stream()
-                        .anyMatch(tutorName -> person.getName().fullName.toLowerCase().contains(tutorName.toLowerCase())))
+                        .anyMatch(tutorName -> person
+                                .getName().fullName.toLowerCase().contains(tutorName.toLowerCase())))
                 .flatMap(tutor -> tutor.getClasses().stream())
                 .map(personClass -> personClass.value)
                 .distinct()
