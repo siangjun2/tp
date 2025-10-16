@@ -109,6 +109,22 @@ public class DeleteCommandTest {
         assertEquals(expected, deleteCommand.toString());
     }
 
+    @Test
+    public void execute_deleteLastPersonInList_success() {
+        //Potential edge case where deleting last person in list causes issues
+        int lastIndex = model.getFilteredPersonList().size();
+        Person personToDelete = model.getFilteredPersonList().get(lastIndex - 1);
+        DeleteCommand deleteCommand = new DeleteCommand(Index.fromOneBased(lastIndex));
+
+        String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_PERSON_SUCCESS,
+                Messages.format(personToDelete));
+
+        ModelManager expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
+        expectedModel.deletePerson(personToDelete);
+
+        assertCommandSuccess(deleteCommand, model, expectedMessage, expectedModel);
+    }
+
     /**
      * Updates {@code model}'s filtered list to show no one.
      */
