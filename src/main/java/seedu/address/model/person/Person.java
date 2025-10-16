@@ -27,13 +27,14 @@ public class Person {
     private final Set<Class> classes = new HashSet<>();
     private final Set<Tag> tags = new HashSet<>();
     private final Payment paymentStatus;
+    private final boolean isMarked;
 
     /**
-     * Constructor with payment status.
+     * Constructor with payment status and attendance mark.
      */
     public Person(Name name, Phone phone, Email email, Role role, Address address,
-                  Set<Class> classes, Set<Tag> tags, Payment paymentStatus) {
-        requireAllNonNull(name, phone, email, role, address, classes, tags);
+                  Set<Class> classes, Set<Tag> tags, Payment paymentStatus, boolean isMarked) {
+        requireAllNonNull(name, phone, email, role, address, classes, tags, paymentStatus);
         this.name = name;
         this.phone = phone;
         this.email = email;
@@ -42,6 +43,7 @@ public class Person {
         this.classes.addAll(classes);
         this.tags.addAll(tags);
         this.paymentStatus = paymentStatus;
+        this.isMarked = isMarked;
     }
 
     public Name getName() {
@@ -88,6 +90,13 @@ public class Person {
     }
 
     /**
+     * Returns whether this person is marked for attendance.
+     */
+    public boolean isMarked() {
+        return isMarked;
+    }
+
+    /**
      * Returns true if both persons have the same name and phone number.
      * This defines a weaker notion of equality between two persons.
      */
@@ -111,7 +120,6 @@ public class Person {
             return true;
         }
 
-        // instanceof handles nulls
         if (!(other instanceof Person)) {
             return false;
         }
@@ -124,13 +132,13 @@ public class Person {
                 && address.equals(otherPerson.address)
                 && classes.equals(otherPerson.classes)
                 && tags.equals(otherPerson.tags)
-                && paymentStatus.equals(otherPerson.paymentStatus);
+                && paymentStatus.equals(otherPerson.paymentStatus)
+                && isMarked == otherPerson.isMarked;
     }
 
     @Override
     public int hashCode() {
-        // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, email, role, address, classes, tags, paymentStatus);
+        return Objects.hash(name, phone, email, role, address, classes, tags, paymentStatus, isMarked);
     }
 
     @Override
@@ -144,6 +152,7 @@ public class Person {
                 .add("classes", classes)
                 .add("tags", tags)
                 .add("paymentStatus", paymentStatus)
+                .add("isMarked", isMarked)
                 .toString();
     }
 }

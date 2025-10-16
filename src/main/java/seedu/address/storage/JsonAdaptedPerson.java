@@ -35,15 +35,18 @@ class JsonAdaptedPerson {
     private final List<JsonAdaptedClass> classes = new ArrayList<>();
     private final List<JsonAdaptedTag> tags = new ArrayList<>();
     private final String paymentStatus;
+    private final Boolean isMarked;
 
     /**
      * Constructs a {@code JsonAdaptedPerson} with the given person details.
      */
     @JsonCreator
     public JsonAdaptedPerson(@JsonProperty("name") String name, @JsonProperty("phone") String phone,
-            @JsonProperty("email") String email, @JsonProperty("role") String role,
-            @JsonProperty("address") String address, @JsonProperty("classes") List<JsonAdaptedClass> classes,
-            @JsonProperty("tags") List<JsonAdaptedTag> tags, @JsonProperty("payment") String payment) {
+                             @JsonProperty("email") String email, @JsonProperty("role") String role,
+                             @JsonProperty("address") String address,
+                             @JsonProperty("classes") List<JsonAdaptedClass> classes,
+                             @JsonProperty("tags") List<JsonAdaptedTag> tags, @JsonProperty("payment") String payment,
+                             @JsonProperty("isMarked") Boolean isMarked) {
         this.name = name;
         this.phone = phone;
         this.email = email;
@@ -56,6 +59,7 @@ class JsonAdaptedPerson {
             this.tags.addAll(tags);
         }
         this.paymentStatus = payment;
+        this.isMarked = isMarked;
     }
 
     /**
@@ -74,6 +78,7 @@ class JsonAdaptedPerson {
                 .map(JsonAdaptedTag::new)
                 .collect(Collectors.toList()));
         paymentStatus = source.getPaymentStatus().value;
+        isMarked = source.isMarked();
     }
 
     /**
@@ -93,7 +98,8 @@ class JsonAdaptedPerson {
         }
 
         if (name == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Name.class.getSimpleName()));
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                    Name.class.getSimpleName()));
         }
         if (!Name.isValidName(name)) {
             throw new IllegalValueException(Name.MESSAGE_CONSTRAINTS);
@@ -101,7 +107,8 @@ class JsonAdaptedPerson {
         final Name modelName = new Name(name);
 
         if (phone == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Phone.class.getSimpleName()));
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                    Phone.class.getSimpleName()));
         }
         if (!Phone.isValidPhone(phone)) {
             throw new IllegalValueException(Phone.MESSAGE_CONSTRAINTS);
@@ -109,7 +116,8 @@ class JsonAdaptedPerson {
         final Phone modelPhone = new Phone(phone);
 
         if (email == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Email.class.getSimpleName()));
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                    Email.class.getSimpleName()));
         }
         if (!Email.isValidEmail(email)) {
             throw new IllegalValueException(Email.MESSAGE_CONSTRAINTS);
@@ -117,7 +125,8 @@ class JsonAdaptedPerson {
         final Email modelEmail = new Email(email);
 
         if (role == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Role.class.getSimpleName()));
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                    Role.class.getSimpleName()));
         }
         if (!Role.isValidRole(role)) {
             throw new IllegalValueException(Role.MESSAGE_CONSTRAINTS);
@@ -125,7 +134,8 @@ class JsonAdaptedPerson {
         final Role modelRole = new Role(role);
 
         if (address == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Address.class.getSimpleName()));
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                    Address.class.getSimpleName()));
         }
         if (!Address.isValidAddress(address)) {
             throw new IllegalValueException(Address.MESSAGE_CONSTRAINTS);
@@ -133,17 +143,22 @@ class JsonAdaptedPerson {
         final Address modelAddress = new Address(address);
 
         if (paymentStatus == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Payment.class.getSimpleName()));
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                    Payment.class.getSimpleName()));
         }
         if (!Payment.isValidPayment(paymentStatus)) {
             throw new IllegalValueException(Payment.MESSAGE_CONSTRAINTS);
         }
         final Payment modelPayment = new Payment(paymentStatus);
 
+        // Default to false if isMarked is null (for backward compatibility)
+        final boolean modelIsMarked = (isMarked != null) ? isMarked : false;
+
         final Set<Class> modelClasses = new HashSet<>(personClasses);
         final Set<Tag> modelTags = new HashSet<>(personTags);
-        return new Person(modelName, modelPhone, modelEmail, modelRole, modelAddress, modelClasses, modelTags,
-            modelPayment);
+        return new Person(modelName, modelPhone, modelEmail, modelRole, modelAddress,
+                modelClasses, modelTags, modelPayment, modelIsMarked);
     }
 
 }
+
