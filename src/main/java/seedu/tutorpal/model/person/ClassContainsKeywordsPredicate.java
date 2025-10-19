@@ -1,12 +1,13 @@
 package seedu.tutorpal.model.person;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.List;
 import java.util.function.Predicate;
 
 import seedu.tutorpal.commons.util.StringUtil;
 import seedu.tutorpal.commons.util.ToStringBuilder;
 
-import static java.util.Objects.requireNonNull;
 
 /**
  * Tests that a {@code Person}'s {@code Class} matches any of the keywords given.
