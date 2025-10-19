@@ -9,6 +9,9 @@ import org.junit.jupiter.api.Test;
 
 public class IndexTest {
 
+    /**
+     * Tests creating {@code Index} using a one-based index.
+     */
     @Test
     public void createOneBasedIndex() {
         // invalid index
@@ -23,6 +26,9 @@ public class IndexTest {
         assertEquals(4, Index.fromOneBased(5).getZeroBased());
     }
 
+    /**
+     * Tests creating {@code Index} using a zero-based index.
+     */
     @Test
     public void createZeroBasedIndex() {
         // invalid index
@@ -35,6 +41,17 @@ public class IndexTest {
         // convert from zero-based index to one-based index
         assertEquals(1, Index.fromZeroBased(0).getOneBased());
         assertEquals(6, Index.fromZeroBased(5).getOneBased());
+    }
+
+    /**
+     * Tests compatibility using both types of {@code Index} created
+     */
+    @Test
+    public void compareOneAndZeroBasedIndex() {
+        assertEquals(Index.fromZeroBased(0).getZeroBased(),
+                Index.fromOneBased(1).getZeroBased());
+        assertEquals(Index.fromZeroBased(5).getOneBased(),
+                Index.fromOneBased(6).getOneBased());
     }
 
     @Test
