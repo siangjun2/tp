@@ -10,7 +10,8 @@ import static seedu.tutorpal.commons.util.AppUtil.checkArgument;
 public class Role {
 
     public static final String MESSAGE_CONSTRAINTS =
-            "Only student or tutor roles available";
+            "Only student or tutor roles available"
+            + "The comparison is case-insensitive, so variations like STUDENT, Student, or student are accepted.";
 
     /*
      * Role must be exactly "student" or "tutor" (case-insensitive)
