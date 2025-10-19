@@ -78,7 +78,6 @@ add r/ROLE n/NAME p/PHONE e/EMAIL c/CLASS [a/ADDRESS] [c/MORE_CLASSES]... [t/TAG
 
 Examples:
 add r/student n/Kevin p/98761234 e/kevin@gmail.com a/Kent Ridge c/s4mon1600 c/s4wed1400
-add r/tutor n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal c/s2tue1400
 Notes:
 
 Details:
