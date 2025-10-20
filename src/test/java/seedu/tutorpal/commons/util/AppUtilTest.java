@@ -14,6 +14,8 @@ public class AppUtilTest {
 
     @Test
     public void getImage_nullGiven_throwsNullPointerException() {
+        //MainApp.class.getResourceAsStream(imagePath) returns null if cannot find path
+        assertThrows(NullPointerException.class, () -> AppUtil.getImage("invalid format"));
         assertThrows(NullPointerException.class, () -> AppUtil.getImage(null));
     }
 

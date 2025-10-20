@@ -7,7 +7,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
- * Represents a version with major, minor and patch number
+ * Represents a version with major, minor and patch number.
+ * An example version number is in the format V1.2.3ea.
  */
 public class Version implements Comparable<Version> {
 
