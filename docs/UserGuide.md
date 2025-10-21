@@ -74,21 +74,23 @@ Format: `help`
 Adds a student or tutor to the system.
 
 Format:
-add r/ROLE n/NAME p/PHONE e/EMAIL c/CLASS [a/ADDRESS] [c/MORE_CLASSES]... [t/TAG]...
+add r/ROLE n/NAME p/PHONE e/EMAIL c/CLASS [c/MORE_CLASSES]... [a/ADDRESS]...
 
 Examples:
-add r/student n/Kevin p/98761234 e/kevin@gmail.com a/Kent Ridge c/s4mon1600 c/s4wed1400
+add r/student n/Kevin p/98761234 e/kevin@gmail.com a/Kent Ridge c/s4mon1600
+add r/tutor n/Calvin p/99998888 e/calvin@gmail.com a/Jurong West c/s4mon1600 c/s1mon1800
+
 Notes:
 
 Details:
 * ROLE must be either student or tutor.
 * At least one class (c/CLASS) is required.
 * CLASS format: First 2 characters must be s1, s2, s3, s4, or s5 (class level), followed by 3 lowercase letters for the day (mon, tue, wed, thu, fri, sat, sun), and ending with 4 digits representing time in 24-hour format (e.g., s4mon1600 for Secondary 4 Monday 4:00 PM).
-* Tags (t/TAG) and address (a/ADDRESS) are optional.
+* Address (a/ADDRESS) is optional.
 
 <box type="tip" seamless>
 
-**Tip:** A person can have any number of tags (including 0) and any number of classes (minimum 1).
+**Tip:** A student can only have 1 class. A tutor can have one or more classes.
 </box>
 
 ### Listing all persons : `list`
@@ -101,18 +103,15 @@ Format: `list`
 
 Edits an existing person in the address book.
 
-Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`
+Format: `edit INDEX [r/ROLE][n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [c/CLASS]…​`
 
 * Edits the person at the specified `INDEX`. The index refers to the index number shown in the displayed person list. The index **must be a positive integer** 1, 2, 3, …​
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
-* When editing tags, the existing tags of the person will be removed i.e adding of tags is not cumulative.
-* You can remove all the person’s tags by typing `t/` without
-    specifying any tags after it.
+* When editing classes, the existing classes of the person will be removed i.e adding of classes is not cumulative.
 
 Examples:
 *  `edit 1 p/91234567 e/johndoe@example.com` Edits the phone number and email address of the 1st person to be `91234567` and `johndoe@example.com` respectively.
-*  `edit 2 n/Betsy Crower t/` Edits the name of the 2nd person to be `Betsy Crower` and clears all existing tags.
 
 ### Locating persons by name: `find`
 
