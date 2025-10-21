@@ -104,7 +104,8 @@ public class EditCommand extends Command {
         // Role and classes cannot be edited, so we keep the original values
         // Payment status is now calculated from monthly payments, so we keep the original PaymentHistory
         return new Person(updatedName, updatedPhone, updatedEmail, personToEdit.getRole(),
-                updatedAddress, personToEdit.getClasses(), updatedTags, personToEdit.getPaymentHistory(), personToEdit.isMarked());
+                updatedAddress, personToEdit.getClasses(), updatedTags,
+                personToEdit.getPaymentHistory(), personToEdit.isMarked());
     }
 
     @Override

@@ -3,8 +3,6 @@ package seedu.tutorpal.model.person;
 import static java.util.Objects.requireNonNull;
 import static seedu.tutorpal.commons.util.AppUtil.checkArgument;
 
-import java.time.LocalDate;
-
 /**
  * Represents a Person's payment status in the address book.
  * Now works with PaymentHistory to calculate overall status.

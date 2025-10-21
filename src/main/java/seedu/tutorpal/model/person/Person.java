@@ -30,6 +30,17 @@ public class Person {
     private final PaymentHistory paymentHistory;
     private final boolean isMarked;
 
+    /**
+     * Constructor for Person.
+     * @param name name of the person.
+     * @param phone phone number of the person.
+     * @param email email of the person.
+     * @param role role of the person, either student or tutor.
+     * @param address address of the person.
+     * @param classes class the student belong to, or the tutor is teaching.
+     * @param tags any additional remarks.
+     * @param isMarked whether attendance is marked.
+     */
     public Person(Name name, Phone phone, Email email, Role role, Address address,
                   Set<Class> classes, Set<Tag> tags, boolean isMarked) {
         requireAllNonNull(name, phone, email, role, address, classes, tags);

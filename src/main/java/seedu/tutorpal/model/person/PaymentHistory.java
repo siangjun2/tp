@@ -129,10 +129,12 @@ public class PaymentHistory {
     }
     @Override
     public String toString() {
-        return "PaymentHistory{" +
-                "joinDate=" + joinDate +
-                ", monthlyPayments=" + monthlyPayments +
-                ", status=" + getOverallStatus() +
-                '}';
+        return "PaymentHistory{"
+                + "joinDate=" + joinDate
+                + ", monthlyPayments="
+                + monthlyPayments
+                + ", status="
+                + getOverallStatus()
+                + '}';
     }
 }
