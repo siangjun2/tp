@@ -95,7 +95,31 @@ Details:
 
 Shows a list of all persons in the address book.
 
-Format: `list`
+Formats: 
+* `list`   
+* `list c/CLASS`
+* `list tu/TUTOR`
+   
+Details:   
+* `list` shows all persons' contact
+* `list c/...` shows students whose class matches the given code or prefix
+  * Accepts same class format as add: s[1-5][day][time] (e.g. s4mon1600)
+  * Prefix matching is allowed:
+    * s4 - all Secondary 4 classes (any day/time)
+    * s4mon - all Secondary 4 Monday classes (any time)
+  * If you provide only part of the class, it acts as a wildcard for the remaining parts
+* `list tu/...` shows students enrolled in any class taught by tutors whose name contains the given substring
+  * Name matching uses Java's `String.contains` behaviour
+  * If multiple tutors match, students from all those tutors' classes are listed (duplicates removed)
+* Only one filter may be used per command (use either `c/...` or `tu/...`)
+   
+Examples:
+* `list` - shows all persons
+* `list c/s4` - shows **all Sec 4 students** across day/time
+* `list c/s4mon1600` - shows **Sec 4 Monday 1600** students only
+* `list tu/Alex` - **students** taught by any tutor whose name contains `Alex`
+* `list tu/` - shows **all students** assigned to at least one tutor
+
 
 ### Editing a person : `edit`
 
