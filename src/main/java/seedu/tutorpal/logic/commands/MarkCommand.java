@@ -59,7 +59,7 @@ public class MarkCommand extends Command {
                 personToMark.getAddress(),
                 personToMark.getClasses(),
                 personToMark.getTags(),
-                personToMark.getPaymentStatus(),
+                personToMark.getPaymentHistory(),
                 true
         );
 

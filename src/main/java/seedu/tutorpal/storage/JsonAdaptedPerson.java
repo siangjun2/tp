@@ -14,7 +14,7 @@ import seedu.tutorpal.model.person.Address;
 import seedu.tutorpal.model.person.Class;
 import seedu.tutorpal.model.person.Email;
 import seedu.tutorpal.model.person.Name;
-import seedu.tutorpal.model.person.Payment;
+import seedu.tutorpal.model.person.PaymentHistory;
 import seedu.tutorpal.model.person.Person;
 import seedu.tutorpal.model.person.Phone;
 import seedu.tutorpal.model.person.Role;
@@ -34,7 +34,7 @@ class JsonAdaptedPerson {
     private final String address;
     private final List<JsonAdaptedClass> classes = new ArrayList<>();
     private final List<JsonAdaptedTag> tags = new ArrayList<>();
-    private final String paymentStatus;
+    private final JsonAdaptedPaymentHistory paymentHistory;
     private final Boolean isMarked;
 
     /**
@@ -45,7 +45,8 @@ class JsonAdaptedPerson {
                              @JsonProperty("email") String email, @JsonProperty("role") String role,
                              @JsonProperty("address") String address,
                              @JsonProperty("classes") List<JsonAdaptedClass> classes,
-                             @JsonProperty("tags") List<JsonAdaptedTag> tags, @JsonProperty("payment") String payment,
+                             @JsonProperty("tags") List<JsonAdaptedTag> tags, 
+                             @JsonProperty("paymentHistory") JsonAdaptedPaymentHistory paymentHistory,
                              @JsonProperty("isMarked") Boolean isMarked) {
         this.name = name;
         this.phone = phone;
@@ -58,7 +59,7 @@ class JsonAdaptedPerson {
         if (tags != null) {
             this.tags.addAll(tags);
         }
-        this.paymentStatus = payment;
+        this.paymentHistory = paymentHistory;
         this.isMarked = isMarked;
     }
 
@@ -77,7 +78,7 @@ class JsonAdaptedPerson {
         tags.addAll(source.getTags().stream()
                 .map(JsonAdaptedTag::new)
                 .collect(Collectors.toList()));
-        paymentStatus = source.getPaymentStatus().value;
+        paymentHistory = new JsonAdaptedPaymentHistory(source.getPaymentHistory());
         isMarked = source.isMarked();
     }
 
@@ -142,14 +143,10 @@ class JsonAdaptedPerson {
         }
         final Address modelAddress = new Address(address);
 
-        if (paymentStatus == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
-                    Payment.class.getSimpleName()));
-        }
-        if (!Payment.isValidPayment(paymentStatus)) {
-            throw new IllegalValueException(Payment.MESSAGE_CONSTRAINTS);
-        }
-        final Payment modelPayment = new Payment(paymentStatus);
+        // Backward compatibility: if old JSON lacks paymentHistory, initialize from current date
+        final PaymentHistory modelPaymentHistory = (paymentHistory == null)
+                ? new PaymentHistory(java.time.LocalDate.now())
+                : paymentHistory.toModelType();
 
         // Default to false if isMarked is null (for backward compatibility)
         final boolean modelIsMarked = (isMarked != null) ? isMarked : false;
@@ -157,7 +154,7 @@ class JsonAdaptedPerson {
         final Set<Class> modelClasses = new HashSet<>(personClasses);
         final Set<Tag> modelTags = new HashSet<>(personTags);
         return new Person(modelName, modelPhone, modelEmail, modelRole, modelAddress,
-                modelClasses, modelTags, modelPayment, modelIsMarked);
+                modelClasses, modelTags, modelPaymentHistory, modelIsMarked);
     }
 
 }

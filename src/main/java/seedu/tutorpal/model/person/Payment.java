@@ -3,14 +3,17 @@ package seedu.tutorpal.model.person;
 import static java.util.Objects.requireNonNull;
 import static seedu.tutorpal.commons.util.AppUtil.checkArgument;
 
+import java.time.LocalDate;
+
 /**
  * Represents a Person's payment status in the address book.
+ * Now works with PaymentHistory to calculate overall status.
  * Guarantees: immutable; is valid as declared in {@link #isValidPayment(String)}
  */
 public class Payment {
 
     public static final String MESSAGE_CONSTRAINTS =
-            "Work in progress";
+            "Payment status must be exactly 'unpaid', 'overdue' or 'paid'";
 
     /*
      * Payment status must be exactly "unpaid", "overdue" or "paid"
@@ -20,15 +23,26 @@ public class Payment {
     public final String value;
 
     /**
-     * Constructs a {@code Payment}.
+     * Constructs a {@code Payment} from a string status.
      *
      * @param paymentStatus A valid payment status.
      */
     public Payment(String paymentStatus) {
         requireNonNull(paymentStatus);
-        String trimmedRole = paymentStatus.trim().toLowerCase();
-        checkArgument(isValidPayment(trimmedRole), MESSAGE_CONSTRAINTS);
-        value = trimmedRole;
+        String trimmedStatus = paymentStatus.trim().toLowerCase();
+        checkArgument(isValidPayment(trimmedStatus), MESSAGE_CONSTRAINTS);
+        value = trimmedStatus;
+    }
+
+    /**
+     * Constructs a {@code Payment} from a PaymentHistory.
+     * Calculates the overall status based on monthly payments.
+     *
+     * @param paymentHistory The payment history to calculate status from.
+     */
+    public Payment(PaymentHistory paymentHistory) {
+        requireNonNull(paymentHistory);
+        this.value = paymentHistory.getOverallStatus();
     }
 
     /**
