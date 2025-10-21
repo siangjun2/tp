@@ -11,7 +11,6 @@ import seedu.tutorpal.model.person.Person;
 
 /**
  * An UI component that displays information of a {@code Person}.
- * VS Code Dark Theme style with colored text.
  */
 public class PersonCard extends UiPart<Region> {
 
