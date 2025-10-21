@@ -15,19 +15,19 @@ import seedu.tutorpal.model.person.Person;
  */
 public class PersonCard extends UiPart<Region> {
 
-    private static final String FXML = "PersonListCard.fxml";
+    private static final String FXML = "PersonListCard.fxml" ;
 
-    private static final String COLOR_STUDENT = "#f48771";     // Orange-red
-    private static final String COLOR_TUTOR = "#4fc3f7";       // Light blue
-    private static final String COLOR_CLASS = "#4ec9b0";       // Cyan-green
-    private static final String COLOR_PAID = "#6a9955";        // Green
-    private static final String COLOR_UNPAID = "#ce9178";      // Orange
-    private static final String COLOR_OVERDUE = "#f48771";     // Red
-    private static final String COLOR_MARKED = "#6a9955";      // Green (attended)
-    private static final String COLOR_UNMARKED = "#858585";    // Gray (not attended)
-    private static final String COLOR_TAG = "#cccccc";         // Light gray
-    private static final String COLOR_TEXT = "#cccccc";        // Default text
-    private static final String COLOR_ID = "#858585";          // Dim gray
+    private static final String COLOR_STUDENT = "#f48771" ;     // Orange-red
+    private static final String COLOR_TUTOR = "#4fc3f7" ;       // Light blue
+    private static final String COLOR_CLASS = "#4ec9b0" ;       // Cyan-green
+    private static final String COLOR_PAID = "#6a9955" ;        // Green
+    private static final String COLOR_UNPAID = "#ce9178" ;      // Orange
+    private static final String COLOR_OVERDUE = "#f48771" ;     // Red
+    private static final String COLOR_MARKED = "#6a9955" ;      // Green (attended)
+    private static final String COLOR_UNMARKED = "#858585" ;    // Gray (not attended)
+    private static final String COLOR_TAG = "#cccccc" ;         // Light gray
+    private static final String COLOR_TEXT = "#cccccc" ;        // Default text
+    private static final String COLOR_ID = "#858585" ;          // Dim gray
 
     public final Person person;
 
