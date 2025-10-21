@@ -24,6 +24,9 @@ public class DeleteCommand extends Command {
             + "Note: List is one-indexed.\n"
             + "Example: " + COMMAND_WORD + " 1";
 
+    // SHORTENED is used for help command
+    public static final String MESSAGE_USAGE_SHORTENED = COMMAND_WORD + ":\t" + COMMAND_WORD + " INDEX";
+
     public static final String MESSAGE_DELETE_PERSON_SUCCESS = "Deleted Person: %1$s";
 
     private final Index targetIndex;

@@ -11,6 +11,9 @@ import seedu.tutorpal.model.Model;
 public class ClearCommand extends Command {
 
     public static final String COMMAND_WORD = "clear";
+
+    public static final String MESSAGE_USAGE_SHORTENED = COMMAND_WORD + ":\t" + COMMAND_WORD;
+
     public static final String MESSAGE_SUCCESS = "Address book has been cleared!";
 
 

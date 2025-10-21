@@ -40,6 +40,17 @@ public class AddCommand extends Command {
             + PREFIX_CLASS + "s4mon1600 "
             + PREFIX_CLASS + "s4wed1400";
 
+    // SHORTENED is used for help command
+    public static final String MESSAGE_USAGE_SHORTENED = COMMAND_WORD + ":\t\t" + COMMAND_WORD + " "
+        + PREFIX_ROLE + "ROLE "
+        + PREFIX_NAME + "NAME "
+        + PREFIX_PHONE + "PHONE "
+        + PREFIX_EMAIL + "EMAIL "
+        + PREFIX_CLASS + "CLASS "
+        + "[" + PREFIX_ADDRESS + "ADDRESS] "
+        + "[" + PREFIX_CLASS + "MORE_CLASSES]... "
+        + "[" + PREFIX_TAG + "TAG]...";
+
     public static final String MESSAGE_SUCCESS = "%1$s %2$s added successfully";
     public static final String MESSAGE_DUPLICATE_PERSON = "This student/tutor already exists in the system";
 
