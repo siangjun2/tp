@@ -1,10 +1,13 @@
 package seedu.tutorpal.model.person;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.List;
 import java.util.function.Predicate;
 
 import seedu.tutorpal.commons.util.StringUtil;
 import seedu.tutorpal.commons.util.ToStringBuilder;
+
 
 /**
  * Tests that a {@code Person}'s {@code Class} matches any of the keywords given.
@@ -25,6 +28,7 @@ public class ClassContainsKeywordsPredicate implements Predicate<Person> {
 
     @Override
     public boolean test(Person person) {
+        requireNonNull(person);
         return keywords.stream()
                 .anyMatch(keyword -> person.getClasses().stream()
                         .anyMatch(personClass -> StringUtil.containsWordIgnoreCase(personClass.value, keyword)));

@@ -75,11 +75,17 @@ public class CollectionUtilTest {
 
     @Test
     public void isAnyNonNull() {
+        //if items is null, return false
         assertFalse(CollectionUtil.isAnyNonNull());
         assertFalse(CollectionUtil.isAnyNonNull((Object) null));
         assertFalse(CollectionUtil.isAnyNonNull((Object[]) null));
+
+        //if items is non-null object
         assertTrue(CollectionUtil.isAnyNonNull(new Object()));
+
+        //if items contains non-null object
         assertTrue(CollectionUtil.isAnyNonNull(new Object(), null));
+        assertTrue(CollectionUtil.isAnyNonNull(new Object[]{new Object(), null}));
     }
 
     /**

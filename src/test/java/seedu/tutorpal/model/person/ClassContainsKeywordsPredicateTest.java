@@ -2,6 +2,7 @@ package seedu.tutorpal.model.person;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.tutorpal.testutil.Assert.assertThrows;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -32,6 +33,12 @@ public class ClassContainsKeywordsPredicateTest {
         // different keywords -> returns false
         ClassContainsKeywordsPredicate thirdPredicate = new ClassContainsKeywordsPredicate(Arrays.asList("s4wed1400"));
         assertFalse(firstPredicate.equals(thirdPredicate));
+    }
+
+    @Test
+    public void test_nullPerson_throwsNullPointerException() {
+        ClassContainsKeywordsPredicate predicate = new ClassContainsKeywordsPredicate(Arrays.asList("s4mon1600"));
+        assertThrows(NullPointerException.class, () -> predicate.test(null));
     }
 
     @Test
