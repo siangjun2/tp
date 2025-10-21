@@ -15,7 +15,7 @@ import seedu.tutorpal.model.person.Person;
  */
 public class PersonCard extends UiPart<Region> {
 
-    private static final String FXML = "PersonListCard.fxml" ;
+    private static final String FXML = "PersonListCard.fxml";
 
     private static final String COLOR_STUDENT = "#f48771"; // Orange-red
     private static final String COLOR_TUTOR = "#4fc3f7"; // Light blue
