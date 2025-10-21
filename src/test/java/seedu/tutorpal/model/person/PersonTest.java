@@ -21,7 +21,7 @@ public class PersonTest {
     @Test
     public void asObservableList_modifyList_throwsUnsupportedOperationException() {
         Person person = new PersonBuilder().build();
-        assertThrows(UnsupportedOperationException.class, () -> person.getTags().remove(0));
+        assertThrows(UnsupportedOperationException.class, () -> person.getClasses().remove(0));
     }
 
     @Test
@@ -98,7 +98,7 @@ public class PersonTest {
     public void toStringMethod() {
         String expected = Person.class.getCanonicalName() + "{name=" + ALICE.getName() + ", phone=" + ALICE.getPhone()
                 + ", email=" + ALICE.getEmail() + ", role=" + ALICE.getRole() + ", address=" + ALICE.getAddress()
-                + ", classes=" + ALICE.getClasses() + ", tags=" + ALICE.getTags()
+                + ", classes=" + ALICE.getClasses()
                 + ", paymentHistory=" + ALICE.getPaymentHistory().toString() + ", isMarked=" + ALICE.isMarked() + "}";
         assertEquals(expected, ALICE.toString());
     }
