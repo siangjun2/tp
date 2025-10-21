@@ -3,17 +3,16 @@ package seedu.tutorpal.model.person;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
+
 import static seedu.tutorpal.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
 import static seedu.tutorpal.logic.commands.CommandTestUtil.VALID_EMAIL_BOB;
 import static seedu.tutorpal.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static seedu.tutorpal.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
 import static seedu.tutorpal.testutil.Assert.assertThrows;
+import seedu.tutorpal.testutil.PersonBuilder;
 import static seedu.tutorpal.testutil.TypicalPersons.ALICE;
 import static seedu.tutorpal.testutil.TypicalPersons.BOB;
-
-import org.junit.jupiter.api.Test;
-
-import seedu.tutorpal.testutil.PersonBuilder;
 
 public class PersonTest {
 
@@ -88,9 +87,6 @@ public class PersonTest {
         editedAlice = new PersonBuilder(ALICE).withAddress(VALID_ADDRESS_BOB).build();
         assertFalse(ALICE.equals(editedAlice));
 
-        // different tags -> returns false
-        editedAlice = new PersonBuilder(ALICE).build();
-        assertFalse(ALICE.equals(editedAlice));
     }
 
     @Test
