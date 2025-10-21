@@ -30,7 +30,9 @@ public class ListCommand extends Command {
 
     public static final String MESSAGE_USAGE_SHORTENED = COMMAND_WORD + ":\t\t" + COMMAND_WORD + " "
         + "[" + PREFIX_CLASS + "CLASS] "
-        + "[" + PREFIX_TUTOR + "TUTOR] ";
+        + "[" + PREFIX_TUTOR + "TUTOR]\n"
+        + "\t\tExample: " + COMMAND_WORD + " "
+        + PREFIX_CLASS + "s4mon1600";
 
     public static final String MESSAGE_SUCCESS = "Listed all persons";
     public static final String MESSAGE_SUCCESS_FILTERED_CLASS = "Listed persons in class: %s";
