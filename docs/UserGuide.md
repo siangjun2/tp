@@ -152,7 +152,7 @@ Format: `find KEYWORD [MORE_KEYWORDS]`
 Examples:
 * `find John` returns `john` and `John Doe`
 * `find alex david` returns `Alex Yeoh`, `David Li`<br>
-  ![result for 'find alex david'](images/findAlexDavidResult.png)
+
   
 ### Marking attendance for students : `mark`
 
@@ -170,6 +170,8 @@ Format: `mark INDEX w/WEEK`
 
 Examples:
 * `mark 3 w/W2-10-2025` marks the 3rd person in the displayed list as having attended the second week in Oct 2025.
+
+![markimage](images/mark.png)
 
 ### Unmarking attendance for students : `mark`
 
