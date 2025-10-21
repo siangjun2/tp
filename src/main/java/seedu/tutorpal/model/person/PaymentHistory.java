@@ -4,9 +4,9 @@ import static java.util.Objects.requireNonNull;
 
 import java.time.LocalDate;
 import java.time.YearMonth;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * Represents a person's payment history across multiple months.
@@ -14,7 +14,7 @@ import java.util.Objects;
  */
 public class PaymentHistory {
     private final LocalDate joinDate;
-    private final Map<YearMonth, Boolean> monthlyPayments;
+    private final Set<MonthlyPayment> monthlyPayments;
     /**
      * Constructs a {@code PaymentHistory} with the given join date.
      * Automatically initializes payment history from join date to current month.
@@ -33,23 +33,23 @@ public class PaymentHistory {
      * @param joinDate The date when the person joined the system.
      * @param monthlyPayments Existing payment data.
      */
-    public PaymentHistory(LocalDate joinDate, Map<YearMonth, Boolean> monthlyPayments) {
+    public PaymentHistory(LocalDate joinDate, Set<MonthlyPayment> monthlyPayments) {
         requireNonNull(joinDate);
         requireNonNull(monthlyPayments);
         this.joinDate = joinDate;
-        this.monthlyPayments = new HashMap<>(monthlyPayments);
+        this.monthlyPayments = new HashSet<>(monthlyPayments);
     }
     /**
      * Initializes payment history from join date to current month.
      * All months are initially set to unpaid.
      */
-    private Map<YearMonth, Boolean> initializePaymentHistory(LocalDate joinDate) {
-        Map<YearMonth, Boolean> payments = new HashMap<>();
+    private Set<MonthlyPayment> initializePaymentHistory(LocalDate joinDate) {
+        Set<MonthlyPayment> payments = new HashSet<>();
         YearMonth currentMonth = YearMonth.now();
         YearMonth joinMonth = YearMonth.from(joinDate);
         YearMonth month = joinMonth;
         while (!month.isAfter(currentMonth)) {
-            payments.put(month, false);
+            payments.add(new MonthlyPayment(month, false));
             month = month.plusMonths(1);
         }
         return payments;
@@ -61,10 +61,10 @@ public class PaymentHistory {
         return joinDate;
     }
     /**
-     * Returns a copy of the monthly payments map.
+     * Returns a copy of the monthly payments set.
      */
-    public Map<YearMonth, Boolean> getMonthlyPayments() {
-        return new HashMap<>(monthlyPayments);
+    public Set<MonthlyPayment> getMonthlyPayments() {
+        return new HashSet<>(monthlyPayments);
     }
     /**
      * Marks a specific month as paid.
@@ -80,8 +80,11 @@ public class PaymentHistory {
         if (month.isAfter(YearMonth.now())) {
             throw new IllegalArgumentException("Cannot mark payment for future month");
         }
-        Map<YearMonth, Boolean> newPayments = new HashMap<>(monthlyPayments);
-        newPayments.put(month, true);
+        Set<MonthlyPayment> newPayments = new HashSet<>(monthlyPayments);
+        // Remove existing payment for this month if it exists
+        newPayments.removeIf(payment -> payment.getMonth().equals(month));
+        // Add the updated payment
+        newPayments.add(new MonthlyPayment(month, true));
         return new PaymentHistory(joinDate, newPayments);
     }
     /**
@@ -96,20 +99,24 @@ public class PaymentHistory {
         // Check if any previous month is unpaid (overdue)
         YearMonth month = joinMonth;
         while (month.isBefore(currentMonth)) {
-            if (!monthlyPayments.getOrDefault(month, false)) {
+            if (!isMonthPaid(month)) {
                 return "overdue";
             }
             month = month.plusMonths(1);
         }
         // Check current month
-        boolean currentMonthPaid = monthlyPayments.getOrDefault(currentMonth, false);
+        boolean currentMonthPaid = isMonthPaid(currentMonth);
         return currentMonthPaid ? "paid" : "unpaid";
     }
     /**
      * Returns whether a specific month is paid.
      */
     public boolean isMonthPaid(YearMonth month) {
-        return monthlyPayments.getOrDefault(month, false);
+        return monthlyPayments.stream()
+                .filter(payment -> payment.getMonth().equals(month))
+                .findFirst()
+                .map(MonthlyPayment::isPaid)
+                .orElse(false);
     }
     @Override
     public boolean equals(Object other) {
