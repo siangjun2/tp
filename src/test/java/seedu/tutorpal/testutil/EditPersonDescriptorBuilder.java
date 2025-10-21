@@ -2,10 +2,12 @@ package seedu.tutorpal.testutil;
 
 import seedu.tutorpal.logic.commands.EditCommand.EditPersonDescriptor;
 import seedu.tutorpal.model.person.Address;
+import seedu.tutorpal.model.person.Class;
 import seedu.tutorpal.model.person.Email;
 import seedu.tutorpal.model.person.Name;
 import seedu.tutorpal.model.person.Person;
 import seedu.tutorpal.model.person.Phone;
+import seedu.tutorpal.model.person.Role;
 
 /**
  * A utility class to help with building EditPersonDescriptor objects.
@@ -65,6 +67,23 @@ public class EditPersonDescriptorBuilder {
         return this;
     }
 
+    /**
+     * Sets the {@code Role} of the {@code EditPersonDescriptor} that we are building.
+     */
+    public EditPersonDescriptorBuilder withRole(String role) {
+        descriptor.setRole(new Role(role));
+        return this;
+    }
+
+    /**
+     * Sets the {@code Classes} of the {@code EditPersonDescriptor} that we are building.
+     */
+    public EditPersonDescriptorBuilder withClasses(String... classes) {
+        descriptor.setClasses(java.util.Arrays.stream(classes)
+                .map(Class::new)
+                .collect(java.util.stream.Collectors.toSet()));
+        return this;
+    }
 
     public EditPersonDescriptor build() {
         return descriptor;
