@@ -97,7 +97,30 @@ Details:
 
 Shows a list of all persons in the address book.
 
-Format: `list`
+Formats:
+* `list`
+* `list c/CLASS`
+* `list tu/TUTOR`
+
+Details:
+* `list` shows all persons' contact
+* `list c/...` shows students whose class matches the given code or prefix
+    * Accepts same class format as add: s[1-5][day][time] (e.g. s4mon1600)
+    * Prefix matching is allowed:
+        * s4 - all Secondary 4 classes (any day/time)
+        * s4mon - all Secondary 4 Monday classes (any time)
+    * If you provide only part of the class, it acts as a wildcard for the remaining parts
+* `list tu/...` shows students enrolled in any class taught by tutors whose name contains the given substring
+    * Name matching uses Java's `String.contains` behaviour
+    * If multiple tutors match, students from all those tutors' classes are listed (duplicates removed)
+* Only one filter may be used per command (use either `c/...` or `tu/...`)
+
+Examples:
+* `list` - shows all persons
+* `list c/s4` - shows **all Sec 4 students** across day/time
+* `list c/s4mon1600` - shows **Sec 4 Monday 1600** students only
+* `list tu/Alex` - **students** taught by any tutor whose name contains `Alex`
+* `list tu/` - shows **all students** assigned to at least one tutor
 
 ### Editing a person : `edit`
 
@@ -164,6 +187,24 @@ Format: `unmark INDEX w/WEEK`
 
 Examples:
 * `unmark 3 w/W2-10-2025` unmarks the 3rd person in the displayed list as having attended the second week in Oct 2025.
+
+### Managing payments : `pay`
+
+Records monthly fee payments and show each person's payment status
+
+Format: `pay INDEX m/MM-YYYY [m/MM-YYYY]`
+
+Details:
+* Marks the specified month and year as paid for the person at `INDEX`
+* Each person has a **Join Month** in MMMM-YYYY. Billing starts from this month inclusive
+* Month format must be MM-YYYY (e.g., 04-2025)
+* By default, paying for months **after the current month** and **before Join Month** are not allowed
+* Paid - every month from **Join Month** up to **and including** the current month is paid
+* Unpaid - all months **before** the current month are paid, but the **current month** is not yet paid
+* Overdue - there exists **any unpaid month** before the current month 
+
+Examples (assume today is Oct 2025):
+* `pay 3 m/09-2025` - marks Sept 2025 as paid for person #3
 
 ### Deleting a person : `delete`
 
