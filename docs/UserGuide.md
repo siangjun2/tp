@@ -113,7 +113,7 @@ Format: `edit INDEX [r/ROLE][n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [c/CLASS]â€
 Examples:
 *  `edit 1 p/91234567 e/johndoe@example.com` Edits the phone number and email address of the 1st person to be `91234567` and `johndoe@example.com` respectively.
 
-### Locating persons by name: `find`
+### Locating students and tutors by name: `find`
 
 Finds students and tutors whose names contain any of the given keywords.
 
