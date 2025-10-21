@@ -41,7 +41,6 @@ public class PaymentCommandParser implements Parser<PaymentCommand> {
 
         String monthString = argMultimap.getValue(PREFIX_MONTH).get().trim();
         YearMonth month;
-        
         try {
             month = YearMonth.parse(monthString, MONTH_FORMAT);
         } catch (DateTimeParseException e) {

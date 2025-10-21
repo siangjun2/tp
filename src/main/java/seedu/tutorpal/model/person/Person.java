@@ -30,7 +30,6 @@ public class Person {
     private final PaymentHistory paymentHistory;
     private final boolean isMarked;
 
-   
     public Person(Name name, Phone phone, Email email, Role role, Address address,
                   Set<Class> classes, Set<Tag> tags, boolean isMarked) {
         requireAllNonNull(name, phone, email, role, address, classes, tags);

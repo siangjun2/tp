@@ -13,10 +13,8 @@ import java.util.Objects;
  * Guarantees: immutable; manages monthly payment statuses.
  */
 public class PaymentHistory {
-    
     private final LocalDate joinDate;
     private final Map<YearMonth, Boolean> monthlyPayments;
-    
     /**
      * Constructs a {@code PaymentHistory} with the given join date.
      * Automatically initializes payment history from join date to current month.
@@ -28,7 +26,6 @@ public class PaymentHistory {
         this.joinDate = joinDate;
         this.monthlyPayments = initializePaymentHistory(joinDate);
     }
-    
     /**
      * Constructs a {@code PaymentHistory} with existing payment data.
      * Used for deserialization from storage.
@@ -42,7 +39,6 @@ public class PaymentHistory {
         this.joinDate = joinDate;
         this.monthlyPayments = new HashMap<>(monthlyPayments);
     }
-    
     /**
      * Initializes payment history from join date to current month.
      * All months are initially set to unpaid.
@@ -51,30 +47,25 @@ public class PaymentHistory {
         Map<YearMonth, Boolean> payments = new HashMap<>();
         YearMonth currentMonth = YearMonth.now();
         YearMonth joinMonth = YearMonth.from(joinDate);
-        
         YearMonth month = joinMonth;
         while (!month.isAfter(currentMonth)) {
             payments.put(month, false);
             month = month.plusMonths(1);
         }
-        
         return payments;
     }
-    
     /**
      * Returns the join date.
      */
     public LocalDate getJoinDate() {
         return joinDate;
     }
-    
     /**
      * Returns a copy of the monthly payments map.
      */
     public Map<YearMonth, Boolean> getMonthlyPayments() {
         return new HashMap<>(monthlyPayments);
     }
-    
     /**
      * Marks a specific month as paid.
      *
@@ -83,21 +74,16 @@ public class PaymentHistory {
      */
     public PaymentHistory markMonthAsPaid(YearMonth month) {
         requireNonNull(month);
-        
         if (month.isBefore(YearMonth.from(joinDate))) {
             throw new IllegalArgumentException("Cannot mark payment for month before join date");
         }
-        
         if (month.isAfter(YearMonth.now())) {
             throw new IllegalArgumentException("Cannot mark payment for future month");
         }
-        
         Map<YearMonth, Boolean> newPayments = new HashMap<>(monthlyPayments);
         newPayments.put(month, true);
-        
         return new PaymentHistory(joinDate, newPayments);
     }
-    
     /**
      * Returns the overall payment status based on monthly payments.
      * - "paid": All months including current month are paid
@@ -107,7 +93,6 @@ public class PaymentHistory {
     public String getOverallStatus() {
         YearMonth currentMonth = YearMonth.now();
         YearMonth joinMonth = YearMonth.from(joinDate);
-        
         // Check if any previous month is unpaid (overdue)
         YearMonth month = joinMonth;
         while (month.isBefore(currentMonth)) {
@@ -116,39 +101,32 @@ public class PaymentHistory {
             }
             month = month.plusMonths(1);
         }
-        
         // Check current month
         boolean currentMonthPaid = monthlyPayments.getOrDefault(currentMonth, false);
         return currentMonthPaid ? "paid" : "unpaid";
     }
-    
     /**
      * Returns whether a specific month is paid.
      */
     public boolean isMonthPaid(YearMonth month) {
         return monthlyPayments.getOrDefault(month, false);
     }
-    
     @Override
     public boolean equals(Object other) {
         if (other == this) {
             return true;
         }
-        
         if (!(other instanceof PaymentHistory)) {
             return false;
         }
-        
         PaymentHistory otherHistory = (PaymentHistory) other;
         return joinDate.equals(otherHistory.joinDate)
                 && monthlyPayments.equals(otherHistory.monthlyPayments);
     }
-    
     @Override
     public int hashCode() {
         return Objects.hash(joinDate, monthlyPayments);
     }
-    
     @Override
     public String toString() {
         return "PaymentHistory{" +
