@@ -1,12 +1,11 @@
 package seedu.tutorpal.model.person;
 
-import static seedu.tutorpal.commons.util.CollectionUtil.requireAllNonNull;
-
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import static seedu.tutorpal.commons.util.CollectionUtil.requireAllNonNull;
 import seedu.tutorpal.commons.util.ToStringBuilder;
 
 /**
