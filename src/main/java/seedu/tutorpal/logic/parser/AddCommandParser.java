@@ -23,7 +23,6 @@ import seedu.tutorpal.model.person.Payment;
 import seedu.tutorpal.model.person.Person;
 import seedu.tutorpal.model.person.Phone;
 import seedu.tutorpal.model.person.Role;
-import seedu.tutorpal.model.tag.Tag;
 
 /**
  * Parses input arguments and creates a new AddCommand object
@@ -39,7 +38,7 @@ public class AddCommandParser implements Parser<AddCommand> {
     public AddCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ROLE,
-                        PREFIX_ADDRESS, PREFIX_CLASS, PREFIX_TAG, PREFIX_STATUS);
+                        PREFIX_ADDRESS, PREFIX_CLASS, PREFIX_STATUS);
 
         if (!arePrefixesPresent(argMultimap, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ROLE)
                 || !argMultimap.getPreamble().isEmpty()) {
@@ -56,7 +55,6 @@ public class AddCommandParser implements Parser<AddCommand> {
                 ? ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS).get())
                 : new Address("-");
         Set<Class> classList = ParserUtil.parseClasses(argMultimap.getAllValues(PREFIX_CLASS));
-        Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
         //Defaults the payment status to unpaid if not provided
         Payment paymentStatus = argMultimap.getValue(PREFIX_STATUS).isPresent()
             ? ParserUtil.parsePayment(argMultimap.getValue(PREFIX_STATUS).get())
@@ -67,7 +65,7 @@ public class AddCommandParser implements Parser<AddCommand> {
                     "At least one class must be specified using c/ prefix"));
         }
 
-        Person person = new Person(name, phone, email, role, address, classList, tagList, paymentStatus, false);
+        Person person = new Person(name, phone, email, role, address, classList, paymentStatus, false);
 
         return new AddCommand(person);
     }
