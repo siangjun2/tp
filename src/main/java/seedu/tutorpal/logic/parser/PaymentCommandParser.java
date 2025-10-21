@@ -1,7 +1,11 @@
 package seedu.tutorpal.logic.parser;
 
 import static seedu.tutorpal.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_STATUS;
+import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_MONTH;
+
+import java.time.YearMonth;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 import seedu.tutorpal.commons.core.index.Index;
 import seedu.tutorpal.logic.commands.PaymentCommand;
@@ -12,13 +16,15 @@ import seedu.tutorpal.logic.parser.exceptions.ParseException;
  */
 public class PaymentCommandParser implements Parser<PaymentCommand> {
 
+    private static final DateTimeFormatter MONTH_FORMAT = DateTimeFormatter.ofPattern("MM-yyyy");
+
     /**
      * Parses the given {@code String} of arguments in the context of the PaymentCommand
      * and returns a PaymentCommand object for execution.
      * @throws ParseException if the user input does not conform the expected format
      */
     public PaymentCommand parse(String args) throws ParseException {
-        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_STATUS);
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_MONTH);
 
         Index index;
         try {
@@ -28,24 +34,19 @@ public class PaymentCommandParser implements Parser<PaymentCommand> {
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, PaymentCommand.MESSAGE_USAGE), pe);
         }
 
-        if (!argMultimap.getValue(PREFIX_STATUS).isPresent()) {
+        if (!argMultimap.getValue(PREFIX_MONTH).isPresent()) {
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, PaymentCommand.MESSAGE_USAGE));
         }
 
-        String paymentStatus = argMultimap.getValue(PREFIX_STATUS).get().toLowerCase();
-
-        if (!isValidPaymentStatus(paymentStatus)) {
-            throw new ParseException("Invalid payment status. Please use: paid, unpaid, or overdue");
+        String monthString = argMultimap.getValue(PREFIX_MONTH).get().trim();
+        YearMonth month;
+        try {
+            month = YearMonth.parse(monthString, MONTH_FORMAT);
+        } catch (DateTimeParseException e) {
+            throw new ParseException("Invalid month format. Please use MM-yyyy format (e.g., 01-2024)");
         }
 
-        return new PaymentCommand(index, paymentStatus);
-    }
-
-    /**
-     * Returns true if the given string is a valid payment status.
-     */
-    private boolean isValidPaymentStatus(String status) {
-        return status.equals("paid") || status.equals("unpaid") || status.equals("overdue");
+        return new PaymentCommand(index, month);
     }
 }
