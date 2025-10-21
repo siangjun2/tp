@@ -1,8 +1,5 @@
 package seedu.tutorpal.testutil;
 
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import seedu.tutorpal.logic.commands.EditCommand.EditPersonDescriptor;
 import seedu.tutorpal.model.person.Address;
@@ -10,7 +7,6 @@ import seedu.tutorpal.model.person.Email;
 import seedu.tutorpal.model.person.Name;
 import seedu.tutorpal.model.person.Person;
 import seedu.tutorpal.model.person.Phone;
-import seedu.tutorpal.model.tag.Tag;
 
 /**
  * A utility class to help with building EditPersonDescriptor objects.

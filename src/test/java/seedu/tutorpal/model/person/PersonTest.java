@@ -7,7 +7,6 @@ import static seedu.tutorpal.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
 import static seedu.tutorpal.logic.commands.CommandTestUtil.VALID_EMAIL_BOB;
 import static seedu.tutorpal.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static seedu.tutorpal.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
-import static seedu.tutorpal.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.tutorpal.testutil.Assert.assertThrows;
 import static seedu.tutorpal.testutil.TypicalPersons.ALICE;
 import static seedu.tutorpal.testutil.TypicalPersons.BOB;
@@ -90,7 +89,7 @@ public class PersonTest {
         assertFalse(ALICE.equals(editedAlice));
 
         // different tags -> returns false
-        editedAlice = new PersonBuilder(ALICE).withTags(VALID_TAG_HUSBAND).build();
+        editedAlice = new PersonBuilder(ALICE).build();
         assertFalse(ALICE.equals(editedAlice));
     }
 

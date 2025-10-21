@@ -29,7 +29,6 @@ import static seedu.tutorpal.logic.commands.CommandTestUtil.VALID_EMAIL_BOB;
 import static seedu.tutorpal.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static seedu.tutorpal.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
 import static seedu.tutorpal.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
-import static seedu.tutorpal.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_NAME;
@@ -59,7 +58,7 @@ public class AddCommandParserTest {
 
     @Test
     public void parse_allFieldsPresent_success() {
-        Person expectedPerson = new PersonBuilder(BOB).withTags(VALID_TAG_FRIEND).build();
+        Person expectedPerson = new PersonBuilder(BOB).build();
 
         // whitespace only preamble
         assertParseSuccess(parser, PREAMBLE_WHITESPACE + ROLE_DESC_BOB + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
@@ -67,7 +66,7 @@ public class AddCommandParserTest {
 
 
         // multiple tags - all accepted
-        Person expectedPersonMultipleTags = new PersonBuilder(BOB).withTags(VALID_TAG_FRIEND, VALID_TAG_HUSBAND)
+        Person expectedPersonMultipleTags = new PersonBuilder(BOB)
                 .build();
         assertParseSuccess(parser,
                 ROLE_DESC_BOB + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB
@@ -80,7 +79,6 @@ public class AddCommandParserTest {
         // Multiple classes - all accepted
         Person expectedPersonMultipleClasses = new PersonBuilder(BOB)
                 .withClasses("s4mon1600", "s4wed1400")
-                .withTags(VALID_TAG_FRIEND)
                 .build();
         assertParseSuccess(parser,
                 ROLE_DESC_BOB + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB
@@ -168,7 +166,7 @@ public class AddCommandParserTest {
     @Test
     public void parse_optionalFieldsMissing_success() {
         // zero tags, address optional (defaults to "-")
-        Person expectedPerson = new PersonBuilder(AMY).withAddress("-").withTags().build();
+        Person expectedPerson = new PersonBuilder(AMY).withAddress("-").build();
         assertParseSuccess(parser, ROLE_DESC_AMY + NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + CLASS_DESC_AMY,
                 new AddCommand(expectedPerson));
     }
