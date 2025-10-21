@@ -21,7 +21,7 @@ public class PersonTest {
     @Test
     public void asObservableList_modifyList_throwsUnsupportedOperationException() {
         Person person = new PersonBuilder().build();
-        assertThrows(UnsupportedOperationException.class, () -> person.getTags().remove(0));
+        assertThrows(UnsupportedOperationException.class, () -> person.getClasses().remove(0));
     }
 
     @Test
@@ -34,7 +34,7 @@ public class PersonTest {
 
         // same name and phone, all other attributes different -> returns true
         Person editedAlice = new PersonBuilder(ALICE).withEmail(VALID_EMAIL_BOB)
-                .withAddress(VALID_ADDRESS_BOB).withTags(VALID_TAG_HUSBAND).build();
+                .withAddress(VALID_ADDRESS_BOB).build();
         assertTrue(ALICE.isSamePerson(editedAlice));
 
         // different name, all other attributes same -> returns false
@@ -98,7 +98,7 @@ public class PersonTest {
     public void toStringMethod() {
         String expected = Person.class.getCanonicalName() + "{name=" + ALICE.getName() + ", phone=" + ALICE.getPhone()
                 + ", email=" + ALICE.getEmail() + ", role=" + ALICE.getRole() + ", address=" + ALICE.getAddress()
-                + ", classes=" + ALICE.getClasses() + ", tags=" + ALICE.getTags()
+                + ", classes=" + ALICE.getClasses()
                 + ", paymentStatus=" + ALICE.getPaymentStatus().toString() + ", isMarked=" + ALICE.isMarked() + "}";
         assertEquals(expected, ALICE.toString());
     }
