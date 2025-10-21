@@ -130,6 +130,40 @@ Examples:
 * `find John` returns `john` and `John Doe`
 * `find alex david` returns `Alex Yeoh`, `David Li`<br>
   ![result for 'find alex david'](images/findAlexDavidResult.png)
+  
+### Marking attendance for students : `mark`
+
+Marks the specified student as having attended the class for that week.
+
+Format: `mark INDEX w/WEEK`
+
+* Marks the person at the specified `INDEX`.
+* The index refers to the index number shown in the displayed person list.
+* The index **must be a positive integer** 1,2,3,...
+* Weeks are grouped by month, and identified with a number 1 - 4 representing 1st to 4th week.
+* e.g. `w/W2-10-2025` represents the second week in Oct 2025.
+* Using an invalid week number or invalid month will result in an error displayed.
+* Tutors cannot be marked. Attempting to do so will result in an error displayed.
+
+Examples:
+* `mark 3 w/W2-10-2025` marks the 3rd person in the displayed list as having attended the second week in Oct 2025.
+
+### Unmarking attendance for students : `mark`
+
+Unmarks the specified student as having attended the class for that week.
+
+Format: `unmark INDEX w/WEEK`
+
+* Unmarks the person at the specified `INDEX`.
+* The index refers to the index number shown in the displayed person list.
+* The index **must be a positive integer** 1,2,3,...
+* Weeks are grouped by month, and identified with a number 1 - 4 representing 1st to 4th week.
+* e.g. `w/W2-10-2025` represents the second week in Oct 2025.
+* Using an invalid week number or invalid month will result in an error displayed.
+* Tutors cannot be unm. Attempting to do so will result in an error displayed.
+
+Examples:
+* `unmark 3 w/W2-10-2025` unmarks the 3rd person in the displayed list as having attended the second week in Oct 2025.
 
 ### Deleting a person : `delete`
 
@@ -198,4 +232,6 @@ Action     | Format, Examples
 **Edit**   | `edit INDEX [r/ROLE][n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [c/CLASS]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
 **Find**   | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
 **List**   | `list [c/CLASS] [tu/TUTOR]`
+**Mark**   | `mark INDEX w/WEEK`
+**UnMark** | `unmark INDEX w/WEEK`
 **Help**   | `help`
