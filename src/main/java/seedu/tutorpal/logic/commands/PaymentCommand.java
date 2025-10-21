@@ -71,7 +71,7 @@ public class PaymentCommand extends Command {
     private Person createPersonWithPaymentStatus(Person person, Payment paymentStatus) {
         return new Person(person.getName(), person.getPhone(), person.getEmail(),
                 person.getRole(), person.getAddress(), person.getClasses(),
-                person.getTags(), paymentStatus, person.isMarked());
+                paymentStatus, person.isMarked());
     }
 
     @Override
