@@ -13,7 +13,6 @@ import static seedu.tutorpal.logic.commands.CommandTestUtil.INVALID_EMAIL_DESC;
 import static seedu.tutorpal.logic.commands.CommandTestUtil.INVALID_NAME_DESC;
 import static seedu.tutorpal.logic.commands.CommandTestUtil.INVALID_PHONE_DESC;
 import static seedu.tutorpal.logic.commands.CommandTestUtil.INVALID_ROLE_DESC;
-import static seedu.tutorpal.logic.commands.CommandTestUtil.INVALID_TAG_DESC;
 import static seedu.tutorpal.logic.commands.CommandTestUtil.NAME_DESC_AMY;
 import static seedu.tutorpal.logic.commands.CommandTestUtil.NAME_DESC_BOB;
 import static seedu.tutorpal.logic.commands.CommandTestUtil.PHONE_DESC_AMY;
@@ -22,13 +21,10 @@ import static seedu.tutorpal.logic.commands.CommandTestUtil.PREAMBLE_NON_EMPTY;
 import static seedu.tutorpal.logic.commands.CommandTestUtil.PREAMBLE_WHITESPACE;
 import static seedu.tutorpal.logic.commands.CommandTestUtil.ROLE_DESC_AMY;
 import static seedu.tutorpal.logic.commands.CommandTestUtil.ROLE_DESC_BOB;
-import static seedu.tutorpal.logic.commands.CommandTestUtil.TAG_DESC_FRIEND;
-import static seedu.tutorpal.logic.commands.CommandTestUtil.TAG_DESC_HUSBAND;
 import static seedu.tutorpal.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
 import static seedu.tutorpal.logic.commands.CommandTestUtil.VALID_EMAIL_BOB;
 import static seedu.tutorpal.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static seedu.tutorpal.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
-import static seedu.tutorpal.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_NAME;
@@ -50,7 +46,6 @@ import seedu.tutorpal.model.person.Name;
 import seedu.tutorpal.model.person.Person;
 import seedu.tutorpal.model.person.Phone;
 import seedu.tutorpal.model.person.Role;
-import seedu.tutorpal.model.tag.Tag;
 import seedu.tutorpal.testutil.PersonBuilder;
 
 public class AddCommandParserTest {
@@ -62,16 +57,9 @@ public class AddCommandParserTest {
 
         // whitespace only preamble
         assertParseSuccess(parser, PREAMBLE_WHITESPACE + ROLE_DESC_BOB + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
-                + ADDRESS_DESC_BOB + CLASS_DESC_BOB + TAG_DESC_FRIEND, new AddCommand(expectedPerson));
+                + ADDRESS_DESC_BOB + CLASS_DESC_BOB, new AddCommand(expectedPerson));
 
 
-        // multiple tags - all accepted
-        Person expectedPersonMultipleTags = new PersonBuilder(BOB)
-                .build();
-        assertParseSuccess(parser,
-                ROLE_DESC_BOB + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB
-                + CLASS_DESC_BOB + TAG_DESC_HUSBAND + TAG_DESC_FRIEND,
-                new AddCommand(expectedPersonMultipleTags));
     }
 
     @Test
@@ -82,14 +70,14 @@ public class AddCommandParserTest {
                 .build();
         assertParseSuccess(parser,
                 ROLE_DESC_BOB + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB
-                + " c/s4mon1600 c/s4wed1400" + TAG_DESC_FRIEND,
+                + " c/s4mon1600 c/s4wed1400",
                 new AddCommand(expectedPersonMultipleClasses));
     }
 
     @Test
     public void parse_repeatedNonTagValue_failure() {
         String validExpectedPersonString = ROLE_DESC_BOB + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
-                + ADDRESS_DESC_BOB + CLASS_DESC_BOB + TAG_DESC_FRIEND;
+                + ADDRESS_DESC_BOB + CLASS_DESC_BOB;
 
         // multiple names
         assertParseFailure(parser, NAME_DESC_AMY + validExpectedPersonString,
@@ -206,33 +194,33 @@ public class AddCommandParserTest {
     public void parse_invalidValue_failure() {
         // invalid name
         assertParseFailure(parser, ROLE_DESC_BOB + INVALID_NAME_DESC + PHONE_DESC_BOB + EMAIL_DESC_BOB
-                + ADDRESS_DESC_BOB + CLASS_DESC_BOB + TAG_DESC_HUSBAND + TAG_DESC_FRIEND, Name.MESSAGE_CONSTRAINTS);
+                + ADDRESS_DESC_BOB + CLASS_DESC_BOB, Name.MESSAGE_CONSTRAINTS);
 
         // invalid phone
         assertParseFailure(parser, ROLE_DESC_BOB + NAME_DESC_BOB + INVALID_PHONE_DESC + EMAIL_DESC_BOB
-                + ADDRESS_DESC_BOB + CLASS_DESC_BOB + TAG_DESC_HUSBAND + TAG_DESC_FRIEND, Phone.MESSAGE_CONSTRAINTS);
+                + ADDRESS_DESC_BOB + CLASS_DESC_BOB, Phone.MESSAGE_CONSTRAINTS);
 
         // invalid email
         assertParseFailure(parser, ROLE_DESC_BOB + NAME_DESC_BOB + PHONE_DESC_BOB + INVALID_EMAIL_DESC
-                + ADDRESS_DESC_BOB + CLASS_DESC_BOB + TAG_DESC_HUSBAND + TAG_DESC_FRIEND, Email.MESSAGE_CONSTRAINTS);
+                + ADDRESS_DESC_BOB + CLASS_DESC_BOB, Email.MESSAGE_CONSTRAINTS);
 
         // invalid role
         assertParseFailure(parser, INVALID_ROLE_DESC + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
-                + ADDRESS_DESC_BOB + CLASS_DESC_BOB + TAG_DESC_HUSBAND + TAG_DESC_FRIEND, Role.MESSAGE_CONSTRAINTS);
+                + ADDRESS_DESC_BOB + CLASS_DESC_BOB, Role.MESSAGE_CONSTRAINTS);
 
         // invalid address
         assertParseFailure(parser, ROLE_DESC_BOB + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
-                + INVALID_ADDRESS_DESC + CLASS_DESC_BOB + TAG_DESC_HUSBAND + TAG_DESC_FRIEND,
+                + INVALID_ADDRESS_DESC + CLASS_DESC_BOB,
                 Address.MESSAGE_CONSTRAINTS);
 
         // invalid class
         assertParseFailure(parser, ROLE_DESC_BOB + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
-                + ADDRESS_DESC_BOB + INVALID_CLASS_DESC + TAG_DESC_HUSBAND + TAG_DESC_FRIEND,
+                + ADDRESS_DESC_BOB + INVALID_CLASS_DESC,
                 Class.MESSAGE_CONSTRAINTS);
 
         // invalid tag
         assertParseFailure(parser, ROLE_DESC_BOB + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB
-                + CLASS_DESC_BOB + INVALID_TAG_DESC + VALID_TAG_FRIEND, Tag.MESSAGE_CONSTRAINTS);
+                + CLASS_DESC_BOB, Class.MESSAGE_CONSTRAINTS);
 
         // two invalid values, only first invalid value reported
         assertParseFailure(parser, ROLE_DESC_BOB + INVALID_NAME_DESC + PHONE_DESC_BOB + EMAIL_DESC_BOB
@@ -240,7 +228,7 @@ public class AddCommandParserTest {
 
         // non-empty preamble
         assertParseFailure(parser, PREAMBLE_NON_EMPTY + ROLE_DESC_BOB + NAME_DESC_BOB + PHONE_DESC_BOB
-                + EMAIL_DESC_BOB + ADDRESS_DESC_BOB + CLASS_DESC_BOB + TAG_DESC_HUSBAND + TAG_DESC_FRIEND,
+                + EMAIL_DESC_BOB + ADDRESS_DESC_BOB + CLASS_DESC_BOB,
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
     }
 
@@ -248,6 +236,6 @@ public class AddCommandParserTest {
     public void parse_invalidRole_failure() {
         // invalid role value (not student or tutor)
         assertParseFailure(parser, " r/teacher" + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
-                + ADDRESS_DESC_BOB + CLASS_DESC_BOB + TAG_DESC_FRIEND, Role.MESSAGE_CONSTRAINTS);
+                + ADDRESS_DESC_BOB + CLASS_DESC_BOB, Role.MESSAGE_CONSTRAINTS);
     }
 }
