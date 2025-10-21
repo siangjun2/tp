@@ -1,14 +1,12 @@
 package seedu.tutorpal.model.person;
 
-import static seedu.tutorpal.commons.util.CollectionUtil.requireAllNonNull;
-
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import static seedu.tutorpal.commons.util.CollectionUtil.requireAllNonNull;
 import seedu.tutorpal.commons.util.ToStringBuilder;
-import seedu.tutorpal.model.tag.Tag;
 
 /**
  * Represents a Person in the address book.
@@ -25,7 +23,6 @@ public class Person {
     private final Role role;
     private final Address address;
     private final Set<Class> classes = new HashSet<>();
-    private final Set<Tag> tags = new HashSet<>();
     private final Payment paymentStatus;
     private final boolean isMarked;
 
@@ -33,15 +30,14 @@ public class Person {
      * Constructor with payment status and attendance mark.
      */
     public Person(Name name, Phone phone, Email email, Role role, Address address,
-                  Set<Class> classes, Set<Tag> tags, Payment paymentStatus, boolean isMarked) {
-        requireAllNonNull(name, phone, email, role, address, classes, tags, paymentStatus);
+                  Set<Class> classes, Payment paymentStatus, boolean isMarked) {
+        requireAllNonNull(name, phone, email, role, address, classes, paymentStatus);
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.role = role;
         this.address = address;
         this.classes.addAll(classes);
-        this.tags.addAll(tags);
         this.paymentStatus = paymentStatus;
         this.isMarked = isMarked;
     }
@@ -74,13 +70,6 @@ public class Person {
         return Collections.unmodifiableSet(classes);
     }
 
-    /**
-     * Returns an immutable tag set, which throws {@code UnsupportedOperationException}
-     * if modification is attempted.
-     */
-    public Set<Tag> getTags() {
-        return Collections.unmodifiableSet(tags);
-    }
 
     /**
      * Returns the payment status of this person.
@@ -131,14 +120,13 @@ public class Person {
                 && role.equals(otherPerson.role)
                 && address.equals(otherPerson.address)
                 && classes.equals(otherPerson.classes)
-                && tags.equals(otherPerson.tags)
                 && paymentStatus.equals(otherPerson.paymentStatus)
                 && isMarked == otherPerson.isMarked;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, phone, email, role, address, classes, tags, paymentStatus, isMarked);
+        return Objects.hash(name, phone, email, role, address, classes, paymentStatus, isMarked);
     }
 
     @Override
@@ -150,7 +138,6 @@ public class Person {
                 .add("role", role)
                 .add("address", address)
                 .add("classes", classes)
-                .add("tags", tags)
                 .add("paymentStatus", paymentStatus)
                 .add("isMarked", isMarked)
                 .toString();
