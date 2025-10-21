@@ -67,6 +67,28 @@ public class PaymentHistory {
         return new HashSet<>(monthlyPayments);
     }
     /**
+     * Marks a specific month as unpaid.
+     *
+     * @param month The month to mark as unpaid.
+     * @return A new PaymentHistory with the updated payment status.
+     */
+    public PaymentHistory markMonthAsUnpaid(YearMonth month) {
+        requireNonNull(month);
+        if (month.isBefore(YearMonth.from(joinDate))) {
+            throw new IllegalArgumentException("Cannot mark payment for month before join date");
+        }
+        if (month.isAfter(YearMonth.now())) {
+            throw new IllegalArgumentException("Cannot mark payment for future month");
+        }
+        Set<MonthlyPayment> newPayments = new HashSet<>(monthlyPayments);
+        // Remove existing payment for this month if it exists
+        newPayments.removeIf(payment -> payment.getMonth().equals(month));
+        // Add the updated payment as unpaid
+        newPayments.add(new MonthlyPayment(month, false));
+        return new PaymentHistory(joinDate, newPayments);
+    }
+
+    /**
      * Marks a specific month as paid.
      *
      * @param month The month to mark as paid.
