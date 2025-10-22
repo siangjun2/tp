@@ -1,10 +1,8 @@
 package seedu.tutorpal.storage;
 
 import java.time.LocalDate;
-import java.time.YearMonth;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -19,14 +17,14 @@ import seedu.tutorpal.model.person.PaymentHistory;
 class JsonAdaptedPaymentHistory {
 
     private final String joinDate;
-    private final List<JsonAdaptedMonthlyPayment> monthlyPayments;
+    private final Set<JsonAdaptedMonthlyPayment> monthlyPayments;
 
     /**
      * Constructs a {@code JsonAdaptedPaymentHistory} with the given payment history details.
      */
     @JsonCreator
     public JsonAdaptedPaymentHistory(@JsonProperty("joinDate") String joinDate,
-                                     @JsonProperty("monthlyPayments") List<JsonAdaptedMonthlyPayment> monthlyPayments) {
+                                     @JsonProperty("monthlyPayments") Set<JsonAdaptedMonthlyPayment> monthlyPayments) {
         this.joinDate = joinDate;
         this.monthlyPayments = monthlyPayments;
     }
@@ -36,9 +34,10 @@ class JsonAdaptedPaymentHistory {
      */
     public JsonAdaptedPaymentHistory(PaymentHistory source) {
         this.joinDate = source.getJoinDate().toString();
-        this.monthlyPayments = source.getMonthlyPayments().entrySet().stream()
-                .map(entry -> new JsonAdaptedMonthlyPayment(entry.getKey().toString(), entry.getValue()))
-                .collect(java.util.stream.Collectors.toList());
+        this.monthlyPayments = new HashSet<>();
+        for (MonthlyPayment payment : source.getMonthlyPayments()) {
+            this.monthlyPayments.add(new JsonAdaptedMonthlyPayment(payment));
+        }
     }
 
     /**
@@ -58,12 +57,11 @@ class JsonAdaptedPaymentHistory {
             throw new IllegalValueException("Invalid join date format");
         }
 
-        Map<YearMonth, Boolean> modelMonthlyPayments = new HashMap<>();
+        Set<MonthlyPayment> modelMonthlyPayments = new HashSet<>();
         if (monthlyPayments != null) {
             for (JsonAdaptedMonthlyPayment adaptedPayment : monthlyPayments) {
                 try {
-                    MonthlyPayment monthlyPayment = adaptedPayment.toModelType();
-                    modelMonthlyPayments.put(monthlyPayment.getMonth(), monthlyPayment.isPaid());
+                    modelMonthlyPayments.add(adaptedPayment.toModelType());
                 } catch (Exception e) {
                     throw new IllegalValueException("Invalid monthly payment: " + e.getMessage());
                 }
