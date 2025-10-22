@@ -6,7 +6,7 @@
 
 # TutorPal User Guide
 
-TutorPal aims to help small tuition centre owners manage students effortlessly by centralizing student contact info, grades, attendance, payment status, subject assignments, tutors, and class schedules in one easy-to-use command-line system. TutorPal aims to help tution center owners save time, make less errors, and focus on teaching instead of paperwork.
+TutorPal aims to help small math tuition centre owners manage students effortlessly by centralizing student contact info, grades, attendance, payment status, subject assignments, tutors, and class schedules in one easy-to-use command-line system. TutorPal aims to help tution center owners save time, make less errors, and focus on teaching instead of paperwork.
 
 TutorPal is a **desktop app for managing contacts, optimized for use via a  Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, TutorPal can get your contact management tasks done faster than traditional GUI apps.
 
@@ -97,7 +97,30 @@ Details:
 
 Shows a list of all persons in the address book.
 
-Format: `list`
+Formats:
+* `list`
+* `list c/CLASS`
+* `list tu/TUTOR`
+
+Details:
+* `list` shows all persons' contact
+* `list c/...` shows students whose class matches the given code or prefix
+    * Accepts same class format as add: s[1-5][day][time] (e.g. s4mon1600)
+    * Prefix matching is allowed:
+        * s4 - all Secondary 4 classes (any day/time)
+        * s4mon - all Secondary 4 Monday classes (any time)
+    * If you provide only part of the class, it acts as a wildcard for the remaining parts
+* `list tu/...` shows students enrolled in any class taught by tutors whose name contains the given substring
+    * Name matching uses Java's `String.contains` behaviour
+    * If multiple tutors match, students from all those tutors' classes are listed (duplicates removed)
+* Only one filter may be used per command (use either `c/...` or `tu/...`)
+
+Examples:
+* `list` - shows all persons
+* `list c/s4` - shows **all Sec 4 students** across day/time
+* `list c/s4mon1600` - shows **Sec 4 Monday 1600** students only
+* `list tu/Alex` - **students** taught by any tutor whose name contains `Alex`
+* `list tu/` - shows **all students** assigned to at least one tutor
 
 ### Editing a person : `edit`
 
@@ -128,6 +151,60 @@ Format: `find KEYWORD [MORE_KEYWORDS]`
 Examples:
 * `find Sheng` returns `Sheng` and `Yong Sheng`
 * `find Lee Sen More` returns `Lee Ze Xuan`, `Sen Yong Sheng` and `More Robin`
+  
+### Marking attendance for students : `mark`
+
+Marks the specified student as having attended the class for that week.
+
+Format: `mark INDEX w/WEEK`
+
+* Marks the person at the specified `INDEX`.
+* The index refers to the index number shown in the displayed person list.
+* The index **must be a positive integer** 1,2,3,...
+* Weeks are grouped by month, and identified with a number 1 - 4 representing 1st to 4th week.
+* e.g. `w/W2-10-2025` represents the second week in Oct 2025.
+* Using an invalid week number or invalid month will result in an error displayed.
+* Tutors cannot be marked. Attempting to do so will result in an error displayed.
+
+Examples:
+* `mark 3 w/W2-10-2025` marks the 3rd person in the displayed list as having attended the second week in Oct 2025.
+
+![markimage](images/mark.png)
+
+### Unmarking attendance for students : `mark`
+
+Unmarks the specified student as having attended the class for that week.
+
+Format: `unmark INDEX w/WEEK`
+
+* Unmarks the person at the specified `INDEX`.
+* The index refers to the index number shown in the displayed person list.
+* The index **must be a positive integer** 1,2,3,...
+* Weeks are grouped by month, and identified with a number 1 - 4 representing 1st to 4th week.
+* e.g. `w/W2-10-2025` represents the second week in Oct 2025.
+* Using an invalid week number or invalid month will result in an error displayed.
+* Tutors cannot be unm. Attempting to do so will result in an error displayed.
+
+Examples:
+* `unmark 3 w/W2-10-2025` unmarks the 3rd person in the displayed list as having attended the second week in Oct 2025.
+
+### Managing payments : `pay`
+
+Records monthly fee payments and show each person's payment status
+
+Format: `pay INDEX m/MM-YYYY [m/MM-YYYY]`
+
+Details:
+* Marks the specified month and year as paid for the person at `INDEX`
+* Each person has a **Join Month** in MMMM-YYYY. Billing starts from this month inclusive
+* Month format must be MM-YYYY (e.g., 04-2025)
+* By default, paying for months **after the current month** and **before Join Month** are not allowed
+* Paid - every month from **Join Month** up to **and including** the current month is paid
+* Unpaid - all months **before** the current month are paid, but the **current month** is not yet paid
+* Overdue - there exists **any unpaid month** before the current month 
+
+Examples (assume today is Oct 2025):
+* `pay 3 m/09-2025` - marks Sept 2025 as paid for person #3
 
 ### Deleting a person : `delete`
 
@@ -196,4 +273,6 @@ Action     | Format, Examples
 **Edit**   | `edit INDEX [r/ROLE][n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [c/CLASS]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
 **Find**   | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
 **List**   | `list [c/CLASS] [tu/TUTOR]`
+**Mark**   | `mark INDEX w/WEEK`
+**UnMark** | `unmark INDEX w/WEEK`
 **Help**   | `help`
