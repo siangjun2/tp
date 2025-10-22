@@ -136,23 +136,21 @@ Format: `edit INDEX [r/ROLE][n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [c/CLASS]â€
 Examples:
 *  `edit 1 p/91234567 e/johndoe@example.com` Edits the phone number and email address of the 1st person to be `91234567` and `johndoe@example.com` respectively.
 
-### Locating persons by name: `find`
+### Locating students and tutors by name: `find`
 
-Finds persons whose names contain any of the given keywords.
+Finds students and tutors whose names contain any of the given keywords.
 
 Format: `find KEYWORD [MORE_KEYWORDS]`
 
-* The search is case-insensitive. e.g `hans` will match `Hans`
-* The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
+* The search is case-insensitive. e.g `chong` will match `Chong`
+* The order of the keywords does not matter. e.g. `Chong Rui` will match `Rui Chong`
 * Only the name is searched.
-* Only full words will be matched e.g. `Han` will not match `Hans`
+* Only full words will be matched e.g. `Shen` will not match `Sheng`
 * Persons matching at least one keyword will be returned (i.e. `OR` search).
-  e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
 
 Examples:
-* `find John` returns `john` and `John Doe`
-* `find alex david` returns `Alex Yeoh`, `David Li`<br>
-
+* `find Sheng` returns `Sheng` and `Yong Sheng`
+* `find Lee Sen More` returns `Lee Ze Xuan`, `Sen Yong Sheng` and `More Robin`
   
 ### Marking attendance for students : `mark`
 
@@ -173,7 +171,7 @@ Examples:
 
 ![markimage](images/mark.png)
 
-### Unmarking attendance for students : `mark`
+### Unmarking attendance for students : `unmark`
 
 Unmarks the specified student as having attended the class for that week.
 
@@ -185,7 +183,7 @@ Format: `unmark INDEX w/WEEK`
 * Weeks are grouped by month, and identified with a number 1 - 4 representing 1st to 4th week.
 * e.g. `w/W2-10-2025` represents the second week in Oct 2025.
 * Using an invalid week number or invalid month will result in an error displayed.
-* Tutors cannot be unm. Attempting to do so will result in an error displayed.
+* Tutors cannot be unmarked. Attempting to do so will result in an error displayed.
 
 Examples:
 * `unmark 3 w/W2-10-2025` unmarks the 3rd person in the displayed list as having attended the second week in Oct 2025.
