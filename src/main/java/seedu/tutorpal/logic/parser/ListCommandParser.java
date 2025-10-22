@@ -33,9 +33,6 @@ public class ListCommandParser implements Parser<ListCommand> {
         // Check if class prefix is provided
         if (argMultimap.getValue(PREFIX_CLASS).isPresent()) {
             String classKeyword = argMultimap.getValue(PREFIX_CLASS).get().trim();
-            if (classKeyword.isEmpty()) {
-                throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ListCommand.MESSAGE_USAGE));
-            }
             List<String> keywords = new ArrayList<>();
             keywords.add(classKeyword);
             return new ListCommand(new ClassContainsKeywordsPredicate(keywords));
