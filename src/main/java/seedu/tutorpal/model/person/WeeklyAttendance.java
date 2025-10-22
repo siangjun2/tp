@@ -63,19 +63,9 @@ public class WeeklyAttendance {
     }
 
     /**
-     * Retrieve latest accessible weekly attendance (Current month, last week).
-     */
-    public static WeeklyAttendance getLatestAccessibleWeeklyAttendance() {
-        YearMonth currentYearMonth = YearMonth.now();
-        int currentWeekIndex = LAST_WEEK_INDEX;
-        return new WeeklyAttendance(currentWeekIndex, currentYearMonth);
-    }
-
-    /**
-     * Retrieve latest accessible weekly attendance (Clock month, last week).
-     * For enhanced testability.
-     * 
-     * @param clock
+     * Retrieve latest accessible weekly attendance (Clock's month, last week).
+     *
+     * @param clock Clock to represent date.
      * @return
      */
     public static WeeklyAttendance getLatestAccessibleWeeklyAttendance(Clock clock) {

@@ -77,7 +77,7 @@ public class WeeklyAttendanceTest {
     }
 
     @Test
-    public void getLatestAccessibleWeeklyAttendance_currentMonthLastWeek() {
+    public void getLatestAccessibleWeeklyAttendance() {
         Clock fixedClock = Clock.fixed(
                 LocalDate.of(2024, 1, 15).atStartOfDay(ZoneId.systemDefault()).toInstant(),
                 ZoneId.systemDefault());
