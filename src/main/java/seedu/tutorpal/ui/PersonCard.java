@@ -82,6 +82,8 @@ public class PersonCard extends UiPart<Region> {
         paymentStatus.setText(paymentValue);
         if ("paid".equalsIgnoreCase(paymentValue)) {
             paymentStatus.getStyleClass().add("payment-paid");
+        } else if ("overdue".equalsIgnoreCase(paymentValue)) {
+            paymentStatus.getStyleClass().add("payment-overdue");
         } else {
             paymentStatus.getStyleClass().add("payment-unpaid");
         }

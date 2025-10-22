@@ -2,6 +2,7 @@ package seedu.tutorpal.model.person;
 
 import static seedu.tutorpal.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
@@ -24,22 +25,45 @@ public class Person {
     private final Role role;
     private final Address address;
     private final Set<Class> classes = new HashSet<>();
-    private final Payment paymentStatus;
+    private final PaymentHistory paymentHistory;
     private final boolean isMarked;
 
     /**
-     * Constructor with payment status and attendance mark.
+     * Constructor for Person.
+     * @param name name of the person.
+     * @param phone phone number of the person.
+     * @param email email of the person.
+     * @param role role of the person, either student or tutor.
+     * @param address address of the person.
+     * @param classes class the student belong to, or the tutor is teaching.
+     * @param isMarked whether attendance is marked.
      */
     public Person(Name name, Phone phone, Email email, Role role, Address address,
-                  Set<Class> classes, Payment paymentStatus, boolean isMarked) {
-        requireAllNonNull(name, phone, email, role, address, classes, paymentStatus);
+                  Set<Class> classes, boolean isMarked) {
+        requireAllNonNull(name, phone, email, role, address, classes);
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.role = role;
         this.address = address;
         this.classes.addAll(classes);
-        this.paymentStatus = paymentStatus;
+        this.paymentHistory = new PaymentHistory(LocalDate.now());
+        this.isMarked = isMarked;
+    }
+
+    /**
+     * Constructor with PaymentHistory (for editing existing persons).
+     */
+    public Person(Name name, Phone phone, Email email, Role role, Address address,
+                  Set<Class> classes, PaymentHistory paymentHistory, boolean isMarked) {
+        requireAllNonNull(name, phone, email, role, address, classes, paymentHistory);
+        this.name = name;
+        this.phone = phone;
+        this.email = email;
+        this.role = role;
+        this.address = address;
+        this.classes.addAll(classes);
+        this.paymentHistory = paymentHistory;
         this.isMarked = isMarked;
     }
 
@@ -76,7 +100,21 @@ public class Person {
      * Returns the payment status of this person.
      */
     public Payment getPaymentStatus() {
-        return paymentStatus;
+        return new Payment(paymentHistory);
+    }
+
+    /**
+     * Returns the payment history of this person.
+     */
+    public PaymentHistory getPaymentHistory() {
+        return paymentHistory;
+    }
+
+    /**
+     * Returns the join date of this person.
+     */
+    public LocalDate getJoinDate() {
+        return paymentHistory.getJoinDate();
     }
 
     /**
@@ -121,13 +159,13 @@ public class Person {
                 && role.equals(otherPerson.role)
                 && address.equals(otherPerson.address)
                 && classes.equals(otherPerson.classes)
-                && paymentStatus.equals(otherPerson.paymentStatus)
+                && paymentHistory.equals(otherPerson.paymentHistory)
                 && isMarked == otherPerson.isMarked;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, phone, email, role, address, classes, paymentStatus, isMarked);
+        return Objects.hash(name, phone, email, role, address, classes, paymentHistory, isMarked);
     }
 
     @Override
@@ -139,7 +177,7 @@ public class Person {
                 .add("role", role)
                 .add("address", address)
                 .add("classes", classes)
-                .add("paymentStatus", paymentStatus)
+                .add("paymentHistory", paymentHistory)
                 .add("isMarked", isMarked)
                 .toString();
     }
