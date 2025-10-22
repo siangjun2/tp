@@ -171,7 +171,7 @@ Examples:
 
 ![markimage](images/mark.png)
 
-### Unmarking attendance for students : `mark`
+### Unmarking attendance for students : `unmark`
 
 Unmarks the specified student as having attended the class for that week.
 
@@ -183,7 +183,7 @@ Format: `unmark INDEX w/WEEK`
 * Weeks are grouped by month, and identified with a number 1 - 4 representing 1st to 4th week.
 * e.g. `w/W2-10-2025` represents the second week in Oct 2025.
 * Using an invalid week number or invalid month will result in an error displayed.
-* Tutors cannot be unm. Attempting to do so will result in an error displayed.
+* Tutors cannot be unmarked. Attempting to do so will result in an error displayed.
 
 Examples:
 * `unmark 3 w/W2-10-2025` unmarks the 3rd person in the displayed list as having attended the second week in Oct 2025.
