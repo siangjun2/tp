@@ -6,7 +6,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
 
-import seedu.tutorpal.commons.util.StringUtil;
 import seedu.tutorpal.commons.util.ToStringBuilder;
 
 
@@ -35,7 +34,8 @@ public class ClassContainsKeywordsPredicate implements Predicate<Person> {
         }
         return keywords.stream()
                 .anyMatch(keyword -> person.getClasses().stream()
-                        .anyMatch(personClass -> StringUtil.containsWordIgnoreCase(personClass.value, keyword)));
+                        .anyMatch(personClass -> personClass.value.toLowerCase()
+                        .contains(keyword.toLowerCase())));
     }
 
     @Override
