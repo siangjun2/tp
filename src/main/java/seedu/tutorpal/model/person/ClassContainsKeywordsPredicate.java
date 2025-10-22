@@ -2,6 +2,7 @@ package seedu.tutorpal.model.person;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -29,6 +30,9 @@ public class ClassContainsKeywordsPredicate implements Predicate<Person> {
     @Override
     public boolean test(Person person) {
         requireNonNull(person);
+        if (!keywords.equals(Collections.emptyList()) && keywords.get(0).isEmpty()) {
+            return "student".equalsIgnoreCase(person.getRole().value);
+        }
         return keywords.stream()
                 .anyMatch(keyword -> person.getClasses().stream()
                         .anyMatch(personClass -> StringUtil.containsWordIgnoreCase(personClass.value, keyword)));
