@@ -14,16 +14,9 @@ import org.junit.jupiter.api.Test;
 
 public class AttendanceHistoryTest {
 
-    // Fixed clock for March 2024, week 2 (8th-14th)
+    // Fixed clock for March 2024, week 2
     private static final Clock FIXED_CLOCK_MARCH_2024_WEEK2 = Clock.fixed(
             Instant.parse("2024-03-10T10:00:00Z"), ZoneId.systemDefault());
-
-    @Test
-    public void constructor_validJoinMonth_success() {
-        JoinMonth joinMonth = new JoinMonth("01-2024");
-        AttendanceHistory history = new AttendanceHistory(joinMonth);
-        assertEquals(history, history); // should not throw
-    }
 
     @Test
     public void hasAttended_noAttendanceMarked_returnsFalse() {
@@ -110,6 +103,16 @@ public class AttendanceHistoryTest {
 
         history.markAttendance(currentWeek);
         assertTrue(history.hasAttended(currentWeek));
+    }
+
+    @Test
+    public void markAttendance_atLastAccessibleWeek_success() {
+        JoinMonth joinMonth = new JoinMonth("01-2024");
+        AttendanceHistory history = new AttendanceHistory(joinMonth, FIXED_CLOCK_MARCH_2024_WEEK2);
+        WeeklyAttendance lastAccessibleWeek = new WeeklyAttendance(4, YearMonth.of(2024, 3)); // W4 March 2024
+
+        history.markAttendance(lastAccessibleWeek);
+        assertTrue(history.hasAttended(lastAccessibleWeek));
     }
 
     @Test
