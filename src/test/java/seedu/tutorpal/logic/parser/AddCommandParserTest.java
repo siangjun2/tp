@@ -1,10 +1,6 @@
 package seedu.tutorpal.logic.parser;
 
-import org.junit.jupiter.api.Test;
-
-import seedu.tutorpal.logic.Messages;
 import static seedu.tutorpal.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import seedu.tutorpal.logic.commands.AddCommand;
 import static seedu.tutorpal.logic.commands.CommandTestUtil.ADDRESS_DESC_AMY;
 import static seedu.tutorpal.logic.commands.CommandTestUtil.ADDRESS_DESC_BOB;
 import static seedu.tutorpal.logic.commands.CommandTestUtil.CLASS_DESC_AMY;
@@ -36,6 +32,13 @@ import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_ROLE;
 import static seedu.tutorpal.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.tutorpal.logic.parser.CommandParserTestUtil.assertParseSuccess;
+import static seedu.tutorpal.testutil.TypicalPersons.AMY;
+import static seedu.tutorpal.testutil.TypicalPersons.BOB;
+
+import org.junit.jupiter.api.Test;
+
+import seedu.tutorpal.logic.Messages;
+import seedu.tutorpal.logic.commands.AddCommand;
 import seedu.tutorpal.model.person.Address;
 import seedu.tutorpal.model.person.Class;
 import seedu.tutorpal.model.person.Email;
@@ -44,8 +47,6 @@ import seedu.tutorpal.model.person.Person;
 import seedu.tutorpal.model.person.Phone;
 import seedu.tutorpal.model.person.Role;
 import seedu.tutorpal.testutil.PersonBuilder;
-import static seedu.tutorpal.testutil.TypicalPersons.AMY;
-import static seedu.tutorpal.testutil.TypicalPersons.BOB;
 
 public class AddCommandParserTest {
     private AddCommandParser parser = new AddCommandParser();
