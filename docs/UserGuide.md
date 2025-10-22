@@ -8,7 +8,7 @@
 
 TutorPal aims to help small math tuition centre owners manage students effortlessly by centralizing student contact info, grades, attendance, payment status, subject assignments, tutors, and class schedules in one easy-to-use command-line system. TutorPal aims to help tution center owners save time, make less errors, and focus on teaching instead of paperwork.
 
-TutorPal is a **desktop app for managing contacts, optimized for use via a  Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, TutorPal can get your contact management tasks done faster than traditional GUI apps.
+TutorPal is a **desktop app for managing contacts, optimized for use via a Command Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, TutorPal can get your contact management tasks done faster than traditional GUI apps.
 
 <!-- * Table of Contents -->
 <page-nav-print />
@@ -74,7 +74,7 @@ Format: `help`
 Adds a student or tutor to the system.
 
 Format:
-add r/ROLE n/NAME p/PHONE e/EMAIL c/CLASS [c/MORE_CLASSES]... [a/ADDRESS]...
+add r/ROLE n/NAME p/PHONE e/EMAIL c/CLASS [c/MORE_CLASSES]... [a/ADDRESS]
 
 Examples:
 add r/student n/Kevin p/98761234 e/kevin@gmail.com a/Kent Ridge c/s4mon1600
@@ -271,6 +271,7 @@ Action     | Format, Examples
 **Clear**  | `clear`
 **Delete** | `delete INDEX`<br> e.g., `delete 3`
 **Edit**   | `edit INDEX [r/ROLE][n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [c/CLASS]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
+**Exit**   | `exit`
 **Find**   | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
 **List**   | `list [c/CLASS] [tu/TUTOR]`
 **Mark**   | `mark INDEX w/WEEK`
