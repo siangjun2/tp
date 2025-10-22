@@ -1,6 +1,7 @@
 package seedu.tutorpal.logic.parser;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static seedu.tutorpal.logic.Messages.MESSAGE_CONFLICTING_FILTERS;
 import static seedu.tutorpal.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.tutorpal.testutil.Assert.assertThrows;
 
@@ -38,6 +39,18 @@ public class ListCommandParserTest {
     public void parse_emptyClassPrefix_throwsParseException() {
         assertThrows(ParseException.class,
             String.format(MESSAGE_INVALID_COMMAND_FORMAT, ListCommand.MESSAGE_USAGE), () -> parser.parse(" c/"));
+    }
+
+    @Test
+    public void parse_conflictingFilters_throwsParseException() {
+        assertThrows(ParseException.class,
+            MESSAGE_CONFLICTING_FILTERS, () -> parser.parse(" c/s4mon1600 tu/Siang Jun"));
+    }
+
+    @Test
+    public void parse_conflictingFiltersReverseOrder_throwsParseException() {
+        assertThrows(ParseException.class,
+            MESSAGE_CONFLICTING_FILTERS, () -> parser.parse(" tu/Siang Jun c/s4mon1600"));
     }
 }
 
