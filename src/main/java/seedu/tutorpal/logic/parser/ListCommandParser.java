@@ -46,11 +46,7 @@ public class ListCommandParser implements Parser<ListCommand> {
         // Check if class prefix is provided
         if (hasClassFilter) {
             String classKeyword = argMultimap.getValue(PREFIX_CLASS).get().trim();
-            if (classKeyword.isEmpty()) {
-                logger.log(Level.WARNING, "Empty class keyword after trim");
-                throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ListCommand.MESSAGE_USAGE));
-            }
-            logger.log(Level.FINE, () -> "List filter selected: class=" + classKeyword);
+            logger.log(Level.FINE, "List filter selected: class=" + classKeyword);
             List<String> keywords = new ArrayList<>();
             keywords.add(classKeyword);
             return new ListCommand(new ClassContainsKeywordsPredicate(keywords));
@@ -60,9 +56,7 @@ public class ListCommandParser implements Parser<ListCommand> {
                 logger.log(Level.WARNING, "Empty tutor name after trim");
                 throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ListCommand.MESSAGE_USAGE));
             }
-            logger.log(Level.FINE, () -> "List filter selected: tutor=" + tutorName);
-            // For now, we'll pass the tutor name to the predicate
-            // The actual tutor finding logic will be handled in the predicate or command execution
+            logger.log(Level.FINE, "List filter selected: tutor=" + tutorName);
             List<String> tutorNames = new ArrayList<>();
             tutorNames.add(tutorName);
             return new ListCommand(new StudentBelongsToTutorPredicate(tutorNames));
