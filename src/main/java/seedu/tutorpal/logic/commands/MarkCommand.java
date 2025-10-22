@@ -1,6 +1,9 @@
 package seedu.tutorpal.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.tutorpal.commons.util.CollectionUtil.requireAllNonNull;
+import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_ROLE;
+import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_WEEK;
 
 import java.util.List;
 
@@ -10,6 +13,7 @@ import seedu.tutorpal.logic.Messages;
 import seedu.tutorpal.logic.commands.exceptions.CommandException;
 import seedu.tutorpal.model.Model;
 import seedu.tutorpal.model.person.Person;
+import seedu.tutorpal.model.person.WeeklyAttendance;
 
 /**
  * Marks the attendance of a student in the address book.
@@ -19,21 +23,26 @@ public class MarkCommand extends Command {
     public static final String COMMAND_WORD = "mark";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Marks the attendance of the person identified by the index number.\n"
-            + "Parameters: INDEX (must be a positive integer)\n"
-            + "Example: " + COMMAND_WORD + " 1";
+            + ": Marks the attendance of the student as having attended class for the specified week.\n"
+            + "Parameters: INDEX (must be a positive integer) "
+            + PREFIX_WEEK + "WEEK"
+            + "\n"
+            + "Example: " + COMMAND_WORD + " 3 "
+            + PREFIX_WEEK + "W2-10-2025";
 
-    public static final String MESSAGE_SUCCESS = "Marked attendance for: %1$s";
-    public static final String MESSAGE_ALREADY_MARKED = "%1$s is already marked.";
+    public static final String MESSAGE_SUCCESS = "Marked attendance for: %1$s on %2$s.";
+    public static final String MESSAGE_ALREADY_MARKED = "%1$s is already marked on %2$s.";
 
     private final Index index;
+    private final WeeklyAttendance week;
 
     /**
-     * Creates a MarkCommand to mark attendance of the specified person.
+     * Creates a MarkCommand to mark attendance of the specified person on specified week.
      */
-    public MarkCommand(Index index) {
-        requireNonNull(index);
+    public MarkCommand(Index index, WeeklyAttendance week) {
+        requireAllNonNull(index, week);
         this.index = index;
+        this.week = week;
     }
 
     @Override
@@ -48,7 +57,7 @@ public class MarkCommand extends Command {
         Person personToMark = lastShownList.get(index.getZeroBased());
 
         if (personToMark.isMarked()) {
-            throw new CommandException(String.format(MESSAGE_ALREADY_MARKED, personToMark.getName()));
+            throw new CommandException(String.format(MESSAGE_ALREADY_MARKED, personToMark.getName(), week));
         }
 
         Person markedPerson = new Person(
@@ -59,12 +68,12 @@ public class MarkCommand extends Command {
                 personToMark.getAddress(),
                 personToMark.getClasses(),
                 personToMark.getPaymentHistory(),
-                true
+                personToMark.getAttendanceHistory()
         );
 
         model.setPerson(personToMark, markedPerson);
 
-        return new CommandResult(String.format(MESSAGE_SUCCESS, markedPerson.getName()));
+        return new CommandResult(String.format(MESSAGE_SUCCESS, markedPerson.getName(), week));
     }
 
     @Override
@@ -78,13 +87,15 @@ public class MarkCommand extends Command {
         }
 
         MarkCommand otherCommand = (MarkCommand) other;
-        return index.equals(otherCommand.index);
+        return index.equals(otherCommand.index)
+                && week.equals(otherCommand.week);
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this)
                 .add("index", index)
+                .add("week", week)
                 .toString();
     }
 }
