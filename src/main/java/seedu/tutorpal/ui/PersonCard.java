@@ -44,8 +44,6 @@ public class PersonCard extends UiPart<Region> {
     private FlowPane classes;
     @FXML
     private Label paymentStatus;
-    @FXML
-    private FlowPane tags;
 
     /**
      * Creates a {@code PersonCode} with the given {@code Person} and index to display.
