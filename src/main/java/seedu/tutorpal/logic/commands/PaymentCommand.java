@@ -86,7 +86,7 @@ public class PaymentCommand extends Command {
         PaymentHistory updatedPaymentHistory = person.getPaymentHistory().markMonthAsPaid(month);
         return new Person(person.getName(), person.getPhone(), person.getEmail(),
                 person.getRole(), person.getAddress(), person.getClasses(),
-                person.getTags(), updatedPaymentHistory, person.isMarked());
+                updatedPaymentHistory, person.isMarked());
     }
 
     @Override
