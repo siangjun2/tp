@@ -9,7 +9,6 @@ import java.util.Objects;
 import java.util.Set;
 
 import seedu.tutorpal.commons.util.ToStringBuilder;
-import seedu.tutorpal.model.tag.Tag;
 
 /**
  * Represents a Person in the address book.
@@ -26,7 +25,6 @@ public class Person {
     private final Role role;
     private final Address address;
     private final Set<Class> classes = new HashSet<>();
-    private final Set<Tag> tags = new HashSet<>();
     private final PaymentHistory paymentHistory;
     private final boolean isMarked;
 
@@ -38,19 +36,17 @@ public class Person {
      * @param role role of the person, either student or tutor.
      * @param address address of the person.
      * @param classes class the student belong to, or the tutor is teaching.
-     * @param tags any additional remarks.
      * @param isMarked whether attendance is marked.
      */
     public Person(Name name, Phone phone, Email email, Role role, Address address,
-                  Set<Class> classes, Set<Tag> tags, boolean isMarked) {
-        requireAllNonNull(name, phone, email, role, address, classes, tags);
+                  Set<Class> classes, boolean isMarked) {
+        requireAllNonNull(name, phone, email, role, address, classes);
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.role = role;
         this.address = address;
         this.classes.addAll(classes);
-        this.tags.addAll(tags);
         this.paymentHistory = new PaymentHistory(LocalDate.now());
         this.isMarked = isMarked;
     }
@@ -59,15 +55,14 @@ public class Person {
      * Constructor with PaymentHistory (for editing existing persons).
      */
     public Person(Name name, Phone phone, Email email, Role role, Address address,
-                  Set<Class> classes, Set<Tag> tags, PaymentHistory paymentHistory, boolean isMarked) {
-        requireAllNonNull(name, phone, email, role, address, classes, tags, paymentHistory);
+                  Set<Class> classes, PaymentHistory paymentHistory, boolean isMarked) {
+        requireAllNonNull(name, phone, email, role, address, classes, paymentHistory);
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.role = role;
         this.address = address;
         this.classes.addAll(classes);
-        this.tags.addAll(tags);
         this.paymentHistory = paymentHistory;
         this.isMarked = isMarked;
     }
@@ -100,13 +95,6 @@ public class Person {
         return Collections.unmodifiableSet(classes);
     }
 
-    /**
-     * Returns an immutable tag set, which throws {@code UnsupportedOperationException}
-     * if modification is attempted.
-     */
-    public Set<Tag> getTags() {
-        return Collections.unmodifiableSet(tags);
-    }
 
     /**
      * Returns the payment status of this person.
@@ -171,14 +159,13 @@ public class Person {
                 && role.equals(otherPerson.role)
                 && address.equals(otherPerson.address)
                 && classes.equals(otherPerson.classes)
-                && tags.equals(otherPerson.tags)
                 && paymentHistory.equals(otherPerson.paymentHistory)
                 && isMarked == otherPerson.isMarked;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, phone, email, role, address, classes, tags, paymentHistory, isMarked);
+        return Objects.hash(name, phone, email, role, address, classes, paymentHistory, isMarked);
     }
 
     @Override
@@ -190,7 +177,6 @@ public class Person {
                 .add("role", role)
                 .add("address", address)
                 .add("classes", classes)
-                .add("tags", tags)
                 .add("paymentHistory", paymentHistory)
                 .add("isMarked", isMarked)
                 .toString();

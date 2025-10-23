@@ -1,5 +1,7 @@
 package seedu.tutorpal.ui;
 
+import static seedu.tutorpal.commons.core.commandword.CommandWord.COMMANDS;
+
 import java.util.logging.Logger;
 
 import javafx.fxml.FXML;
@@ -9,6 +11,7 @@ import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import javafx.stage.Stage;
 import seedu.tutorpal.commons.core.LogsCenter;
+import seedu.tutorpal.logic.commands.Command;
 
 /**
  * Controller for a help page
@@ -34,7 +37,20 @@ public class HelpWindow extends UiPart<Stage> {
      */
     public HelpWindow(Stage root) {
         super(FXML, root);
-        helpMessage.setText(HELP_MESSAGE);
+
+        String allCommandDescription = "";
+
+        for (Class<? extends Command> cls : COMMANDS) {
+            try {
+                // Static field access → use getField() and pass null to get()
+                String usage = (String) cls.getField("MESSAGE_USAGE_SHORTENED").get(null);
+                allCommandDescription += "\n" + usage;
+            } catch (NoSuchFieldException | IllegalAccessException e) {
+                // Ignore classes without MESSAGE_USAGE
+            }
+        }
+
+        helpMessage.setText(HELP_MESSAGE + "\n" + allCommandDescription);
     }
 
     /**

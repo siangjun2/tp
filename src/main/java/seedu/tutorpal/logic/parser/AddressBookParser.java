@@ -19,6 +19,7 @@ import seedu.tutorpal.logic.commands.HelpCommand;
 import seedu.tutorpal.logic.commands.ListCommand;
 import seedu.tutorpal.logic.commands.MarkCommand;
 import seedu.tutorpal.logic.commands.PaymentCommand;
+import seedu.tutorpal.logic.commands.UnpayCommand;
 import seedu.tutorpal.logic.parser.exceptions.ParseException;
 
 /**
@@ -77,10 +78,13 @@ public class AddressBookParser {
             return new ExitCommand();
 
         case HelpCommand.COMMAND_WORD:
-            return new HelpCommand();
+            return new HelpCommandParser().parse(arguments);
 
         case PaymentCommand.COMMAND_WORD:
             return new PaymentCommandParser().parse(arguments);
+
+        case UnpayCommand.COMMAND_WORD:
+            return new UnpayCommandParser().parse(arguments);
 
         case MarkCommand.COMMAND_WORD:
             return new MarkCommandParser().parse(arguments);

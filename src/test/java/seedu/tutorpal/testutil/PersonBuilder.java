@@ -10,7 +10,6 @@ import seedu.tutorpal.model.person.Name;
 import seedu.tutorpal.model.person.Person;
 import seedu.tutorpal.model.person.Phone;
 import seedu.tutorpal.model.person.Role;
-import seedu.tutorpal.model.tag.Tag;
 import seedu.tutorpal.model.util.SampleDataUtil;
 
 /**
@@ -32,7 +31,6 @@ public class PersonBuilder {
     private Role role;
     private Address address;
     private Set<Class> classes;
-    private Set<Tag> tags;
     // Payment is now derived from PaymentHistory; no explicit field needed
 
     /**
@@ -46,7 +44,6 @@ public class PersonBuilder {
         address = new Address(DEFAULT_ADDRESS);
         classes = new HashSet<>();
         classes.add(new Class(DEFAULT_CLASS));
-        tags = new HashSet<>();
     }
 
     /**
@@ -59,7 +56,6 @@ public class PersonBuilder {
         role = personToCopy.getRole();
         address = personToCopy.getAddress();
         classes = new HashSet<>(personToCopy.getClasses());
-        tags = new HashSet<>(personToCopy.getTags());
     }
 
     /**
@@ -74,7 +70,6 @@ public class PersonBuilder {
      * Parses the {@code tags} into a {@code Set<Tag>} and set it to the {@code Person} that we are building.
      */
     public PersonBuilder withTags(String ... tags) {
-        this.tags = SampleDataUtil.getTagSet(tags);
         return this;
     }
 
@@ -124,7 +119,7 @@ public class PersonBuilder {
     }
 
     public Person build() {
-        return new Person(name, phone, email, role, address, classes, tags, false);
+        return new Person(name, phone, email, role, address, classes, false);
     }
 
 }

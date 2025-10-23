@@ -7,8 +7,6 @@ import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_ROLE;
-import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_STATUS;
-import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_TAG;
 
 import java.util.Set;
 import java.util.stream.Stream;
@@ -19,11 +17,9 @@ import seedu.tutorpal.model.person.Address;
 import seedu.tutorpal.model.person.Class;
 import seedu.tutorpal.model.person.Email;
 import seedu.tutorpal.model.person.Name;
-import seedu.tutorpal.model.person.Payment;
 import seedu.tutorpal.model.person.Person;
 import seedu.tutorpal.model.person.Phone;
 import seedu.tutorpal.model.person.Role;
-import seedu.tutorpal.model.tag.Tag;
 
 /**
  * Parses input arguments and creates a new AddCommand object
@@ -39,7 +35,7 @@ public class AddCommandParser implements Parser<AddCommand> {
     public AddCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ROLE,
-                        PREFIX_ADDRESS, PREFIX_CLASS, PREFIX_TAG, PREFIX_STATUS);
+                        PREFIX_ADDRESS, PREFIX_CLASS);
 
         if (!arePrefixesPresent(argMultimap, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ROLE)
                 || !argMultimap.getPreamble().isEmpty()) {
@@ -51,23 +47,27 @@ public class AddCommandParser implements Parser<AddCommand> {
         Phone phone = ParserUtil.parsePhone(argMultimap.getValue(PREFIX_PHONE).get());
         Email email = ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL).get());
         Role role = ParserUtil.parseRole(argMultimap.getValue(PREFIX_ROLE).get());
+
+        if (role.value.equalsIgnoreCase("student")) {
+            argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_CLASS);
+        }
+
         //Defaults the address to an empty string if not provided
         Address address = argMultimap.getValue(PREFIX_ADDRESS).isPresent()
                 ? ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS).get())
                 : new Address("-");
         Set<Class> classList = ParserUtil.parseClasses(argMultimap.getAllValues(PREFIX_CLASS));
-        Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
-        //Defaults the payment status to unpaid if not provided
-        Payment paymentStatus = argMultimap.getValue(PREFIX_STATUS).isPresent()
-            ? ParserUtil.parsePayment(argMultimap.getValue(PREFIX_STATUS).get())
-            : new Payment("unpaid");
+
+        assert !(role.value.equalsIgnoreCase("student") && classList.size() > 1);
 
         if (classList.isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
                     "At least one class must be specified using c/ prefix"));
         }
 
-        Person person = new Person(name, phone, email, role, address, classList, tagList, false);
+        assert !(classList.isEmpty());
+
+        Person person = new Person(name, phone, email, role, address, classList, false);
 
         return new AddCommand(person);
     }
