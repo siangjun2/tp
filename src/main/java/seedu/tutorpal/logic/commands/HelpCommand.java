@@ -1,5 +1,6 @@
 package seedu.tutorpal.logic.commands;
 
+import seedu.tutorpal.commons.core.commandword.CommandWord;
 import seedu.tutorpal.model.Model;
 
 /**
@@ -13,6 +14,16 @@ public class HelpCommand extends Command {
             + "Example: " + COMMAND_WORD;
 
     public static final String SHOWING_HELP_MESSAGE = "Opened help window.";
+
+    private CommandWord commandWord;
+
+    public HelpCommand() {
+
+    }
+
+    public HelpCommand(CommandWord commandWord) {
+        this.commandWord = commandWord;
+    }
 
     @Override
     public CommandResult execute(Model model) {
