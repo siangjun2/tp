@@ -46,7 +46,6 @@ class JsonAdaptedPerson {
             @JsonProperty("email") String email, @JsonProperty("role") String role,
             @JsonProperty("address") String address,
             @JsonProperty("classes") List<JsonAdaptedClass> classes,
-            @JsonProperty("tags") List<JsonAdaptedTag> tags,
             @JsonProperty("paymentHistory") JsonAdaptedPaymentHistory paymentHistory,
             @JsonProperty("joinMonth") JsonAdaptedJoinMonth joinMonth,
             @JsonProperty("attendanceHistory") JsonAdaptedAttendanceHistory attendanceHistory) {

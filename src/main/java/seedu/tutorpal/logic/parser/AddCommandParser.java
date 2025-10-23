@@ -20,7 +20,6 @@ import seedu.tutorpal.model.person.Class;
 import seedu.tutorpal.model.person.Email;
 import seedu.tutorpal.model.person.JoinMonth;
 import seedu.tutorpal.model.person.Name;
-import seedu.tutorpal.model.person.Payment;
 import seedu.tutorpal.model.person.PaymentHistory;
 import seedu.tutorpal.model.person.Person;
 import seedu.tutorpal.model.person.Phone;
@@ -40,7 +39,7 @@ public class AddCommandParser implements Parser<AddCommand> {
     public AddCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL,
                 PREFIX_ROLE,
-                PREFIX_ADDRESS, PREFIX_CLASS, PREFIX_TAG, PREFIX_STATUS);
+                PREFIX_ADDRESS, PREFIX_CLASS);
 
         if (!arePrefixesPresent(argMultimap, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ROLE)
                 || !argMultimap.getPreamble().isEmpty()) {
@@ -62,7 +61,6 @@ public class AddCommandParser implements Parser<AddCommand> {
                 ? ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS).get())
                 : new Address("-");
         Set<Class> classList = ParserUtil.parseClasses(argMultimap.getAllValues(PREFIX_CLASS));
-        Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
         JoinMonth joinMonth = new JoinMonth(YearMonth.now());
         AttendanceHistory attendanceHistory;
         if (!Role.isStudent(role)) {
@@ -71,10 +69,6 @@ public class AddCommandParser implements Parser<AddCommand> {
         } else {
             attendanceHistory = new AttendanceHistory(joinMonth);
         }
-        // Defaults the payment status to unpaid if not provided
-        Payment paymentStatus = argMultimap.getValue(PREFIX_STATUS).isPresent()
-                ? ParserUtil.parsePayment(argMultimap.getValue(PREFIX_STATUS).get())
-                : new Payment("unpaid");
 
         if (classList.isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
