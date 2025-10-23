@@ -5,12 +5,11 @@ import java.util.Comparator;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import seedu.tutorpal.model.person.Person;
 
 /**
- * An UI component that displays information of a {@code Person}.
+ * A UI component that displays information of a {@code Person}.
  */
 public class PersonCard extends UiPart<Region> {
 
@@ -24,14 +23,11 @@ public class PersonCard extends UiPart<Region> {
     private static final String COLOR_OVERDUE = "#f48771"; // Red
     private static final String COLOR_MARKED = "#6a9955"; // Green (attended)
     private static final String COLOR_UNMARKED = "#858585"; // Gray (not attended)
-    private static final String COLOR_TAG = "#cccccc"; // Light gray
     private static final String COLOR_TEXT = "#cccccc"; // Default text
     private static final String COLOR_ID = "#858585"; // Dim gray
 
     public final Person person;
 
-    @FXML
-    private HBox cardPane;
     @FXML
     private Label name;
     @FXML
@@ -50,7 +46,6 @@ public class PersonCard extends UiPart<Region> {
     private Label paymentStatus;
     @FXML
     private Label attendance;
-
 
     /**
      * Creates a {@code PersonCard} with the given {@code Person} and index to display.
@@ -131,7 +126,6 @@ public class PersonCard extends UiPart<Region> {
             paymentStatus.setStyle("-fx-font-family: 'Consolas', monospace; -fx-font-size: 10px; "
                     + "-fx-font-weight: bold; -fx-text-fill: " + COLOR_UNPAID + ";");
         }
-
 
     }
 }
