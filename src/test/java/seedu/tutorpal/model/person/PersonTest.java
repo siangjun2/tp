@@ -98,8 +98,10 @@ public class PersonTest {
     public void toStringMethod() {
         String expected = Person.class.getCanonicalName() + "{name=" + ALICE.getName() + ", phone=" + ALICE.getPhone()
                 + ", email=" + ALICE.getEmail() + ", role=" + ALICE.getRole() + ", address=" + ALICE.getAddress()
-                + ", classes=" + ALICE.getClasses()
-                + ", paymentHistory=" + ALICE.getPaymentHistory().toString() + ", isMarked=" + ALICE.isMarked() + "}";
+                + ", classes=" + ALICE.getClasses() + ", joinMonth=" + ALICE.getJoinMonth()
+                + ", attendanceHistory=" + ALICE.getAttendanceHistory()
+                + ", paymentHistory=" + ALICE.getPaymentHistory().toString() + "}";
+        System.out.println(expected);
         assertEquals(expected, ALICE.toString());
     }
 }

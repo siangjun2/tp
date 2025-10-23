@@ -8,15 +8,19 @@ import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_ROLE;
 
+import java.time.YearMonth;
 import java.util.Set;
 import java.util.stream.Stream;
 
 import seedu.tutorpal.logic.commands.AddCommand;
 import seedu.tutorpal.logic.parser.exceptions.ParseException;
 import seedu.tutorpal.model.person.Address;
+import seedu.tutorpal.model.person.AttendanceHistory;
 import seedu.tutorpal.model.person.Class;
 import seedu.tutorpal.model.person.Email;
+import seedu.tutorpal.model.person.JoinMonth;
 import seedu.tutorpal.model.person.Name;
+import seedu.tutorpal.model.person.PaymentHistory;
 import seedu.tutorpal.model.person.Person;
 import seedu.tutorpal.model.person.Phone;
 import seedu.tutorpal.model.person.Role;
@@ -33,9 +37,9 @@ public class AddCommandParser implements Parser<AddCommand> {
      */
     @Override
     public AddCommand parse(String args) throws ParseException {
-        ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ROLE,
-                        PREFIX_ADDRESS, PREFIX_CLASS);
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL,
+                PREFIX_ROLE,
+                PREFIX_ADDRESS, PREFIX_CLASS);
 
         if (!arePrefixesPresent(argMultimap, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ROLE)
                 || !argMultimap.getPreamble().isEmpty()) {
@@ -57,23 +61,29 @@ public class AddCommandParser implements Parser<AddCommand> {
                 ? ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS).get())
                 : new Address("-");
         Set<Class> classList = ParserUtil.parseClasses(argMultimap.getAllValues(PREFIX_CLASS));
-
-        assert !(role.value.equalsIgnoreCase("student") && classList.size() > 1);
+        JoinMonth joinMonth = new JoinMonth(YearMonth.now());
+        AttendanceHistory attendanceHistory;
+        if (!Role.isStudent(role)) {
+            // If tutor, attendance history should be null
+            attendanceHistory = null;
+        } else {
+            attendanceHistory = new AttendanceHistory(joinMonth);
+        }
 
         if (classList.isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
                     "At least one class must be specified using c/ prefix"));
         }
 
-        assert !(classList.isEmpty());
-
-        Person person = new Person(name, phone, email, role, address, classList, false);
+        Person person = new Person(name, phone, email, role, address, classList,
+                joinMonth, attendanceHistory, new PaymentHistory(java.time.LocalDate.now()));
 
         return new AddCommand(person);
     }
 
     /**
-     * Returns true if none of the prefixes contains empty {@code Optional} values in the given
+     * Returns true if none of the prefixes contains empty {@code Optional} values
+     * in the given
      * {@code ArgumentMultimap}.
      */
     private static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {

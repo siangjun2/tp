@@ -68,8 +68,8 @@ public class RoleTest {
         // Invalid role names
         assertFalse(Role.isValidRole("teacher"));
         assertFalse(Role.isValidRole("admin"));
-        assertFalse(Role.isValidRole("students")); //extra s
-        assertFalse(Role.isValidRole("tutors")); //extra s
+        assertFalse(Role.isValidRole("students")); // extra s
+        assertFalse(Role.isValidRole("tutors")); // extra s
         assertFalse(Role.isValidRole("student tutor"));
         assertFalse(Role.isValidRole("stu dent"));
 
@@ -138,5 +138,23 @@ public class RoleTest {
 
         Role tutorRole = new Role("TUTOR");
         assertEquals("tutor", tutorRole.toString());
+    }
+
+    @Test
+    public void isStudent_studentRole_returnsTrue() {
+        Role student = new Role("student");
+        assertTrue(Role.isStudent(student));
+        assertTrue(Role.isStudent(new Role("Student"))); // case-sensitive
+        assertTrue(Role.isStudent(new Role("STUDENT")));
+    }
+
+    @Test
+    public void isStudent_nonStudentRoles_returnsFalse() {
+        assertFalse(Role.isStudent(new Role("tutor")));
+    }
+
+    @Test
+    public void isStudent_nullRole_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> Role.isStudent(null));
     }
 }

@@ -18,9 +18,11 @@ import seedu.tutorpal.logic.parser.exceptions.ParseException;
 import seedu.tutorpal.model.person.Address;
 import seedu.tutorpal.model.person.Class;
 import seedu.tutorpal.model.person.Email;
+import seedu.tutorpal.model.person.JoinMonth;
 import seedu.tutorpal.model.person.Name;
 import seedu.tutorpal.model.person.Phone;
 import seedu.tutorpal.model.person.Role;
+import seedu.tutorpal.model.person.WeeklyAttendance;
 
 /**
  * Contains utility methods used for parsing strings in the various *Parser classes.
@@ -39,7 +41,8 @@ public class ParserUtil {
     public static final String MESSAGE_INVALID_INDEX = "Index is not a non-zero unsigned integer.";
 
     /**
-     * Parses {@code oneBasedIndex} into an {@code Index} and returns it. Leading and trailing whitespaces will be
+     * Parses {@code oneBasedIndex} into an {@code Index} and returns it. Leading
+     * and trailing whitespaces will be
      * trimmed.
      *
      * @param oneBasedIndex string representing a 1-based index
@@ -197,4 +200,33 @@ public class ParserUtil {
         return classSet;
     }
 
+    /**
+     * Parses a {@code String joinMonth} into a {@code JoinMonth}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code joinMonth} is invalid.
+     */
+    public static JoinMonth parseJoinMonth(String joinMonth) throws ParseException {
+        requireNonNull(joinMonth);
+        String trimmedMonth = joinMonth.trim();
+        if (!JoinMonth.isValidJoinMonth(trimmedMonth)) {
+            throw new ParseException(JoinMonth.MESSAGE_CONSTRAINTS);
+        }
+        return new JoinMonth(trimmedMonth);
+    }
+
+    /**
+     * Parses a {@code String weeklyAttendance} into a {@code WeeklyAttendance}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code weeklyAttendance} is invalid.
+     */
+    public static WeeklyAttendance parseWeeklyAttendance(String weeklyAttendance) throws ParseException {
+        requireNonNull(weeklyAttendance);
+        String trimmedAttendance = weeklyAttendance.trim();
+        if (!WeeklyAttendance.isValidWeeklyAttendance(trimmedAttendance)) {
+            throw new ParseException(WeeklyAttendance.MESSAGE_CONSTRAINTS);
+        }
+        return new WeeklyAttendance(trimmedAttendance);
+    }
 }
