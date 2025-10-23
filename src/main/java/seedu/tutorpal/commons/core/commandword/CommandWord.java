@@ -7,9 +7,13 @@ import seedu.tutorpal.logic.commands.AddCommand;
 import seedu.tutorpal.logic.commands.ClearCommand;
 import seedu.tutorpal.logic.commands.Command;
 import seedu.tutorpal.logic.commands.DeleteCommand;
+import seedu.tutorpal.logic.commands.EditCommand;
 import seedu.tutorpal.logic.commands.ExitCommand;
 import seedu.tutorpal.logic.commands.FindCommand;
 import seedu.tutorpal.logic.commands.ListCommand;
+import seedu.tutorpal.logic.commands.MarkCommand;
+import seedu.tutorpal.logic.commands.PaymentCommand;
+import seedu.tutorpal.logic.commands.UnpayCommand;
 
 /**
  * Represents a command word and provides utilities to obtain usage text for that command.
@@ -37,9 +41,13 @@ public class CommandWord {
         AddCommand.class,
         ClearCommand.class,
         DeleteCommand.class,
+        EditCommand.class,
         ExitCommand.class,
         FindCommand.class,
-        ListCommand.class
+        ListCommand.class,
+        MarkCommand.class,
+        PaymentCommand.class,
+        UnpayCommand.class
     );
 
     /**

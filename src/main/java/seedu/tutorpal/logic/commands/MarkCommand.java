@@ -23,6 +23,10 @@ public class MarkCommand extends Command {
             + "Parameters: INDEX (must be a positive integer)\n"
             + "Example: " + COMMAND_WORD + " 1";
 
+    // SHORTENED is used for help command
+    public static final String MESSAGE_USAGE_SHORTENED = COMMAND_WORD + ":\t" + COMMAND_WORD + " INDEX"
+        + "\n\t\tExample: " + COMMAND_WORD + " 1";
+
     public static final String MESSAGE_SUCCESS = "Marked attendance for: %1$s";
     public static final String MESSAGE_ALREADY_MARKED = "%1$s is already marked.";
 
