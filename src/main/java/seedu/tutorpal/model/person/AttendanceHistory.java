@@ -3,6 +3,7 @@ package seedu.tutorpal.model.person;
 import static java.util.Objects.requireNonNull;
 
 import java.time.Clock;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -76,6 +77,20 @@ public class AttendanceHistory {
         }
         weeklyAttendances.remove(weeklyAttendance);
         return this;
+    }
+
+    /**
+     * Returns an immutable set of weekly attendances.
+     */
+    public Set<WeeklyAttendance> getWeeklyAttendances() {
+        return Collections.unmodifiableSet(weeklyAttendances);
+    }
+
+    /**
+     * Returns the join month of this attendance history.
+     */
+    public JoinMonth getJoinMonth() {
+        return joinMonth;
     }
 
     /**
