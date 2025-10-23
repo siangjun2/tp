@@ -7,8 +7,6 @@ import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_ROLE;
-import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_STATUS;
-import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_TAG;
 
 import java.time.YearMonth;
 import java.util.Set;
@@ -27,7 +25,6 @@ import seedu.tutorpal.model.person.PaymentHistory;
 import seedu.tutorpal.model.person.Person;
 import seedu.tutorpal.model.person.Phone;
 import seedu.tutorpal.model.person.Role;
-import seedu.tutorpal.model.tag.Tag;
 
 /**
  * Parses input arguments and creates a new AddCommand object
@@ -55,7 +52,12 @@ public class AddCommandParser implements Parser<AddCommand> {
         Phone phone = ParserUtil.parsePhone(argMultimap.getValue(PREFIX_PHONE).get());
         Email email = ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL).get());
         Role role = ParserUtil.parseRole(argMultimap.getValue(PREFIX_ROLE).get());
-        // Defaults the address to an empty string if not provided
+
+        if (role.value.equalsIgnoreCase("student")) {
+            argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_CLASS);
+        }
+
+        //Defaults the address to an empty string if not provided
         Address address = argMultimap.getValue(PREFIX_ADDRESS).isPresent()
                 ? ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS).get())
                 : new Address("-");

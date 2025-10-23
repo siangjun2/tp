@@ -5,7 +5,6 @@ import static seedu.tutorpal.storage.JsonAdaptedPerson.MISSING_FIELD_MESSAGE_FOR
 import static seedu.tutorpal.testutil.Assert.assertThrows;
 import static seedu.tutorpal.testutil.TypicalPersons.BENSON;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 

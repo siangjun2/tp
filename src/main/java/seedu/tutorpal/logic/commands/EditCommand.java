@@ -48,14 +48,26 @@ public class EditCommand extends Command {
             + "[" + PREFIX_NAME + "NAME] "
             + "[" + PREFIX_PHONE + "PHONE] "
             + "[" + PREFIX_EMAIL + "EMAIL] "
-            + "[" + PREFIX_ROLE + "ROLE "
-            + PREFIX_ADDRESS + "ADDRESS "
-            + "[" + PREFIX_CLASS + "CLASS]"
-            + "[" + PREFIX_MONTH + "JOIN_MONTH"
+            + "[" + PREFIX_ROLE + "ROLE] "
+            + "[" + PREFIX_ADDRESS + "ADDRESS] "
+            + "[" + PREFIX_CLASS + "CLASS] "
+            + "[" + PREFIX_MONTH + "JOIN_MONTH] "
             + "...\n"
             + "Example: " + COMMAND_WORD + " 1 "
             + PREFIX_PHONE + "91234567 "
             + PREFIX_EMAIL + "johndoe@example.com";
+
+    public static final String MESSAGE_USAGE_SHORTENED = COMMAND_WORD + ":\t\t" + COMMAND_WORD + " "
+        + "[" + PREFIX_ROLE + "ROLE] "
+        + "[" + PREFIX_NAME + "NAME] "
+        + "[" + PREFIX_PHONE + "PHONE] "
+        + "[" + PREFIX_EMAIL + "EMAIL] "
+        + "[" + PREFIX_CLASS + "CLASS]... "
+        + "[" + PREFIX_ADDRESS + "ADDRESS]\n"
+        + "\t\tExample: " + COMMAND_WORD + " 1 "
+        + PREFIX_ROLE + "student "
+        + PREFIX_PHONE + "91234567 "
+        + PREFIX_EMAIL + "johndoe@example.com";;
 
     public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Edited Person: %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";

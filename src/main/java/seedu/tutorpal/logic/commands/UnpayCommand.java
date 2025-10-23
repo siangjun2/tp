@@ -1,6 +1,7 @@
 package seedu.tutorpal.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_MONTH;
 
 import java.time.YearMonth;
 import java.util.List;
@@ -25,6 +26,11 @@ public class UnpayCommand extends Command {
             + ": Marks a specific month's payment as unpaid for the student identified by the index number.\n"
             + "Parameters: INDEX (must be a positive integer) m/MM-yyyy\n"
             + "Example: " + COMMAND_WORD + " 1 m/01-2024";
+
+    // SHORTENED is used for help command
+    public static final String MESSAGE_USAGE_SHORTENED = COMMAND_WORD + ":\t" + COMMAND_WORD
+        + " INDEX " + PREFIX_MONTH + "MM-yyyy\n"
+        + "\t\tExample: " + COMMAND_WORD + " 1 m/01-2024";
 
     public static final String MESSAGE_SUCCESS = "Payment for %1$s for %2$s has been marked as unpaid.";
     public static final String MESSAGE_NOT_STUDENT =

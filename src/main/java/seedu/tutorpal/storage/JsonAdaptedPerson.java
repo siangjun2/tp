@@ -34,7 +34,6 @@ class JsonAdaptedPerson {
     private final String role;
     private final String address;
     private final List<JsonAdaptedClass> classes = new ArrayList<>();
-    private final List<JsonAdaptedTag> tags = new ArrayList<>();
     private final JsonAdaptedPaymentHistory paymentHistory;
     private final JsonAdaptedJoinMonth joinMonth;
     private final JsonAdaptedAttendanceHistory attendanceHistory;
@@ -58,9 +57,6 @@ class JsonAdaptedPerson {
         this.address = address;
         if (classes != null) {
             this.classes.addAll(classes);
-        }
-        if (tags != null) {
-            this.tags.addAll(tags);
         }
         this.paymentHistory = paymentHistory;
         this.joinMonth = joinMonth;
