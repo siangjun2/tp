@@ -1,10 +1,10 @@
-/* ===== Dark Theme ===== */
+//Dark Theme
 .background {
     -fx-background-color: #1e1e1e;
     background-color: #1e1e1e;
 }
 
-/* ===== Labels ===== */
+//Labels
 .label {
     -fx-font-size: 11pt;
     -fx-font-family: "Consolas", "Courier New", monospace;
@@ -25,7 +25,7 @@
     -fx-opacity: 1;
 }
 
-/* ===== Text Fields ===== */
+//Text Fields
 .text-field {
     -fx-font-size: 13pt;
     -fx-font-family: "Consolas", monospace;
@@ -41,7 +41,7 @@
     -fx-border-width: 1;
 }
 
-/* ===== Command Box ===== */
+//Command Box
 #commandTextField {
     -fx-background-color: #252526;
     -fx-background-insets: 0;
@@ -60,7 +60,7 @@
     -fx-border-width: 0 0 2 0;
 }
 
-/* ===== Split Pane ===== */
+// Split Pane
 .split-pane:horizontal .split-pane-divider {
     -fx-background-color: #2d2d30;
     -fx-border-color: transparent;
@@ -72,7 +72,7 @@
     -fx-background-color: #1e1e1e;
 }
 
-/* ===== List View ===== */
+//List View
 .list-view {
     -fx-background-insets: 0;
     -fx-padding: 0;
@@ -117,7 +117,7 @@
     -fx-text-fill: #cccccc;
 }
 
-/* ===== Cell Labels ===== */
+//Cell Labels
 .cell_big_label {
     -fx-font-family: "Consolas", monospace;
     -fx-font-size: 13px;
@@ -131,7 +131,7 @@
     -fx-text-fill: #cccccc;
 }
 
-/* ===== Stack Pane ===== */
+//Stack Pane
 .stack-pane {
     -fx-background-color: #1e1e1e;
 }
@@ -142,7 +142,7 @@
     -fx-border-width: 0 0 1 0;
 }
 
-/* ===== Status Bar ===== */
+//Status Bar
 .status-bar {
     -fx-background-color: #007acc;
     -fx-border-color: transparent;
@@ -165,7 +165,7 @@
     -fx-text-fill: #ffffff;
 }
 
-/* ===== Result Display ===== */
+//Result Display
 .result-display {
     -fx-background-color: #1e1e1e;
     -fx-font-family: "Consolas", monospace;
@@ -185,7 +185,7 @@
     -fx-font-size: 10pt !important;
 }
 
-/* ===== Grid Pane ===== */
+//Grid Pane
 .grid-pane {
     -fx-background-color: #252526;
     -fx-border-color: transparent;
@@ -195,7 +195,7 @@
     -fx-background-color: #252526;
 }
 
-/* ===== Menu Bar ===== */
+//Menu Bar
 .menu-bar {
     -fx-background-color: #3c3c3c;
     -fx-border-color: transparent;
@@ -216,7 +216,7 @@
     -fx-background-color: #3c3c3c;
 }
 
-/* ===== Context Menu ===== */
+//Context Menu
 .context-menu {
     -fx-background-color: #252526;
     -fx-border-color: #454545;
@@ -227,7 +227,7 @@
     -fx-text-fill: #cccccc;
 }
 
-/* ===== Buttons ===== */
+//Buttons
 .button {
     -fx-padding: 6 14 6 14;
     -fx-border-color: #3c3c3c;
@@ -260,14 +260,13 @@
 }
 
 
-/* ===== Card Pane ===== */
+//Card Pane
 #cardPane {
     -fx-background-color: transparent;
     -fx-border-width: 0;
     -fx-padding: 0;
 }
 
-/* ===== Tags ===== */
 #tags {
     -fx-hgap: 4;
     -fx-vgap: 3;
@@ -282,7 +281,7 @@
     -fx-font-size: 9px;
 }
 
-/* ===== Role Styling ===== */
+//Role Styling
 .role-tutor {
     -fx-text-fill: #4fc3f7 !important;
     -fx-font-weight: bold;
@@ -295,14 +294,12 @@
     -fx-font-size: 13px;
 }
 
-/* ===== Class Labels ===== */
 .class-label {
     -fx-text-fill: #4ec9b0 !important;
     -fx-font-size: 13px;
     -fx-font-weight: normal;
 }
 
-/* ===== Payment Status ===== */
 .payment-paid {
     -fx-text-fill: #6a9955 !important;
     -fx-font-weight: bold;
@@ -321,7 +318,7 @@
     -fx-font-size: 13px;
 }
 
-/* ===== Dialog ===== */
+//Dialog
 .dialog-pane {
     -fx-background-color: #252526;
 }
@@ -344,7 +341,6 @@
     -fx-text-fill: #cccccc;
 }
 
-/* ===== Error Styling ===== */
 .error {
     -fx-text-fill: #f48771 !important;
     -fx-font-weight: bold;
@@ -356,7 +352,7 @@
     -fx-border-width: 0 0 2 0;
 }
 
-/* ===== Table Header  ===== */
+//Table Header
 .table-header {
     -fx-background-color: #2d2d30;
     -fx-border-color: #3c3c3c;
