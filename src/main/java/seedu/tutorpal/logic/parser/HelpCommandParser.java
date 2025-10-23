@@ -4,8 +4,6 @@ import seedu.tutorpal.commons.core.commandword.CommandWord;
 import seedu.tutorpal.logic.commands.HelpCommand;
 import seedu.tutorpal.logic.parser.exceptions.ParseException;
 
-import static seedu.tutorpal.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-
 /**
  * Parses input arguments and creates a new HelpCommand object
  */

@@ -13,7 +13,6 @@ import java.util.stream.Collectors;
 import seedu.tutorpal.commons.core.commandword.CommandWord;
 import seedu.tutorpal.commons.core.index.Index;
 import seedu.tutorpal.commons.util.StringUtil;
-import seedu.tutorpal.logic.commands.DeleteCommand;
 import seedu.tutorpal.logic.commands.HelpCommand;
 import seedu.tutorpal.logic.parser.exceptions.ParseException;
 import seedu.tutorpal.model.person.Address;
@@ -47,15 +46,13 @@ public class ParserUtil {
 
     public static CommandWord parseCommandWord(String commandWord) throws ParseException {
         List<String> commands = COMMANDS.stream()
-            .map(f ->
-                {
-                    try {
-                        return (String) f.getField("COMMAND_WORD").get(null);
-                    } catch (IllegalArgumentException | NoSuchFieldException | IllegalAccessException e) {
-                        return null;
-                    }
-
-                })
+            .map(f -> {
+                try {
+                    return (String) f.getField("COMMAND_WORD").get(null);
+                } catch (IllegalArgumentException | NoSuchFieldException | IllegalAccessException e) {
+                    return null;
+                }
+            })
             .collect(Collectors.toUnmodifiableList());
 
         if (!commands.contains(commandWord)) {
