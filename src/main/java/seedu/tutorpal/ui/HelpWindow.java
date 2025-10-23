@@ -1,5 +1,7 @@
 package seedu.tutorpal.ui;
 
+import static seedu.tutorpal.commons.core.commandword.CommandWord.COMMANDS;
+
 import java.util.logging.Logger;
 
 import javafx.fxml.FXML;
@@ -8,11 +10,8 @@ import javafx.scene.control.Label;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import javafx.stage.Stage;
-
 import seedu.tutorpal.commons.core.LogsCenter;
 import seedu.tutorpal.logic.commands.Command;
-
-import static seedu.tutorpal.commons.core.commandword.CommandWord.COMMANDS;
 
 /**
  * Controller for a help page
