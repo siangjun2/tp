@@ -4,8 +4,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 import seedu.tutorpal.model.person.Address;
+import seedu.tutorpal.model.person.AttendanceHistory;
 import seedu.tutorpal.model.person.Class;
 import seedu.tutorpal.model.person.Email;
+import seedu.tutorpal.model.person.JoinMonth;
 import seedu.tutorpal.model.person.Name;
 import seedu.tutorpal.model.person.Person;
 import seedu.tutorpal.model.person.Phone;
@@ -25,6 +27,7 @@ public class PersonBuilder {
     public static final String DEFAULT_ADDRESS = "123, Jurong West Ave 6, #08-111";
     public static final String DEFAULT_CLASS = "s4mon1600";
     public static final String DEFAULT_PAYMENT_STATUS = "unpaid"; // kept for backward compatibility; unused now
+    public static final String DEFAULT_JOIN_MONTH = "10-2024";
 
     private Name name;
     private Phone phone;
@@ -33,6 +36,7 @@ public class PersonBuilder {
     private Address address;
     private Set<Class> classes;
     private Set<Tag> tags;
+    private AttendanceHistory attendanceHistory;
     // Payment is now derived from PaymentHistory; no explicit field needed
 
     /**
@@ -47,6 +51,8 @@ public class PersonBuilder {
         classes = new HashSet<>();
         classes.add(new Class(DEFAULT_CLASS));
         tags = new HashSet<>();
+        JoinMonth joinMonth = new JoinMonth(DEFAULT_JOIN_MONTH);
+        attendanceHistory = new AttendanceHistory(joinMonth);
     }
 
     /**
@@ -59,6 +65,7 @@ public class PersonBuilder {
         role = personToCopy.getRole();
         address = personToCopy.getAddress();
         classes = new HashSet<>(personToCopy.getClasses());
+        attendanceHistory = personToCopy.getAttendanceHistory();
     }
 
     /**
@@ -70,9 +77,10 @@ public class PersonBuilder {
     }
 
     /**
-     * Parses the {@code tags} into a {@code Set<Tag>} and set it to the {@code Person} that we are building.
+     * Parses the {@code tags} into a {@code Set<Tag>} and set it to the
+     * {@code Person} that we are building.
      */
-    public PersonBuilder withTags(String ... tags) {
+    public PersonBuilder withTags(String... tags) {
         return this;
     }
 
@@ -109,20 +117,35 @@ public class PersonBuilder {
     }
 
     /**
-     * Parses the {@code classes} into a {@code Set<Class>} and set it to the {@code Person} that we are building.
+     * Parses the {@code classes} into a {@code Set<Class>} and set it to the
+     * {@code Person} that we are building.
      */
-    public PersonBuilder withClasses(String ... classes) {
+    public PersonBuilder withClasses(String... classes) {
         this.classes = SampleDataUtil.getClassSet(classes);
         return this;
     }
 
-    // Backward-compatibility no-op: tests that call withPayment() can remain unchanged
+    /**
+     * Sets the {@code AttendanceHistory} of the {@code Person} that we are
+     * building.
+     */
+    public PersonBuilder withAttendanceHistory(AttendanceHistory attendanceHistory) {
+        this.attendanceHistory = attendanceHistory;
+        return this;
+    }
+
+    // Backward-compatibility no-op: tests that call withPayment() can remain
+    // unchanged
     public PersonBuilder withPayment(String paymentStatus) {
         return this;
     }
 
     public Person build() {
-        return new Person(name, phone, email, role, address, classes, false);
+        return new Person(name, phone, email, role, address, classes, attendanceHistory, null); // NOT SURE WHAT YOU
+                                                                                                // MEAN BY // Payment is
+                                                                                                // now derived from
+                                                                                                // PaymentHistory; no
+                                                                                                // explicit field needed
     }
 
 }

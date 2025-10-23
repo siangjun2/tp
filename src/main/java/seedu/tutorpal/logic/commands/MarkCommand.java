@@ -12,6 +12,7 @@ import seedu.tutorpal.commons.util.ToStringBuilder;
 import seedu.tutorpal.logic.Messages;
 import seedu.tutorpal.logic.commands.exceptions.CommandException;
 import seedu.tutorpal.model.Model;
+import seedu.tutorpal.model.person.AttendanceHistory;
 import seedu.tutorpal.model.person.Person;
 import seedu.tutorpal.model.person.WeeklyAttendance;
 
@@ -56,9 +57,12 @@ public class MarkCommand extends Command {
 
         Person personToMark = lastShownList.get(index.getZeroBased());
 
-        if (personToMark.isMarked()) {
+        if (personToMark.isMarked(week)) {
             throw new CommandException(String.format(MESSAGE_ALREADY_MARKED, personToMark.getName(), week));
         }
+
+        AttendanceHistory newAttendanceHistory = personToMark.getAttendanceHistory();
+        newAttendanceHistory.add(week);
 
         Person markedPerson = new Person(
                 personToMark.getName(),
@@ -68,7 +72,7 @@ public class MarkCommand extends Command {
                 personToMark.getAddress(),
                 personToMark.getClasses(),
                 personToMark.getPaymentHistory(),
-                personToMark.getAttendanceHistory()
+                newAttendanceHistory
         );
 
         model.setPerson(personToMark, markedPerson);
