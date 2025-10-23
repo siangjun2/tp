@@ -14,7 +14,8 @@ import seedu.tutorpal.model.person.PaymentHistory;
 import seedu.tutorpal.model.person.Person;
 
 /**
- * Updates the payment status of a student in the address book by marking a month as unpaid.
+ * Updates the payment status of a student in the address book by marking a
+ * month as unpaid.
  */
 public class UnpayCommand extends Command {
 
@@ -26,18 +27,16 @@ public class UnpayCommand extends Command {
             + "Example: " + COMMAND_WORD + " 1 m/01-2024";
 
     public static final String MESSAGE_SUCCESS = "Payment for %1$s for %2$s has been marked as unpaid.";
-    public static final String MESSAGE_NOT_STUDENT =
-            "Index belongs to a tutor. Please provide an index tied to a student instead";
-    public static final String MESSAGE_MONTH_BEFORE_JOIN =
-            "Cannot mark payment for month before student's join date (%1$s)";
-    public static final String MESSAGE_FUTURE_MONTH =
-            "Cannot mark payment for future month";
+    public static final String MESSAGE_NOT_STUDENT = "Index belongs to a tutor. Please provide an index tied to a student instead";
+    public static final String MESSAGE_MONTH_BEFORE_JOIN = "Cannot mark payment for month before student's join date (%1$s)";
+    public static final String MESSAGE_FUTURE_MONTH = "Cannot mark payment for future month";
 
     private final Index index;
     private final YearMonth month;
 
     /**
-     * Creates an UnpayCommand to mark the specified month's payment as unpaid for the specified person.
+     * Creates an UnpayCommand to mark the specified month's payment as unpaid for
+     * the specified person.
      */
     public UnpayCommand(Index index, YearMonth month) {
         requireNonNull(index);
@@ -80,13 +79,14 @@ public class UnpayCommand extends Command {
     }
 
     /**
-     * Creates and returns a {@code Person} with the updated payment status for the specified month.
+     * Creates and returns a {@code Person} with the updated payment status for the
+     * specified month.
      */
     private Person createPersonWithUpdatedPayment(Person person, YearMonth month) {
         PaymentHistory updatedPaymentHistory = person.getPaymentHistory().markMonthAsUnpaid(month);
         return new Person(person.getName(), person.getPhone(), person.getEmail(),
                 person.getRole(), person.getAddress(), person.getClasses(),
-                updatedPaymentHistory, person.isMarked());
+                person.getJoinMonth(), person.getAttendanceHistory(), updatedPaymentHistory);
     }
 
     @Override

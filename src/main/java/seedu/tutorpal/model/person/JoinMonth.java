@@ -15,7 +15,7 @@ import java.time.format.DateTimeParseException;
 public class JoinMonth {
 
     public static final String MESSAGE_CONSTRAINTS = "Join months should be in the format MM-YYYY, "
-            + "and it should be a valid month";
+            + "and it should be a valid month!";
 
     public static final DateTimeFormatter MONTH_FORMATTER = DateTimeFormatter.ofPattern("MM-yyyy");
 
@@ -28,11 +28,11 @@ public class JoinMonth {
      */
     public JoinMonth(YearMonth joinMonth) {
         requireNonNull(joinMonth);
-        value = joinMonth;
+        this.value = joinMonth;
     }
 
     /**
-     * Constructs a {@code JoinMonth} from a string.
+     * Constructs a {@code JoinMonth} from a string. For editing.
      *
      * @param joinMonth A valid join month string in MM-YYYY format.
      */
@@ -59,6 +59,14 @@ public class JoinMonth {
      */
     public WeeklyAttendance toFirstWeeklyAttendance() {
         return new WeeklyAttendance(1, value);
+    }
+
+    /**
+     * Returns the YearMonth value of the JoinMonth.
+     */
+    public YearMonth getMonth() {
+        assert value != null : "JoinMonth value should not be null";
+        return value;
     }
 
     @Override

@@ -31,6 +31,9 @@ public class Person {
     private final AttendanceHistory attendanceHistory;
     private final PaymentHistory paymentHistory;
 
+    // TEMPORARY UNTIL PAYMENT UPDATED
+    private final LocalDate joinDate;
+
     /**
      * Constructor for Person (for creating new persons).
      * 
@@ -52,6 +55,7 @@ public class Person {
         this.address = address;
         this.classes.addAll(classes);
         this.joinMonth = new JoinMonth(YearMonth.now());
+        this.joinDate = LocalDate.now(); // TEMPORARY TEMPORARY TODO TODO
         // Initialize new, empty AttendanceHistory for new Person
         if (Role.isStudent(role)) {
             this.attendanceHistory = new AttendanceHistory(joinMonth);
@@ -75,9 +79,14 @@ public class Person {
         this.address = address;
         this.classes.addAll(classes);
         this.joinMonth = joinMonth;
+        this.joinDate = LocalDate.now(); // TEMPORARY TEMPORARY TODO TODO
         this.attendanceHistory = attendanceHistory;
         this.paymentHistory = paymentHistory;
     }
+
+    public LocalDate getJoinDate() {
+        return joinDate;
+    } // TEMPORARY TODO
 
     public Name getName() {
         return name;
