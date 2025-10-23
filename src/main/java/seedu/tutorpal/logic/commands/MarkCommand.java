@@ -2,7 +2,6 @@ package seedu.tutorpal.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.tutorpal.commons.util.CollectionUtil.requireAllNonNull;
-import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_ROLE;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_WEEK;
 
 import java.util.List;
@@ -14,6 +13,7 @@ import seedu.tutorpal.logic.commands.exceptions.CommandException;
 import seedu.tutorpal.model.Model;
 import seedu.tutorpal.model.person.AttendanceHistory;
 import seedu.tutorpal.model.person.Person;
+import seedu.tutorpal.model.person.Role;
 import seedu.tutorpal.model.person.WeeklyAttendance;
 
 /**
@@ -38,7 +38,8 @@ public class MarkCommand extends Command {
     private final WeeklyAttendance week;
 
     /**
-     * Creates a MarkCommand to mark attendance of the specified person on specified week.
+     * Creates a MarkCommand to mark attendance of the specified person on specified
+     * week.
      */
     public MarkCommand(Index index, WeeklyAttendance week) {
         requireAllNonNull(index, week);
@@ -57,12 +58,16 @@ public class MarkCommand extends Command {
 
         Person personToMark = lastShownList.get(index.getZeroBased());
 
-        if (personToMark.isMarked(week)) {
-            throw new CommandException(String.format(MESSAGE_ALREADY_MARKED, personToMark.getName(), week));
+        if (!Role.isStudent(personToMark.getRole())) {
+            throw new CommandException("Cannot mark attendance for a tutor.");
         }
 
-        AttendanceHistory newAttendanceHistory = personToMark.getAttendanceHistory();
-        newAttendanceHistory.add(week);
+        AttendanceHistory newAttendanceHistory = new AttendanceHistory(personToMark.getAttendanceHistory());
+        try {
+            newAttendanceHistory.markAttendance(week);
+        } catch (IllegalArgumentException e) {
+            throw new CommandException(String.format(e.getMessage(), personToMark.getName(), week));
+        }
 
         Person markedPerson = new Person(
                 personToMark.getName(),
@@ -71,9 +76,9 @@ public class MarkCommand extends Command {
                 personToMark.getRole(),
                 personToMark.getAddress(),
                 personToMark.getClasses(),
-                personToMark.getPaymentHistory(),
-                newAttendanceHistory
-        );
+                personToMark.getJoinMonth(),
+                newAttendanceHistory,
+                personToMark.getPaymentHistory());
 
         model.setPerson(personToMark, markedPerson);
 

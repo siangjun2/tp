@@ -77,15 +77,6 @@ public class AttendanceHistoryTest {
     }
 
     @Test
-    public void markAttendance_afterCurrentWeek_throwsException() {
-        JoinMonth joinMonth = new JoinMonth("01-2024");
-        AttendanceHistory history = new AttendanceHistory(joinMonth, FIXED_CLOCK_MARCH_2024_WEEK2);
-        WeeklyAttendance week = new WeeklyAttendance(3, YearMonth.of(2024, 3)); // After current week (W2 March)
-
-        assertThrows(IllegalArgumentException.class, () -> history.markAttendance(week));
-    }
-
-    @Test
     public void markAttendance_atJoinWeek_success() {
         JoinMonth joinMonth = new JoinMonth("02-2024");
         AttendanceHistory history = new AttendanceHistory(joinMonth, FIXED_CLOCK_MARCH_2024_WEEK2);

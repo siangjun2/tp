@@ -24,6 +24,7 @@ import seedu.tutorpal.logic.Messages;
 import seedu.tutorpal.logic.commands.exceptions.CommandException;
 import seedu.tutorpal.model.Model;
 import seedu.tutorpal.model.person.Address;
+import seedu.tutorpal.model.person.AttendanceHistory;
 import seedu.tutorpal.model.person.Class;
 import seedu.tutorpal.model.person.Email;
 import seedu.tutorpal.model.person.JoinMonth;
@@ -122,8 +123,20 @@ public class EditCommand extends Command {
         Set<Class> updatedClasses = editPersonDescriptor.getClasses().orElse(personToEdit.getClasses());
         JoinMonth updatedJoinMonth = editPersonDescriptor.getJoinMonth().orElse(personToEdit.getJoinMonth());
 
+        AttendanceHistory updatedAttendanceHistory;
+        if (!Role.isStudent(updatedRole)) {
+            // If tutor, attendance history should be null
+            updatedAttendanceHistory = null;
+        } else if (!updatedJoinMonth.equals(personToEdit.getJoinMonth())) {
+            // If join month is edited, create a new AttendanceHistory with the new join
+            // month
+            updatedAttendanceHistory = new AttendanceHistory(updatedJoinMonth);
+        } else {
+            updatedAttendanceHistory = personToEdit.getAttendanceHistory();
+        }
+
         return new Person(updatedName, updatedPhone, updatedEmail, updatedRole, updatedAddress, updatedClasses,
-                personToEdit.getAttendanceHistory(), personToEdit.getPaymentHistory());
+                updatedJoinMonth, updatedAttendanceHistory, personToEdit.getPaymentHistory());
     }
 
     @Override
@@ -185,7 +198,7 @@ public class EditCommand extends Command {
          * Returns true if at least one field is edited.
          */
         public boolean isAnyFieldEdited() {
-            return CollectionUtil.isAnyNonNull(name, phone, email, address, role, classes);
+            return CollectionUtil.isAnyNonNull(name, phone, email, address, role, classes, joinMonth);
         }
 
         public void setName(Name name) {

@@ -141,16 +141,16 @@ public class RoleTest {
     }
 
     @Test
-    public void isStudent_exactStudentRole_returnsTrue() {
+    public void isStudent_studentRole_returnsTrue() {
         Role student = new Role("student");
         assertTrue(Role.isStudent(student));
+        assertTrue(Role.isStudent(new Role("Student"))); // case-sensitive
+        assertTrue(Role.isStudent(new Role("STUDENT")));
     }
 
     @Test
     public void isStudent_nonStudentRoles_returnsFalse() {
         assertFalse(Role.isStudent(new Role("tutor")));
-        assertFalse(Role.isStudent(new Role("Student"))); // case-sensitive
-        assertFalse(Role.isStudent(new Role("STUDENT")));
     }
 
     @Test

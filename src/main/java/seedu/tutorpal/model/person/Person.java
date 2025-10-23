@@ -81,7 +81,7 @@ public class Person {
         this.classes.addAll(classes);
         this.joinMonth = joinMonth;
         this.joinDate = LocalDate.now(); // TEMPORARY TEMPORARY TODO TODO
-        this.attendanceHistory = attendanceHistory;
+        this.attendanceHistory = attendanceHistory; // May be null, for tutors
         this.paymentHistory = paymentHistory;
     }
 

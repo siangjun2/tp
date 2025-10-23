@@ -1,5 +1,6 @@
 package seedu.tutorpal.testutil;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -9,10 +10,10 @@ import seedu.tutorpal.model.person.Class;
 import seedu.tutorpal.model.person.Email;
 import seedu.tutorpal.model.person.JoinMonth;
 import seedu.tutorpal.model.person.Name;
+import seedu.tutorpal.model.person.PaymentHistory;
 import seedu.tutorpal.model.person.Person;
 import seedu.tutorpal.model.person.Phone;
 import seedu.tutorpal.model.person.Role;
-import seedu.tutorpal.model.tag.Tag;
 import seedu.tutorpal.model.util.SampleDataUtil;
 
 /**
@@ -27,7 +28,7 @@ public class PersonBuilder {
     public static final String DEFAULT_ADDRESS = "123, Jurong West Ave 6, #08-111";
     public static final String DEFAULT_CLASS = "s4mon1600";
     public static final String DEFAULT_PAYMENT_STATUS = "unpaid"; // kept for backward compatibility; unused now
-    public static final String DEFAULT_JOIN_MONTH = "10-2024";
+    public static final String DEFAULT_JOIN_MONTH = "11-2024";
 
     private Name name;
     private Phone phone;
@@ -35,7 +36,6 @@ public class PersonBuilder {
     private Role role;
     private Address address;
     private Set<Class> classes;
-    private Set<Tag> tags;
     private JoinMonth joinMonth;
     private AttendanceHistory attendanceHistory;
     // Payment is now derived from PaymentHistory; no explicit field needed
@@ -51,9 +51,12 @@ public class PersonBuilder {
         address = new Address(DEFAULT_ADDRESS);
         classes = new HashSet<>();
         classes.add(new Class(DEFAULT_CLASS));
-        tags = new HashSet<>();
         joinMonth = new JoinMonth(DEFAULT_JOIN_MONTH);
-        attendanceHistory = new AttendanceHistory(joinMonth);
+        if (Role.isStudent(role)) {
+            attendanceHistory = new AttendanceHistory(joinMonth);
+        } else {
+            attendanceHistory = null;
+        }
     }
 
     /**
@@ -67,7 +70,15 @@ public class PersonBuilder {
         address = personToCopy.getAddress();
         classes = new HashSet<>(personToCopy.getClasses());
         joinMonth = personToCopy.getJoinMonth();
-        attendanceHistory = personToCopy.getAttendanceHistory();
+        // ensure attendanceHistory matches role: students keep or get initialized;
+        // tutors get null
+        if (Role.isStudent(role)) {
+            attendanceHistory = personToCopy.getAttendanceHistory() != null
+                    ? personToCopy.getAttendanceHistory()
+                    : new AttendanceHistory(joinMonth);
+        } else {
+            attendanceHistory = null;
+        }
     }
 
     /**
@@ -115,6 +126,14 @@ public class PersonBuilder {
      */
     public PersonBuilder withRole(String role) {
         this.role = new Role(role);
+        // keep attendanceHistory consistent with role
+        if (Role.isStudent(this.role)) {
+            if (this.attendanceHistory == null) {
+                this.attendanceHistory = new AttendanceHistory(joinMonth);
+            }
+        } else {
+            this.attendanceHistory = null;
+        }
         return this;
     }
 
@@ -153,13 +172,18 @@ public class PersonBuilder {
         return this;
     }
 
+    /**
+     * Builds the person using edited fields.
+     * 
+     * @return
+     */
     public Person build() {
         return new Person(name, phone, email, role, address, classes, joinMonth,
-                attendanceHistory, null); // NOT SURE WHAT YOU
-                                          // MEAN BY // Payment is
-                                          // now derived from
-                                          // PaymentHistory; no
-                                          // explicit field needed
+                attendanceHistory, new PaymentHistory(LocalDate.now())); // NOT SURE WHAT YOU
+        // MEAN BY // Payment is
+        // now derived from
+        // PaymentHistory; no
+        // explicit field needed
     }
 
 }

@@ -8,7 +8,17 @@
     "address" : "123, Jurong West Ave 6, #08-111",
     "classes" : [ "s4mon1600" ],
     "tags" : [ "friends" ],
-    "payment" : "unpaid"
+    "joinMonth" : "11-2024",
+    "attendanceHistory" : {
+      "joinMonth" : "11-2024",
+      "weeklyAttendances" : [ ]
+    },
+    "paymentHistory" : {
+      "joinDate" : "2025-10-23",
+      "monthlyPayments" : {
+        "2025-10" : "unpaid"
+      }
+    }
   }, {
     "name" : "Benson Meier",
     "phone" : "98765432",
@@ -17,7 +27,17 @@
     "address" : "311, Clementi Ave 2, #02-25",
     "classes" : [ "s3tue1400" ],
     "tags" : [ "owesMoney", "friends" ],
-    "payment" : "unpaid"
+    "joinMonth" : "11-2024",
+    "attendanceHistory" : {
+      "joinMonth" : "11-2024",
+      "weeklyAttendances" : [ ]
+    },
+    "paymentHistory" : {
+      "joinDate" : "2025-10-23",
+      "monthlyPayments" : {
+        "2025-10" : "unpaid"
+      }
+    }
   }, {
     "name" : "Carl Kurz",
     "phone" : "95352563",
@@ -26,7 +46,17 @@
     "address" : "wall street",
     "classes" : [ "s1mon0900" ],
     "tags" : [ ],
-    "payment" : "unpaid"
+    "joinMonth" : "11-2024",
+    "attendanceHistory" : {
+      "joinMonth" : "11-2024",
+      "weeklyAttendances" : [ ]
+    },
+    "paymentHistory" : {
+      "joinDate" : "2025-10-23",
+      "monthlyPayments" : {
+        "2025-10" : "unpaid"
+      }
+    }
   }, {
     "name" : "Daniel Meier",
     "phone" : "87652533",
@@ -35,7 +65,17 @@
     "address" : "10th street",
     "classes" : [ "s5thu1600" ],
     "tags" : [ "friends" ],
-    "payment" : "unpaid"
+    "joinMonth" : "11-2024",
+    "attendanceHistory" : {
+      "joinMonth" : "11-2024",
+      "weeklyAttendances" : [ ]
+    },
+    "paymentHistory" : {
+      "joinDate" : "2025-10-23",
+      "monthlyPayments" : {
+        "2025-10" : "unpaid"
+      }
+    }
   }, {
     "name" : "Elle Meyer",
     "phone" : "94822241",
@@ -44,7 +84,17 @@
     "address" : "michegan ave",
     "classes" : [ "s2mon1000" ],
     "tags" : [ ],
-    "payment" : "unpaid"
+    "joinMonth" : "11-2024",
+    "attendanceHistory" : {
+      "joinMonth" : "11-2024",
+      "weeklyAttendances" : [ ]
+    },
+    "paymentHistory" : {
+      "joinDate" : "2025-10-23",
+      "monthlyPayments" : {
+        "2025-10" : "unpaid"
+      }
+    }
   }, {
     "name" : "Fiona Kunz",
     "phone" : "94824271",
@@ -53,7 +103,13 @@
     "address" : "little tokyo",
     "classes" : [ "s3wed1400" ],
     "tags" : [ ],
-    "payment" : "unpaid"
+    "joinMonth" : "11-2024",
+    "attendanceHistory" : {
+      "joinDate" : "2025-10-23",
+      "monthlyPayments" : {
+        "2025-10" : "unpaid"
+      }
+    }
   }, {
     "name" : "George Best",
     "phone" : "94824421",
@@ -62,6 +118,16 @@
     "address" : "4th street",
     "classes" : [ "s4fri1500" ],
     "tags" : [ ],
-    "payment" : "unpaid"
+    "joinMonth" : "11-2024",
+    "attendanceHistory" : {
+      "joinMonth" : "11-2024",
+      "weeklyAttendances" : [ ]
+    },
+    "paymentHistory" : {
+      "joinDate" : "2025-10-23",
+      "monthlyPayments" : {
+        "2025-10" : "unpaid"
+      }
+    }
   } ]
 }

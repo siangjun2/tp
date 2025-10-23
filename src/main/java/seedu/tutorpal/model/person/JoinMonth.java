@@ -61,14 +61,6 @@ public class JoinMonth {
         return new WeeklyAttendance(1, value);
     }
 
-    /**
-     * Returns the YearMonth value of the JoinMonth.
-     */
-    public YearMonth getMonth() {
-        assert value != null : "JoinMonth value should not be null";
-        return value;
-    }
-
     @Override
     public String toString() {
         assert value != null : "JoinMonth value should not be null";

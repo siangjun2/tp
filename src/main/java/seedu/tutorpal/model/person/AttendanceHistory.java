@@ -40,6 +40,13 @@ public class AttendanceHistory {
         this.nowClock = nowClock;
     }
 
+    public AttendanceHistory(AttendanceHistory attendanceHistory) {
+        requireNonNull(attendanceHistory);
+        this.joinMonth = attendanceHistory.joinMonth;
+        this.weeklyAttendances = new HashSet<>(attendanceHistory.weeklyAttendances);
+        this.nowClock = attendanceHistory.nowClock;
+    }
+
     /**
      * Checks if the person attended on the given weekly attendance period.
      */
