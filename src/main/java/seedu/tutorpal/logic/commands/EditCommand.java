@@ -7,6 +7,7 @@ import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_ROLE;
+import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_MONTH;
 import static seedu.tutorpal.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
 import java.util.Collections;
@@ -25,6 +26,7 @@ import seedu.tutorpal.model.Model;
 import seedu.tutorpal.model.person.Address;
 import seedu.tutorpal.model.person.Class;
 import seedu.tutorpal.model.person.Email;
+import seedu.tutorpal.model.person.JoinMonth;
 import seedu.tutorpal.model.person.Name;
 import seedu.tutorpal.model.person.Person;
 import seedu.tutorpal.model.person.Phone;
@@ -46,6 +48,7 @@ public class EditCommand extends Command {
             + "[" + PREFIX_PHONE + "PHONE] "
             + "[" + PREFIX_EMAIL + "EMAIL] "
             + "[" + PREFIX_CLASS + "CLASS]... "
+            + "[" + PREFIX_MONTH + "MONTH] "
             + "[" + PREFIX_ADDRESS + "ADDRESS]...\n"
             + "Example: " + COMMAND_WORD + " 1 "
             + PREFIX_ROLE + "student "
@@ -117,6 +120,7 @@ public class EditCommand extends Command {
         Address updatedAddress = editPersonDescriptor.getAddress().orElse(personToEdit.getAddress());
         Role updatedRole = editPersonDescriptor.getRole().orElse(personToEdit.getRole());
         Set<Class> updatedClasses = editPersonDescriptor.getClasses().orElse(personToEdit.getClasses());
+        JoinMonth updatedJoinMonth = editPersonDescriptor.getJoinMonth().orElse(personToEdit.getJoinMonth());
 
         return new Person(updatedName, updatedPhone, updatedEmail, updatedRole, updatedAddress, updatedClasses,
                 personToEdit.getAttendanceHistory(), personToEdit.getPaymentHistory());
@@ -158,6 +162,7 @@ public class EditCommand extends Command {
         private Address address;
         private Role role;
         private Set<Class> classes;
+        private JoinMonth joinMonth;
 
         public EditPersonDescriptor() {
         }
@@ -173,6 +178,7 @@ public class EditCommand extends Command {
             setAddress(toCopy.address);
             setRole(toCopy.role);
             setClasses(toCopy.classes);
+            setJoinMonth(toCopy.joinMonth);
         }
 
         /**
@@ -240,6 +246,24 @@ public class EditCommand extends Command {
             return (classes != null) ? Optional.of(Collections.unmodifiableSet(classes)) : Optional.empty();
         }
 
+        /**
+         * Sets {@code joinMonth} to this object's {@code joinMonth}.
+         * 
+         * @param joinMonth
+         */
+        public void setJoinMonth(JoinMonth joinMonth) {
+            this.joinMonth = joinMonth;
+        }
+
+        /**
+         * Returns {@code joinMonth}.
+         * 
+         * @return
+         */
+        public Optional<JoinMonth> getJoinMonth() {
+            return Optional.ofNullable(joinMonth);
+        }
+
         @Override
         public boolean equals(Object other) {
             if (other == this) {
@@ -257,7 +281,8 @@ public class EditCommand extends Command {
                     && Objects.equals(email, otherEditPersonDescriptor.email)
                     && Objects.equals(address, otherEditPersonDescriptor.address)
                     && Objects.equals(role, otherEditPersonDescriptor.role)
-                    && Objects.equals(classes, otherEditPersonDescriptor.classes);
+                    && Objects.equals(classes, otherEditPersonDescriptor.classes)
+                    && Objects.equals(joinMonth, otherEditPersonDescriptor.joinMonth);
         }
 
         @Override
@@ -269,6 +294,7 @@ public class EditCommand extends Command {
                     .add("address", address)
                     .add("role", role)
                     .add("classes", classes)
+                    .add("joinMonth", joinMonth)
                     .toString();
         }
     }

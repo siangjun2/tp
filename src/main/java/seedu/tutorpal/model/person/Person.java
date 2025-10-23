@@ -27,6 +27,7 @@ public class Person {
     private final Role role;
     private final Address address;
     private final Set<Class> classes = new HashSet<>();
+    private final JoinMonth joinMonth;
     private final AttendanceHistory attendanceHistory;
     private final PaymentHistory paymentHistory;
 
@@ -50,9 +51,10 @@ public class Person {
         this.role = role;
         this.address = address;
         this.classes.addAll(classes);
+        this.joinMonth = new JoinMonth(YearMonth.now());
         // Initialize new, empty AttendanceHistory for new Person
         if (Role.isStudent(role)) {
-            this.attendanceHistory = new AttendanceHistory(new JoinMonth(YearMonth.now()));
+            this.attendanceHistory = new AttendanceHistory(joinMonth);
         } else {
             this.attendanceHistory = null; // Tutors do not have attendance history
         }
@@ -63,14 +65,16 @@ public class Person {
      * Constructor with all fields (for editing existing persons).
      */
     public Person(Name name, Phone phone, Email email, Role role, Address address,
-            Set<Class> classes, AttendanceHistory attendanceHistory, PaymentHistory paymentHistory) {
-        requireAllNonNull(name, phone, email, role, address, classes, attendanceHistory, paymentHistory);
+            Set<Class> classes, JoinMonth joinMonth, AttendanceHistory attendanceHistory,
+            PaymentHistory paymentHistory) {
+        requireAllNonNull(name, phone, email, role, address, classes, joinMonth, attendanceHistory, paymentHistory);
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.role = role;
         this.address = address;
         this.classes.addAll(classes);
+        this.joinMonth = joinMonth;
         this.attendanceHistory = attendanceHistory;
         this.paymentHistory = paymentHistory;
     }
@@ -102,6 +106,15 @@ public class Person {
      */
     public Set<Class> getClasses() {
         return Collections.unmodifiableSet(classes);
+    }
+
+    /**
+     * Returns the join month of this person.
+     * 
+     * @return
+     */
+    public JoinMonth getJoinMonth() {
+        return joinMonth;
     }
 
     /**
@@ -160,6 +173,7 @@ public class Person {
                 && role.equals(otherPerson.role)
                 && address.equals(otherPerson.address)
                 && classes.equals(otherPerson.classes)
+                && joinMonth.equals(otherPerson.joinMonth)
                 && attendanceHistory.equals(otherPerson.attendanceHistory)
                 && paymentHistory.equals(otherPerson.paymentHistory);
     }
@@ -167,7 +181,7 @@ public class Person {
     @Override
     public int hashCode() {
         return Objects.hash(name, phone, email, role, address, classes,
-                attendanceHistory, paymentHistory);
+                joinMonth, attendanceHistory, paymentHistory);
     }
 
     @Override
@@ -179,6 +193,7 @@ public class Person {
                 .add("role", role)
                 .add("address", address)
                 .add("classes", classes)
+                .add("joinMonth", joinMonth)
                 .add("attendanceHistory", attendanceHistory)
                 .add("paymentHistory", paymentHistory)
                 .toString();

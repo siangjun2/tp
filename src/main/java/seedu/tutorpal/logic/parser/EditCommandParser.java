@@ -8,6 +8,7 @@ import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_ROLE;
+import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_MONTH;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -26,15 +27,16 @@ import seedu.tutorpal.model.person.Class;
 public class EditCommandParser implements Parser<EditCommand> {
 
     /**
-     * Parses the given {@code String} of arguments in the context of the EditCommand
+     * Parses the given {@code String} of arguments in the context of the
+     * EditCommand
      * and returns an EditCommand object for execution.
+     * 
      * @throws ParseException if the user input does not conform the expected format
      */
     public EditCommand parse(String args) throws ParseException {
         requireNonNull(args);
-        ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, PREFIX_ROLE, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL,
-                    PREFIX_CLASS, PREFIX_ADDRESS);
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_ROLE, PREFIX_NAME, PREFIX_PHONE,
+                PREFIX_EMAIL, PREFIX_CLASS, PREFIX_ADDRESS, PREFIX_MONTH);
 
         Index index;
 
@@ -63,6 +65,9 @@ public class EditCommandParser implements Parser<EditCommand> {
         if (argMultimap.getValue(PREFIX_ADDRESS).isPresent()) {
             editPersonDescriptor.setAddress(ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS).get()));
         }
+        if (argMultimap.getValue(PREFIX_MONTH).isPresent()) {
+            editPersonDescriptor.setJoinMonth(ParserUtil.parseJoinMonth(argMultimap.getValue(PREFIX_MONTH).get()));
+        }
         parseClassesForEdit(argMultimap.getAllValues(PREFIX_CLASS)).ifPresent(editPersonDescriptor::setClasses);
 
         if (!editPersonDescriptor.isAnyFieldEdited()) {
@@ -73,8 +78,10 @@ public class EditCommandParser implements Parser<EditCommand> {
     }
 
     /**
-     * Parses {@code Collection<String> classes} into a {@code Set<Class>} if {@code classes} is non-empty.
-     * If {@code classes} contain only one element which is an empty string, it will be parsed into a
+     * Parses {@code Collection<String> classes} into a {@code Set<Class>} if
+     * {@code classes} is non-empty.
+     * If {@code classes} contain only one element which is an empty string, it will
+     * be parsed into a
      * {@code Set<Class>} containing zero classes.
      */
     private Optional<Set<Class>> parseClassesForEdit(Collection<String> classes) throws ParseException {

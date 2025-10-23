@@ -36,6 +36,7 @@ public class PersonBuilder {
     private Address address;
     private Set<Class> classes;
     private Set<Tag> tags;
+    private JoinMonth joinMonth;
     private AttendanceHistory attendanceHistory;
     // Payment is now derived from PaymentHistory; no explicit field needed
 
@@ -51,7 +52,7 @@ public class PersonBuilder {
         classes = new HashSet<>();
         classes.add(new Class(DEFAULT_CLASS));
         tags = new HashSet<>();
-        JoinMonth joinMonth = new JoinMonth(DEFAULT_JOIN_MONTH);
+        joinMonth = new JoinMonth(DEFAULT_JOIN_MONTH);
         attendanceHistory = new AttendanceHistory(joinMonth);
     }
 
@@ -65,6 +66,7 @@ public class PersonBuilder {
         role = personToCopy.getRole();
         address = personToCopy.getAddress();
         classes = new HashSet<>(personToCopy.getClasses());
+        joinMonth = personToCopy.getJoinMonth();
         attendanceHistory = personToCopy.getAttendanceHistory();
     }
 
@@ -126,6 +128,17 @@ public class PersonBuilder {
     }
 
     /**
+     * Sets the {@code JoinMonth} of the {@code Person} that we are building.
+     */
+    public PersonBuilder withJoinMonth(String joinMonth) {
+        this.joinMonth = new JoinMonth(joinMonth);
+        // NOTE : also update attendance history to use the new join month
+        // This resets the attendance history
+        this.attendanceHistory = new AttendanceHistory(this.joinMonth);
+        return this;
+    }
+
+    /**
      * Sets the {@code AttendanceHistory} of the {@code Person} that we are
      * building.
      */
@@ -141,11 +154,12 @@ public class PersonBuilder {
     }
 
     public Person build() {
-        return new Person(name, phone, email, role, address, classes, attendanceHistory, null); // NOT SURE WHAT YOU
-                                                                                                // MEAN BY // Payment is
-                                                                                                // now derived from
-                                                                                                // PaymentHistory; no
-                                                                                                // explicit field needed
+        return new Person(name, phone, email, role, address, classes, joinMonth,
+                attendanceHistory, null); // NOT SURE WHAT YOU
+                                          // MEAN BY // Payment is
+                                          // now derived from
+                                          // PaymentHistory; no
+                                          // explicit field needed
     }
 
 }

@@ -77,6 +77,84 @@ public class WeeklyAttendanceTest {
     }
 
     @Test
+    public void constructor_stringVsParameters_equivalent() {
+        // Test that string constructor produces same result as parameter constructor
+        WeeklyAttendance fromString = new WeeklyAttendance("W1-01-2024");
+        WeeklyAttendance fromParams = new WeeklyAttendance(1, YearMonth.of(2024, 1));
+        assertEquals(fromString, fromParams);
+        assertEquals(fromString.toString(), fromParams.toString());
+
+        WeeklyAttendance fromString2 = new WeeklyAttendance("W4-12-2023");
+        WeeklyAttendance fromParams2 = new WeeklyAttendance(4, YearMonth.of(2023, 12));
+        assertEquals(fromString2, fromParams2);
+        assertEquals(fromString2.toString(), fromParams2.toString());
+
+        WeeklyAttendance fromString3 = new WeeklyAttendance("W2-06-2024");
+        WeeklyAttendance fromParams3 = new WeeklyAttendance(2, YearMonth.of(2024, 6));
+        assertEquals(fromString3, fromParams3);
+        assertEquals(fromString3.toString(), fromParams3.toString());
+    }
+
+    @Test
+    public void constructor_stringInvalid_throwsIllegalArgumentException() {
+        // Invalid week index
+        assertThrows(IllegalArgumentException.class, () -> new WeeklyAttendance("W0-01-2024"));
+        assertThrows(IllegalArgumentException.class, () -> new WeeklyAttendance("W5-01-2024"));
+
+        // Invalid month
+        assertThrows(IllegalArgumentException.class, () -> new WeeklyAttendance("W1-00-2024"));
+        assertThrows(IllegalArgumentException.class, () -> new WeeklyAttendance("W1-13-2024"));
+
+        // Invalid format
+        assertThrows(IllegalArgumentException.class, () -> new WeeklyAttendance("1-01-2024"));
+        assertThrows(IllegalArgumentException.class, () -> new WeeklyAttendance("W1-1-2024"));
+        assertThrows(IllegalArgumentException.class, () -> new WeeklyAttendance("W1-01-24"));
+    }
+
+    @Test
+    public void constructor_stringNull_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> new WeeklyAttendance(null));
+    }
+
+    @Test
+    public void isValidWeeklyAttendance() {
+        // Valid formats
+        assertTrue(WeeklyAttendance.isValidWeeklyAttendance("W1-01-2024"));
+        assertTrue(WeeklyAttendance.isValidWeeklyAttendance("W2-06-2024"));
+        assertTrue(WeeklyAttendance.isValidWeeklyAttendance("W3-09-2023"));
+        assertTrue(WeeklyAttendance.isValidWeeklyAttendance("W4-12-1999"));
+
+        // Invalid week index
+        assertFalse(WeeklyAttendance.isValidWeeklyAttendance("W0-01-2024"));
+        assertFalse(WeeklyAttendance.isValidWeeklyAttendance("W5-01-2024"));
+        assertFalse(WeeklyAttendance.isValidWeeklyAttendance("W9-01-2024"));
+
+        // Invalid month
+        assertFalse(WeeklyAttendance.isValidWeeklyAttendance("W1-00-2024"));
+        assertFalse(WeeklyAttendance.isValidWeeklyAttendance("W1-13-2024"));
+
+        // Invalid format - missing W prefix
+        assertFalse(WeeklyAttendance.isValidWeeklyAttendance("1-01-2024"));
+
+        // Invalid format - wrong separator
+        assertFalse(WeeklyAttendance.isValidWeeklyAttendance("W1/01/2024"));
+        assertFalse(WeeklyAttendance.isValidWeeklyAttendance("W1.01.2024"));
+
+        // Invalid format - single digit month without leading zero
+        assertFalse(WeeklyAttendance.isValidWeeklyAttendance("W1-1-2024"));
+        assertFalse(WeeklyAttendance.isValidWeeklyAttendance("W1-9-2024"));
+
+        // Invalid format - wrong year length
+        assertFalse(WeeklyAttendance.isValidWeeklyAttendance("W1-01-24"));
+        assertFalse(WeeklyAttendance.isValidWeeklyAttendance("W1-01-024"));
+        assertFalse(WeeklyAttendance.isValidWeeklyAttendance("W1-01-20240"));
+
+        // Invalid format - empty or null-like
+        assertFalse(WeeklyAttendance.isValidWeeklyAttendance(""));
+        assertFalse(WeeklyAttendance.isValidWeeklyAttendance("   "));
+    }
+
+    @Test
     public void getLatestAccessibleWeeklyAttendance() {
         Clock fixedClock = Clock.fixed(
                 LocalDate.of(2024, 1, 15).atStartOfDay(ZoneId.systemDefault()).toInstant(),

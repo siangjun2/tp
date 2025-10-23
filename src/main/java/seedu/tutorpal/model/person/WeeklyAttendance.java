@@ -6,6 +6,8 @@ import static seedu.tutorpal.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.time.Clock;
 import java.time.YearMonth;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Represents a weekly attendance period for a specific week in a month.
@@ -13,8 +15,12 @@ import java.time.YearMonth;
  */
 public class WeeklyAttendance {
 
-    public static final String MESSAGE_CONSTRAINTS = "Week index must be between 1 and 4.";
+    public static final String MESSAGE_CONSTRAINTS = "Weekly attendance must be in the format W[1-4]-MM-YYYY, "
+            + "where week index is between 1 and 4, MM is the month (01-12), "
+            + "and YYYY is a 4-digit year.";
     public static final int LAST_WEEK_INDEX = 4;
+
+    public static final String WEEKLY_ATTENDANCE_REGEX = "W([1-4])-(0[1-9]|1[0-2])-(\\d{4})";
 
     private final int weekIndex; // 1-4
     private final YearMonth yearMonth;
@@ -30,6 +36,34 @@ public class WeeklyAttendance {
         checkArgument(isValidWeekIndex(weekIndex), MESSAGE_CONSTRAINTS);
         this.weekIndex = weekIndex;
         this.yearMonth = yearMonth;
+    }
+
+    /**
+     * Constructs a {@code WeeklyAttendance} from a string.
+     *
+     * @param weeklyAttendanceString A valid weekly attendance string in
+     *                               W[1-4]-MM-YYYY format.
+     */
+    public WeeklyAttendance(String weeklyAttendanceString) {
+        requireNonNull(weeklyAttendanceString);
+        checkArgument(isValidWeeklyAttendance(weeklyAttendanceString), MESSAGE_CONSTRAINTS);
+
+        Pattern pattern = Pattern.compile(WEEKLY_ATTENDANCE_REGEX);
+        Matcher matcher = pattern.matcher(weeklyAttendanceString);
+
+        // checkArgument should have checked this already
+        assert matcher.matches() : "The weekly attendance string should match the regex pattern.";
+        this.weekIndex = Integer.parseInt(matcher.group(1));
+        int month = Integer.parseInt(matcher.group(2));
+        int year = Integer.parseInt(matcher.group(3));
+        this.yearMonth = YearMonth.of(year, month);
+    }
+
+    /**
+     * Returns true if a given string is a valid weekly attendance format.
+     */
+    public static boolean isValidWeeklyAttendance(String test) {
+        return test.matches(WEEKLY_ATTENDANCE_REGEX);
     }
 
     /**
