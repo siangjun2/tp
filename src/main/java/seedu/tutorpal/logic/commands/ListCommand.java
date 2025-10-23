@@ -21,9 +21,9 @@ public class ListCommand extends Command {
 
     public static final String COMMAND_WORD = "list";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Lists all persons in the address book.\n"
-            + "Can optionally filter by class or tutor.\n"
-            + "Parameters: c/CLASS or tu/TUTOR_NAME\n"
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Lists all persons in the address book. "
+            + "Can optionally filter by class or tutor, but not both.\n"
+            + "Parameters: [c/CLASS] or [tu/TUTOR_NAME]\n"
             + "Example: " + COMMAND_WORD + " (lists all persons)\n"
             + "Example: " + COMMAND_WORD + " c/s4mon1600 (lists persons in class s4mon1600)\n"
             + "Example: " + COMMAND_WORD + " tu/John Doe (lists students taught by John Doe)";
