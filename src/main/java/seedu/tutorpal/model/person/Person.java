@@ -71,7 +71,8 @@ public class Person {
     public Person(Name name, Phone phone, Email email, Role role, Address address,
             Set<Class> classes, JoinMonth joinMonth, AttendanceHistory attendanceHistory,
             PaymentHistory paymentHistory) {
-        requireAllNonNull(name, phone, email, role, address, classes, joinMonth, attendanceHistory, paymentHistory);
+        requireAllNonNull(name, phone, email, role, address, classes, joinMonth, paymentHistory);
+        // attendanceHistory can be null for tutors
         this.name = name;
         this.phone = phone;
         this.email = email;
@@ -176,6 +177,9 @@ public class Person {
         }
 
         Person otherPerson = (Person) other;
+        boolean attendanceEquals = (attendanceHistory == null && otherPerson.attendanceHistory == null)
+                || (attendanceHistory != null && attendanceHistory.equals(otherPerson.attendanceHistory));
+
         return name.equals(otherPerson.name)
                 && phone.equals(otherPerson.phone)
                 && email.equals(otherPerson.email)
@@ -183,7 +187,7 @@ public class Person {
                 && address.equals(otherPerson.address)
                 && classes.equals(otherPerson.classes)
                 && joinMonth.equals(otherPerson.joinMonth)
-                && attendanceHistory.equals(otherPerson.attendanceHistory)
+                && attendanceEquals
                 && paymentHistory.equals(otherPerson.paymentHistory);
     }
 
