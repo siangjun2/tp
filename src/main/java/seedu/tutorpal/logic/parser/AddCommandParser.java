@@ -62,12 +62,13 @@ public class AddCommandParser implements Parser<AddCommand> {
                 : new Address("-");
         Set<Class> classList = ParserUtil.parseClasses(argMultimap.getAllValues(PREFIX_CLASS));
         Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
+        JoinMonth joinMonth = new JoinMonth(YearMonth.now());
         AttendanceHistory attendanceHistory;
         if (!Role.isStudent(role)) {
             // If tutor, attendance history should be null
             attendanceHistory = null;
         } else {
-            attendanceHistory = new AttendanceHistory(new JoinMonth(YearMonth.now()));
+            attendanceHistory = new AttendanceHistory(joinMonth);
         }
         // Defaults the payment status to unpaid if not provided
         Payment paymentStatus = argMultimap.getValue(PREFIX_STATUS).isPresent()
@@ -80,8 +81,7 @@ public class AddCommandParser implements Parser<AddCommand> {
         }
 
         Person person = new Person(name, phone, email, role, address, classList,
-                new JoinMonth(YearMonth.now()), attendanceHistory,
-                new PaymentHistory(java.time.LocalDate.now()));
+                joinMonth, attendanceHistory, new PaymentHistory(java.time.LocalDate.now()));
 
         return new AddCommand(person);
     }
