@@ -10,7 +10,6 @@ import seedu.tutorpal.model.person.Name;
 import seedu.tutorpal.model.person.Person;
 import seedu.tutorpal.model.person.Phone;
 import seedu.tutorpal.model.person.Role;
-import seedu.tutorpal.model.tag.Tag;
 import seedu.tutorpal.model.util.SampleDataUtil;
 
 /**
@@ -32,7 +31,6 @@ public class PersonBuilder {
     private Role role;
     private Address address;
     private Set<Class> classes;
-    private Set<Tag> tags;
     // Payment is now derived from PaymentHistory; no explicit field needed
 
     /**
@@ -46,7 +44,6 @@ public class PersonBuilder {
         address = new Address(DEFAULT_ADDRESS);
         classes = new HashSet<>();
         classes.add(new Class(DEFAULT_CLASS));
-        tags = new HashSet<>();
     }
 
     /**
