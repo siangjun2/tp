@@ -1,5 +1,8 @@
 package seedu.tutorpal.commons.core.commandword;
 
+import java.util.HashMap;
+import java.util.List;
+
 import seedu.tutorpal.logic.commands.AddCommand;
 import seedu.tutorpal.logic.commands.ClearCommand;
 import seedu.tutorpal.logic.commands.Command;
@@ -8,22 +11,15 @@ import seedu.tutorpal.logic.commands.ExitCommand;
 import seedu.tutorpal.logic.commands.FindCommand;
 import seedu.tutorpal.logic.commands.ListCommand;
 
-import java.util.HashMap;
-import java.util.List;
-
 /**
  * Represents a command word and provides utilities to obtain usage text for that command.
  * <p>
  * This class acts as a lightweight value object around a command word {@link String}, and
  * can resolve the corresponding {@code MESSAGE_USAGE} from known {@link Command} types via reflection.
  * Instances are cached per command word string to avoid repeated allocations.
- *
- * @implNote Resolution is performed by scanning {@link #COMMANDS} for a class whose public static
  * {@code COMMAND_WORD} field equals this instance's {@link #command}. If found, the class' public static
  * {@code MESSAGE_USAGE} field is returned. Any reflection-related exceptions are swallowed and treated
  * as non-matches/empty results.
- *
- * @implSpec This class is not thread-safe. The internal cache {@link #commandWords} is a plain
  * {@link HashMap} with no synchronisation.
  */
 public class CommandWord {
