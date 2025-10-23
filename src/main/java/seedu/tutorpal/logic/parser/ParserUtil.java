@@ -14,6 +14,7 @@ import seedu.tutorpal.commons.core.commandword.CommandWord;
 import seedu.tutorpal.commons.core.index.Index;
 import seedu.tutorpal.commons.util.StringUtil;
 import seedu.tutorpal.logic.commands.DeleteCommand;
+import seedu.tutorpal.logic.commands.HelpCommand;
 import seedu.tutorpal.logic.parser.exceptions.ParseException;
 import seedu.tutorpal.model.person.Address;
 import seedu.tutorpal.model.person.Class;
@@ -49,7 +50,7 @@ public class ParserUtil {
             .map(f ->
                 {
                     try {
-                        return (String) f.getField("MESSAGE_USAGE_SHORTENED").get(null);
+                        return (String) f.getField("COMMAND_WORD").get(null);
                     } catch (IllegalArgumentException | NoSuchFieldException | IllegalAccessException e) {
                         return null;
                     }
@@ -58,7 +59,7 @@ public class ParserUtil {
             .collect(Collectors.toUnmodifiableList());
 
         if (!commands.contains(commandWord)) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, HelpCommand.MESSAGE_USAGE));
         }
 
         return CommandWord.of(commandWord);

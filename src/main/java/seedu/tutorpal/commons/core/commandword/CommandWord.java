@@ -31,6 +31,26 @@ public class CommandWord {
         this.command = command;
     }
 
+    public String getMessageUsage() {
+        return COMMANDS.stream()
+            .filter(f -> {
+                try {
+                    String currCommandWord = (String) f.getField("COMMAND_WORD").get(null);
+                    return currCommandWord.equals(this.command);
+                } catch (NoSuchFieldException | IllegalAccessException | IllegalArgumentException e) {
+                    return false;
+                }
+            })
+            .map(f -> {
+                try {
+                    return (String) f.getField("MESSAGE_USAGE").get(null);
+                } catch (NoSuchFieldException | IllegalAccessException | IllegalArgumentException e) {
+                    return "";
+                }
+            })
+            .reduce("", (a, b) -> a + b);
+    }
+
     public static CommandWord of(String command) {
         assert command != null;
         if (commandWords.containsKey(command)) {
