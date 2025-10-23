@@ -9,14 +9,15 @@ import static seedu.tutorpal.commons.util.AppUtil.checkArgument;
  */
 public class Role {
 
-    public static final String MESSAGE_CONSTRAINTS =
-            "Only student or tutor roles available"
+    public static final String MESSAGE_CONSTRAINTS = "Only student or tutor roles available"
             + "The comparison is case-insensitive, so variations like STUDENT, Student, or student are accepted.";
 
     /*
      * Role must be exactly "student" or "tutor" (case-insensitive)
      */
-    public static final String VALIDATION_REGEX = "(?i)(student|tutor)";
+    public static final String STUDENT_ROLE = "student";
+    public static final String TUTOR_ROLE = "tutor";
+    public static final String VALIDATION_REGEX = "(?i)(" + STUDENT_ROLE + "|" + TUTOR_ROLE + ")";
 
     public final String value;
 
@@ -37,6 +38,14 @@ public class Role {
      */
     public static boolean isValidRole(String test) {
         return test.matches(VALIDATION_REGEX);
+    }
+
+    /**
+     * Returns true if the role is "student".
+     */
+    public static boolean isStudent(Role role) {
+        requireNonNull(role);
+        return role.value.equals(STUDENT_ROLE);
     }
 
     @Override
