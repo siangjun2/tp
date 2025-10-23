@@ -19,10 +19,8 @@ import seedu.tutorpal.model.person.Address;
 import seedu.tutorpal.model.person.Class;
 import seedu.tutorpal.model.person.Email;
 import seedu.tutorpal.model.person.Name;
-import seedu.tutorpal.model.person.Payment;
 import seedu.tutorpal.model.person.Phone;
 import seedu.tutorpal.model.person.Role;
-import seedu.tutorpal.model.tag.Tag;
 
 /**
  * Contains utility methods used for parsing strings in the various *Parser classes.
@@ -206,56 +204,4 @@ public class ParserUtil {
         return classSet;
     }
 
-    /**
-     * Parses a {@code String tag} into a {@code Tag}.
-     * Leading and trailing whitespaces will be trimmed.
-     *
-     * @param tag raw tag string
-     * @return a validated {@link Tag}
-     * @throws ParseException if the given {@code tag} is invalid.
-     */
-    public static Tag parseTag(String tag) throws ParseException {
-        requireNonNull(tag);
-        String trimmedTag = tag.trim();
-        if (!Tag.isValidTagName(trimmedTag)) {
-            throw new ParseException(Tag.MESSAGE_CONSTRAINTS);
-        }
-        return new Tag(trimmedTag);
-    }
-
-    /**
-     * Parses {@code Collection<String> tags} into a {@code Set<Tag>}.
-     * <p>
-     * Each element is individually validated via {@link #parseTag(String)}. Duplicates (by value)
-     * are removed by the {@link Set} return type.
-     *
-     * @param tags collection of raw tag strings
-     * @return a set of validated {@link Tag} instances
-     * @throws ParseException if any element fails validation
-     */
-    public static Set<Tag> parseTags(Collection<String> tags) throws ParseException {
-        requireNonNull(tags);
-        final Set<Tag> tagSet = new HashSet<>();
-        for (String tagName : tags) {
-            tagSet.add(parseTag(tagName));
-        }
-        return tagSet;
-    }
-
-    /**
-     * Parses a {@code String paymentStatus} into a {@code Payment}.
-     * Leading and trailing whitespaces will be trimmed.
-     *
-     * @param paymentStatus raw payment status string
-     * @return a validated {@link Payment}
-     * @throws ParseException if the given {@code paymentStatus} is invalid.
-     */
-    public static Payment parsePayment(String paymentStatus) throws ParseException {
-        requireNonNull(paymentStatus);
-        String trimmedPayment = paymentStatus.trim();
-        if (!Tag.isValidTagName(trimmedPayment)) {
-            throw new ParseException(Payment.MESSAGE_CONSTRAINTS);
-        }
-        return new Payment(trimmedPayment);
-    }
 }

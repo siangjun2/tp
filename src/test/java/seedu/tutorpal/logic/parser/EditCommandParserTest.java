@@ -24,7 +24,6 @@ import static seedu.tutorpal.logic.commands.CommandTestUtil.VALID_ROLE_AMY;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_PHONE;
-import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.tutorpal.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.tutorpal.logic.parser.CommandParserTestUtil.assertParseSuccess;
 import static seedu.tutorpal.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
@@ -44,8 +43,6 @@ import seedu.tutorpal.model.person.Phone;
 import seedu.tutorpal.testutil.EditPersonDescriptorBuilder;
 
 public class EditCommandParserTest {
-
-    private static final String TAG_EMPTY = " " + PREFIX_TAG;
 
     private static final String MESSAGE_INVALID_FORMAT =
             String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE);

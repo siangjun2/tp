@@ -7,7 +7,6 @@ import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_ROLE;
-import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_TAG;
 
 import seedu.tutorpal.commons.util.ToStringBuilder;
 import seedu.tutorpal.logic.commands.exceptions.CommandException;
@@ -22,6 +21,7 @@ public class AddCommand extends Command {
     public static final String COMMAND_WORD = "add";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a student or tutor to the system. "
+            + "A student can only have one class.\n"
             + "Parameters: "
             + PREFIX_ROLE + "ROLE "
             + PREFIX_NAME + "NAME "
@@ -29,16 +29,14 @@ public class AddCommand extends Command {
             + PREFIX_EMAIL + "EMAIL "
             + PREFIX_CLASS + "CLASS "
             + "[" + PREFIX_ADDRESS + "ADDRESS] "
-            + "[" + PREFIX_CLASS + "MORE_CLASSES]... "
-            + "[" + PREFIX_TAG + "TAG]...\n"
+            + "[" + PREFIX_CLASS + "MORE_CLASSES]... \n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_ROLE + "student "
             + PREFIX_NAME + "Kevin "
             + PREFIX_PHONE + "98761234 "
             + PREFIX_EMAIL + "kevin@gmail.com "
             + PREFIX_ADDRESS + "Kent Ridge "
-            + PREFIX_CLASS + "s4mon1600 "
-            + PREFIX_CLASS + "s4wed1400";
+            + PREFIX_CLASS + "s4mon1600";
 
     // SHORTENED is used for help command
     public static final String MESSAGE_USAGE_SHORTENED = COMMAND_WORD + ":\t\t" + COMMAND_WORD + " "
