@@ -55,14 +55,13 @@ public class EditCommand extends Command {
     public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Edited Person: %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
     public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book.";
-    public static final String MESSAGE_STUDENT_MULTIPLE_CLASSES =
-            "Students can only have one class. Please specify only one class.";
+    public static final String MESSAGE_STUDENT_MULTIPLE_CLASSES = "Students can only have one class. Please specify only one class.";
 
     private final Index index;
     private final EditPersonDescriptor editPersonDescriptor;
 
     /**
-     * @param index of the person in the filtered person list to edit
+     * @param index                of the person in the filtered person list to edit
      * @param editPersonDescriptor details to edit the person with
      */
     public EditCommand(Index index, EditPersonDescriptor editPersonDescriptor) {
@@ -119,8 +118,8 @@ public class EditCommand extends Command {
         Role updatedRole = editPersonDescriptor.getRole().orElse(personToEdit.getRole());
         Set<Class> updatedClasses = editPersonDescriptor.getClasses().orElse(personToEdit.getClasses());
 
-        return new Person(updatedName, updatedPhone, updatedEmail, updatedRole,
-                updatedAddress, updatedClasses, personToEdit.getPaymentHistory(), personToEdit.isMarked());
+        return new Person(updatedName, updatedPhone, updatedEmail, updatedRole, updatedAddress, updatedClasses,
+                personToEdit.getAttendanceHistory(), personToEdit.getPaymentHistory());
     }
 
     @Override
@@ -148,7 +147,8 @@ public class EditCommand extends Command {
     }
 
     /**
-     * Stores the details to edit the person with. Each non-empty field value will replace the
+     * Stores the details to edit the person with. Each non-empty field value will
+     * replace the
      * corresponding field value of the person.
      */
     public static class EditPersonDescriptor {
@@ -159,7 +159,8 @@ public class EditCommand extends Command {
         private Role role;
         private Set<Class> classes;
 
-        public EditPersonDescriptor() {}
+        public EditPersonDescriptor() {
+        }
 
         /**
          * Copy constructor.
@@ -230,7 +231,8 @@ public class EditCommand extends Command {
         }
 
         /**
-         * Returns an unmodifiable class set, which throws {@code UnsupportedOperationException}
+         * Returns an unmodifiable class set, which throws
+         * {@code UnsupportedOperationException}
          * if modification is attempted.
          * Returns {@code Optional#empty()} if {@code classes} is null.
          */
