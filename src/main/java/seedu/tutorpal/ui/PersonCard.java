@@ -44,8 +44,6 @@ public class PersonCard extends UiPart<Region> {
     private FlowPane classes;
     @FXML
     private Label paymentStatus;
-    @FXML
-    private FlowPane tags;
 
     /**
      * Creates a {@code PersonCode} with the given {@code Person} and index to display.
@@ -84,11 +82,10 @@ public class PersonCard extends UiPart<Region> {
         paymentStatus.setText(paymentValue);
         if ("paid".equalsIgnoreCase(paymentValue)) {
             paymentStatus.getStyleClass().add("payment-paid");
+        } else if ("overdue".equalsIgnoreCase(paymentValue)) {
+            paymentStatus.getStyleClass().add("payment-overdue");
         } else {
             paymentStatus.getStyleClass().add("payment-unpaid");
         }
-        person.getTags().stream()
-                .sorted(Comparator.comparing(tag -> tag.tagName))
-                .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
     }
 }

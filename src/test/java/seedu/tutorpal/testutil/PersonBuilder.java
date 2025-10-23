@@ -7,7 +7,6 @@ import seedu.tutorpal.model.person.Address;
 import seedu.tutorpal.model.person.Class;
 import seedu.tutorpal.model.person.Email;
 import seedu.tutorpal.model.person.Name;
-import seedu.tutorpal.model.person.Payment;
 import seedu.tutorpal.model.person.Person;
 import seedu.tutorpal.model.person.Phone;
 import seedu.tutorpal.model.person.Role;
@@ -25,7 +24,7 @@ public class PersonBuilder {
     public static final String DEFAULT_ROLE = "student";
     public static final String DEFAULT_ADDRESS = "123, Jurong West Ave 6, #08-111";
     public static final String DEFAULT_CLASS = "s4mon1600";
-    public static final String DEFAULT_PAYMENT_STATUS = "unpaid";
+    public static final String DEFAULT_PAYMENT_STATUS = "unpaid"; // kept for backward compatibility; unused now
 
     private Name name;
     private Phone phone;
@@ -34,7 +33,7 @@ public class PersonBuilder {
     private Address address;
     private Set<Class> classes;
     private Set<Tag> tags;
-    private Payment paymentStatus;
+    // Payment is now derived from PaymentHistory; no explicit field needed
 
     /**
      * Creates a {@code PersonBuilder} with the default details.
@@ -48,7 +47,6 @@ public class PersonBuilder {
         classes = new HashSet<>();
         classes.add(new Class(DEFAULT_CLASS));
         tags = new HashSet<>();
-        paymentStatus = new Payment(DEFAULT_PAYMENT_STATUS);
     }
 
     /**
@@ -61,8 +59,6 @@ public class PersonBuilder {
         role = personToCopy.getRole();
         address = personToCopy.getAddress();
         classes = new HashSet<>(personToCopy.getClasses());
-        tags = new HashSet<>(personToCopy.getTags());
-        paymentStatus = personToCopy.getPaymentStatus();
     }
 
     /**
@@ -77,7 +73,6 @@ public class PersonBuilder {
      * Parses the {@code tags} into a {@code Set<Tag>} and set it to the {@code Person} that we are building.
      */
     public PersonBuilder withTags(String ... tags) {
-        this.tags = SampleDataUtil.getTagSet(tags);
         return this;
     }
 
@@ -121,16 +116,13 @@ public class PersonBuilder {
         return this;
     }
 
-    /**
-     * Parses the {@code Payment} of the {@code Person} that we are building.
-     */
+    // Backward-compatibility no-op: tests that call withPayment() can remain unchanged
     public PersonBuilder withPayment(String paymentStatus) {
-        this.paymentStatus = new Payment(paymentStatus);
         return this;
     }
 
     public Person build() {
-        return new Person(name, phone, email, role, address, classes, tags, paymentStatus, false);
+        return new Person(name, phone, email, role, address, classes, false);
     }
 
 }

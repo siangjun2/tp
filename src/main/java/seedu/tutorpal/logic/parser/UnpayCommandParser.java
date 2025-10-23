@@ -4,26 +4,26 @@ import static seedu.tutorpal.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_MONTH;
 
 import java.time.YearMonth;
-import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 import seedu.tutorpal.commons.core.index.Index;
-import seedu.tutorpal.logic.commands.PaymentCommand;
+import seedu.tutorpal.logic.commands.UnpayCommand;
 import seedu.tutorpal.logic.parser.exceptions.ParseException;
 
 /**
- * Parses input arguments and creates a new PaymentCommand object.
+ * Parses input arguments and creates a new UnpayCommand object
  */
-public class PaymentCommandParser implements Parser<PaymentCommand> {
+public class UnpayCommandParser implements Parser<UnpayCommand> {
 
-    private static final DateTimeFormatter MONTH_FORMAT = DateTimeFormatter.ofPattern("MM-yyyy");
+    private static final java.time
+            .format.DateTimeFormatter MONTH_FORMAT = java.time.format.DateTimeFormatter.ofPattern("MM-yyyy");
 
     /**
-     * Parses the given {@code String} of arguments in the context of the PaymentCommand
-     * and returns a PaymentCommand object for execution.
+     * Parses the given {@code String} of arguments in the context of the UnpayCommand
+     * and returns an UnpayCommand object for execution.
      * @throws ParseException if the user input does not conform the expected format
      */
-    public PaymentCommand parse(String args) throws ParseException {
+    public UnpayCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_MONTH);
 
         Index index;
@@ -31,12 +31,12 @@ public class PaymentCommandParser implements Parser<PaymentCommand> {
             index = ParserUtil.parseIndex(argMultimap.getPreamble());
         } catch (ParseException pe) {
             throw new ParseException(
-                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, PaymentCommand.MESSAGE_USAGE), pe);
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, UnpayCommand.MESSAGE_USAGE), pe);
         }
 
         if (!argMultimap.getValue(PREFIX_MONTH).isPresent()) {
             throw new ParseException(
-                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, PaymentCommand.MESSAGE_USAGE));
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, UnpayCommand.MESSAGE_USAGE));
         }
 
         String monthString = argMultimap.getValue(PREFIX_MONTH).get().trim();
@@ -47,6 +47,6 @@ public class PaymentCommandParser implements Parser<PaymentCommand> {
             throw new ParseException("Invalid month format. Please use MM-yyyy format (e.g., 01-2024)");
         }
 
-        return new PaymentCommand(index, month);
+        return new UnpayCommand(index, month);
     }
 }
