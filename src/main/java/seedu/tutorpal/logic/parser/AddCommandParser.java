@@ -51,12 +51,21 @@ public class AddCommandParser implements Parser<AddCommand> {
         Phone phone = ParserUtil.parsePhone(argMultimap.getValue(PREFIX_PHONE).get());
         Email email = ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL).get());
         Role role = ParserUtil.parseRole(argMultimap.getValue(PREFIX_ROLE).get());
+
+        if (role.value.equalsIgnoreCase("student")) {
+            argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_CLASS);
+        }
+
         //Defaults the address to an empty string if not provided
         Address address = argMultimap.getValue(PREFIX_ADDRESS).isPresent()
                 ? ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS).get())
                 : new Address("-");
         Set<Class> classList = ParserUtil.parseClasses(argMultimap.getAllValues(PREFIX_CLASS));
+
+        assert !(role.value.equalsIgnoreCase("student") && classList.size() > 1);
+
         Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
+
         //Defaults the payment status to unpaid if not provided
         Payment paymentStatus = argMultimap.getValue(PREFIX_STATUS).isPresent()
             ? ParserUtil.parsePayment(argMultimap.getValue(PREFIX_STATUS).get())
