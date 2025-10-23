@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import seedu.tutorpal.commons.exceptions.IllegalValueException;
 import seedu.tutorpal.model.person.Address;
+import seedu.tutorpal.model.person.AttendanceHistory;
 import seedu.tutorpal.model.person.Class;
 import seedu.tutorpal.model.person.Email;
 import seedu.tutorpal.model.person.JoinMonth;
@@ -19,7 +20,6 @@ import seedu.tutorpal.model.person.PaymentHistory;
 import seedu.tutorpal.model.person.Person;
 import seedu.tutorpal.model.person.Phone;
 import seedu.tutorpal.model.person.Role;
-import seedu.tutorpal.model.person.AttendanceHistory;
 
 /**
  * Jackson-friendly version of {@link Person}.

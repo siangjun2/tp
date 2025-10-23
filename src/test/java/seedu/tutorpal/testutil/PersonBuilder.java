@@ -174,7 +174,6 @@ public class PersonBuilder {
 
     /**
      * Builds the person using edited fields.
-     * 
      * @return
      */
     public Person build() {

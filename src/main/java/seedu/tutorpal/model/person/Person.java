@@ -36,7 +36,6 @@ public class Person {
 
     /**
      * Constructor for Person (for creating new persons).
-     * 
      * @param name      name of the person.
      * @param phone     phone number of the person.
      * @param email     email of the person.
@@ -120,7 +119,6 @@ public class Person {
 
     /**
      * Returns the join month of this person.
-     * 
      * @return
      */
     public JoinMonth getJoinMonth() {

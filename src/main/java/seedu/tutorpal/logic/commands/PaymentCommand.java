@@ -26,8 +26,10 @@ public class PaymentCommand extends Command {
             + "Example: " + COMMAND_WORD + " 1 m/01-2024";
 
     public static final String MESSAGE_SUCCESS = "Payment for %1$s for %2$s has been marked as paid.";
-    public static final String MESSAGE_NOT_STUDENT = "Index belongs to a tutor. Please provide an index tied to a student instead";
-    public static final String MESSAGE_MONTH_BEFORE_JOIN = "Cannot mark payment for month before student's join date (%1$s)";
+    public static final String MESSAGE_NOT_STUDENT = "Index belongs to a tutor. "
+            + "Please provide an index tied to a student instead";
+    public static final String MESSAGE_MONTH_BEFORE_JOIN =
+            "Cannot mark payment for month before student's join date (%1$s)";
     public static final String MESSAGE_FUTURE_MONTH = "Cannot mark payment for future month";
 
     private final Index index;

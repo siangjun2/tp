@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.tutorpal.logic.commands.CommandTestUtil.assertCommandFailure;
-import static seedu.tutorpal.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.tutorpal.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.tutorpal.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
 import static seedu.tutorpal.testutil.TypicalPersons.getTypicalAddressBook;

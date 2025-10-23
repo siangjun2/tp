@@ -9,14 +9,17 @@ import java.util.Set;
 
 import seedu.tutorpal.commons.util.ToStringBuilder;
 
+/**
+ * Tracks attendance of students.
+ */
 public class AttendanceHistory {
-    private final JoinMonth joinMonth;
-    private final Set<WeeklyAttendance> weeklyAttendances;
-    private final Clock nowClock; // Represents current date for validation
 
     public static final String MESSAGE_INVALID_WEEK_RANGE = "Weekly attendance period is out of valid range!\n"
             + " It should be between the first week of join month and the last week of current month inclusive.";
 
+    private final JoinMonth joinMonth;
+    private final Set<WeeklyAttendance> weeklyAttendances;
+    private final Clock nowClock; // Represents current date for validation
     /**
      * Constructs an {@code AttendanceHistory} with the given join month.
      *
@@ -30,7 +33,6 @@ public class AttendanceHistory {
 
     /**
      * Constructs an {@code AttendanceHistory} with a clock for testing.
-     * 
      * @param joinMonth The month when the person joined the system.
      * @param nowClock  The clock to use for getting the current week.
      */
@@ -40,6 +42,10 @@ public class AttendanceHistory {
         this.nowClock = nowClock;
     }
 
+    /**
+     * Constructs an {@code AttendanceHistory} with another attendanceHistory.
+     * @param attendanceHistory
+     */
     public AttendanceHistory(AttendanceHistory attendanceHistory) {
         requireNonNull(attendanceHistory);
         this.joinMonth = attendanceHistory.joinMonth;

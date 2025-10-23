@@ -4,10 +4,10 @@ import static java.util.Objects.requireNonNull;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_CLASS;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_EMAIL;
+import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_MONTH;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_ROLE;
-import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_MONTH;
 import static seedu.tutorpal.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
 import java.util.Collections;
@@ -48,18 +48,20 @@ public class EditCommand extends Command {
             + "[" + PREFIX_NAME + "NAME] "
             + "[" + PREFIX_PHONE + "PHONE] "
             + "[" + PREFIX_EMAIL + "EMAIL] "
-            + "[" + PREFIX_CLASS + "CLASS]... "
-            + "[" + PREFIX_MONTH + "MONTH] "
-            + "[" + PREFIX_ADDRESS + "ADDRESS]...\n"
+            + "[" + PREFIX_ROLE + "ROLE "
+            + PREFIX_ADDRESS + "ADDRESS "
+            + "[" + PREFIX_CLASS + "CLASS]"
+            + "[" + PREFIX_MONTH + "JOIN_MONTH"
+            + "...\n"
             + "Example: " + COMMAND_WORD + " 1 "
-            + PREFIX_ROLE + "student "
             + PREFIX_PHONE + "91234567 "
             + PREFIX_EMAIL + "johndoe@example.com";
 
     public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Edited Person: %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
     public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book.";
-    public static final String MESSAGE_STUDENT_MULTIPLE_CLASSES = "Students can only have one class. Please specify only one class.";
+    public static final String MESSAGE_STUDENT_MULTIPLE_CLASSES = "Students can only have one class. "
+            + "Please specify only one class.";
 
     private final Index index;
     private final EditPersonDescriptor editPersonDescriptor;
@@ -260,8 +262,7 @@ public class EditCommand extends Command {
         }
 
         /**
-         * Sets {@code joinMonth} to this object's {@code joinMonth}.
-         * 
+         * Sets {@code joinMonth} to this object's {@code joinMonth}
          * @param joinMonth
          */
         public void setJoinMonth(JoinMonth joinMonth) {
@@ -270,7 +271,6 @@ public class EditCommand extends Command {
 
         /**
          * Returns {@code joinMonth}.
-         * 
          * @return
          */
         public Optional<JoinMonth> getJoinMonth() {
