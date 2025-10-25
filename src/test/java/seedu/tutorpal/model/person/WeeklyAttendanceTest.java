@@ -97,7 +97,7 @@ public class WeeklyAttendanceTest {
 
     @Test
     public void constructor_emptyString_throwsIllegalArgumentException() {
-        assertThrows(IllegalArgumentException.class, () -> new WeeklyAttendance("");
+        assertThrows(IllegalArgumentException.class, () -> new WeeklyAttendance(""));
     }
 
     @Test
@@ -153,7 +153,7 @@ public class WeeklyAttendanceTest {
 
     @Test
     public void isValidWeeklyAttendance_invalidFormats_returnsFalse() {
-        assertFalse(isValidWeeklyAttendance("");
+        assertFalse(isValidWeeklyAttendance(""));
         assertFalse(isValidWeeklyAttendance("W00-2024"));
         assertFalse(isValidWeeklyAttendance("W54-2024"));
         assertFalse(isValidWeeklyAttendance("W1-2024"));
@@ -170,7 +170,7 @@ public class WeeklyAttendanceTest {
     // ===== ISO YEAR WEEK COUNT TESTS =====
 
     @Test
-    public void getNumberOfWeeksInIsoYear_52WeekYears_returns52() {
+    public void getNumberOfWeeksInIsoYear52WeekYears_returns52() {
         assertEquals(52, getNumberOfWeeksInIsoYear(2024));
         assertEquals(52, getNumberOfWeeksInIsoYear(2023));
         assertEquals(52, getNumberOfWeeksInIsoYear(2022));
@@ -178,7 +178,7 @@ public class WeeklyAttendanceTest {
     }
 
     @Test
-    public void getNumberOfWeeksInIsoYear_53WeekYears_returns53() {
+    public void getNumberOfWeeksInIsoYear53WeekYears_returns53() {
         assertEquals(53, getNumberOfWeeksInIsoYear(2020));
         assertEquals(53, getNumberOfWeeksInIsoYear(2015));
         assertEquals(53, getNumberOfWeeksInIsoYear(2009));
