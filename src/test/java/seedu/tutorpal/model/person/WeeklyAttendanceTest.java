@@ -1,5 +1,6 @@
 package seedu.tutorpal.model.person;
 
+import static java.util.Objects.requireNonNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -11,6 +12,7 @@ import static seedu.tutorpal.model.person.WeeklyAttendance.isValidWeeklyAttendan
 
 import java.time.Clock;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.Year;
 import java.time.ZoneId;
 
@@ -133,6 +135,11 @@ public class WeeklyAttendanceTest {
     @Test
     public void constructor_nonDigitYear_throwsIllegalArgumentException() {
         assertThrows(IllegalArgumentException.class, () -> new WeeklyAttendance("W01-202a"));
+    }
+
+    @Test
+    public void constructor_year0000_throwsIllegalArgumentException() {
+        assertThrows(IllegalArgumentException.class, () -> new WeeklyAttendance("W01-0000"));
     }
 
     // ===== ISO WEEK VALIDATION TESTS =====
@@ -280,6 +287,7 @@ public class WeeklyAttendanceTest {
     @Test
     public void equals_sameObject_returnsTrue() {
         WeeklyAttendance week = new WeeklyAttendance(1, Year.of(2024));
+        requireNonNull(week);
         assertEquals(week, week);
     }
 
@@ -423,5 +431,163 @@ public class WeeklyAttendanceTest {
     public void toString_week53_correctFormat() {
         WeeklyAttendance week = new WeeklyAttendance(53, Year.of(2020));
         assertEquals("W53-2020", week.toString());
+    }
+
+    @Test
+    public void at_typicalDate_success() {
+        // 2025-02-10 is a Monday in ISO week 7 of 2025
+        LocalDate date = LocalDate.of(2025, 2, 10);
+        WeeklyAttendance result = WeeklyAttendance.at(date);
+        assertEquals("W07-2025", result.toString());
+    }
+
+    @Test
+    public void at_startOfYearWeekOverlap_success() {
+        // 2021-01-01 (Friday) is still part of ISO week 53 of 2020
+        LocalDate date = LocalDate.of(2021, 1, 1);
+        WeeklyAttendance result = WeeklyAttendance.at(date);
+        assertEquals("W53-2020", result.toString());
+    }
+
+    @Test
+    public void at_firstMondayOfYear_success() {
+        // 2024-01-01 (Monday) is ISO week 1 of 2024
+        LocalDate date = LocalDate.of(2024, 1, 1);
+        WeeklyAttendance result = WeeklyAttendance.at(date);
+        assertEquals("W01-2024", result.toString());
+    }
+
+    @Test
+    public void at_endOfYearWeekOverlap_success() {
+        // 2020-12-31 (Thursday) belongs to ISO week 53 of 2020
+        LocalDate date = LocalDate.of(2020, 12, 31);
+        WeeklyAttendance result = WeeklyAttendance.at(date);
+        assertEquals("W53-2020", result.toString());
+    }
+
+    @Test
+    public void at_firstWeekOfNextYear_success() {
+        // 2021-01-04 (Monday) is ISO week 1 of 2021
+        LocalDate date = LocalDate.of(2021, 1, 4);
+        WeeklyAttendance result = WeeklyAttendance.at(date);
+        assertEquals("W01-2021", result.toString());
+    }
+
+    @Test
+    public void at_middleOfYear_success() {
+        // 2023-06-15 (Thursday) → ISO week 24 of 2023
+        LocalDate date = LocalDate.of(2023, 6, 15);
+        WeeklyAttendance result = WeeklyAttendance.at(date);
+        assertEquals("W24-2023", result.toString());
+    }
+
+    @Test
+    public void at_leapYearDate_success() {
+        // 2020-02-29 (Saturday) is ISO week 9 of 2020
+        LocalDate date = LocalDate.of(2020, 2, 29);
+        WeeklyAttendance result = WeeklyAttendance.at(date);
+        assertEquals("W09-2020", result.toString());
+    }
+
+    @Test
+    public void at_consistencyWithConstructor_success() {
+        LocalDate date = LocalDate.of(2025, 3, 12);
+        WeeklyAttendance fromMethod = WeeklyAttendance.at(date);
+
+        int expectedWeek = date.get(java.time.temporal.IsoFields.WEEK_OF_WEEK_BASED_YEAR);
+        int expectedYear = date.get(java.time.temporal.IsoFields.WEEK_BASED_YEAR);
+        WeeklyAttendance expected = new WeeklyAttendance(expectedWeek, Year.of(expectedYear));
+
+        assertEquals(expected, fromMethod);
+    }
+
+    // ===== ISO EDGE CASES =====
+
+    @Test
+    public void at_allDaysOfSameIsoWeek_mapToSameWeek() {
+        // 2024-03-04 (Mon) .. 2024-03-10 (Sun) are all ISO week 10 of 2024
+        WeeklyAttendance expected = new WeeklyAttendance(10, Year.of(2024));
+        // Monday
+        assertEquals(expected, WeeklyAttendance.at(LocalDate.of(2024, 3, 4)));
+        // Tuesday
+        assertEquals(expected, WeeklyAttendance.at(LocalDate.of(2024, 3, 5)));
+        // Wednesday
+        assertEquals(expected, WeeklyAttendance.at(LocalDate.of(2024, 3, 6)));
+        assertEquals(expected, WeeklyAttendance.at(LocalDate.of(2024, 3, 7)));
+        // Thursday
+        // Friday
+        assertEquals(expected, WeeklyAttendance.at(LocalDate.of(2024, 3, 8)));
+        // Saturday
+        assertEquals(expected, WeeklyAttendance.at(LocalDate.of(2024, 3, 9)));
+        // Sunday
+        assertEquals(expected, WeeklyAttendance.at(LocalDate.of(2024, 3, 10)));
+    }
+
+    @Test
+    public void at_firstThursdayRule_boundaries() {
+        // 2016-01-03 (Sun) is ISO week 53 of 2015
+        assertEquals(new WeeklyAttendance(53, Year.of(2015)), WeeklyAttendance.at(LocalDate.of(2016, 1, 3)));
+        // 2016-01-04 (Mon) starts ISO week 1 of 2016
+        assertEquals(new WeeklyAttendance(1, Year.of(2016)), WeeklyAttendance.at(LocalDate.of(2016, 1, 4)));
+
+        // 2015-01-01 (Thu) is ISO week 1 of 2015
+        assertEquals(new WeeklyAttendance(1, Year.of(2015)), WeeklyAttendance.at(LocalDate.of(2015, 1, 1)));
+        // 2010-01-01 (Fri) is ISO week 53 of 2009
+        assertEquals(new WeeklyAttendance(53, Year.of(2009)), WeeklyAttendance.at(LocalDate.of(2010, 1, 1)));
+    }
+
+    @Test
+    public void at_yearEndWeekToNextYearWeek1() {
+        // 2014-12-29 (Mon) belongs to ISO week 1 of 2015
+        assertEquals(new WeeklyAttendance(1, Year.of(2015)), WeeklyAttendance.at(LocalDate.of(2014, 12, 29)));
+        // 2015-12-31 (Thu) belongs to ISO week 53 of 2015
+        assertEquals(new WeeklyAttendance(53, Year.of(2015)), WeeklyAttendance.at(LocalDate.of(2015, 12, 31)));
+        // 2021-01-01 (Fri) belongs to ISO week 53 of 2020
+        assertEquals(new WeeklyAttendance(53, Year.of(2020)), WeeklyAttendance.at(LocalDate.of(2021, 1, 1)));
+    }
+
+    @Test
+    public void isValidWeeklyAttendance_extremeYears_respectsIsoWeekCount() {
+        int weeksYear1 = getNumberOfWeeksInIsoYear(1);
+        assertTrue(isValidWeeklyAttendance(String.format("W%02d-0001", weeksYear1)));
+        assertFalse(isValidWeeklyAttendance(String.format("W%02d-0001", weeksYear1 + 1)));
+
+        int weeks9999 = getNumberOfWeeksInIsoYear(9999);
+        assertTrue(isValidWeeklyAttendance(String.format("W%02d-9999", weeks9999)));
+        assertFalse(isValidWeeklyAttendance(String.format("W%02d-9999", weeks9999 + 1)));
+
+        // Also ensure lower bound is valid for extreme years
+        assertTrue(isValidWeeklyAttendance("W01-0001"));
+        assertTrue(isValidWeeklyAttendance("W01-9999"));
+    }
+
+    @Test
+    public void isValidWeeklyAttendance_moreNon53Years_returnFalse() {
+        assertFalse(isValidWeeklyAttendance("W53-2021")); // 2021 has 52 weeks
+        assertFalse(isValidWeeklyAttendance("W53-2022")); // 2022 has 52 weeks
+    }
+
+    @Test
+    public void comparison_across53WeekBoundary() {
+        WeeklyAttendance w532015 = new WeeklyAttendance(53, Year.of(2015));
+        WeeklyAttendance w12016 = new WeeklyAttendance(1, Year.of(2016));
+
+        assertTrue(w532015.isBefore(w12016));
+        assertTrue(w12016.isAfter(w532015));
+    }
+
+    @Test
+    public void getCurrentWeek_matchesAtForSameClock_onBoundaries() {
+        // 2016-01-03 (Sun) -> W53-2015
+        Clock c1 = Clock.fixed(Instant.parse("2016-01-03T10:00:00Z"), ZoneId.of("UTC"));
+        assertEquals(WeeklyAttendance.at(LocalDate.of(2016, 1, 3)), WeeklyAttendance.getCurrentWeek(c1));
+
+        // 2016-01-04 (Mon) -> W01-2016
+        Clock c2 = Clock.fixed(Instant.parse("2016-01-04T10:00:00Z"), ZoneId.of("UTC"));
+        assertEquals(WeeklyAttendance.at(LocalDate.of(2016, 1, 4)), WeeklyAttendance.getCurrentWeek(c2));
+
+        // 2014-12-29 (Mon) -> W01-2015
+        Clock c3 = Clock.fixed(Instant.parse("2014-12-29T10:00:00Z"), ZoneId.of("UTC"));
+        assertEquals(WeeklyAttendance.at(LocalDate.of(2014, 12, 29)), WeeklyAttendance.getCurrentWeek(c3));
     }
 }

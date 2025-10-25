@@ -29,17 +29,18 @@ public class WeeklyAttendance {
             + "where:\n"
             + "1) W is case insensitive,\n"
             + "2) week number [XX] is between 01 and 52 (or 53 if that year has 53 weeks), and\n"
-            + "3) YYYY is a 4-digit year between 0000 and 9999. "
+            + "3) YYYY is a 4-digit year between 0001 and 9999. "
             + "This week format is following the international standard of ISO-8601 week numbering.\n"
             + "Example: W04-2025 represents the fourth ISO week of 2025.";
 
     public static final int FIRST_WEEK_NUMBER = 1;
 
     // Allow up to 53 weeks (some ISO years have 53)
-    public static final String WEEKLY_ATTENDANCE_REGEX = "(?i)^W(0[1-9]|[1-4][0-9]|5[0-3])-(\\d{4})$";
+    // Does not allow Year 0000 because of Year.of() limitations.
+    public static final String WEEKLY_ATTENDANCE_REGEX = "(?i)^W(0[1-9]|[1-4][0-9]|5[0-3])-(?!0000)(\\\\d{4})$\n";
 
     private final int weekIndex; // 01 to 52 or 53 depending on year
-    private final Year year;
+    private final Year year; //immutable
 
     /**
      * Constructs a {@code WeeklyAttendance} from week index and Year.
@@ -102,7 +103,7 @@ public class WeeklyAttendance {
      * applicable).
      */
     private static boolean isValidWeekIndex(int weekIndex, Year year) {
-        requireAllNonNull(weekIndex, year);
+        requireNonNull(year);
         return WeeklyAttendance.FIRST_WEEK_NUMBER <= weekIndex
                 && weekIndex <= getNumberOfWeeksInIsoYear(year.getValue());
     }
@@ -149,9 +150,19 @@ public class WeeklyAttendance {
     public static WeeklyAttendance getCurrentWeek(Clock clock) {
         requireNonNull(clock);
         LocalDate currentDate = LocalDate.now(clock);
-        int currentWeekIndex = currentDate.get(IsoFields.WEEK_OF_WEEK_BASED_YEAR);
-        int currentWeekYear = currentDate.get(IsoFields.WEEK_BASED_YEAR);
-        return new WeeklyAttendance(currentWeekIndex, Year.of(currentWeekYear));
+        return WeeklyAttendance.at(currentDate);
+    }
+
+    /**
+     * Converts LocalDate to WeeklyAttendance object.
+     * Week returned is ISO compliant.
+     * @param date Date to be converted
+     * @return  WeeklyAttendance that contains given date
+     */
+    public static WeeklyAttendance at(LocalDate date) {
+        int weekIndex = date.get(IsoFields.WEEK_OF_WEEK_BASED_YEAR);
+        int weekYear = date.get(IsoFields.WEEK_BASED_YEAR);
+        return new WeeklyAttendance(weekIndex, Year.of(weekYear));
     }
 
     @Override

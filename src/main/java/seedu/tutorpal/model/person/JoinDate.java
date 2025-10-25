@@ -19,7 +19,7 @@ public class JoinDate {
 
     public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
-    private final LocalDate value;
+    private final LocalDate value; //immutable
 
     /**
      * Constructs a {@code JoinDate}.
@@ -52,6 +52,15 @@ public class JoinDate {
         } catch (DateTimeParseException e) {
             return false;
         }
+    }
+
+    /**
+     * Converts joinDate to join week.
+     * i.e. week containing join date.
+     * @return WeeklyAttendance containing joinDate
+     */
+    public WeeklyAttendance getJoinWeek() {
+        return WeeklyAttendance.at(this.value);
     }
 
     @Override
