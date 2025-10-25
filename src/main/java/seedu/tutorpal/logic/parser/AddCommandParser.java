@@ -56,7 +56,7 @@ public class AddCommandParser implements Parser<AddCommand> {
             argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_CLASS);
         }
 
-        //Defaults the address to an empty string if not provided
+        // Defaults the address to an empty string if not provided
         Address address = argMultimap.getValue(PREFIX_ADDRESS).isPresent()
                 ? ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS).get())
                 : new Address("-");
