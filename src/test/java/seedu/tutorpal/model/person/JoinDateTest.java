@@ -79,7 +79,7 @@ public class JoinDateTest {
         JoinDate joinDate = new JoinDate("15-01-2024");
 
         // same values -> returns true
-        assertEquals(joinDate, new JoinDate("15-01-2024"));
+        assertEquals(new JoinDate("15-01-2024"), joinDate);
         assertEquals(joinDate, new JoinDate(LocalDate.of(2024, 1, 15)));
 
         // same object -> returns true
@@ -89,12 +89,12 @@ public class JoinDateTest {
         assertNotEquals(null, joinDate);
 
         // different types -> returns false
-        assertFalse(joinDate.equals(5.0f));
+        assertNotEquals(0.5f, joinDate);
 
         // different values -> returns false
-        assertNotEquals(joinDate, new JoinDate("16-01-2024"));
-        assertNotEquals(joinDate, new JoinDate("15-02-2024"));
-        assertNotEquals(joinDate, new JoinDate("15-01-2023"));
+        assertNotEquals(new JoinDate("16-01-2024"), joinDate);
+        assertNotEquals(new JoinDate("15-02-2024"), joinDate);
+        assertNotEquals(new JoinDate("15-01-2023"), joinDate);
     }
 
     @Test
