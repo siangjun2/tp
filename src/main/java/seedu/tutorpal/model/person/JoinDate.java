@@ -43,6 +43,13 @@ public class JoinDate {
     }
 
     /**
+     * Gives current date as JoinDate
+     */
+    public static JoinDate now() {
+        return new JoinDate(LocalDate.now());
+    }
+
+    /**
      * Returns true if a given string is a valid join date.
      */
     public static boolean isValidJoinDate(String test) {

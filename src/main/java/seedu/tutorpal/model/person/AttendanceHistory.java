@@ -138,6 +138,16 @@ public class AttendanceHistory {
     }
 
     /**
+     * Allows edit command to change Join Date of Person.
+     * Built in validation of WeeklyAttendance in constructor already.
+     * @param joinDate New JoinDate
+     * @return AttendanceHistory with new JoinDate
+     */
+    public AttendanceHistory changeJoinDate(JoinDate joinDate) {
+        return new AttendanceHistory(joinDate, this.weeklyAttendances, this.nowClock);
+    }
+
+    /**
      * Returns the immutable join date for Storage and UI.
      */
     public JoinDate getJoinDate() {
