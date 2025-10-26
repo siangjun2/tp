@@ -3,15 +3,11 @@ package seedu.tutorpal.logic.commands;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static seedu.tutorpal.logic.commands.CommandTestUtil.assertCommandFailure;
-import static seedu.tutorpal.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
-import static seedu.tutorpal.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
-import static seedu.tutorpal.testutil.TypicalPersons.getTypicalAddressBook;
-
 import org.junit.jupiter.api.Test;
 
 import seedu.tutorpal.commons.core.index.Index;
 import seedu.tutorpal.logic.Messages;
+import static seedu.tutorpal.logic.commands.CommandTestUtil.assertCommandFailure;
 import seedu.tutorpal.model.Model;
 import seedu.tutorpal.model.ModelManager;
 import seedu.tutorpal.model.UserPrefs;
@@ -19,6 +15,9 @@ import seedu.tutorpal.model.person.AttendanceHistory;
 import seedu.tutorpal.model.person.Person;
 import seedu.tutorpal.model.person.Student;
 import seedu.tutorpal.model.person.WeeklyAttendance;
+import static seedu.tutorpal.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
+import static seedu.tutorpal.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
+import static seedu.tutorpal.testutil.TypicalPersons.getTypicalAddressBook;
 
 /**
  * Contains integration tests (interaction with the Model) and unit tests for
@@ -32,7 +31,7 @@ public class MarkCommandTest {
     @Test
     public void execute_invalidIndex_throwsCommandException() {
         Index outOfBoundIndex = Index.fromOneBased(model.getFilteredPersonList().size() + 1);
-        WeeklyAttendance week = new WeeklyAttendance("W1-01-2025");
+        WeeklyAttendance week = new WeeklyAttendance("W01-2025");
         MarkCommand markCommand = new MarkCommand(outOfBoundIndex, week);
 
         assertCommandFailure(markCommand, model, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
@@ -58,7 +57,7 @@ public class MarkCommandTest {
             return;
         }
 
-        WeeklyAttendance week = new WeeklyAttendance("W1-01-2025");
+        WeeklyAttendance week = new WeeklyAttendance("W01-2025");
         MarkCommand markCommand = new MarkCommand(tutorIndex, week);
 
         assertCommandFailure(markCommand, model, "Cannot mark attendance for a tutor.");
@@ -66,8 +65,8 @@ public class MarkCommandTest {
 
     @Test
     public void equals() {
-        WeeklyAttendance week1 = new WeeklyAttendance("W1-01-2025");
-        WeeklyAttendance week2 = new WeeklyAttendance("W2-01-2025");
+        WeeklyAttendance week1 = new WeeklyAttendance("W01-2025");
+        WeeklyAttendance week2 = new WeeklyAttendance("W02-2025");
 
         MarkCommand markFirstCommand = new MarkCommand(INDEX_FIRST_PERSON, week1);
         MarkCommand markSecondCommand = new MarkCommand(INDEX_SECOND_PERSON, week1);
@@ -95,7 +94,7 @@ public class MarkCommandTest {
 
     @Test
     public void toStringMethod() {
-        WeeklyAttendance week = new WeeklyAttendance("W1-01-2025");
+        WeeklyAttendance week = new WeeklyAttendance("W01-2025");
         MarkCommand markCommand = new MarkCommand(INDEX_FIRST_PERSON, week);
         String expected = MarkCommand.class.getCanonicalName()
                 + "{index=" + INDEX_FIRST_PERSON
