@@ -1,10 +1,10 @@
 package seedu.tutorpal.logic.parser;
 
+import static seedu.tutorpal.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+
 import seedu.tutorpal.commons.core.index.Index;
 import seedu.tutorpal.logic.commands.DisplayCommand;
 import seedu.tutorpal.logic.parser.exceptions.ParseException;
-
-import static seedu.tutorpal.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 
 /**
  * Parses input arguments and creates a new DisplayCommand object

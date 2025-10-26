@@ -12,6 +12,7 @@ import seedu.tutorpal.logic.commands.AddCommand;
 import seedu.tutorpal.logic.commands.ClearCommand;
 import seedu.tutorpal.logic.commands.Command;
 import seedu.tutorpal.logic.commands.DeleteCommand;
+import seedu.tutorpal.logic.commands.DisplayCommand;
 import seedu.tutorpal.logic.commands.EditCommand;
 import seedu.tutorpal.logic.commands.ExitCommand;
 import seedu.tutorpal.logic.commands.FindCommand;
@@ -64,6 +65,9 @@ public class AddressBookParser {
 
         case DeleteCommand.COMMAND_WORD:
             return new DeleteCommandParser().parse(arguments);
+
+        case DisplayCommand.COMMAND_WORD:
+            return new DisplayCommandParser().parse(arguments);
 
         case ClearCommand.COMMAND_WORD:
             return new ClearCommand();
