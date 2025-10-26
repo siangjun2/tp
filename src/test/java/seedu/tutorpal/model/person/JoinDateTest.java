@@ -110,4 +110,31 @@ public class JoinDateTest {
         JoinDate joinDate2 = new JoinDate("16-01-2024");
         assertNotEquals(joinDate1.hashCode(), joinDate2.hashCode());
     }
+
+    @Test
+    void isAfter_null_throwsNullPointerException() {
+        JoinDate joinDate = new JoinDate(LocalDate.of(2024, 5, 10));
+        assertThrows(NullPointerException.class, () -> joinDate.isAfter(null));
+    }
+
+    @Test
+    void isAfter_joinDateAfterGiven_returnsTrue() {
+        JoinDate joinDate = new JoinDate(LocalDate.of(2024, 5, 10));
+        LocalDate given = LocalDate.of(2024, 5, 9);
+        assertTrue(joinDate.isAfter(given));
+    }
+
+    @Test
+    void isAfter_joinDateEqualGiven_returnsFalse() {
+        JoinDate joinDate = new JoinDate(LocalDate.of(2024, 5, 10));
+        LocalDate given = LocalDate.of(2024, 5, 10);
+        assertFalse(joinDate.isAfter(given));
+    }
+
+    @Test
+    void isAfter_joinDateBeforeGiven_returnsFalse() {
+        JoinDate joinDate = new JoinDate(LocalDate.of(2024, 5, 10));
+        LocalDate given = LocalDate.of(2024, 5, 11);
+        assertFalse(joinDate.isAfter(given));
+    }
 }

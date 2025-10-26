@@ -70,6 +70,14 @@ public class JoinDate {
         return WeeklyAttendance.at(this.value);
     }
 
+    /**
+     * Checks if join date is after given LocalDate date.
+     * @return Boolean representing if this is true
+     */
+    public boolean isAfter(LocalDate date) {
+        return this.value.isAfter(date);
+    }
+
     @Override
     public String toString() {
         assert value != null : "JoinDate value should not be null";

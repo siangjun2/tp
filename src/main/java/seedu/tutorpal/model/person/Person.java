@@ -19,7 +19,6 @@ public abstract class Person {
     public static final String MESSAGE_OUT_OF_SYNC = "%1$s.joinDate must match %2$s.joinDate.";
     public static final String MESSAGE_INVALID_ATTENDANCE_RETRIEVAL = "%1$s does not have attendance history.";
 
-    //JOIN DATE CANNOT BE LATER THAN TODAY
     // Identity fields
     private final Name name;
     private final Phone phone;
@@ -36,7 +35,7 @@ public abstract class Person {
      * Core constructor with all common fields.
      */
     protected Person(Name name, Phone phone, Email email, Address address,
-            Set<Class> classes, JoinDate joinDate, PaymentHistory paymentHistory) {
+                     Set<Class> classes, JoinDate joinDate, PaymentHistory paymentHistory) {
         requireAllNonNull(name, phone, email, address, classes, joinDate, paymentHistory);
         this.name = name;
         this.phone = phone;
