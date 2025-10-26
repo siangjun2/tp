@@ -1,11 +1,12 @@
 package seedu.tutorpal.model.person;
 
-import static java.util.Objects.requireNonNull;
-import static seedu.tutorpal.commons.util.AppUtil.checkArgument;
-
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import static java.util.Objects.requireNonNull;
+
+import static seedu.tutorpal.commons.util.AppUtil.checkArgument;
 
 /**
  * Represents a Person's join date in the address book.
@@ -76,6 +77,14 @@ public class JoinDate {
      */
     public boolean isAfter(LocalDate date) {
         return this.value.isAfter(date);
+    }
+
+    /**
+     * Converts this join date to a YearMonth.
+     * @return YearMonth representation of this join date
+     */
+    public YearMonth toYearMonth() {
+        return YearMonth.from(this.value);
     }
 
     @Override
