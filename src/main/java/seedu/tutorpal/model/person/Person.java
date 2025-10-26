@@ -63,6 +63,11 @@ public abstract class Person {
     }
 
     /**
+     * Returns a String to represent role of person
+     */
+    public abstract Role getRole();
+
+    /**
      * Returns an immutable class set, which throws
      * {@code UnsupportedOperationException} if modification is attempted.
      */

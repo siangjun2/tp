@@ -5,7 +5,7 @@ import static seedu.tutorpal.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_CLASS;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_EMAIL;
-import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_MONTH;
+import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_JOIN_DATE;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_ROLE;
@@ -35,7 +35,7 @@ public class EditCommandParser implements Parser<EditCommand> {
     public EditCommand parse(String args) throws ParseException {
         requireNonNull(args);
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_ROLE, PREFIX_NAME, PREFIX_PHONE,
-                PREFIX_EMAIL, PREFIX_CLASS, PREFIX_ADDRESS, PREFIX_MONTH);
+                PREFIX_EMAIL, PREFIX_CLASS, PREFIX_ADDRESS, PREFIX_JOIN_DATE);
 
         Index index;
 
@@ -64,8 +64,8 @@ public class EditCommandParser implements Parser<EditCommand> {
         if (argMultimap.getValue(PREFIX_ADDRESS).isPresent()) {
             editPersonDescriptor.setAddress(ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS).get()));
         }
-        if (argMultimap.getValue(PREFIX_MONTH).isPresent()) {
-            editPersonDescriptor.setJoinMonth(ParserUtil.parseJoinMonth(argMultimap.getValue(PREFIX_MONTH).get()));
+        if (argMultimap.getValue(PREFIX_JOIN_DATE).isPresent()) {
+            editPersonDescriptor.setJoinMonth(ParserUtil.parseJoinMonth(argMultimap.getValue(PREFIX_JOIN_DATE).get()));
         }
         parseClassesForEdit(argMultimap.getAllValues(PREFIX_CLASS)).ifPresent(editPersonDescriptor::setClasses);
 

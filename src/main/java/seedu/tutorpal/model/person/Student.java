@@ -1,5 +1,7 @@
 package seedu.tutorpal.model.person;
 
+import static seedu.tutorpal.model.person.Role.STUDENT;
+
 import java.time.Clock;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -11,7 +13,7 @@ import seedu.tutorpal.commons.util.ToStringBuilder;
  * Subtype of Person, representing a Student
  */
 public class Student extends Person {
-    public static final String PERSON_WORD = "Student";
+    public static final String PERSON_WORD = STUDENT.toString();
 
     private final AttendanceHistory attendanceHistory;
 
@@ -58,6 +60,11 @@ public class Student extends Person {
                 : new AttendanceHistory(joinDate, nowClock);
         validateJoinDateSync(normalized, this.getJoinDate());
         this.attendanceHistory = normalized;
+    }
+
+    @Override
+    public Role getRole() {
+        return Role.STUDENT;
     }
 
     @Override

@@ -4,7 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_CLASS;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_EMAIL;
-import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_MONTH;
+import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_JOIN_DATE;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_ROLE;
@@ -51,7 +51,7 @@ public class EditCommand extends Command {
             + "[" + PREFIX_ROLE + "ROLE] "
             + "[" + PREFIX_ADDRESS + "ADDRESS] "
             + "[" + PREFIX_CLASS + "CLASS] "
-            + "[" + PREFIX_MONTH + "JOIN_MONTH] "
+            + "[" + PREFIX_JOIN_DATE + "JOIN_MONTH] "
             + "...\n"
             + "Example: " + COMMAND_WORD + " 1 "
             + PREFIX_PHONE + "91234567 "

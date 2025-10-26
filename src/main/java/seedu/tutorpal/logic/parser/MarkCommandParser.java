@@ -1,7 +1,7 @@
 package seedu.tutorpal.logic.parser;
 
 import static seedu.tutorpal.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_WEEK;
+import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_ATTENDANCE_WEEK;
 
 import seedu.tutorpal.commons.core.index.Index;
 import seedu.tutorpal.logic.commands.MarkCommand;
@@ -20,7 +20,7 @@ public class MarkCommandParser implements Parser<MarkCommand> {
      * @throws ParseException if the user input does not conform the expected format
      */
     public MarkCommand parse(String args) throws ParseException {
-        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_WEEK);
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_ATTENDANCE_WEEK);
 
         Index index;
 
@@ -31,12 +31,12 @@ public class MarkCommandParser implements Parser<MarkCommand> {
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, MarkCommand.MESSAGE_USAGE), pe);
         }
 
-        if (!argMultimap.getValue(PREFIX_WEEK).isPresent()) {
+        if (!argMultimap.getValue(PREFIX_ATTENDANCE_WEEK).isPresent()) {
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, MarkCommand.MESSAGE_USAGE));
         }
 
-        WeeklyAttendance week = ParserUtil.parseWeeklyAttendance(argMultimap.getValue(PREFIX_WEEK).get());
+        WeeklyAttendance week = ParserUtil.parseWeeklyAttendance(argMultimap.getValue(PREFIX_ATTENDANCE_WEEK).get());
 
         return new MarkCommand(index, week);
     }
