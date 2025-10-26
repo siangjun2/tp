@@ -1,7 +1,7 @@
 package seedu.tutorpal.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_MONTH;
+import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_JOIN_DATE;
 
 import java.time.YearMonth;
 import java.util.List;
@@ -29,7 +29,7 @@ public class UnpayCommand extends Command {
 
     // SHORTENED is used for help command
     public static final String MESSAGE_USAGE_SHORTENED = COMMAND_WORD + ":\t" + COMMAND_WORD
-        + " INDEX " + PREFIX_MONTH + "MM-yyyy\n"
+        + " INDEX " + PREFIX_JOIN_DATE + "MM-yyyy\n"
         + "\t\tExample: " + COMMAND_WORD + " 1 m/01-2024";
 
     public static final String MESSAGE_SUCCESS = "Payment for %1$s for %2$s has been marked as unpaid.";
