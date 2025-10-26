@@ -4,10 +4,12 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 import seedu.tutorpal.commons.exceptions.IllegalValueException;
-import seedu.tutorpal.model.person.JoinMonth;
+import seedu.tutorpal.model.person.JoinDate;
 
 /**
- * Jackson-friendly version of {@link JoinMonth}.
+ * Jackson-friendly version of {@link JoinDate}.
+ * Note: This class is kept for backward compatibility with old JSON files that used JoinMonth.
+ * It converts month-based dates to JoinDate format.
  */
 public class JsonAdaptedJoinMonth {
 
@@ -22,9 +24,9 @@ public class JsonAdaptedJoinMonth {
     }
 
     /**
-     * Converts a given {@code JoinMonth} into this class for Jackson use.
+     * Converts a given {@code JoinDate} into this class for Jackson use.
      */
-    public JsonAdaptedJoinMonth(JoinMonth source) {
+    public JsonAdaptedJoinMonth(JoinDate source) {
         joinMonth = source.toString();
     }
 
@@ -35,15 +37,15 @@ public class JsonAdaptedJoinMonth {
 
     /**
      * Converts this Jackson-friendly adapted join month object into the model's
-     * {@code JoinMonth} object.
+     * {@code JoinDate} object.
      *
      * @throws IllegalValueException if there were any data constraints violated in
      *                               the adapted join month.
      */
-    public JoinMonth toModelType() throws IllegalValueException {
-        if (!JoinMonth.isValidJoinMonth(joinMonth)) {
-            throw new IllegalValueException(JoinMonth.MESSAGE_CONSTRAINTS);
+    public JoinDate toModelType() throws IllegalValueException {
+        if (!JoinDate.isValidJoinDate(joinMonth)) {
+            throw new IllegalValueException(JoinDate.MESSAGE_CONSTRAINTS);
         }
-        return new JoinMonth(joinMonth);
+        return new JoinDate(joinMonth);
     }
 }

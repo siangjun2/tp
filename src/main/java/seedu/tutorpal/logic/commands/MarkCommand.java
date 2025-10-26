@@ -2,7 +2,7 @@ package seedu.tutorpal.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.tutorpal.commons.util.CollectionUtil.requireAllNonNull;
-import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_WEEK;
+import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_ATTENDANCE_WEEK;
 
 import java.util.List;
 
@@ -14,6 +14,7 @@ import seedu.tutorpal.model.Model;
 import seedu.tutorpal.model.person.AttendanceHistory;
 import seedu.tutorpal.model.person.Person;
 import seedu.tutorpal.model.person.Role;
+import seedu.tutorpal.model.person.Student;
 import seedu.tutorpal.model.person.WeeklyAttendance;
 
 /**
@@ -26,10 +27,10 @@ public class MarkCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Marks the attendance of the student as having attended class for the specified week.\n"
             + "Parameters: INDEX (must be a positive integer) "
-            + PREFIX_WEEK + "WEEK"
+            + PREFIX_ATTENDANCE_WEEK + "WEEK"
             + "\n"
             + "Example: " + COMMAND_WORD + " 3 "
-            + PREFIX_WEEK + "W2-10-2025";
+            + PREFIX_ATTENDANCE_WEEK + "W2-10-2025";
 
     // SHORTENED is used for help command
     public static final String MESSAGE_USAGE_SHORTENED = COMMAND_WORD + ":\t" + COMMAND_WORD + " INDEX"
@@ -62,27 +63,27 @@ public class MarkCommand extends Command {
 
         Person personToMark = lastShownList.get(index.getZeroBased());
 
-        if (!Role.isStudent(personToMark.getRole())) {
+        if (personToMark.getRole() != Role.STUDENT) {
             throw new CommandException("Cannot mark attendance for a tutor.");
         }
 
-        AttendanceHistory newAttendanceHistory = new AttendanceHistory(personToMark.getAttendanceHistory());
+        AttendanceHistory newAttendanceHistory;
         try {
-            newAttendanceHistory.markAttendance(week);
+            newAttendanceHistory = personToMark.getAttendanceHistory().markAttendance(week);
         } catch (IllegalArgumentException e) {
             throw new CommandException(String.format(e.getMessage(), personToMark.getName(), week));
         }
 
-        Person markedPerson = new Person(
+        // Create a new Student with updated attendance history
+        Person markedPerson = new Student(
                 personToMark.getName(),
                 personToMark.getPhone(),
                 personToMark.getEmail(),
-                personToMark.getRole(),
                 personToMark.getAddress(),
                 personToMark.getClasses(),
-                personToMark.getJoinMonth(),
-                newAttendanceHistory,
-                personToMark.getPaymentHistory());
+                personToMark.getJoinDate(),
+                personToMark.getPaymentHistory(),
+                newAttendanceHistory);
 
         model.setPerson(personToMark, markedPerson);
 

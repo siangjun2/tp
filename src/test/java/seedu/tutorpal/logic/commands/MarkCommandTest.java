@@ -17,6 +17,7 @@ import seedu.tutorpal.model.ModelManager;
 import seedu.tutorpal.model.UserPrefs;
 import seedu.tutorpal.model.person.AttendanceHistory;
 import seedu.tutorpal.model.person.Person;
+import seedu.tutorpal.model.person.Student;
 import seedu.tutorpal.model.person.WeeklyAttendance;
 
 /**
@@ -31,7 +32,7 @@ public class MarkCommandTest {
     @Test
     public void execute_invalidIndex_throwsCommandException() {
         Index outOfBoundIndex = Index.fromOneBased(model.getFilteredPersonList().size() + 1);
-        WeeklyAttendance week = new WeeklyAttendance("W1-01-2025");
+        WeeklyAttendance week = new WeeklyAttendance("W01-2025");
         MarkCommand markCommand = new MarkCommand(outOfBoundIndex, week);
 
         assertCommandFailure(markCommand, model, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
@@ -57,7 +58,7 @@ public class MarkCommandTest {
             return;
         }
 
-        WeeklyAttendance week = new WeeklyAttendance("W1-01-2025");
+        WeeklyAttendance week = new WeeklyAttendance("W01-2025");
         MarkCommand markCommand = new MarkCommand(tutorIndex, week);
 
         assertCommandFailure(markCommand, model, "Cannot mark attendance for a tutor.");
@@ -65,8 +66,8 @@ public class MarkCommandTest {
 
     @Test
     public void equals() {
-        WeeklyAttendance week1 = new WeeklyAttendance("W1-01-2025");
-        WeeklyAttendance week2 = new WeeklyAttendance("W2-01-2025");
+        WeeklyAttendance week1 = new WeeklyAttendance("W01-2025");
+        WeeklyAttendance week2 = new WeeklyAttendance("W02-2025");
 
         MarkCommand markFirstCommand = new MarkCommand(INDEX_FIRST_PERSON, week1);
         MarkCommand markSecondCommand = new MarkCommand(INDEX_SECOND_PERSON, week1);
@@ -94,7 +95,7 @@ public class MarkCommandTest {
 
     @Test
     public void toStringMethod() {
-        WeeklyAttendance week = new WeeklyAttendance("W1-01-2025");
+        WeeklyAttendance week = new WeeklyAttendance("W01-2025");
         MarkCommand markCommand = new MarkCommand(INDEX_FIRST_PERSON, week);
         String expected = MarkCommand.class.getCanonicalName()
                 + "{index=" + INDEX_FIRST_PERSON
@@ -107,25 +108,23 @@ public class MarkCommandTest {
      * This is a helper method to simulate what MarkCommand.execute() does.
      */
     private Person createMarkedPerson(Person personToMark, WeeklyAttendance week) {
-        // Create a copy of the attendance history
-        AttendanceHistory newAttendanceHistory = new AttendanceHistory(personToMark.getAttendanceHistory());
-
+        // Mark attendance
+        AttendanceHistory newAttendanceHistory;
         try {
-            newAttendanceHistory.markAttendance(week);
+            newAttendanceHistory = personToMark.getAttendanceHistory().markAttendance(week);
         } catch (IllegalArgumentException e) {
             // Should not happen in tests
             throw new AssertionError("Week should not be already marked in test setup", e);
         }
 
-        return new Person(
+        return new Student(
                 personToMark.getName(),
                 personToMark.getPhone(),
                 personToMark.getEmail(),
-                personToMark.getRole(),
                 personToMark.getAddress(),
                 personToMark.getClasses(),
-                personToMark.getJoinMonth(),
-                newAttendanceHistory,
-                personToMark.getPaymentHistory());
+                personToMark.getJoinDate(),
+                personToMark.getPaymentHistory(),
+                newAttendanceHistory);
     }
 }

@@ -5,44 +5,61 @@ import static seedu.tutorpal.commons.util.AppUtil.checkArgument;
 import static seedu.tutorpal.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.time.Clock;
-import java.time.YearMonth;
+import java.time.LocalDate;
+import java.time.Year;
+import java.time.temporal.IsoFields;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Represents a weekly attendance period for a specific week in a month.
- * Guarantees: immutable; week index is between 1-4.
+ * Represents a weekly attendance period for a specific ISO week in a year.
+ * Guarantees: immutable
+ *
+ * <p>
+ * Uses ISO-8601 week definitions:
+ * <ul>
+ * <li>Weeks start on Monday.</li>
+ * <li>Week 1 is the week containing January 4.</li>
+ * <li>Each year has either 52 or 53 weeks.</li>
+ * </ul>
  */
 public class WeeklyAttendance {
 
-    public static final String MESSAGE_CONSTRAINTS = "Weekly attendance must be in the format W[1-4]-MM-YYYY, "
-            + "where week index is between 1 and 4, MM is the month (01-12), "
-            + "and YYYY is a 4-digit year.";
-    public static final int LAST_WEEK_INDEX = 4;
+    public static final String MESSAGE_CONSTRAINTS = "Weekly attendance must be in the format W[XX]-YYYY, "
+            + "where:\n"
+            + "1) W is case insensitive,\n"
+            + "2) week number [XX] is between 01 and 52 (or 53 if that year has 53 weeks), and\n"
+            + "3) YYYY is a 4-digit year between 0001 and 9999. "
+            + "This week format is following the international standard of ISO-8601 week numbering.\n"
+            + "Example: W04-2025 represents the fourth ISO week of 2025.";
 
-    public static final String WEEKLY_ATTENDANCE_REGEX = "W([1-4])-(0[1-9]|1[0-2])-(\\d{4})";
+    public static final int FIRST_WEEK_NUMBER = 1;
 
-    private final int weekIndex; // 1-4
-    private final YearMonth yearMonth;
+    // Allow up to 53 weeks (some ISO years have 53)
+    // Does not allow Year 0000 because of Year.of() limitations.
+    public static final String WEEKLY_ATTENDANCE_REGEX = "(?i)^W(0[1-9]|[1-4][0-9]|5[0-3])-(?!0000)(\\d{4})$";
+
+    private final int weekIndex; // 01 to 52 or 53 depending on year
+    private final Year year; //immutable
 
     /**
-     * Constructs a {@code WeeklyAttendance} from week index and YearMonth.
+     * Constructs a {@code WeeklyAttendance} from week index and Year.
      *
-     * @param weekIndex Week index (1-4).
-     * @param yearMonth YearMonth object.
+     * @param weekIndex Week index (1–52 or 53 depending on year).
+     * @param year      Year object.
      */
-    public WeeklyAttendance(int weekIndex, YearMonth yearMonth) {
-        requireAllNonNull(weekIndex, yearMonth);
-        checkArgument(isValidWeekIndex(weekIndex), MESSAGE_CONSTRAINTS);
+    public WeeklyAttendance(int weekIndex, Year year) {
+        requireAllNonNull(weekIndex, year);
+        checkArgument(isValidWeekIndex(weekIndex, year), MESSAGE_CONSTRAINTS);
         this.weekIndex = weekIndex;
-        this.yearMonth = yearMonth;
+        this.year = year;
     }
 
     /**
      * Constructs a {@code WeeklyAttendance} from a string.
      *
      * @param weeklyAttendanceString A valid weekly attendance string in
-     *                               W[1-4]-MM-YYYY format.
+     *                               W[01–53]-YYYY format.
      */
     public WeeklyAttendance(String weeklyAttendanceString) {
         requireNonNull(weeklyAttendanceString);
@@ -50,37 +67,66 @@ public class WeeklyAttendance {
 
         Pattern pattern = Pattern.compile(WEEKLY_ATTENDANCE_REGEX);
         Matcher matcher = pattern.matcher(weeklyAttendanceString);
-
-        // checkArgument should have checked this already
         assert matcher.matches() : "The weekly attendance string should match the regex pattern.";
-        this.weekIndex = Integer.parseInt(matcher.group(1));
-        int month = Integer.parseInt(matcher.group(2));
-        int year = Integer.parseInt(matcher.group(3));
-        this.yearMonth = YearMonth.of(year, month);
+
+        int weekIndex = Integer.parseInt(matcher.group(1));
+        int yearValue = Integer.parseInt(matcher.group(2));
+        Year year = Year.of(yearValue);
+        assert isValidWeekIndex(weekIndex, year);
+
+        this.weekIndex = weekIndex;
+        this.year = year;
     }
 
     /**
-     * Returns true if a given string is a valid weekly attendance format.
+     * Returns true if a given string matches the weekly attendance format.
+     * Checks :
+     * 1) Matches regex pattern.
+     * 2) Week number is within max week number of that year.
      */
     public static boolean isValidWeeklyAttendance(String test) {
-        return test.matches(WEEKLY_ATTENDANCE_REGEX);
+        requireNonNull(test);
+        Pattern pattern = Pattern.compile(WEEKLY_ATTENDANCE_REGEX);
+        Matcher matcher = pattern.matcher(test);
+        if (matcher.matches()) {
+            int weekIndex = Integer.parseInt(matcher.group(1));
+            int yearValue = Integer.parseInt(matcher.group(2));
+            Year year = Year.of(yearValue);
+
+            return isValidWeekIndex(weekIndex, year);
+        }
+        return false;
     }
 
     /**
-     * Returns true if a given week index is valid (1-4).
+     * Returns true if a given week index is valid for the given year (1–52 or 53 if
+     * applicable).
      */
-    private static boolean isValidWeekIndex(int weekIndex) {
-        return weekIndex >= 1 && weekIndex <= 4;
+    private static boolean isValidWeekIndex(int weekIndex, Year year) {
+        requireNonNull(year);
+        return WeeklyAttendance.FIRST_WEEK_NUMBER <= weekIndex
+                && weekIndex <= getNumberOfWeeksInIsoYear(year.getValue());
     }
 
     /**
-     * Check if given week is before this week.
+     * Returns the number of ISO weeks in the given year (52 or 53).
+     * Using December 28, as it ALWAYS belongs to the last ISO week of its
+     * week-based year.
+     * Using other days such as December 30, will cause wrong logic.
+     */
+    public static int getNumberOfWeeksInIsoYear(int year) {
+        LocalDate date = LocalDate.of(year, 12, 28);
+        return date.get(IsoFields.WEEK_OF_WEEK_BASED_YEAR);
+    }
+
+    /**
+     * Check if this week is before another week.
      */
     public boolean isBefore(WeeklyAttendance other) {
         requireNonNull(other);
-        if (this.yearMonth.isBefore(other.yearMonth)) {
+        if (this.year.isBefore(other.year)) {
             return true;
-        } else if (this.yearMonth.equals(other.yearMonth)) {
+        } else if (this.year.equals(other.year)) {
             return this.weekIndex < other.weekIndex;
         } else {
             return false;
@@ -88,32 +134,40 @@ public class WeeklyAttendance {
     }
 
     /**
-     * Check if given week is after this week.
+     * Check if this week is after another week.
      */
     public boolean isAfter(WeeklyAttendance other) {
         requireNonNull(other);
-        // Reuse isBefore logic and equality check
         return !this.isBefore(other) && !this.equals(other);
     }
 
     /**
-     * Retrieve latest accessible weekly attendance (Clock's month, last week).
+     * Retrieve the current ISO weekly attendance based on the current date.
      *
-     * @param clock Clock to represent date.
-     * @return
+     * @param clock Clock to represent date/time source.
+     * @return Current weekly attendance (ISO-8601 week-year).
      */
-    public static WeeklyAttendance getLatestAccessibleWeeklyAttendance(Clock clock) {
-        YearMonth currentYearMonth = YearMonth.now(clock);
-        int currentWeekIndex = LAST_WEEK_INDEX;
-        return new WeeklyAttendance(currentWeekIndex, currentYearMonth);
+    public static WeeklyAttendance getCurrentWeek(Clock clock) {
+        requireNonNull(clock);
+        LocalDate currentDate = LocalDate.now(clock);
+        return WeeklyAttendance.at(currentDate);
+    }
+
+    /**
+     * Converts LocalDate to WeeklyAttendance object.
+     * Week returned is ISO compliant.
+     * @param date Date to be converted
+     * @return  WeeklyAttendance that contains given date
+     */
+    public static WeeklyAttendance at(LocalDate date) {
+        int weekIndex = date.get(IsoFields.WEEK_OF_WEEK_BASED_YEAR);
+        int weekYear = date.get(IsoFields.WEEK_BASED_YEAR);
+        return new WeeklyAttendance(weekIndex, Year.of(weekYear));
     }
 
     @Override
     public String toString() {
-        assert yearMonth != null : "YearMonth should not be null";
-        int mm = yearMonth.getMonthValue();
-        int yyyy = yearMonth.getYear();
-        return String.format("W%d-%02d-%04d", weekIndex, mm, yyyy);
+        return String.format("W%02d-%04d", weekIndex, year.getValue());
     }
 
     @Override
@@ -128,12 +182,11 @@ public class WeeklyAttendance {
 
         WeeklyAttendance otherWeeklyAttendance = (WeeklyAttendance) other;
         return weekIndex == otherWeeklyAttendance.weekIndex
-                && yearMonth.equals(otherWeeklyAttendance.yearMonth);
+                && year.equals(otherWeeklyAttendance.year);
     }
 
     @Override
     public int hashCode() {
-        assert yearMonth != null : "YearMonth should not be null";
-        return 31 * weekIndex + yearMonth.hashCode();
+        return 31 * weekIndex + year.hashCode();
     }
 }
