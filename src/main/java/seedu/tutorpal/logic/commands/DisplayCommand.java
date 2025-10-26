@@ -11,6 +11,9 @@ import seedu.tutorpal.logic.commands.exceptions.CommandException;
 import seedu.tutorpal.model.Model;
 import seedu.tutorpal.model.person.Person;
 
+/**
+ * Displays the detailed information of a person identified using it's displayed index from the address book.
+ */
 public class DisplayCommand extends Command {
 
     public static final String COMMAND_WORD = "display";
