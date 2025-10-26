@@ -16,8 +16,8 @@ public abstract class Person {
     public static final String MESSAGE_INVALID_CLASS_SIZE = "%1$s must have a single class only! "
             + "Currently, initialised with %2$s class(es).";
     public static final String MESSAGE_NO_ATTENDANCE_HISTORY = "%1$s must not have attendance history.";
-    public static final String MESSAGE_OUT_OF_SYNC = "%1$s.joinDate must match %1$s.joinDate.";
-    public static final String MESSAGE_INVALID_ATTENDANCE_RETRIEVAL = "%1$s does not have attendance history";
+    public static final String MESSAGE_OUT_OF_SYNC = "%1$s.joinDate must match %2$s.joinDate.";
+    public static final String MESSAGE_INVALID_ATTENDANCE_RETRIEVAL = "%1$s does not have attendance history.";
 
     // Identity fields
     private final Name name;
