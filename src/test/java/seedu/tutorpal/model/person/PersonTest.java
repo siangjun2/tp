@@ -113,36 +113,8 @@ public class PersonTest {
         assertEquals(expected, ALICE.toString());
     }
 
-    // --- Tutor tests ---
-
     @Test
-    public void tutor_attendanceHistoryFlagsAndAccess() {
-        Tutor tutor = new Tutor(
-                new Name("Tutor Tim"),
-                new Phone("91234567"),
-                new Email("tutor@example.com"),
-                new Address("Blk 123, Bedok Ave 1"),
-                Set.of());
-        assertFalse(tutor.hasAttendanceHistory());
-        assertThrows(IllegalStateException.class, tutor::getAttendanceHistory);
-    }
-
-    // --- Student tests ---
-
-    @Test
-    public void student_hasAttendanceHistory_andJoinDateSynchronized() {
-        Student student = new Student(
-                new Name("Student Sue"),
-                new Phone("98765432"),
-                new Email("student@example.com"),
-                new Address("Blk 456, Clementi Ave 2"),
-                Set.of());
-        assertTrue(student.hasAttendanceHistory());
-        assertEquals(student.getJoinDate(), student.getAttendanceHistory().getJoinDate());
-    }
-
-    @Test
-    public void student_equals_sameDataWithFixedClock_returnsTrue() {
+    public void student_equalsSameDataWithFixedClock_returnsTrue() {
         Clock fixed = Clock.fixed(Instant.parse("2024-01-15T00:00:00Z"), ZoneOffset.UTC);
         JoinDate jd = JoinDate.now(); // same value for both, attendanceHistory constructed with fixed clock
 

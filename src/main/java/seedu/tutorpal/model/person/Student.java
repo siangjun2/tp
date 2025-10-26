@@ -18,14 +18,6 @@ public class Student extends Person {
     private final AttendanceHistory attendanceHistory;
 
     /**
-     * Public constructor (default "now").
-     */
-    public Student(Name name, Phone phone, Email email, Address address, Set<Class> classes) {
-        this(name, phone, email, address, classes, JoinDate.now(), null, Clock.systemDefaultZone(),
-                new PaymentHistory(LocalDate.now()));
-    }
-
-    /**
      * Public constructor with explicit joinDate (uses system clock for defaults).
      */
     public Student(Name name, Phone phone, Email email, Address address, Set<Class> classes,

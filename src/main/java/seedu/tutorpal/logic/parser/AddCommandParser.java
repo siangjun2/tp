@@ -4,10 +4,12 @@ import static seedu.tutorpal.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_CLASS;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_EMAIL;
+import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_JOIN_DATE;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_ROLE;
 
+import java.time.LocalDate;
 import java.util.Set;
 import java.util.stream.Stream;
 
@@ -16,6 +18,7 @@ import seedu.tutorpal.logic.parser.exceptions.ParseException;
 import seedu.tutorpal.model.person.Address;
 import seedu.tutorpal.model.person.Class;
 import seedu.tutorpal.model.person.Email;
+import seedu.tutorpal.model.person.JoinDate;
 import seedu.tutorpal.model.person.Name;
 import seedu.tutorpal.model.person.Person;
 import seedu.tutorpal.model.person.Phone;
@@ -36,7 +39,7 @@ public class AddCommandParser implements Parser<AddCommand> {
     @Override
     public AddCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL,
-                PREFIX_ROLE, PREFIX_ADDRESS, PREFIX_CLASS);
+                PREFIX_ROLE, PREFIX_ADDRESS, PREFIX_CLASS, PREFIX_JOIN_DATE);
 
         if (!arePrefixesPresent(argMultimap, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ROLE)
                 || !argMultimap.getPreamble().isEmpty()) {
@@ -64,9 +67,12 @@ public class AddCommandParser implements Parser<AddCommand> {
                     "At least one class must be specified using c/ prefix"));
         }
 
+        JoinDate joinDate = argMultimap.getValue(PREFIX_JOIN_DATE).isPresent()
+                ? ParserUtil.parseJoinDate(argMultimap.getValue(PREFIX_JOIN_DATE).get())
+                : new JoinDate(LocalDate.now());
         Person person = (role == Role.STUDENT)
-                ? new Student(name, phone, email, address, classList)
-                : new Tutor(name, phone, email, address, classList);
+                ? new Student(name, phone, email, address, classList, joinDate)
+                : new Tutor(name, phone, email, address, classList, joinDate);
 
         return new AddCommand(person);
     }
