@@ -4,8 +4,10 @@ import static java.util.Objects.requireNonNull;
 import static seedu.tutorpal.commons.util.AppUtil.checkArgument;
 
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.time.format.ResolverStyle;
 
 /**
  * Represents a Person's join date in the address book.
@@ -17,7 +19,8 @@ public class JoinDate {
     public static final String MESSAGE_CONSTRAINTS = "Join dates should be in the format dd-MM-yyyy, "
             + "and it should be a valid date!";
 
-    public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+    public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd-MM-uuuu")
+            .withResolverStyle(ResolverStyle.STRICT);
 
     private final LocalDate value; //immutable
 
@@ -53,6 +56,7 @@ public class JoinDate {
      * Returns true if a given string is a valid join date.
      */
     public static boolean isValidJoinDate(String test) {
+        requireNonNull(test);
         try {
             LocalDate.parse(test, DATE_FORMATTER);
             return true;
@@ -76,6 +80,14 @@ public class JoinDate {
      */
     public boolean isAfter(LocalDate date) {
         return this.value.isAfter(date);
+    }
+
+    /**
+     * Converts this join date to a YearMonth.
+     * @return YearMonth representation of this join date
+     */
+    public YearMonth toYearMonth() {
+        return YearMonth.from(this.value);
     }
 
     @Override

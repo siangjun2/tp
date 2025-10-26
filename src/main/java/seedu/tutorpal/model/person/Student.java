@@ -122,7 +122,13 @@ public class Student extends Person {
     @Override
     public String toString() {
         return new ToStringBuilder(this)
-                .add("person", super.toString())
+                .add("name", getName())
+                .add("phone", getPhone())
+                .add("email", getEmail())
+                .add("address", getAddress())
+                .add("classes", getClasses())
+                .add("joinDate", getJoinDate())
+                .add("paymentHistory", getPaymentHistory())
                 .add("attendanceHistory", attendanceHistory)
                 .toString();
     }

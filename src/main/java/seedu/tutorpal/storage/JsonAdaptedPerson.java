@@ -11,15 +11,16 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import seedu.tutorpal.commons.exceptions.IllegalValueException;
 import seedu.tutorpal.model.person.Address;
-import seedu.tutorpal.model.person.AttendanceHistory;
 import seedu.tutorpal.model.person.Class;
 import seedu.tutorpal.model.person.Email;
-import seedu.tutorpal.model.person.JoinMonth;
+import seedu.tutorpal.model.person.JoinDate;
 import seedu.tutorpal.model.person.Name;
 import seedu.tutorpal.model.person.PaymentHistory;
 import seedu.tutorpal.model.person.Person;
 import seedu.tutorpal.model.person.Phone;
 import seedu.tutorpal.model.person.Role;
+import seedu.tutorpal.model.person.Student;
+import seedu.tutorpal.model.person.Tutor;
 
 /**
  * Jackson-friendly version of {@link Person}.
@@ -35,7 +36,7 @@ class JsonAdaptedPerson {
     private final String address;
     private final List<JsonAdaptedClass> classes = new ArrayList<>();
     private final JsonAdaptedPaymentHistory paymentHistory;
-    private final JsonAdaptedJoinMonth joinMonth;
+    private final String joinDate;
     private final JsonAdaptedAttendanceHistory attendanceHistory;
 
     /**
@@ -47,7 +48,7 @@ class JsonAdaptedPerson {
             @JsonProperty("address") String address,
             @JsonProperty("classes") List<JsonAdaptedClass> classes,
             @JsonProperty("paymentHistory") JsonAdaptedPaymentHistory paymentHistory,
-            @JsonProperty("joinMonth") JsonAdaptedJoinMonth joinMonth,
+            @JsonProperty("joinDate") String joinDate,
             @JsonProperty("attendanceHistory") JsonAdaptedAttendanceHistory attendanceHistory) {
         this.name = name;
         this.phone = phone;
@@ -58,7 +59,7 @@ class JsonAdaptedPerson {
             this.classes.addAll(classes);
         }
         this.paymentHistory = paymentHistory;
-        this.joinMonth = joinMonth;
+        this.joinDate = joinDate;
         this.attendanceHistory = attendanceHistory;
     }
 
@@ -69,14 +70,14 @@ class JsonAdaptedPerson {
         name = source.getName().fullName;
         phone = source.getPhone().value;
         email = source.getEmail().value;
-        role = source.getRole().value;
+        role = source.getRole().toString().toLowerCase();
         address = source.getAddress().value;
         classes.addAll(source.getClasses().stream()
                 .map(JsonAdaptedClass::new)
                 .collect(Collectors.toList()));
         paymentHistory = new JsonAdaptedPaymentHistory(source.getPaymentHistory());
-        joinMonth = new JsonAdaptedJoinMonth(source.getJoinMonth());
-        attendanceHistory = source.getAttendanceHistory() != null
+        joinDate = source.getJoinDate().toString();
+        attendanceHistory = source.hasAttendanceHistory()
                 ? new JsonAdaptedAttendanceHistory(source.getAttendanceHistory())
                 : null;
     }
@@ -128,7 +129,7 @@ class JsonAdaptedPerson {
         if (!Role.isValidRole(role)) {
             throw new IllegalValueException(Role.MESSAGE_CONSTRAINTS);
         }
-        final Role modelRole = new Role(role);
+        final Role modelRole = Role.fromString(role);
 
         if (address == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
@@ -145,26 +146,27 @@ class JsonAdaptedPerson {
                 ? new PaymentHistory(java.time.LocalDate.now())
                 : paymentHistory.toModelType();
 
-        // Backward compatibility: if old JSON lacks joinMonth, initialize to current
-        // month
-        final JoinMonth modelJoinMonth = (joinMonth == null)
-                ? new JoinMonth(java.time.YearMonth.now())
-                : joinMonth.toModelType();
-
-        // Backward compatibility: if old JSON lacks attendanceHistory or if role is
-        // tutor, initialize appropriately
-        final AttendanceHistory modelAttendanceHistory;
-        if (Role.isStudent(modelRole)) {
-            modelAttendanceHistory = (attendanceHistory == null)
-                    ? new AttendanceHistory(modelJoinMonth)
-                    : attendanceHistory.toModelType();
+        // Backward compatibility: if old JSON lacks joinDate, initialize to current date
+        final JoinDate modelJoinDate;
+        if (joinDate == null) {
+            modelJoinDate = JoinDate.now();
         } else {
-            modelAttendanceHistory = null; // Tutors don't have attendance history
+            if (!JoinDate.isValidJoinDate(joinDate)) {
+                throw new IllegalValueException(JoinDate.MESSAGE_CONSTRAINTS);
+            }
+            modelJoinDate = new JoinDate(joinDate);
         }
 
         final Set<Class> modelClasses = new HashSet<>(personClasses);
-        return new Person(modelName, modelPhone, modelEmail, modelRole, modelAddress,
-                modelClasses, modelJoinMonth, modelAttendanceHistory, modelPaymentHistory);
+
+        // Create Student or Tutor based on role
+        if (modelRole == Role.STUDENT) {
+            return new Student(modelName, modelPhone, modelEmail, modelAddress,
+                    modelClasses, modelJoinDate, modelPaymentHistory);
+        } else {
+            return new Tutor(modelName, modelPhone, modelEmail, modelAddress,
+                    modelClasses, modelJoinDate, modelPaymentHistory);
+        }
     }
 
 }
