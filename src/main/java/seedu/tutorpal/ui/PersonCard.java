@@ -80,7 +80,7 @@ public class PersonCard extends UiPart<Region> {
                 + "-fx-text-fill: " + COLOR_TEXT + ";");
 
         // Role
-        String roleValue = person.getRole().value;
+        String roleValue = person.getRole().toString();
         role.setText(roleValue.toUpperCase());
 
         if ("tutor".equalsIgnoreCase(roleValue)) {

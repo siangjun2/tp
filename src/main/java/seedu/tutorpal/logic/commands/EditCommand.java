@@ -22,7 +22,6 @@ import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_PHONE;
 import seedu.tutorpal.model.Model;
 import static seedu.tutorpal.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 import seedu.tutorpal.model.person.Address;
-import seedu.tutorpal.model.person.AttendanceHistory;
 import seedu.tutorpal.model.person.Class;
 import seedu.tutorpal.model.person.Email;
 import seedu.tutorpal.model.person.JoinDate;

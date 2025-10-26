@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import seedu.tutorpal.commons.exceptions.IllegalValueException;
 import seedu.tutorpal.model.person.AttendanceHistory;
-import seedu.tutorpal.model.person.JoinMonth;
+import seedu.tutorpal.model.person.JoinDate;
 import seedu.tutorpal.model.person.WeeklyAttendance;
 
 /**
@@ -16,7 +16,7 @@ import seedu.tutorpal.model.person.WeeklyAttendance;
  */
 public class JsonAdaptedAttendanceHistory {
 
-    private final JsonAdaptedJoinMonth joinMonth;
+    private final String joinDate;
     private final List<JsonAdaptedWeeklyAttendance> weeklyAttendances = new ArrayList<>();
 
     /**
@@ -24,9 +24,9 @@ public class JsonAdaptedAttendanceHistory {
      * history details.
      */
     @JsonCreator
-    public JsonAdaptedAttendanceHistory(@JsonProperty("joinMonth") JsonAdaptedJoinMonth joinMonth,
+    public JsonAdaptedAttendanceHistory(@JsonProperty("joinDate") String joinDate,
             @JsonProperty("weeklyAttendances") List<JsonAdaptedWeeklyAttendance> weeklyAttendances) {
-        this.joinMonth = joinMonth;
+        this.joinDate = joinDate;
         if (weeklyAttendances != null) {
             this.weeklyAttendances.addAll(weeklyAttendances);
         }
@@ -36,7 +36,7 @@ public class JsonAdaptedAttendanceHistory {
      * Converts a given {@code AttendanceHistory} into this class for Jackson use.
      */
     public JsonAdaptedAttendanceHistory(AttendanceHistory source) {
-        joinMonth = new JsonAdaptedJoinMonth(source.getJoinMonth());
+        joinDate = source.getJoinDate().toString();
         source.getWeeklyAttendances().stream()
                 .map(JsonAdaptedWeeklyAttendance::new)
                 .forEach(weeklyAttendances::add);
@@ -50,16 +50,20 @@ public class JsonAdaptedAttendanceHistory {
      *                               the adapted attendance history.
      */
     public AttendanceHistory toModelType() throws IllegalValueException {
-        if (joinMonth == null) {
-            throw new IllegalValueException("Join month cannot be null");
+        if (joinDate == null) {
+            throw new IllegalValueException("Join date cannot be null");
         }
 
-        JoinMonth modelJoinMonth = joinMonth.toModelType();
-        AttendanceHistory attendanceHistory = new AttendanceHistory(modelJoinMonth);
+        if (!JoinDate.isValidJoinDate(joinDate)) {
+            throw new IllegalValueException(JoinDate.MESSAGE_CONSTRAINTS);
+        }
+
+        JoinDate modelJoinDate = new JoinDate(joinDate);
+        AttendanceHistory attendanceHistory = new AttendanceHistory(modelJoinDate);
 
         for (JsonAdaptedWeeklyAttendance jsonWeeklyAttendance : weeklyAttendances) {
             WeeklyAttendance weeklyAttendance = jsonWeeklyAttendance.toModelType();
-            attendanceHistory.markAttendance(weeklyAttendance);
+            attendanceHistory = attendanceHistory.markAttendance(weeklyAttendance);
         }
 
         return attendanceHistory;

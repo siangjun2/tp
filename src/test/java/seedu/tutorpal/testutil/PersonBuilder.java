@@ -8,12 +8,14 @@ import seedu.tutorpal.model.person.Address;
 import seedu.tutorpal.model.person.AttendanceHistory;
 import seedu.tutorpal.model.person.Class;
 import seedu.tutorpal.model.person.Email;
-import seedu.tutorpal.model.person.JoinMonth;
+import seedu.tutorpal.model.person.JoinDate;
 import seedu.tutorpal.model.person.Name;
 import seedu.tutorpal.model.person.PaymentHistory;
 import seedu.tutorpal.model.person.Person;
 import seedu.tutorpal.model.person.Phone;
 import seedu.tutorpal.model.person.Role;
+import seedu.tutorpal.model.person.Student;
+import seedu.tutorpal.model.person.Tutor;
 import seedu.tutorpal.model.util.SampleDataUtil;
 
 /**
@@ -28,7 +30,7 @@ public class PersonBuilder {
     public static final String DEFAULT_ADDRESS = "123, Jurong West Ave 6, #08-111";
     public static final String DEFAULT_CLASS = "s4mon1600";
     public static final String DEFAULT_PAYMENT_STATUS = "unpaid"; // kept for backward compatibility; unused now
-    public static final String DEFAULT_JOIN_MONTH = "11-2024";
+    public static final String DEFAULT_JOIN_DATE = "01-11-2024";
 
     private Name name;
     private Phone phone;
@@ -36,8 +38,9 @@ public class PersonBuilder {
     private Role role;
     private Address address;
     private Set<Class> classes;
-    private JoinMonth joinMonth;
+    private JoinDate joinDate;
     private AttendanceHistory attendanceHistory;
+    private PaymentHistory paymentHistory;
     // Payment is now derived from PaymentHistory; no explicit field needed
 
     /**
@@ -47,13 +50,14 @@ public class PersonBuilder {
         name = new Name(DEFAULT_NAME);
         phone = new Phone(DEFAULT_PHONE);
         email = new Email(DEFAULT_EMAIL);
-        role = new Role(DEFAULT_ROLE);
+        role = Role.fromString(DEFAULT_ROLE);
         address = new Address(DEFAULT_ADDRESS);
         classes = new HashSet<>();
         classes.add(new Class(DEFAULT_CLASS));
-        joinMonth = new JoinMonth(DEFAULT_JOIN_MONTH);
-        if (Role.isStudent(role)) {
-            attendanceHistory = new AttendanceHistory(joinMonth);
+        joinDate = new JoinDate(DEFAULT_JOIN_DATE);
+        paymentHistory = new PaymentHistory(LocalDate.now());
+        if (role == Role.STUDENT) {
+            attendanceHistory = new AttendanceHistory(joinDate);
         } else {
             attendanceHistory = null;
         }
@@ -69,13 +73,14 @@ public class PersonBuilder {
         role = personToCopy.getRole();
         address = personToCopy.getAddress();
         classes = new HashSet<>(personToCopy.getClasses());
-        joinMonth = personToCopy.getJoinMonth();
+        joinDate = personToCopy.getJoinDate();
+        paymentHistory = personToCopy.getPaymentHistory();
         // ensure attendanceHistory matches role: students keep or get initialized;
         // tutors get null
-        if (Role.isStudent(role)) {
-            attendanceHistory = personToCopy.getAttendanceHistory() != null
+        if (role == Role.STUDENT) {
+            attendanceHistory = personToCopy.hasAttendanceHistory()
                     ? personToCopy.getAttendanceHistory()
-                    : new AttendanceHistory(joinMonth);
+                    : new AttendanceHistory(joinDate);
         } else {
             attendanceHistory = null;
         }
@@ -125,11 +130,11 @@ public class PersonBuilder {
      * Sets the {@code Role} of the {@code Person} that we are building.
      */
     public PersonBuilder withRole(String role) {
-        this.role = new Role(role);
+        this.role = Role.fromString(role);
         // keep attendanceHistory consistent with role
-        if (Role.isStudent(this.role)) {
+        if (this.role == Role.STUDENT) {
             if (this.attendanceHistory == null) {
-                this.attendanceHistory = new AttendanceHistory(joinMonth);
+                this.attendanceHistory = new AttendanceHistory(joinDate);
             }
         } else {
             this.attendanceHistory = null;
@@ -147,13 +152,15 @@ public class PersonBuilder {
     }
 
     /**
-     * Sets the {@code JoinMonth} of the {@code Person} that we are building.
+     * Sets the {@code JoinDate} of the {@code Person} that we are building.
      */
-    public PersonBuilder withJoinMonth(String joinMonth) {
-        this.joinMonth = new JoinMonth(joinMonth);
-        // NOTE : also update attendance history to use the new join month
+    public PersonBuilder withJoinDate(String joinDate) {
+        this.joinDate = new JoinDate(joinDate);
+        // NOTE : also update attendance history to use the new join date
         // This resets the attendance history
-        this.attendanceHistory = new AttendanceHistory(this.joinMonth);
+        if (role == Role.STUDENT) {
+            this.attendanceHistory = new AttendanceHistory(this.joinDate);
+        }
         return this;
     }
 
@@ -177,12 +184,12 @@ public class PersonBuilder {
      * @return
      */
     public Person build() {
-        return new Person(name, phone, email, role, address, classes, joinMonth,
-                attendanceHistory, new PaymentHistory(LocalDate.now())); // NOT SURE WHAT YOU
-        // MEAN BY // Payment is
-        // now derived from
-        // PaymentHistory; no
-        // explicit field needed
+        if (role == Role.STUDENT) {
+            return new Student(name, phone, email, address, classes, joinDate,
+                    paymentHistory, attendanceHistory);
+        } else {
+            return new Tutor(name, phone, email, address, classes, joinDate, paymentHistory);
+        }
     }
 
 }
