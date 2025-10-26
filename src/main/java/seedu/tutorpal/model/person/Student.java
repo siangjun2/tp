@@ -1,12 +1,13 @@
 package seedu.tutorpal.model.person;
 
+import static seedu.tutorpal.model.person.Role.STUDENT;
+
 import java.time.Clock;
 import java.time.LocalDate;
 import java.util.Objects;
 import java.util.Set;
 
 import seedu.tutorpal.commons.util.ToStringBuilder;
-import static seedu.tutorpal.model.person.Role.STUDENT;
 
 /**
  * Subtype of Person, representing a Student

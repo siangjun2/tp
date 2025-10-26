@@ -1,8 +1,9 @@
 package seedu.tutorpal.model.person;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.Collections;
 import java.util.List;
-import static java.util.Objects.requireNonNull;
 import java.util.function.Predicate;
 
 import seedu.tutorpal.commons.util.ToStringBuilder;

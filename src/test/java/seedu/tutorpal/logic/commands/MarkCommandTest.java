@@ -3,11 +3,15 @@ package seedu.tutorpal.logic.commands;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.tutorpal.logic.commands.CommandTestUtil.assertCommandFailure;
+import static seedu.tutorpal.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
+import static seedu.tutorpal.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
+import static seedu.tutorpal.testutil.TypicalPersons.getTypicalAddressBook;
+
 import org.junit.jupiter.api.Test;
 
 import seedu.tutorpal.commons.core.index.Index;
 import seedu.tutorpal.logic.Messages;
-import static seedu.tutorpal.logic.commands.CommandTestUtil.assertCommandFailure;
 import seedu.tutorpal.model.Model;
 import seedu.tutorpal.model.ModelManager;
 import seedu.tutorpal.model.UserPrefs;
@@ -15,9 +19,6 @@ import seedu.tutorpal.model.person.AttendanceHistory;
 import seedu.tutorpal.model.person.Person;
 import seedu.tutorpal.model.person.Student;
 import seedu.tutorpal.model.person.WeeklyAttendance;
-import static seedu.tutorpal.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
-import static seedu.tutorpal.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
-import static seedu.tutorpal.testutil.TypicalPersons.getTypicalAddressBook;
 
 /**
  * Contains integration tests (interaction with the Model) and unit tests for

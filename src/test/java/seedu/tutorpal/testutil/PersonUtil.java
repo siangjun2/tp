@@ -1,13 +1,14 @@
 package seedu.tutorpal.testutil;
 
-import seedu.tutorpal.logic.commands.AddCommand;
-import seedu.tutorpal.logic.commands.EditCommand.EditPersonDescriptor;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_CLASS;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_ROLE;
+
+import seedu.tutorpal.logic.commands.AddCommand;
+import seedu.tutorpal.logic.commands.EditCommand.EditPersonDescriptor;
 import seedu.tutorpal.model.person.Person;
 
 /**

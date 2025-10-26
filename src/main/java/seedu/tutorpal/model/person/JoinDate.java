@@ -1,13 +1,13 @@
 package seedu.tutorpal.model.person;
 
+import static java.util.Objects.requireNonNull;
+import static seedu.tutorpal.commons.util.AppUtil.checkArgument;
+
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.format.ResolverStyle;
-import static java.util.Objects.requireNonNull;
-
-import static seedu.tutorpal.commons.util.AppUtil.checkArgument;
 
 /**
  * Represents a Person's join date in the address book.

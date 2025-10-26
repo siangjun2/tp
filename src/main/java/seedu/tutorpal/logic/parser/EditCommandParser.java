@@ -1,15 +1,7 @@
 package seedu.tutorpal.logic.parser;
 
-import java.util.Collection;
-import java.util.Collections;
 import static java.util.Objects.requireNonNull;
-import java.util.Optional;
-import java.util.Set;
-
-import seedu.tutorpal.commons.core.index.Index;
 import static seedu.tutorpal.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import seedu.tutorpal.logic.commands.EditCommand;
-import seedu.tutorpal.logic.commands.EditCommand.EditPersonDescriptor;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_CLASS;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_EMAIL;
@@ -17,6 +9,15 @@ import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_JOIN_DATE;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_ROLE;
+
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Optional;
+import java.util.Set;
+
+import seedu.tutorpal.commons.core.index.Index;
+import seedu.tutorpal.logic.commands.EditCommand;
+import seedu.tutorpal.logic.commands.EditCommand.EditPersonDescriptor;
 import seedu.tutorpal.logic.parser.exceptions.ParseException;
 import seedu.tutorpal.model.person.Class;
 

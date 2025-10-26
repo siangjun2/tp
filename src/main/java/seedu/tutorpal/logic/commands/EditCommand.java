@@ -1,10 +1,19 @@
 package seedu.tutorpal.logic.commands;
 
+import static java.util.Objects.requireNonNull;
+import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_ADDRESS;
+import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_CLASS;
+import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_EMAIL;
+import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_JOIN_DATE;
+import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_NAME;
+import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_ROLE;
+import static seedu.tutorpal.model.Model.PREDICATE_SHOW_ALL_PERSONS;
+
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
-import static java.util.Objects.requireNonNull;
 import java.util.Optional;
 import java.util.Set;
 
@@ -13,15 +22,7 @@ import seedu.tutorpal.commons.util.CollectionUtil;
 import seedu.tutorpal.commons.util.ToStringBuilder;
 import seedu.tutorpal.logic.Messages;
 import seedu.tutorpal.logic.commands.exceptions.CommandException;
-import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_ADDRESS;
-import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_CLASS;
-import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_EMAIL;
-import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_JOIN_DATE;
-import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_NAME;
-import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_PHONE;
-import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_ROLE;
 import seedu.tutorpal.model.Model;
-import static seedu.tutorpal.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 import seedu.tutorpal.model.person.Address;
 import seedu.tutorpal.model.person.Class;
 import seedu.tutorpal.model.person.Email;

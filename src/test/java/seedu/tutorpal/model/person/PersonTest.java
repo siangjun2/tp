@@ -144,7 +144,7 @@ public class PersonTest {
     }
 
     @Test
-    public void student_equals_sameDataWithFixedClock_returnsTrue() {
+    public void student_equalsSameDataWithFixedClock() {
         Clock fixed = Clock.fixed(Instant.parse("2024-01-15T00:00:00Z"), ZoneOffset.UTC);
         JoinDate jd = new JoinDate(LocalDate.now(fixed)); // same value for both, using fixed clock
 

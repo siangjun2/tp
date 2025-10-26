@@ -1,14 +1,15 @@
 package seedu.tutorpal.logic.commands;
 
+import static java.util.Objects.requireNonNull;
+import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_JOIN_DATE;
+
 import java.time.YearMonth;
 import java.util.List;
-import static java.util.Objects.requireNonNull;
 
 import seedu.tutorpal.commons.core.index.Index;
 import seedu.tutorpal.commons.util.ToStringBuilder;
 import seedu.tutorpal.logic.Messages;
 import seedu.tutorpal.logic.commands.exceptions.CommandException;
-import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_JOIN_DATE;
 import seedu.tutorpal.model.Model;
 import seedu.tutorpal.model.person.PaymentHistory;
 import seedu.tutorpal.model.person.Person;
