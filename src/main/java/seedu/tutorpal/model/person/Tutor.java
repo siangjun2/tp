@@ -15,6 +15,7 @@ public class Tutor extends Person {
     public static final String PERSON_WORD = TUTOR.toString();
 
     /**
+     * For Add Command and Edit Command
      * Public constructor with explicit joinDate (uses system clock for defaults).
      */
     public Tutor(Name name, Phone phone, Email email, Address address, Set<Class> classes,
@@ -26,7 +27,6 @@ public class Tutor extends Person {
     /**
      * TODO Added for Payment extension. Please remove and simplify constructors if not needed.
      * Testing version of public constructor. Allows injecting of clock to control "now".
-     * ONLY MEANT FOR TESTS
      */
     protected Tutor(Name name, Phone phone, Email email, Address address, Set<Class> classes,
                     JoinDate joinDate, Clock nowClock) {

@@ -143,7 +143,7 @@ public class AttendanceHistory {
 
     /**
      * Allows edit command to change Join Date of Person.
-     * Built in validation of WeeklyAttendance in constructor already.
+     * Built in validation of WeeklyAttendance in constructor.
      * @param joinDate New JoinDate
      * @return AttendanceHistory with new JoinDate
      */

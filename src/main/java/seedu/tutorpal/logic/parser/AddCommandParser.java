@@ -9,7 +9,6 @@ import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_ROLE;
 
-import java.time.LocalDate;
 import java.util.Set;
 import java.util.stream.Stream;
 
@@ -34,6 +33,7 @@ public class AddCommandParser implements Parser<AddCommand> {
     /**
      * Parses the given {@code String} of arguments in the context of the AddCommand
      * and returns an AddCommand object for execution.
+     * 
      * @throws ParseException if the user input does not conform the expected format
      */
     @Override
@@ -69,7 +69,7 @@ public class AddCommandParser implements Parser<AddCommand> {
 
         JoinDate joinDate = argMultimap.getValue(PREFIX_JOIN_DATE).isPresent()
                 ? ParserUtil.parseJoinDate(argMultimap.getValue(PREFIX_JOIN_DATE).get())
-                : new JoinDate(LocalDate.now());
+                : JoinDate.now();
         Person person = (role == Role.STUDENT)
                 ? new Student(name, phone, email, address, classList, joinDate)
                 : new Tutor(name, phone, email, address, classList, joinDate);

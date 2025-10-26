@@ -1,22 +1,21 @@
 package seedu.tutorpal.model.person;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import java.time.Clock;
 import java.time.Instant;
 import java.time.Year;
 import java.time.ZoneId;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 public class AttendanceHistoryTest {
 
     // Fixed clock: 2024-03-10 is ISO week 10 of 2024
     private static final Clock FIXED_CLOCK_2024_W10 = Clock.fixed(
-            Instant.parse("2024-03-10T10:00:00Z"), ZoneId.systemDefault());
+            Instant.parse("2024-03-10T10:00:00Z"), ZoneId.of("UTC"));
 
     @Test
     public void hasAttended_noAttendanceMarked_returnsFalse() {
@@ -137,7 +136,7 @@ public class AttendanceHistoryTest {
         JoinDate joinDate = new JoinDate("01-01-2024");
         AttendanceHistory history1 = new AttendanceHistory(joinDate, FIXED_CLOCK_2024_W10);
         Clock anotherClock = Clock.fixed(Instant.parse("2024-03-20T10:00:00Z"),
-                ZoneId.systemDefault()); // different time
+                ZoneId.of("UTC")); // different time
         AttendanceHistory history2 = new AttendanceHistory(joinDate, anotherClock);
 
         assertTrue(history1.equals(history2));

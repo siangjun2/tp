@@ -1,15 +1,15 @@
 package seedu.tutorpal.model.person;
 
-import static java.util.Objects.requireNonNull;
-import static seedu.tutorpal.commons.util.AppUtil.checkArgument;
-import static seedu.tutorpal.commons.util.CollectionUtil.requireAllNonNull;
-
 import java.time.Clock;
 import java.time.LocalDate;
 import java.time.Year;
 import java.time.temporal.IsoFields;
+import static java.util.Objects.requireNonNull;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static seedu.tutorpal.commons.util.AppUtil.checkArgument;
+import static seedu.tutorpal.commons.util.CollectionUtil.requireAllNonNull;
 
 /**
  * Represents a weekly attendance period for a specific ISO week in a year.
@@ -37,7 +37,8 @@ public class WeeklyAttendance {
 
     // Allow up to 53 weeks (some ISO years have 53)
     // Does not allow Year 0000 because of Year.of() limitations.
-    public static final String WEEKLY_ATTENDANCE_REGEX = "(?i)^W(0[1-9]|[1-4][0-9]|5[0-3])-(?!0000)(\\\\d{4})$\n";
+    public static final String WEEKLY_ATTENDANCE_REGEX =
+            "(?i)^W(0[1-9]|[1-4][0-9]|5[0-3])-(?!0000)(\\d{4})$";
 
     private final int weekIndex; // 01 to 52 or 53 depending on year
     private final Year year; //immutable

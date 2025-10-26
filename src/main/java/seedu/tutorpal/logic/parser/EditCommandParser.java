@@ -2,6 +2,7 @@ package seedu.tutorpal.logic.parser;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.tutorpal.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.tutorpal.logic.commands.EditCommand.MESSAGE_INVALID_EDIT;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_CLASS;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_EMAIL;
@@ -20,6 +21,7 @@ import seedu.tutorpal.logic.commands.EditCommand;
 import seedu.tutorpal.logic.commands.EditCommand.EditPersonDescriptor;
 import seedu.tutorpal.logic.parser.exceptions.ParseException;
 import seedu.tutorpal.model.person.Class;
+import seedu.tutorpal.model.person.JoinDate;
 
 /**
  * Parses input arguments and creates a new EditCommand object
@@ -30,12 +32,17 @@ public class EditCommandParser implements Parser<EditCommand> {
      * Parses the given {@code String} of arguments in the context of the
      * EditCommand
      * and returns an EditCommand object for execution.
-     * @throws ParseException if the user input does not conform the expected format
+      * @throws ParseException if the user input does not conform the expected format
      */
     public EditCommand parse(String args) throws ParseException {
         requireNonNull(args);
-        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_ROLE, PREFIX_NAME, PREFIX_PHONE,
-                PREFIX_EMAIL, PREFIX_CLASS, PREFIX_ADDRESS, PREFIX_JOIN_DATE);
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL,
+                PREFIX_ADDRESS, PREFIX_CLASS, PREFIX_JOIN_DATE, PREFIX_ROLE);
+
+        // Validate that role is not changed.
+        if (argMultimap.getValue(PREFIX_ROLE).isPresent()) {
+            throw new ParseException(String.format(MESSAGE_INVALID_EDIT, PREFIX_ROLE));
+        }
 
         Index index;
 
@@ -45,13 +52,11 @@ public class EditCommandParser implements Parser<EditCommand> {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE), pe);
         }
 
-        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_ROLE, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS);
+        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS,
+                PREFIX_JOIN_DATE);
 
         EditPersonDescriptor editPersonDescriptor = new EditPersonDescriptor();
 
-        if (argMultimap.getValue(PREFIX_ROLE).isPresent()) {
-            editPersonDescriptor.setRole(ParserUtil.parseRole(argMultimap.getValue(PREFIX_ROLE).get()));
-        }
         if (argMultimap.getValue(PREFIX_NAME).isPresent()) {
             editPersonDescriptor.setName(ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get()));
         }
@@ -65,7 +70,8 @@ public class EditCommandParser implements Parser<EditCommand> {
             editPersonDescriptor.setAddress(ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS).get()));
         }
         if (argMultimap.getValue(PREFIX_JOIN_DATE).isPresent()) {
-            editPersonDescriptor.setJoinMonth(ParserUtil.parseJoinMonth(argMultimap.getValue(PREFIX_JOIN_DATE).get()));
+            JoinDate joinDate = ParserUtil.parseJoinDate(argMultimap.getValue(PREFIX_JOIN_DATE).get());
+            editPersonDescriptor.setJoinDate(joinDate);
         }
         parseClassesForEdit(argMultimap.getAllValues(PREFIX_CLASS)).ifPresent(editPersonDescriptor::setClasses);
 

@@ -1,13 +1,12 @@
 package seedu.tutorpal.model.person;
 
-import static seedu.tutorpal.model.person.Role.STUDENT;
-
 import java.time.Clock;
 import java.time.LocalDate;
 import java.util.Objects;
 import java.util.Set;
 
 import seedu.tutorpal.commons.util.ToStringBuilder;
+import static seedu.tutorpal.model.person.Role.STUDENT;
 
 /**
  * Subtype of Person, representing a Student
@@ -18,6 +17,7 @@ public class Student extends Person {
     private final AttendanceHistory attendanceHistory;
 
     /**
+     * For Add Command
      * Public constructor with explicit joinDate (uses system clock for defaults).
      */
     public Student(Name name, Phone phone, Email email, Address address, Set<Class> classes,
@@ -27,13 +27,32 @@ public class Student extends Person {
     }
 
     /**
-     * Testing version of public constructor. Allows injecting of clock to control
-     * "now".
-     * ONLY MEANT FOR TESTS
+     * For Add Command
+     *  Allows injecting of clock to control
      */
-    protected Student(Name name, Phone phone, Email email, Address address, Set<Class> classes,
+    public Student(Name name, Phone phone, Email email, Address address, Set<Class> classes,
             JoinDate joinDate, Clock nowClock) {
         this(name, phone, email, address, classes, joinDate, null, nowClock,
+                new PaymentHistory(LocalDate.now(nowClock)));
+    }
+
+    /**
+     * For Edit Command
+     * Public constructor with attendance history
+     */
+    public Student(Name name, Phone phone, Email email, Address address, Set<Class> classes,
+                   JoinDate joinDate, AttendanceHistory attendanceHistory) {
+        this(name, phone, email, address, classes, joinDate, attendanceHistory, Clock.systemDefaultZone(),
+                new PaymentHistory(LocalDate.now()));
+    }
+
+    /**
+     * For Edit Command
+     * Allows injecting of clock to control
+     */
+    public Student(Name name, Phone phone, Email email, Address address, Set<Class> classes,
+                   JoinDate joinDate, AttendanceHistory attendanceHistory, Clock nowClock) {
+        this(name, phone, email, address, classes, joinDate, attendanceHistory, nowClock,
                 new PaymentHistory(LocalDate.now(nowClock)));
     }
 
@@ -70,7 +89,7 @@ public class Student extends Person {
     }
 
     private static void validateClassSize(Set<Class> classes) {
-        if (classes.size() > 1) {
+        if (classes.size() != 1) {
             throw new IllegalArgumentException(String.format(
                     Person.MESSAGE_INVALID_CLASS_SIZE, Student.PERSON_WORD, classes.size()));
         }

@@ -1,17 +1,14 @@
 package seedu.tutorpal.logic.commands;
 
-import static java.util.Objects.requireNonNull;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static seedu.tutorpal.testutil.Assert.assertThrows;
-import static seedu.tutorpal.testutil.TypicalPersons.ALICE;
-
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
+import static java.util.Objects.requireNonNull;
 import java.util.function.Predicate;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 import javafx.collections.ObservableList;
@@ -22,7 +19,9 @@ import seedu.tutorpal.model.Model;
 import seedu.tutorpal.model.ReadOnlyAddressBook;
 import seedu.tutorpal.model.ReadOnlyUserPrefs;
 import seedu.tutorpal.model.person.Person;
+import static seedu.tutorpal.testutil.Assert.assertThrows;
 import seedu.tutorpal.testutil.PersonBuilder;
+import static seedu.tutorpal.testutil.TypicalPersons.ALICE;
 
 public class AddCommandTest {
 
@@ -44,6 +43,36 @@ public class AddCommandTest {
         String expectedMessage = String.format(AddCommand.MESSAGE_SUCCESS, capitalizedRole, name);
         assertEquals(expectedMessage, commandResult.getFeedbackToUser());
         assertEquals(Arrays.asList(validPerson), modelStub.personsAdded);
+    }
+
+    @Test
+    public void execute_duplicateAfterFirstAdd_throwsCommandException() throws Exception {
+        ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
+        Person validPerson = new PersonBuilder().build();
+        AddCommand addCommand = new AddCommand(validPerson);
+
+        // First add succeeds
+        addCommand.execute(modelStub);
+
+        // Second add of same person should fail
+        assertThrows(CommandException.class, AddCommand.MESSAGE_DUPLICATE_PERSON, () -> addCommand.execute(modelStub));
+    }
+
+    @Test
+    public void execute_multiplePersonsAccepted_addAllSuccessful() throws Exception {
+        ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
+        Person p1 = new PersonBuilder().withName("Alice One").build();
+        Person p2 = new PersonBuilder().withName("Bob Two").build();
+
+        CommandResult r1 = new AddCommand(p1).execute(modelStub);
+        CommandResult r2 = new AddCommand(p2).execute(modelStub);
+
+        assertEquals(Arrays.asList(p1, p2), modelStub.personsAdded);
+
+        String expectedMsg1 = String.format(AddCommand.MESSAGE_SUCCESS, p1.getRole().toString(), p1.getName().toString());
+        String expectedMsg2 = String.format(AddCommand.MESSAGE_SUCCESS, p2.getRole().toString(), p2.getName().toString());
+        assertEquals(expectedMsg1, r1.getFeedbackToUser());
+        assertEquals(expectedMsg2, r2.getFeedbackToUser());
     }
 
     @Test

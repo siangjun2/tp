@@ -1,6 +1,9 @@
 package seedu.tutorpal.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+
+import seedu.tutorpal.commons.util.ToStringBuilder;
+import seedu.tutorpal.logic.commands.exceptions.CommandException;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_CLASS;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_EMAIL;
@@ -8,9 +11,6 @@ import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_JOIN_DATE;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_ROLE;
-
-import seedu.tutorpal.commons.util.ToStringBuilder;
-import seedu.tutorpal.logic.commands.exceptions.CommandException;
 import seedu.tutorpal.model.Model;
 import seedu.tutorpal.model.person.Person;
 
@@ -32,13 +32,15 @@ public class AddCommand extends Command {
             + "[" + PREFIX_ADDRESS + "ADDRESS] "
             + "[" + PREFIX_JOIN_DATE + "JOINDATE] "
             + "[" + PREFIX_CLASS + "MORE_CLASSES]... \n"
+            + "Note: Tutors may specify multiple classes by repeating " + PREFIX_CLASS + "; "
+            + "students must specify exactly one class.\n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_ROLE + "student "
             + PREFIX_NAME + "Kevin "
             + PREFIX_PHONE + "98761234 "
             + PREFIX_EMAIL + "kevin@gmail.com "
             + PREFIX_ADDRESS + "Kent Ridge "
-            + PREFIX_CLASS + "s4mon1600"
+            + PREFIX_CLASS + "s4mon1600 "
             + PREFIX_JOIN_DATE + "06-10-2025";
 
     // SHORTENED is used for help command
@@ -51,6 +53,8 @@ public class AddCommand extends Command {
         + "[" + PREFIX_ADDRESS + "ADDRESS] "
         + "[" + PREFIX_JOIN_DATE + "JOINDATE] "
         + "[" + PREFIX_CLASS + "MORE_CLASSES]... \n"
+        + "\t\tNote: Tutors may specify multiple classes by repeating " + PREFIX_CLASS + "; "
+        + "students must specify exactly one class.\n"
         + "\t\tExample: " + COMMAND_WORD + " "
         + PREFIX_ROLE + "student "
         + PREFIX_NAME + "Kevin "
