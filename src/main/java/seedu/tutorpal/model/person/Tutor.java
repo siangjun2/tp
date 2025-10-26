@@ -48,7 +48,7 @@ public class Tutor extends Person {
     private Tutor(Name name, Phone phone, Email email, Address address, Set<Class> classes,
                   JoinDate joinDate, AttendanceHistory attendanceHistory, Clock nowClock,
                   PaymentHistory paymentHistory) {
-        super(name, phone, email, address, classes, joinDate, paymentHistory);
+        super(name, phone, email, address, classes, joinDate, paymentHistory, nowClock);
         validateAttendanceHistoryRules(attendanceHistory);
     }
 
