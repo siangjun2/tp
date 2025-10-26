@@ -14,6 +14,7 @@ import static seedu.tutorpal.testutil.TypicalPersons.BOB;
 
 import java.time.Clock;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.ZoneOffset;
 import java.util.Set;
 
@@ -109,6 +110,7 @@ public class PersonTest {
                 + ", classes=" + ALICE.getClasses()
                 + ", joinDate=" + ALICE.getJoinDate()
                 + ", paymentHistory=" + ALICE.getPaymentHistory().toString()
+                + ", attendanceHistory=" + ALICE.getAttendanceHistory().toString()
                 + "}";
         assertEquals(expected, ALICE.toString());
     }
@@ -142,9 +144,9 @@ public class PersonTest {
     }
 
     @Test
-    public void student_equals_sameDataWithFixedClock_returnsTrue() {
+    public void student_equalsSameDataWithFixedClock() {
         Clock fixed = Clock.fixed(Instant.parse("2024-01-15T00:00:00Z"), ZoneOffset.UTC);
-        JoinDate jd = JoinDate.now(); // same value for both, attendanceHistory constructed with fixed clock
+        JoinDate jd = new JoinDate(LocalDate.now(fixed)); // same value for both, using fixed clock
 
         Student s1 = new Student(
                 new Name("Chris"),

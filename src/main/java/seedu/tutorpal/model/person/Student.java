@@ -35,6 +35,24 @@ public class Student extends Person {
     }
 
     /**
+     * Public constructor with explicit joinDate and paymentHistory.
+     */
+    public Student(Name name, Phone phone, Email email, Address address, Set<Class> classes,
+            JoinDate joinDate, PaymentHistory paymentHistory) {
+        this(name, phone, email, address, classes, joinDate, null, Clock.systemDefaultZone(),
+                paymentHistory);
+    }
+
+    /**
+     * Public constructor with explicit joinDate, paymentHistory, and attendanceHistory.
+     */
+    public Student(Name name, Phone phone, Email email, Address address, Set<Class> classes,
+            JoinDate joinDate, PaymentHistory paymentHistory, AttendanceHistory attendanceHistory) {
+        this(name, phone, email, address, classes, joinDate, attendanceHistory, Clock.systemDefaultZone(),
+                paymentHistory);
+    }
+
+    /**
      * Testing version of public constructor. Allows injecting of clock to control
      * "now".
      * ONLY MEANT FOR TESTS
@@ -111,7 +129,13 @@ public class Student extends Person {
     @Override
     public String toString() {
         return new ToStringBuilder(this)
-                .add("person", super.toString())
+                .add("name", getName())
+                .add("phone", getPhone())
+                .add("email", getEmail())
+                .add("address", getAddress())
+                .add("classes", getClasses())
+                .add("joinDate", getJoinDate())
+                .add("paymentHistory", getPaymentHistory())
                 .add("attendanceHistory", attendanceHistory)
                 .toString();
     }

@@ -32,6 +32,15 @@ public class Tutor extends Person {
     }
 
     /**
+     * Public constructor with explicit joinDate and paymentHistory.
+     */
+    public Tutor(Name name, Phone phone, Email email, Address address, Set<Class> classes,
+                 JoinDate joinDate, PaymentHistory paymentHistory) {
+        this(name, phone, email, address, classes, joinDate, null, Clock.systemDefaultZone(),
+                paymentHistory);
+    }
+
+    /**
      * TODO Added for Payment extension. Please remove and simplify constructors if not needed.
      * Testing version of public constructor. Allows injecting of clock to control "now".
      * ONLY MEANT FOR TESTS
