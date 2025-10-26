@@ -17,6 +17,7 @@ import seedu.tutorpal.model.ModelManager;
 import seedu.tutorpal.model.UserPrefs;
 import seedu.tutorpal.model.person.AttendanceHistory;
 import seedu.tutorpal.model.person.Person;
+import seedu.tutorpal.model.person.Student;
 import seedu.tutorpal.model.person.WeeklyAttendance;
 
 /**
@@ -107,25 +108,23 @@ public class MarkCommandTest {
      * This is a helper method to simulate what MarkCommand.execute() does.
      */
     private Person createMarkedPerson(Person personToMark, WeeklyAttendance week) {
-        // Create a copy of the attendance history
-        AttendanceHistory newAttendanceHistory = new AttendanceHistory(personToMark.getAttendanceHistory());
-
+        // Mark attendance
+        AttendanceHistory newAttendanceHistory;
         try {
-            newAttendanceHistory.markAttendance(week);
+            newAttendanceHistory = personToMark.getAttendanceHistory().markAttendance(week);
         } catch (IllegalArgumentException e) {
             // Should not happen in tests
             throw new AssertionError("Week should not be already marked in test setup", e);
         }
 
-        return new Person(
+        return new Student(
                 personToMark.getName(),
                 personToMark.getPhone(),
                 personToMark.getEmail(),
-                personToMark.getRole(),
                 personToMark.getAddress(),
                 personToMark.getClasses(),
-                personToMark.getJoinMonth(),
-                newAttendanceHistory,
-                personToMark.getPaymentHistory());
+                personToMark.getJoinDate(),
+                personToMark.getPaymentHistory(),
+                newAttendanceHistory);
     }
 }
