@@ -30,7 +30,7 @@ public class ClassContainsKeywordsPredicate implements Predicate<Person> {
     public boolean test(Person person) {
         requireNonNull(person);
         if (!keywords.equals(Collections.emptyList()) && keywords.get(0).isEmpty()) {
-            return "student".equalsIgnoreCase(person.getRole().value);
+            return person instanceof Student;
         }
         return keywords.stream()
                 .anyMatch(keyword -> person.getClasses().stream()

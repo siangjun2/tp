@@ -43,7 +43,7 @@ public class StudentBelongsToTutorPredicate implements Predicate<Person> {
     @Override
     public boolean test(Person person) {
         // Only filter students (not tutors)
-        if (!"student".equalsIgnoreCase(person.getRole().value)) {
+        if (!(person instanceof Student)) {
             return false;
         }
         // If we haven't found the tutor's classes yet, return false
@@ -62,7 +62,7 @@ public class StudentBelongsToTutorPredicate implements Predicate<Person> {
      */
     public List<String> findTutorClasses(List<Person> allPersons) {
         return allPersons.stream()
-                .filter(person -> "tutor".equalsIgnoreCase(person.getRole().value))
+                .filter(person -> person instanceof Tutor)
                 .filter(person -> tutorNames.stream()
                         .anyMatch(tutorName -> person
                                 .getName().fullName.toLowerCase().contains(tutorName.toLowerCase())))
