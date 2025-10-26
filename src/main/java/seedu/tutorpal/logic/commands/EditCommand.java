@@ -24,7 +24,6 @@ import seedu.tutorpal.logic.Messages;
 import seedu.tutorpal.logic.commands.exceptions.CommandException;
 import seedu.tutorpal.model.Model;
 import seedu.tutorpal.model.person.Address;
-import seedu.tutorpal.model.person.AttendanceHistory;
 import seedu.tutorpal.model.person.Class;
 import seedu.tutorpal.model.person.Email;
 import seedu.tutorpal.model.person.JoinDate;
@@ -141,9 +140,11 @@ public class EditCommand extends Command {
 
         // Create Student or Tutor based on role
         if (updatedRole == Role.STUDENT) {
-            return new Student(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedClasses, updatedJoinDate);
+            return new Student(updatedName, updatedPhone, updatedEmail,
+                    updatedAddress, updatedClasses, updatedJoinDate);
         } else {
-            return new Tutor(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedClasses, updatedJoinDate);
+            return new Tutor(updatedName, updatedPhone, updatedEmail,
+                    updatedAddress, updatedClasses, updatedJoinDate);
         }
     }
 

@@ -158,7 +158,7 @@ class JsonAdaptedPerson {
         }
 
         final Set<Class> modelClasses = new HashSet<>(personClasses);
-        
+
         // Create Student or Tutor based on role
         if (modelRole == Role.STUDENT) {
             return new Student(modelName, modelPhone, modelEmail, modelAddress,
