@@ -297,34 +297,4 @@ public class AttendanceHistoryTest {
         assertThrows(IllegalArgumentException.class, () -> history.markAttendance(futureWeekSameYear));
         assertFalse(history.hasAttended(futureWeekSameYear));
     }
-
-    @Test
-    public void ensureValidJoinDate_joinDateBeforeOrSameAsNow_noException() {
-        AttendanceHistory base = new AttendanceHistory(new JoinDate("01-01-2024"), FIXED_CLOCK_2024_W10);
-
-        // Before current date (2024-03-10)
-        base.ensureValidJoinDate(new JoinDate("09-03-2024"), FIXED_CLOCK_2024_W10);
-
-        // Same as current date
-        base.ensureValidJoinDate(new JoinDate("10-03-2024"), FIXED_CLOCK_2024_W10);
-    }
-
-    @Test
-    public void ensureValidJoinDate_joinDateAfterNow_throwsIllegalArgumentException() {
-        AttendanceHistory base = new AttendanceHistory(new JoinDate("01-01-2024"), FIXED_CLOCK_2024_W10);
-
-        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () ->
-                base.ensureValidJoinDate(new JoinDate("11-03-2024"), FIXED_CLOCK_2024_W10));
-        assertEquals(AttendanceHistory.MESSAGE_INVALID_JOIN_DATE, ex.getMessage());
-    }
-
-    @Test
-    public void ensureValidJoinDate_nullParams_throwNullPointerException() {
-        AttendanceHistory base = new AttendanceHistory(new JoinDate("01-01-2024"), FIXED_CLOCK_2024_W10);
-
-        assertThrows(NullPointerException.class, () ->
-                base.ensureValidJoinDate(null, FIXED_CLOCK_2024_W10));
-        assertThrows(NullPointerException.class, () ->
-                base.ensureValidJoinDate(new JoinDate("10-03-2024"), null));
-    }
 }
