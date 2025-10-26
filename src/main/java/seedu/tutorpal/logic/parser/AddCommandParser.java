@@ -1,29 +1,26 @@
 package seedu.tutorpal.logic.parser;
 
+import java.util.Set;
+import java.util.stream.Stream;
+
 import static seedu.tutorpal.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import seedu.tutorpal.logic.commands.AddCommand;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_CLASS;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_ROLE;
-
-import java.time.YearMonth;
-import java.util.Set;
-import java.util.stream.Stream;
-
-import seedu.tutorpal.logic.commands.AddCommand;
 import seedu.tutorpal.logic.parser.exceptions.ParseException;
 import seedu.tutorpal.model.person.Address;
-import seedu.tutorpal.model.person.AttendanceHistory;
 import seedu.tutorpal.model.person.Class;
 import seedu.tutorpal.model.person.Email;
-import seedu.tutorpal.model.person.JoinMonth;
 import seedu.tutorpal.model.person.Name;
-import seedu.tutorpal.model.person.PaymentHistory;
 import seedu.tutorpal.model.person.Person;
 import seedu.tutorpal.model.person.Phone;
 import seedu.tutorpal.model.person.Role;
+import seedu.tutorpal.model.person.Student;
+import seedu.tutorpal.model.person.Tutor;
 
 /**
  * Parses input arguments and creates a new AddCommand object
@@ -52,7 +49,7 @@ public class AddCommandParser implements Parser<AddCommand> {
         Email email = ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL).get());
         Role role = ParserUtil.parseRole(argMultimap.getValue(PREFIX_ROLE).get());
 
-        if (role.value.equalsIgnoreCase("student")) {
+        if (role == Role.STUDENT) {
             argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_CLASS);
         }
 
@@ -61,22 +58,16 @@ public class AddCommandParser implements Parser<AddCommand> {
                 ? ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS).get())
                 : new Address("-");
         Set<Class> classList = ParserUtil.parseClasses(argMultimap.getAllValues(PREFIX_CLASS));
-        JoinMonth joinMonth = new JoinMonth(YearMonth.now());
-        AttendanceHistory attendanceHistory;
-        if (!Role.isStudent(role)) {
-            // If tutor, attendance history should be null
-            attendanceHistory = null;
-        } else {
-            attendanceHistory = new AttendanceHistory(joinMonth);
-        }
 
         if (classList.isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
                     "At least one class must be specified using c/ prefix"));
         }
 
-        Person person = new Person(name, phone, email, role, address, classList,
-                joinMonth, attendanceHistory, new PaymentHistory(java.time.LocalDate.now()));
+        // Create Student or Tutor based on role
+        Person person = (role == Role.STUDENT)
+                ? new Student(name, phone, email, address, classList)
+                : new Tutor(name, phone, email, address, classList);
 
         return new AddCommand(person);
     }

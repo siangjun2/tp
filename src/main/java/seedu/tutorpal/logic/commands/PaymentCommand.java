@@ -1,18 +1,19 @@
 package seedu.tutorpal.logic.commands;
 
-import static java.util.Objects.requireNonNull;
-import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_JOIN_DATE;
-
 import java.time.YearMonth;
 import java.util.List;
+import static java.util.Objects.requireNonNull;
 
 import seedu.tutorpal.commons.core.index.Index;
 import seedu.tutorpal.commons.util.ToStringBuilder;
 import seedu.tutorpal.logic.Messages;
 import seedu.tutorpal.logic.commands.exceptions.CommandException;
+import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_JOIN_DATE;
 import seedu.tutorpal.model.Model;
 import seedu.tutorpal.model.person.PaymentHistory;
 import seedu.tutorpal.model.person.Person;
+import seedu.tutorpal.model.person.Role;
+import seedu.tutorpal.model.person.Student;
 
 /**
  * Updates the payment status of a student in the address book.
@@ -64,12 +65,12 @@ public class PaymentCommand extends Command {
         Person personToEdit = lastShownList.get(index.getZeroBased());
 
         // Check if the person is a student
-        if (personToEdit.getRole().value.equals("tutor")) {
+        if (personToEdit.getRole() == Role.TUTOR) {
             throw new CommandException(MESSAGE_NOT_STUDENT);
         }
 
         // Validate month constraints
-        YearMonth joinMonth = YearMonth.from(personToEdit.getJoinDate());
+        YearMonth joinMonth = personToEdit.getJoinDate().toYearMonth();
         if (month.isBefore(joinMonth)) {
             throw new CommandException(String.format(MESSAGE_MONTH_BEFORE_JOIN, joinMonth));
         }
@@ -88,12 +89,13 @@ public class PaymentCommand extends Command {
     /**
      * Creates and returns a {@code Person} with the updated payment status for the
      * specified month.
+     * Note: This method assumes the person is a Student (validated in execute()).
      */
     private Person createPersonWithUpdatedPayment(Person person, YearMonth month) {
         PaymentHistory updatedPaymentHistory = person.getPaymentHistory().markMonthAsPaid(month);
-        return new Person(person.getName(), person.getPhone(), person.getEmail(),
-                person.getRole(), person.getAddress(), person.getClasses(),
-                person.getJoinMonth(), person.getAttendanceHistory(), updatedPaymentHistory);
+        // Since we validated it's a student, create a new Student with updated payment history
+        return new Student(person.getName(), person.getPhone(), person.getEmail(),
+                person.getAddress(), person.getClasses(), person.getJoinDate(), updatedPaymentHistory);
     }
 
     @Override

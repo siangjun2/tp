@@ -27,11 +27,13 @@ import seedu.tutorpal.model.person.Address;
 import seedu.tutorpal.model.person.AttendanceHistory;
 import seedu.tutorpal.model.person.Class;
 import seedu.tutorpal.model.person.Email;
-import seedu.tutorpal.model.person.JoinMonth;
+import seedu.tutorpal.model.person.JoinDate;
 import seedu.tutorpal.model.person.Name;
 import seedu.tutorpal.model.person.Person;
 import seedu.tutorpal.model.person.Phone;
 import seedu.tutorpal.model.person.Role;
+import seedu.tutorpal.model.person.Student;
+import seedu.tutorpal.model.person.Tutor;
 
 /**
  * Edits the details of an existing person in the address book.
@@ -106,7 +108,7 @@ public class EditCommand extends Command {
             Set<Class> newClasses = editPersonDescriptor.getClasses().get();
             Role roleToCheck = editPersonDescriptor.getRole().orElse(personToEdit.getRole());
 
-            if (roleToCheck.value.equals("student") && newClasses.size() > 1) {
+            if (roleToCheck == Role.STUDENT && newClasses.size() > 1) {
                 throw new CommandException(MESSAGE_STUDENT_MULTIPLE_CLASSES);
             }
         }
@@ -135,22 +137,14 @@ public class EditCommand extends Command {
         Address updatedAddress = editPersonDescriptor.getAddress().orElse(personToEdit.getAddress());
         Role updatedRole = editPersonDescriptor.getRole().orElse(personToEdit.getRole());
         Set<Class> updatedClasses = editPersonDescriptor.getClasses().orElse(personToEdit.getClasses());
-        JoinMonth updatedJoinMonth = editPersonDescriptor.getJoinMonth().orElse(personToEdit.getJoinMonth());
+        JoinDate updatedJoinDate = editPersonDescriptor.getJoinDate().orElse(personToEdit.getJoinDate());
 
-        AttendanceHistory updatedAttendanceHistory;
-        if (!Role.isStudent(updatedRole)) {
-            // If tutor, attendance history should be null
-            updatedAttendanceHistory = null;
-        } else if (!updatedJoinMonth.equals(personToEdit.getJoinMonth())) {
-            // If join month is edited, create a new AttendanceHistory with the new join
-            // month
-            updatedAttendanceHistory = new AttendanceHistory(updatedJoinMonth);
+        // Create Student or Tutor based on role
+        if (updatedRole == Role.STUDENT) {
+            return new Student(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedClasses, updatedJoinDate);
         } else {
-            updatedAttendanceHistory = personToEdit.getAttendanceHistory();
+            return new Tutor(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedClasses, updatedJoinDate);
         }
-
-        return new Person(updatedName, updatedPhone, updatedEmail, updatedRole, updatedAddress, updatedClasses,
-                updatedJoinMonth, updatedAttendanceHistory, personToEdit.getPaymentHistory());
     }
 
     @Override
@@ -189,7 +183,7 @@ public class EditCommand extends Command {
         private Address address;
         private Role role;
         private Set<Class> classes;
-        private JoinMonth joinMonth;
+        private JoinDate joinDate;
 
         public EditPersonDescriptor() {
         }
@@ -205,14 +199,14 @@ public class EditCommand extends Command {
             setAddress(toCopy.address);
             setRole(toCopy.role);
             setClasses(toCopy.classes);
-            setJoinMonth(toCopy.joinMonth);
+            setJoinDate(toCopy.joinDate);
         }
 
         /**
          * Returns true if at least one field is edited.
          */
         public boolean isAnyFieldEdited() {
-            return CollectionUtil.isAnyNonNull(name, phone, email, address, role, classes, joinMonth);
+            return CollectionUtil.isAnyNonNull(name, phone, email, address, role, classes, joinDate);
         }
 
         public void setName(Name name) {
@@ -274,19 +268,19 @@ public class EditCommand extends Command {
         }
 
         /**
-         * Sets {@code joinMonth} to this object's {@code joinMonth}
-         * @param joinMonth
+         * Sets {@code joinDate} to this object's {@code joinDate}
+         * @param joinDate
          */
-        public void setJoinMonth(JoinMonth joinMonth) {
-            this.joinMonth = joinMonth;
+        public void setJoinDate(JoinDate joinDate) {
+            this.joinDate = joinDate;
         }
 
         /**
-         * Returns {@code joinMonth}.
+         * Returns {@code joinDate}.
          * @return
          */
-        public Optional<JoinMonth> getJoinMonth() {
-            return Optional.ofNullable(joinMonth);
+        public Optional<JoinDate> getJoinDate() {
+            return Optional.ofNullable(joinDate);
         }
 
         @Override
@@ -307,7 +301,7 @@ public class EditCommand extends Command {
                     && Objects.equals(address, otherEditPersonDescriptor.address)
                     && Objects.equals(role, otherEditPersonDescriptor.role)
                     && Objects.equals(classes, otherEditPersonDescriptor.classes)
-                    && Objects.equals(joinMonth, otherEditPersonDescriptor.joinMonth);
+                    && Objects.equals(joinDate, otherEditPersonDescriptor.joinDate);
         }
 
         @Override
@@ -319,7 +313,7 @@ public class EditCommand extends Command {
                     .add("address", address)
                     .add("role", role)
                     .add("classes", classes)
-                    .add("joinMonth", joinMonth)
+                    .add("joinDate", joinDate)
                     .toString();
         }
     }
