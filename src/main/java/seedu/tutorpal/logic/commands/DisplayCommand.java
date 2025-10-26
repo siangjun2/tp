@@ -18,12 +18,17 @@ public class DisplayCommand extends Command {
 
     public static final String COMMAND_WORD = "display";
 
-    public static final String MESSAGE_USAGE = "UNDER CONSTRUCTION";
+    public static final String MESSAGE_USAGE = COMMAND_WORD
+        + ": Displays detailed information of the person identified by the index number "
+        + "used in the displayed person list. List is one-indexed.\n"
+        + "Parameters: INDEX (must be a positive integer)\n"
+        + "Example: " + COMMAND_WORD + " 1";
 
     // SHORTENED is used for help command
-    public static final String MESSAGE_USAGE_SHORTENED = "UNDER CONSTRUCTION";
+    public static final String MESSAGE_USAGE_SHORTENED = COMMAND_WORD + ":\t" + COMMAND_WORD + " INDEX"
+        + "\n\t\tExample: " + COMMAND_WORD + " 1";
 
-    public static final String MESSAGE_DISPLAY_PERSON_SUCCESS = "Deleted Person: %1$s";
+    public static final String MESSAGE_DISPLAY_PERSON_SUCCESS = "Displayed Person: %1$s";
 
     private final Index targetIndex;
 
@@ -43,6 +48,7 @@ public class DisplayCommand extends Command {
         }
 
         Person personToDisplay = lastShownList.get(targetIndex.getZeroBased());
+        // TODO: Display person information in new window
         return new CommandResult(String.format(MESSAGE_DISPLAY_PERSON_SUCCESS, Messages.format(personToDisplay)));
     }
 
