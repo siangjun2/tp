@@ -1,57 +1,67 @@
 package seedu.tutorpal.model.person;
 
-import static java.util.Objects.requireNonNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-/**
- * Represents a Person's role.
- * Guarantees: immutable and type-safe.
- */
-public enum Role {
-    STUDENT("student"),
-    TUTOR("tutor");
+import org.junit.jupiter.api.Test;
 
-    public static final String MESSAGE_CONSTRAINTS = "Only student or tutor roles available. "
-            + "The comparison is case-insensitive, so variations like STUDENT, Student, or student are accepted.";
+public class RoleTest {
 
-    private final String value;
-
-    Role(String value) {
-        this.value = value;
+    @Test
+    public void isValidRole_null_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> Role.isValidRole(null));
     }
 
-    /** * Returns true if a given string is a valid role. */
-    public static boolean isValidRole(String test) {
-        requireNonNull(test);
-        try {
-            Role r = Role.fromString(test);
-            assert r != null;
-            return true;
-        } catch (IllegalArgumentException e) {
-            return false;
-        }
+    @Test
+    public void isValidRole_validInputs_returnsTrue() {
+        assertTrue(Role.isValidRole("student"));
+        assertTrue(Role.isValidRole("tutor"));
+        assertTrue(Role.isValidRole("STUDENT"));
+        assertTrue(Role.isValidRole("TUTOR"));
+        assertTrue(Role.isValidRole(" Student "));
+        assertTrue(Role.isValidRole("  tutor  "));
     }
 
-    /**
-     * Parses a string into a {@code Role}, ignoring case and surrounding spaces.
-     *
-     * @throws IllegalArgumentException if the string is not a valid role.
-     */
-    public static Role fromString(String role) {
-        requireNonNull(role);
-        String trimmed = role.trim().toLowerCase();
-        for (Role r : values()) {
-            if (r.value.equals(trimmed)) {
-                return r;
-            }
-        }
-        throw new IllegalArgumentException(Role.MESSAGE_CONSTRAINTS);
+    @Test
+    public void isValidRole_invalidInputs_returnsFalse() {
+        assertFalse(Role.isValidRole(""));
+        assertFalse(Role.isValidRole(" "));
+        assertFalse(Role.isValidRole("students"));
+        assertFalse(Role.isValidRole("teacher"));
+        assertFalse(Role.isValidRole("123"));
+        assertFalse(Role.isValidRole("stu dent"));
     }
 
-    /**
-     * Returns the string value of the role (e.g., "student" or "tutor").
-     */
-    @Override
-    public String toString() {
-        return value;
+    @Test
+    public void fromString_null_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> Role.fromString(null));
+    }
+
+    @Test
+    public void fromString_invalid_throwsIllegalArgumentExceptionWithMessage() {
+        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> Role.fromString("invalid"));
+        assertEquals(Role.MESSAGE_CONSTRAINTS, ex.getMessage());
+    }
+
+    @Test
+    public void fromString_valid_caseInsensitiveAndTrimmed() {
+        assertSame(Role.STUDENT, Role.fromString("student"));
+        assertSame(Role.STUDENT, Role.fromString("STUDENT"));
+        assertSame(Role.STUDENT, Role.fromString(" Student "));
+        assertSame(Role.TUTOR, Role.fromString("tutor"));
+        assertSame(Role.TUTOR, Role.fromString("TUTOR"));
+        assertSame(Role.TUTOR, Role.fromString("  tutor  "));
+    }
+
+    @Test
+    public void toString_returnsLowercaseValue() {
+        assertEquals("student", Role.STUDENT.toString());
+        assertEquals("tutor", Role.TUTOR.toString());
+        // round-trip
+        assertEquals("student", Role.fromString("StuDent").toString());
+        assertEquals("tutor", Role.fromString("TuToR").toString());
     }
 }
