@@ -1,33 +1,27 @@
 package seedu.tutorpal.ui;
 
-import javafx.collections.ObservableList;
+import java.util.logging.Logger;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import seedu.tutorpal.commons.core.LogsCenter;
-import seedu.tutorpal.model.person.Person;
-
-import java.util.logging.Logger;
 
 /**
- * Controller for a help page
+ * Controller for a display page
  */
 public class DisplayWindow extends UiPart<Stage> {
 
-    //public static final String USERGUIDE_URL = "https://ay2526s1-cs2103t-f11-2.github.io/tp/UserGuide.html";
-    //public static final String HELP_MESSAGE = "Refer to the user guide: " + USERGUIDE_URL;
-
     private static final Logger logger = LogsCenter.getLogger(DisplayWindow.class);
     private static final String FXML = "DisplayWindow.fxml";
-
 
     @FXML
     private Label helpMessage;
 
     /**
-     * Creates a new HelpWindow.
+     * Creates a new DisplayWindow.
      *
-     * @param root Stage to use as the root of the HelpWindow.
+     * @param root Stage to use as the root of the DisplayWindow.
      */
     public DisplayWindow(Stage root, String personInfo) {
         super(FXML, root);
@@ -35,14 +29,14 @@ public class DisplayWindow extends UiPart<Stage> {
     }
 
     /**
-     * Creates a new HelpWindow.
+     * Creates a new DisplayWindow.
      */
     public DisplayWindow(String personInfo) {
         this(new Stage(), personInfo);
     }
 
     /**
-     * Shows the help window.
+     * Shows the Display window.
      * @throws IllegalStateException
      *     <ul>
      *         <li>
@@ -60,27 +54,27 @@ public class DisplayWindow extends UiPart<Stage> {
      *     </ul>
      */
     public void show() {
-        logger.fine("Showing help page about the application.");
+        logger.fine("Showing display page about the selected contact.");
         getRoot().show();
         getRoot().centerOnScreen();
     }
 
     /**
-     * Returns true if the help window is currently being shown.
+     * Returns true if the display window is currently being shown.
      */
     public boolean isShowing() {
         return getRoot().isShowing();
     }
 
     /**
-     * Hides the help window.
+     * Hides the display window.
      */
     public void hide() {
         getRoot().hide();
     }
 
     /**
-     * Focuses on the help window.
+     * Focuses on the display window.
      */
     public void focus() {
         getRoot().requestFocus();

@@ -148,9 +148,9 @@ public class MainWindow extends UiPart<Stage> {
         }
     }
 
-     /**
-      * Opens the display window or focuses on it if it's already opened.
-      */
+    /**
+     * Opens the display window or focuses on it if it's already opened.
+     */
     @FXML
     public void handleDisplay(String personInfo) {
         this.displayWindow = new DisplayWindow(personInfo);

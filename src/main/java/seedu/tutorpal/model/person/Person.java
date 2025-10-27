@@ -149,6 +149,9 @@ public abstract class Person {
                 joinDate, paymentHistory);
     }
 
+    /**
+     * Returns a String representation of the detailed information of the Person.
+     */
     public String displayInfo() {
         return name.fullName + "\n"
             + phone.value + "\n"
