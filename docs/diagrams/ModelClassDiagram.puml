@@ -15,9 +15,11 @@ Class UserPrefs
 Class UniquePersonList
 Class Person
 Class Address
+Class Class
 Class Email
 Class Name
 Class Phone
+Class Role
 Class Tag
 
 Class I #FFFFFF
@@ -42,6 +44,7 @@ Person *--> Phone
 Person *--> Email
 Person *--> Address
 Person *--> Role
+Person *--> "*" Class
 
 Person -[hidden]up--> I
 UniquePersonList -[hidden]right-> I

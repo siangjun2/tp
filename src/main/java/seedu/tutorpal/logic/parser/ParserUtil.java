@@ -18,7 +18,7 @@ import seedu.tutorpal.logic.parser.exceptions.ParseException;
 import seedu.tutorpal.model.person.Address;
 import seedu.tutorpal.model.person.Class;
 import seedu.tutorpal.model.person.Email;
-import seedu.tutorpal.model.person.JoinMonth;
+import seedu.tutorpal.model.person.JoinDate;
 import seedu.tutorpal.model.person.Name;
 import seedu.tutorpal.model.person.Phone;
 import seedu.tutorpal.model.person.Role;
@@ -168,7 +168,7 @@ public class ParserUtil {
         if (!Role.isValidRole(trimmedRole)) {
             throw new ParseException(Role.MESSAGE_CONSTRAINTS);
         }
-        return new Role(trimmedRole);
+        return Role.fromString(trimmedRole);
     }
 
     /**
@@ -201,18 +201,18 @@ public class ParserUtil {
     }
 
     /**
-     * Parses a {@code String joinMonth} into a {@code JoinMonth}.
+     * Parses a {@code String joinDate} into a {@code JoinDate}.
      * Leading and trailing whitespaces will be trimmed.
      *
-     * @throws ParseException if the given {@code joinMonth} is invalid.
+     * @throws ParseException if the given {@code joinDate} is invalid.
      */
-    public static JoinMonth parseJoinMonth(String joinMonth) throws ParseException {
-        requireNonNull(joinMonth);
-        String trimmedMonth = joinMonth.trim();
-        if (!JoinMonth.isValidJoinMonth(trimmedMonth)) {
-            throw new ParseException(JoinMonth.MESSAGE_CONSTRAINTS);
+    public static JoinDate parseJoinDate(String joinDate) throws ParseException {
+        requireNonNull(joinDate);
+        String trimmedDate = joinDate.trim();
+        if (!JoinDate.isValidJoinDate(trimmedDate)) {
+            throw new ParseException(JoinDate.MESSAGE_CONSTRAINTS);
         }
-        return new JoinMonth(trimmedMonth);
+        return new JoinDate(trimmedDate);
     }
 
     /**

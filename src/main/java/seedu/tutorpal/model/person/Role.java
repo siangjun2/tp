@@ -1,76 +1,57 @@
 package seedu.tutorpal.model.person;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.tutorpal.commons.util.AppUtil.checkArgument;
 
 /**
- * Represents a Person's role in the address book.
- * Guarantees: immutable; is valid as declared in {@link #isValidRole(String)}
+ * Represents a Person's role.
+ * Guarantees: immutable and type-safe.
  */
-public class Role {
+public enum Role {
+    STUDENT("student"),
+    TUTOR("tutor");
 
-    public static final String MESSAGE_CONSTRAINTS = "Only student or tutor roles available"
+    public static final String MESSAGE_CONSTRAINTS = "Only student or tutor roles available. "
             + "The comparison is case-insensitive, so variations like STUDENT, Student, or student are accepted.";
 
-    /*
-     * Role must be exactly "student" or "tutor" (case-insensitive)
-     */
-    public static final String STUDENT_ROLE = "student";
-    public static final String TUTOR_ROLE = "tutor";
-    public static final String VALIDATION_REGEX = "(?i)(" + STUDENT_ROLE + "|" + TUTOR_ROLE + ")";
+    private final String value;
 
-    public final String value;
-
-    /**
-     * Constructs a {@code Role}.
-     *
-     * @param role A valid role.
-     */
-    public Role(String role) {
-        requireNonNull(role);
-        String trimmedRole = role.trim().toLowerCase();
-        checkArgument(isValidRole(trimmedRole), MESSAGE_CONSTRAINTS);
-        value = trimmedRole;
+    Role(String value) {
+        this.value = value;
     }
 
-    /**
-     * Returns true if a given string is a valid role.
-     */
+    /** * Returns true if a given string is a valid role. */
     public static boolean isValidRole(String test) {
-        return test.matches(VALIDATION_REGEX);
+        requireNonNull(test);
+        try {
+            Role r = Role.fromString(test);
+            assert r != null;
+            return true;
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
     }
 
     /**
-     * Returns true if the role is "student".
+     * Parses a string into a {@code Role}, ignoring case and surrounding spaces.
+     *
+     * @throws IllegalArgumentException if the string is not a valid role.
      */
-    public static boolean isStudent(Role role) {
+    public static Role fromString(String role) {
         requireNonNull(role);
-        return role.value.equals(STUDENT_ROLE);
+        String trimmed = role.trim().toLowerCase();
+        for (Role r : values()) {
+            if (r.value.equals(trimmed)) {
+                return r;
+            }
+        }
+        throw new IllegalArgumentException(Role.MESSAGE_CONSTRAINTS);
     }
 
+    /**
+     * Returns the string value of the role (e.g., "student" or "tutor").
+     */
     @Override
     public String toString() {
         return value;
     }
-
-    @Override
-    public boolean equals(Object other) {
-        if (other == this) {
-            return true;
-        }
-
-        // instanceof handles nulls
-        if (!(other instanceof Role)) {
-            return false;
-        }
-
-        Role otherRole = (Role) other;
-        return value.equals(otherRole.value);
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
 }
