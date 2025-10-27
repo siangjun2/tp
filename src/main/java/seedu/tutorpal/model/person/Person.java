@@ -69,7 +69,7 @@ public abstract class Person {
     }
 
     /**
-     * Returns a String to represent role of person
+     * Returns a Role to represent role of person. For UI and Storage.
      */
     public abstract Role getRole();
 
