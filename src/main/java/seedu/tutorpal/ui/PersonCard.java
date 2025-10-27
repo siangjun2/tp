@@ -109,7 +109,7 @@ public class PersonCard extends UiPart<Region> {
                 });
 
         // Attendance - show weeks attended for students, N/A for tutors
-        if (Role.isStudent(person.getRole())) {
+        if (person.getRole() == Role.STUDENT) {
             AttendanceHistory attendanceHistory = person.getAttendanceHistory();
             if (attendanceHistory != null) {
                 int attendedWeeks = attendanceHistory.getWeeklyAttendances().size();
