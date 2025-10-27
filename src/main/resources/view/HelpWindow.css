@@ -1,19 +1,185 @@
-#copyButton, #helpMessage {
-    -fx-text-fill: white;
+/* Help Window - VS Code Dark Theme */
+
+.help-window {
+    -fx-background-color: #1e1e1e;
+}
+
+/* Header Section */
+.help-header-container {
+    -fx-background-color: #2d2d30;
+    -fx-border-color: #3c3c3c;
+    -fx-border-width: 0 0 2 0;
+}
+
+.help-title {
+    -fx-font-size: 20pt;
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffffff;
+}
+
+/* ScrollPane Styling */
+.help-scroll-pane {
+    -fx-background-color: #1e1e1e;
+    -fx-border-color: transparent;
+}
+
+.help-scroll-pane .viewport {
+    -fx-background-color: #1e1e1e;
+}
+
+.help-scroll-pane .scroll-bar:vertical {
+    -fx-background-color: #252526;
+}
+
+.help-scroll-pane .scroll-bar:horizontal {
+    -fx-background-color: #252526;
+}
+
+.help-scroll-pane .scroll-bar .thumb {
+    -fx-background-color: #424242;
+    -fx-background-radius: 5;
+}
+
+.help-scroll-pane .scroll-bar .thumb:hover {
+    -fx-background-color: #4e4e4e;
+}
+
+.help-scroll-pane .scroll-bar .increment-button,
+.help-scroll-pane .scroll-bar .decrement-button {
+    -fx-background-color: transparent;
+}
+
+/* Content Container */
+.help-content-container {
+    -fx-background-color: #1e1e1e;
+    -fx-spacing: 20;
+}
+
+/* Section Styling */
+.help-section {
+    -fx-background-color: #252526;
+    -fx-border-color: #3c3c3c;
+    -fx-border-width: 1;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+}
+
+.help-section-title {
+    -fx-font-size: 14pt;
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-font-weight: bold;
+    -fx-text-fill: #4fc3f7;
+}
+
+.help-description {
+    -fx-font-size: 11pt;
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-text-fill: #cccccc;
+    -fx-line-spacing: 2;
+}
+
+/* URL Display */
+.help-url {
+    -fx-font-size: 10pt;
+    -fx-font-family: "Consolas", monospace;
+    -fx-text-fill: #4ec9b0;
+    -fx-background-color: #2d2d30;
+    -fx-padding: 8 12 8 12;
+    -fx-border-color: #3c3c3c;
+    -fx-border-width: 1;
+    -fx-border-radius: 3;
+    -fx-background-radius: 3;
+}
+
+/* Commands Text */
+.help-commands-text {
+    -fx-font-size: 10pt;
+    -fx-font-family: "Consolas", monospace;
+    -fx-text-fill: #cccccc;
+    -fx-line-spacing: 3;
+}
+
+/* Copy Button */
+.help-copy-button {
+    -fx-padding: 8 16 8 16;
+    -fx-border-color: #3c3c3c;
+    -fx-border-width: 1;
+    -fx-background-radius: 3;
+    -fx-background-color: #0e639c;
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-font-size: 10pt;
+    -fx-text-fill: #ffffff;
+    -fx-cursor: hand;
+}
+
+.help-copy-button:hover {
+    -fx-background-color: #1177bb;
+    -fx-border-color: #007acc;
+}
+
+.help-copy-button:pressed {
+    -fx-background-color: #007acc;
+}
+
+.help-copy-button:focused {
+    -fx-border-color: #007acc;
+    -fx-border-width: 2;
+}
+
+/* Footer Section */
+.help-footer {
+    -fx-background-color: #2d2d30;
+    -fx-border-color: #3c3c3c;
+    -fx-border-width: 2 0 0 0;
+}
+
+/* Close Button */
+.help-close-button {
+    -fx-padding: 8 20 8 20;
+    -fx-border-color: #3c3c3c;
+    -fx-border-width: 1;
+    -fx-background-radius: 3;
+    -fx-background-color: #0e639c;
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-font-size: 11pt;
+    -fx-text-fill: #ffffff;
+    -fx-cursor: hand;
+}
+
+.help-close-button:hover {
+    -fx-background-color: #1177bb;
+}
+
+.help-close-button:pressed {
+    -fx-background-color: #007acc;
+}
+
+.help-close-button:focused {
+    -fx-border-color: #007acc;
+    -fx-border-width: 2;
+}
+
+/* Legacy Support - keep old IDs working */
+#helpMessage {
+    -fx-text-fill: #cccccc;
+    -fx-font-family: "Consolas", monospace;
+    -fx-font-size: 10pt;
 }
 
 #copyButton {
-    -fx-background-color: dimgray;
+    -fx-background-color: #0e639c;
+    -fx-text-fill: #ffffff;
 }
 
 #copyButton:hover {
-    -fx-background-color: gray;
+    -fx-background-color: #1177bb;
 }
 
 #copyButton:armed {
-    -fx-background-color: darkgray;
+    -fx-background-color: #007acc;
 }
 
 #helpMessageContainer {
-    -fx-background-color: derive(#1d1d1d, 20%);
+    -fx-background-color: #1e1e1e;
 }
