@@ -19,6 +19,9 @@ public class ResultDisplay extends UiPart<Region> {
     @FXML
     private TextArea resultDisplay;
 
+    /**
+     * While constructing status bar, auto set min/max height.
+     */
     public ResultDisplay() {
         super(FXML);
 
