@@ -11,7 +11,7 @@
 <?import javafx.scene.image.Image?>
 
 <fx:root type="javafx.stage.Stage" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
-         title="TutorPal" minWidth="900" minHeight="600" onCloseRequest="#handleExit">
+         title="TutorPal" minWidth="900" minHeight="600" >
   <icons>
     <Image url="@/images/address_book_32.png" />
   </icons>
@@ -25,10 +25,10 @@
       <VBox>
         <MenuBar fx:id="menuBar" VBox.vgrow="NEVER">
           <Menu mnemonicParsing="false" text="File">
-            <MenuItem mnemonicParsing="false" onAction="#handleExit" text="Exit" />
+            <MenuItem mnemonicParsing="false"  text="Exit" />
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
-            <MenuItem fx:id="helpMenuItem" mnemonicParsing="false" onAction="#handleHelp" text="Help" />
+            <MenuItem fx:id="helpMenuItem" mnemonicParsing="false"  text="Help" />
           </Menu>
         </MenuBar>
 
