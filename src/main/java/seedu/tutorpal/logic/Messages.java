@@ -50,11 +50,16 @@ public class Messages {
                 .append("; Classes: ");
         person.getClasses().forEach(c -> builder.append(c).append(" "));
         builder.append("; JoinDate: ")
-                .append(person.getJoinDate())
-                .append("; AttendanceHistory: ")
-                .append(person.getAttendanceHistory())
-                .append("; PaymentHistory: ")
-                .append(person.getPaymentHistory());
+            .append(person.getJoinDate());
+        try {
+            person.getAttendanceHistory();
+            builder.append("; AttendanceHistory: ")
+                    .append(person.getAttendanceHistory())
+                    .append("; PaymentHistory: ")
+                    .append(person.getPaymentHistory());
+        } catch (IllegalStateException e) {
+            // Ignore exception as it means it is a tutor
+        }
         return builder.toString();
     }
 
