@@ -149,6 +149,13 @@ public abstract class Person {
                 joinDate, paymentHistory);
     }
 
+    public String displayInfo() {
+        return name.fullName + "\n"
+            + phone.value + "\n"
+            + email.value + "\n"
+            + address.value + "\n";
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this)

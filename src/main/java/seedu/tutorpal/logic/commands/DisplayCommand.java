@@ -49,7 +49,8 @@ public class DisplayCommand extends Command {
 
         Person personToDisplay = lastShownList.get(targetIndex.getZeroBased());
         // TODO: Display person information in new window
-        return new CommandResult(String.format(MESSAGE_DISPLAY_PERSON_SUCCESS, Messages.format(personToDisplay)));
+        return new CommandResult(String.format(MESSAGE_DISPLAY_PERSON_SUCCESS, Messages.format(personToDisplay)),
+            false, false, personToDisplay.displayInfo());
     }
 
     @Override

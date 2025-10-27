@@ -34,6 +34,7 @@ public class MainWindow extends UiPart<Stage> {
     private PersonListPanel personListPanel;
     private ResultDisplay resultDisplay;
     private HelpWindow helpWindow;
+    private DisplayWindow displayWindow;
 
     @FXML
     private StackPane commandBoxPlaceholder;
@@ -147,6 +148,20 @@ public class MainWindow extends UiPart<Stage> {
         }
     }
 
+     /**
+      * Opens the display window or focuses on it if it's already opened.
+      */
+    @FXML
+    public void handleDisplay(String personInfo) {
+        this.displayWindow = new DisplayWindow(personInfo);
+
+        if (!displayWindow.isShowing()) {
+            displayWindow.show();
+        } else {
+            displayWindow.focus();
+        }
+    }
+
     void show() {
         primaryStage.show();
     }
@@ -180,6 +195,10 @@ public class MainWindow extends UiPart<Stage> {
 
             if (commandResult.isShowHelp()) {
                 handleHelp();
+            }
+
+            if (commandResult.isShowDisplay()) {
+                handleDisplay(commandResult.getPersonInfo());
             }
 
             if (commandResult.isExit()) {
