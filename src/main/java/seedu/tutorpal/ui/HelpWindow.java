@@ -19,7 +19,7 @@ import seedu.tutorpal.logic.commands.Command;
 public class HelpWindow extends UiPart<Stage> {
 
     public static final String USERGUIDE_URL = "https://ay2526s1-cs2103t-f11-2.github.io/tp/UserGuide.html";
-    public static final String HELP_MESSAGE = "Refer to the user guide: " + USERGUIDE_URL;
+    public static final String HELP_MESSAGE_PREFIX = "Below are the available commands:\n\n";
 
     private static final Logger logger = LogsCenter.getLogger(HelpWindow.class);
     private static final String FXML = "HelpWindow.fxml";
@@ -38,19 +38,19 @@ public class HelpWindow extends UiPart<Stage> {
     public HelpWindow(Stage root) {
         super(FXML, root);
 
-        String allCommandDescription = "";
+        StringBuilder allCommandDescription = new StringBuilder(HELP_MESSAGE_PREFIX);
 
         for (Class<? extends Command> cls : COMMANDS) {
             try {
                 // Static field access → use getField() and pass null to get()
                 String usage = (String) cls.getField("MESSAGE_USAGE_SHORTENED").get(null);
-                allCommandDescription += "\n" + usage;
+                allCommandDescription.append(usage).append("\n\n");
             } catch (NoSuchFieldException | IllegalAccessException e) {
-                // Ignore classes without MESSAGE_USAGE
+                // Ignore classes without MESSAGE_USAGE_SHORTENED
             }
         }
 
-        helpMessage.setText(HELP_MESSAGE + "\n" + allCommandDescription);
+        helpMessage.setText(allCommandDescription.toString().trim());
     }
 
     /**
@@ -114,5 +114,15 @@ public class HelpWindow extends UiPart<Stage> {
         final ClipboardContent url = new ClipboardContent();
         url.putString(USERGUIDE_URL);
         clipboard.setContent(url);
+
+        logger.fine("User guide URL copied to clipboard.");
+    }
+
+    /**
+     * Closes the help window.
+     */
+    @FXML
+    private void handleClose() {
+        hide();
     }
 }

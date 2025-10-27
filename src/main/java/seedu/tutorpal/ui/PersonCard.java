@@ -6,7 +6,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Region;
+import seedu.tutorpal.model.person.AttendanceHistory;
 import seedu.tutorpal.model.person.Person;
+import seedu.tutorpal.model.person.Role;
 
 /**
  * A UI component that displays information of a {@code Person}.
@@ -21,8 +23,9 @@ public class PersonCard extends UiPart<Region> {
     private static final String COLOR_PAID = "#6a9955"; // Green
     private static final String COLOR_UNPAID = "#ce9178"; // Orange
     private static final String COLOR_OVERDUE = "#f48771"; // Red
-    private static final String COLOR_MARKED = "#6a9955"; // Green (attended)
-    private static final String COLOR_UNMARKED = "#858585"; // Gray (not attended)
+    private static final String COLOR_ATTENDANCE_HIGH = "#6a9955"; // Green (>=8 weeks)
+    private static final String COLOR_ATTENDANCE_MEDIUM = "#dcdcaa"; // Yellow (5-7 weeks)
+    private static final String COLOR_ATTENDANCE_LOW = "#f48771"; // Red (<5 weeks)
     private static final String COLOR_TEXT = "#cccccc"; // Default text
     private static final String COLOR_ID = "#858585"; // Dim gray
 
@@ -59,28 +62,28 @@ public class PersonCard extends UiPart<Region> {
         id.setStyle("-fx-font-family: 'Consolas', monospace; -fx-font-size: 9px; -fx-text-fill: "
                 + COLOR_ID + ";");
 
-        // Set name - prevent text overflow
+        // Set name
         name.setText(person.getName().fullName);
         name.setStyle("-fx-font-family: 'Consolas', monospace; -fx-font-size: 13px; "
                 + "-fx-font-weight: bold; -fx-text-fill: #ffffff;");
 
         // Phone
         phone.setText(person.getPhone().value);
-        phone.setStyle("-fx-font-family: 'Consolas', monospace; -fx-font-size: 11px; "
+        phone.setStyle("-fx-font-family: 'Consolas', monospace; -fx-font-size: 10px; "
                 + "-fx-text-fill: " + COLOR_TEXT + ";");
 
         // Email
         email.setText(person.getEmail().value);
-        email.setStyle("-fx-font-family: 'Consolas', monospace; -fx-font-size: 11px; "
+        email.setStyle("-fx-font-family: 'Consolas', monospace; -fx-font-size: 10px; "
                 + "-fx-text-fill: " + COLOR_TEXT + ";");
 
         // Address
         address.setText(person.getAddress().value);
-        address.setStyle("-fx-font-family: 'Consolas', monospace; -fx-font-size: 11px; "
+        address.setStyle("-fx-font-family: 'Consolas', monospace; -fx-font-size: 10px; "
                 + "-fx-text-fill: " + COLOR_TEXT + ";");
 
         // Role
-        String roleValue = person.getRole().value;
+        String roleValue = person.getRole().toString();
         role.setText(roleValue.toUpperCase());
 
         if ("tutor".equalsIgnoreCase(roleValue)) {
@@ -91,25 +94,49 @@ public class PersonCard extends UiPart<Region> {
                     + "-fx-font-weight: bold; -fx-text-fill: " + COLOR_STUDENT + ";");
         }
 
-        // Classes
+        // Classes with background
         person.getClasses().stream()
                 .sorted(Comparator.comparing(course -> course.value))
                 .forEach(course -> {
                     Label classLabel = new Label(course.value);
                     classLabel.setStyle("-fx-font-family: 'Consolas', monospace; -fx-font-size: 10px; "
-                            + "-fx-text-fill: " + COLOR_CLASS + ";");
+                            + "-fx-text-fill: " + COLOR_CLASS + "; "
+                            + "-fx-background-color: #2d2d30; "
+                            + "-fx-padding: 2 6 2 6; "
+                            + "-fx-border-radius: 2; "
+                            + "-fx-background-radius: 2;");
                     classes.getChildren().add(classLabel);
                 });
 
-        // Attendance status TEMPORARY FIX TODO
-        if (true) {
-            attendance.setText("✓");
-            attendance.setStyle("-fx-font-family: 'Segoe UI Symbol'; -fx-font-size: 16px; "
-                    + "-fx-font-weight: bold; -fx-text-fill: " + COLOR_MARKED + ";");
+        // Attendance - show weeks attended for students, N/A for tutors
+        if (Role.isStudent(person.getRole())) {
+            AttendanceHistory attendanceHistory = person.getAttendanceHistory();
+            if (attendanceHistory != null) {
+                int attendedWeeks = attendanceHistory.getWeeklyAttendances().size();
+                attendance.setText(attendedWeeks + " wks");
+
+                // Color code based on attendance count
+                String attendanceColor;
+                if (attendedWeeks >= 8) {
+                    attendanceColor = COLOR_ATTENDANCE_HIGH;
+                } else if (attendedWeeks >= 5) {
+                    attendanceColor = COLOR_ATTENDANCE_MEDIUM;
+                } else {
+                    attendanceColor = COLOR_ATTENDANCE_LOW;
+                }
+
+                attendance.setStyle("-fx-font-family: 'Consolas', monospace; -fx-font-size: 10px; "
+                        + "-fx-font-weight: bold; -fx-text-fill: " + attendanceColor + ";");
+            } else {
+                attendance.setText("0 wks");
+                attendance.setStyle("-fx-font-family: 'Consolas', monospace; -fx-font-size: 10px; "
+                        + "-fx-font-weight: bold; -fx-text-fill: " + COLOR_ATTENDANCE_LOW + ";");
+            }
         } else {
-            attendance.setText("○");
-            attendance.setStyle("-fx-font-family: 'Segoe UI Symbol'; -fx-font-size: 14px; "
-                    + "-fx-text-fill: " + COLOR_UNMARKED + ";");
+            // Tutor - show N/A
+            attendance.setText("N/A");
+            attendance.setStyle("-fx-font-family: 'Consolas', monospace; -fx-font-size: 10px; "
+                    + "-fx-text-fill: " + COLOR_TEXT + ";");
         }
 
         // Payment status
@@ -126,6 +153,5 @@ public class PersonCard extends UiPart<Region> {
             paymentStatus.setStyle("-fx-font-family: 'Consolas', monospace; -fx-font-size: 10px; "
                     + "-fx-font-weight: bold; -fx-text-fill: " + COLOR_UNPAID + ";");
         }
-
     }
 }

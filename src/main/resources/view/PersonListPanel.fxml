@@ -14,65 +14,65 @@
     <GridPane HBox.hgrow="ALWAYS">
       <columnConstraints>
         <!-- Person -->
-        <ColumnConstraints hgrow="NEVER" minWidth="100" prefWidth="100" maxWidth="100" />
+        <ColumnConstraints hgrow="NEVER" minWidth="100" prefWidth="100" />
         <!-- Role -->
-        <ColumnConstraints hgrow="NEVER" minWidth="80" prefWidth="80" maxWidth="80" />
+        <ColumnConstraints hgrow="NEVER" minWidth="80" prefWidth="80" />
         <!-- Class -->
-        <ColumnConstraints hgrow="NEVER" minWidth="150" prefWidth="150" maxWidth="150" />
-        <!-- Phone/Email -->
-        <ColumnConstraints hgrow="NEVER" minWidth="200" prefWidth="200" maxWidth="200" />
+        <ColumnConstraints hgrow="NEVER" minWidth="150" prefWidth="150" />
+        <!-- Contact -->
+        <ColumnConstraints hgrow="NEVER" minWidth="200" prefWidth="200" />
         <!-- Address -->
-        <ColumnConstraints hgrow="SOMETIMES" minWidth="150" prefWidth="180" />
+        <ColumnConstraints hgrow="ALWAYS" minWidth="150" prefWidth="180" />
         <!-- Attendance -->
-        <ColumnConstraints hgrow="NEVER" minWidth="80" prefWidth="80" maxWidth="80" />
+        <ColumnConstraints hgrow="NEVER" minWidth="80" prefWidth="80" />
         <!-- Payment -->
-        <ColumnConstraints hgrow="NEVER" minWidth="90" prefWidth="90" maxWidth="90" />
+        <ColumnConstraints hgrow="NEVER" minWidth="90" prefWidth="90" />
       </columnConstraints>
 
-      <Label text="PERSON" GridPane.columnIndex="0"
-             style="-fx-text-fill: #cccccc; -fx-font-size: 13px; -fx-font-weight: bold; -fx-font-family: 'Consolas', monospace;">
+      <Label text="PERSON" GridPane.columnIndex="0" GridPane.halignment="CENTER"
+             style="-fx-text-fill: #cccccc; -fx-font-size: 10px; -fx-font-weight: bold; -fx-font-family: 'Consolas', monospace;">
         <padding>
           <Insets top="8" right="8" bottom="8" left="10" />
         </padding>
       </Label>
 
-      <Label text="ROLE" GridPane.columnIndex="1"
-             style="-fx-text-fill: #cccccc; -fx-font-size: 13px; -fx-font-weight: bold; -fx-font-family: 'Consolas', monospace;">
+      <Label text="ROLE" GridPane.columnIndex="1" GridPane.halignment="CENTER"
+             style="-fx-text-fill: #cccccc; -fx-font-size: 10px; -fx-font-weight: bold; -fx-font-family: 'Consolas', monospace;">
         <padding>
           <Insets top="8" right="8" bottom="8" left="8" />
         </padding>
       </Label>
 
-      <Label text="CLASS" GridPane.columnIndex="2"
-             style="-fx-text-fill: #cccccc; -fx-font-size: 13px; -fx-font-weight: bold; -fx-font-family: 'Consolas', monospace;">
+      <Label text="CLASS" GridPane.columnIndex="2" GridPane.halignment="CENTER"
+             style="-fx-text-fill: #cccccc; -fx-font-size: 10px; -fx-font-weight: bold; -fx-font-family: 'Consolas', monospace;">
         <padding>
           <Insets top="8" right="8" bottom="8" left="8" />
         </padding>
       </Label>
 
-      <Label text="PHONE/EMAIL" GridPane.columnIndex="3"
-             style="-fx-text-fill: #cccccc; -fx-font-size: 13px; -fx-font-weight: bold; -fx-font-family: 'Consolas', monospace;">
+      <Label text="CONTACT" GridPane.columnIndex="3" GridPane.halignment="CENTER"
+             style="-fx-text-fill: #cccccc; -fx-font-size: 10px; -fx-font-weight: bold; -fx-font-family: 'Consolas', monospace;">
         <padding>
           <Insets top="8" right="8" bottom="8" left="8" />
         </padding>
       </Label>
 
-      <Label text="ADDRESS" GridPane.columnIndex="4"
-             style="-fx-text-fill: #cccccc; -fx-font-size: 13px; -fx-font-weight: bold; -fx-font-family: 'Consolas', monospace;">
+      <Label text="ADDRESS" GridPane.columnIndex="4" GridPane.halignment="CENTER"
+             style="-fx-text-fill: #cccccc; -fx-font-size: 10px; -fx-font-weight: bold; -fx-font-family: 'Consolas', monospace;">
         <padding>
           <Insets top="8" right="8" bottom="8" left="8" />
         </padding>
       </Label>
 
-      <Label text="ATTEND" GridPane.columnIndex="5"
-             style="-fx-text-fill: #cccccc; -fx-font-size: 13px; -fx-font-weight: bold; -fx-font-family: 'Consolas', monospace; -fx-alignment: center;">
+      <Label text="ATTEND" GridPane.columnIndex="5" GridPane.halignment="CENTER"
+             style="-fx-text-fill: #cccccc; -fx-font-size: 10px; -fx-font-weight: bold; -fx-font-family: 'Consolas', monospace;">
         <padding>
           <Insets top="8" right="8" bottom="8" left="8" />
         </padding>
       </Label>
 
-      <Label text="PAYMENT" GridPane.columnIndex="6"
-             style="-fx-text-fill: #cccccc; -fx-font-size: 13px; -fx-font-weight: bold; -fx-font-family: 'Consolas', monospace; -fx-alignment: center;">
+      <Label text="PAYMENT" GridPane.columnIndex="6" GridPane.halignment="CENTER"
+             style="-fx-text-fill: #cccccc; -fx-font-size: 10px; -fx-font-weight: bold; -fx-font-family: 'Consolas', monospace;">
         <padding>
           <Insets top="8" right="8" bottom="8" left="8" />
         </padding>

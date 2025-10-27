@@ -78,7 +78,6 @@
     -fx-padding: 0;
     -fx-background-color: #252526;
     -fx-border-color: transparent;
-    -fx-fixed-cell-size: 70;
 }
 
 .list-cell {
@@ -87,8 +86,7 @@
     -fx-padding: 0;
     -fx-background-color: #252526;
     -fx-border-color: transparent;
-    -fx-pref-height: 70;
-    -fx-max-height: 70;
+    -fx-pref-height: USE_COMPUTED_SIZE;
     -fx-min-height: 70;
 }
 
@@ -120,14 +118,14 @@
 //Cell Labels
 .cell_big_label {
     -fx-font-family: "Consolas", monospace;
-    -fx-font-size: 13px;
+    -fx-font-size: 14px;
     -fx-text-fill: #ffffff;
-    -fx-font-weight: normal;
+    -fx-font-weight: bold;
 }
 
 .cell_small_label {
     -fx-font-family: "Consolas", monospace;
-    -fx-font-size: 11px;
+    -fx-font-size: 10px;
     -fx-text-fill: #cccccc;
 }
 
@@ -171,18 +169,48 @@
     -fx-font-family: "Consolas", monospace;
     -fx-font-size: 10pt;
     -fx-text-fill: #cccccc;
-    -fx-padding: 8;
 }
 
 .result-display .content {
     -fx-background-color: #1e1e1e;
     -fx-background-radius: 0;
     -fx-border-color: transparent;
+    -fx-padding: 8;
 }
 
-.result-display .label {
-    -fx-text-fill: #cccccc !important;
-    -fx-font-size: 10pt !important;
+.result-display .text-area {
+    -fx-background-color: #1e1e1e;
+    -fx-text-fill: #cccccc;
+    -fx-highlight-fill: #094771;
+    -fx-highlight-text-fill: #ffffff;
+    -fx-border-color: transparent;
+    -fx-background-insets: 0;
+    -fx-padding: 8;
+}
+
+.result-display .text-area .scroll-pane {
+    -fx-background-color: transparent;
+}
+
+.result-display .text-area .scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+
+.result-display .text-area .scroll-pane .content {
+    -fx-background-color: transparent;
+}
+
+.result-display .scroll-bar {
+    -fx-background-color: #252526;
+}
+
+.result-display .scroll-bar .thumb {
+    -fx-background-color: #424242;
+    -fx-background-radius: 5;
+}
+
+.result-display .scroll-bar .thumb:hover {
+    -fx-background-color: #4e4e4e;
 }
 
 //Grid Pane
@@ -259,7 +287,6 @@
     -fx-background-color: #3c3c3c;
 }
 
-
 //Card Pane
 #cardPane {
     -fx-background-color: transparent;
@@ -275,47 +302,109 @@
 #tags .label {
     -fx-text-fill: #cccccc;
     -fx-background-color: #3c3c3c;
-    -fx-padding: 1 6 1 6;
+    -fx-padding: 2 6 2 6;
     -fx-border-radius: 2;
     -fx-background-radius: 2;
     -fx-font-size: 9px;
+}
+
+//Class Tags with Color Mapping
+.class-tag {
+    -fx-text-fill: #ffffff;
+    -fx-padding: 2 8 2 8;
+    -fx-border-radius: 3;
+    -fx-background-radius: 3;
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+}
+
+/* Predefined class colors - add more as needed */
+.class-math {
+    -fx-background-color: #4fc3f7;
+}
+
+.class-physics {
+    -fx-background-color: #ce93d8;
+}
+
+.class-chemistry {
+    -fx-background-color: #81c784;
+}
+
+.class-biology {
+    -fx-background-color: #ffb74d;
+}
+
+.class-english {
+    -fx-background-color: #e57373;
+}
+
+.class-history {
+    -fx-background-color: #a1887f;
+}
+
+.class-geography {
+    -fx-background-color: #64b5f6;
+}
+
+.class-economics {
+    -fx-background-color: #9575cd;
+}
+
+/* Default class color */
+.class-default {
+    -fx-background-color: #4ec9b0;
 }
 
 //Role Styling
 .role-tutor {
     -fx-text-fill: #4fc3f7 !important;
     -fx-font-weight: bold;
-    -fx-font-size: 13px;
+    -fx-font-size: 12px;
 }
 
 .role-student {
     -fx-text-fill: #f48771 !important;
     -fx-font-weight: bold;
-    -fx-font-size: 13px;
+    -fx-font-size: 12px;
 }
 
-.class-label {
-    -fx-text-fill: #4ec9b0 !important;
-    -fx-font-size: 13px;
-    -fx-font-weight: normal;
-}
-
+//Payment Styling
 .payment-paid {
     -fx-text-fill: #6a9955 !important;
     -fx-font-weight: bold;
-    -fx-font-size: 13px;
+    -fx-font-size: 11px;
 }
 
 .payment-unpaid {
     -fx-text-fill: #ce9178 !important;
     -fx-font-weight: bold;
-    -fx-font-size: 13px;
+    -fx-font-size: 11px;
 }
 
 .payment-overdue {
     -fx-text-fill: #f48771 !important;
     -fx-font-weight: bold;
-    -fx-font-size: 13px;
+    -fx-font-size: 11px;
+}
+
+//Attendance Styling
+.attendance-rate {
+    -fx-text-fill: #cccccc;
+    -fx-font-size: 10px;
+}
+
+.attendance-high {
+    -fx-text-fill: #6a9955 !important;
+    -fx-font-weight: bold;
+}
+
+.attendance-medium {
+    -fx-text-fill: #dcdcaa !important;
+}
+
+.attendance-low {
+    -fx-text-fill: #f48771 !important;
 }
 
 //Dialog

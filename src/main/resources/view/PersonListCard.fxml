@@ -10,82 +10,81 @@
 
 <HBox id="cardPane" fx:id="cardPane" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
       style="-fx-background-color: transparent; -fx-border-color: #3c3c3c; -fx-border-width: 0 0 1 0;"
-      minHeight="60" prefHeight="70">
+      minHeight="70" prefHeight="70">
   <GridPane HBox.hgrow="ALWAYS">
     <columnConstraints>
-      <!-- Student ID + Name -->
-      <ColumnConstraints hgrow="NEVER" minWidth="110" prefWidth="110" maxWidth="110" />
+      <!-- Person: ID + Name -->
+      <ColumnConstraints hgrow="NEVER" minWidth="100" prefWidth="100" maxWidth="100" />
       <!-- Role -->
       <ColumnConstraints hgrow="NEVER" minWidth="80" prefWidth="80" maxWidth="80" />
       <!-- Class -->
-      <ColumnConstraints hgrow="NEVER" minWidth="140" prefWidth="140" maxWidth="140" />
-      <!-- Phone + Email -->
-      <ColumnConstraints hgrow="NEVER" minWidth="180" prefWidth="180" maxWidth="180" />
+      <ColumnConstraints hgrow="NEVER" minWidth="150" prefWidth="150" maxWidth="150" />
+      <!-- Contact: Phone + Email -->
+      <ColumnConstraints hgrow="NEVER" minWidth="200" prefWidth="200" maxWidth="200" />
       <!-- Address -->
-      <ColumnConstraints hgrow="SOMETIMES" minWidth="150" prefWidth="200" />
+      <ColumnConstraints hgrow="ALWAYS" minWidth="150" prefWidth="180" />
       <!-- Attendance -->
-      <ColumnConstraints hgrow="NEVER" minWidth="90" prefWidth="90" maxWidth="90" />
-      <!-- Payment Status -->
+      <ColumnConstraints hgrow="NEVER" minWidth="80" prefWidth="80" maxWidth="80" />
+      <!-- Payment -->
       <ColumnConstraints hgrow="NEVER" minWidth="90" prefWidth="90" maxWidth="90" />
     </columnConstraints>
 
-    <!-- Column 1: Student ID + Name -->
-    <VBox alignment="CENTER_LEFT" GridPane.columnIndex="0" spacing="2">
+    <!-- Column 1: ID + Name -->
+    <VBox alignment="CENTER" GridPane.columnIndex="0" spacing="3">
       <padding>
-        <Insets top="8" right="8" bottom="8" left="10" />
+        <Insets top="10" right="8" bottom="10" left="10" />
       </padding>
-      <Label fx:id="id" />
-      <Label fx:id="name" text="\$name" wrapText="false" maxWidth="100" />
+      <Label fx:id="id" styleClass="cell_small_label" alignment="CENTER" />
+      <Label fx:id="name" text="\$name" styleClass="cell_big_label" wrapText="true" maxWidth="90" alignment="CENTER" />
     </VBox>
 
     <!-- Column 2: Role -->
-    <VBox alignment="CENTER_LEFT" GridPane.columnIndex="1">
+    <VBox alignment="CENTER" GridPane.columnIndex="1">
       <padding>
-        <Insets top="8" right="8" bottom="8" left="8" />
+        <Insets top="10" right="8" bottom="10" left="8" />
       </padding>
-      <Label fx:id="role" text="\$role" />
+      <Label fx:id="role" text="\$role" wrapText="true" maxWidth="70" />
     </VBox>
 
     <!-- Column 3: Classes -->
-    <VBox alignment="CENTER_LEFT" GridPane.columnIndex="2" spacing="3">
+    <VBox alignment="CENTER" GridPane.columnIndex="2" spacing="4">
       <padding>
-        <Insets top="8" right="8" bottom="8" left="8" />
+        <Insets top="10" right="8" bottom="10" left="8" />
       </padding>
-      <FlowPane fx:id="classes" hgap="6" vgap="3" maxWidth="130" />
-      <FlowPane fx:id="tags" hgap="4" vgap="2" maxWidth="130" />
+      <FlowPane fx:id="classes" hgap="6" vgap="4" maxWidth="140" alignment="CENTER" />
     </VBox>
 
     <!-- Column 4: Phone + Email -->
-    <VBox alignment="CENTER_LEFT" GridPane.columnIndex="3" spacing="3">
+    <VBox alignment="CENTER" GridPane.columnIndex="3" spacing="3">
       <padding>
-        <Insets top="8" right="8" bottom="8" left="8" />
+        <Insets top="10" right="8" bottom="10" left="8" />
       </padding>
-      <Label fx:id="phone" text="\$phone" maxWidth="170" wrapText="false" />
-      <Label fx:id="email" text="\$email" maxWidth="170" wrapText="false" />
+      <Label fx:id="phone" text="\$phone" styleClass="cell_small_label" maxWidth="190" wrapText="true" />
+      <Label fx:id="email" text="\$email" styleClass="cell_small_label" maxWidth="190" wrapText="true" />
     </VBox>
 
     <!-- Column 5: Address -->
-    <VBox alignment="CENTER_LEFT" GridPane.columnIndex="4">
+    <VBox GridPane.columnIndex="4" GridPane.halignment="CENTER">
       <padding>
-        <Insets top="8" right="8" bottom="8" left="8" />
+        <Insets top="10" right="8" bottom="10" left="8" />
       </padding>
-      <Label fx:id="address" text="\$address" wrapText="true" maxHeight="50" />
+      <Label fx:id="address" text="\$address" styleClass="cell_small_label" wrapText="true" maxWidth="170" />
     </VBox>
 
     <!-- Column 6: Attendance -->
     <VBox alignment="CENTER" GridPane.columnIndex="5">
       <padding>
-        <Insets top="8" right="8" bottom="8" left="8" />
+        <Insets top="10" right="8" bottom="10" left="8" />
       </padding>
-      <Label fx:id="attendance" text="\$attendance" />
+      <Label fx:id="attendance" text="\$attendance" styleClass="cell_small_label" wrapText="true" maxWidth="70" />
     </VBox>
 
     <!-- Column 7: Payment Status -->
     <VBox alignment="CENTER" GridPane.columnIndex="6">
       <padding>
-        <Insets top="8" right="8" bottom="8" left="8" />
+        <Insets top="10" right="8" bottom="10" left="8" />
       </padding>
-      <Label fx:id="paymentStatus" text="\$status" />
+      <Label fx:id="paymentStatus" text="\$status" wrapText="true" maxWidth="80" />
     </VBox>
   </GridPane>
 </HBox>

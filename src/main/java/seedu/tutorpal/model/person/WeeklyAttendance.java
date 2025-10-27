@@ -52,7 +52,7 @@ public class WeeklyAttendance {
         Matcher matcher = pattern.matcher(weeklyAttendanceString);
 
         // checkArgument should have checked this already
-        assert matcher.matches() : "The weekly attendance string should match the regex pattern.";
+        matcher.matches();
         this.weekIndex = Integer.parseInt(matcher.group(1));
         int month = Integer.parseInt(matcher.group(2));
         int year = Integer.parseInt(matcher.group(3));

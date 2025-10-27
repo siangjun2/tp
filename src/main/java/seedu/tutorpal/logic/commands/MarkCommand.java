@@ -70,7 +70,11 @@ public class MarkCommand extends Command {
         try {
             newAttendanceHistory.markAttendance(week);
         } catch (IllegalArgumentException e) {
-            throw new CommandException(String.format(e.getMessage(), personToMark.getName(), week));
+            if (e.getMessage().equals("Attendance for the given week is already marked.")) {
+                throw new CommandException(String.format(MESSAGE_ALREADY_MARKED, personToMark.getName(), week));
+            } else {
+                throw new CommandException(e.getMessage());
+            }
         }
 
         Person markedPerson = new Person(
