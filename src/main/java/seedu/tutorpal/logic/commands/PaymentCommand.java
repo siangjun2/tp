@@ -173,8 +173,8 @@ public class PaymentCommand extends Command {
                 student.getAddress(),
                 student.getClasses(),
                 student.getJoinDate(),
-                updatedPaymentHistory,
-                student.getAttendanceHistory()
+                student.getAttendanceHistory(),
+                updatedPaymentHistory
         );
         assert editedStudent.getRole() == Role.STUDENT : "Created person should be a student";
         return editedStudent;
