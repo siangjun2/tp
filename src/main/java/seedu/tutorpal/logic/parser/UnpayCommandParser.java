@@ -72,7 +72,6 @@ public class UnpayCommandParser implements Parser<UnpayCommand> {
         }
 
         String monthString = argMultimap.getValue(PREFIX_PAYMENT_MONTH).get().trim();
-        
         try {
             YearMonth month = YearMonth.parse(monthString, MONTH_FORMAT);
             logger.info("Parsed payment month: " + month);

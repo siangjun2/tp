@@ -21,10 +21,8 @@ import seedu.tutorpal.model.person.Tutor;
  * Marks a specific month's payment as unpaid for a person in the address book.
  * Applies to both students and tutors. The month must be on or after the person's join date
  * and cannot be in the future.
-
  */
 public class UnpayCommand extends Command {
-    private static final Logger logger = Logger.getLogger(UnpayCommand.class.getName());
 
     public static final String COMMAND_WORD = "unpay";
 
@@ -44,6 +42,8 @@ public class UnpayCommand extends Command {
     public static final String MESSAGE_FUTURE_MONTH =
             "Cannot mark payment for future month";
     public static final String MESSAGE_ALREADY_UNPAID = "Payment for %1$s has already been marked as unpaid for %2$s.";
+
+    private static final Logger logger = Logger.getLogger(UnpayCommand.class.getName());
 
     private final Index index;
     private final YearMonth month;
@@ -69,7 +69,7 @@ public class UnpayCommand extends Command {
 
         Person personToEdit = getPersonFromModel(model);
         logger.info("Person to edit: " + personToEdit.getName() + " (Role: " + personToEdit.getRole() + ")");
-        
+
         validateMonthConstraints(personToEdit, month);
         ensureNotAlreadyUnpaid(personToEdit, month);
 
@@ -77,7 +77,6 @@ public class UnpayCommand extends Command {
         Person editedPerson = createEditedPerson(personToEdit, updatedPaymentHistory);
 
         model.setPerson(personToEdit, editedPerson);
-        
         String resultMessage = String.format(MESSAGE_SUCCESS, editedPerson.getName(), month);
         logger.info("Payment marked as unpaid: " + resultMessage);
         return new CommandResult(resultMessage);
@@ -120,7 +119,6 @@ public class UnpayCommand extends Command {
             logger.warning("Invalid payment month: " + month + " is in the future");
             throw new CommandException(MESSAGE_FUTURE_MONTH);
         }
-        
         assert month.compareTo(joinMonth) >= 0 : "Month must be >= join month after validation";
         assert month.compareTo(YearMonth.now()) <= 0 : "Month must be <= current month after validation";
     }
@@ -148,7 +146,7 @@ public class UnpayCommand extends Command {
      * @return the edited person
      * @throws CommandException if person creation fails
      */
-    private Person createEditedPerson(Person person, PaymentHistory updatedPaymentHistory) 
+    private Person createEditedPerson(Person person, PaymentHistory updatedPaymentHistory)
             throws CommandException {
         try {
             if (person.getRole() == Role.STUDENT) {

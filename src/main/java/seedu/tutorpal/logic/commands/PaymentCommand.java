@@ -23,7 +23,6 @@ import seedu.tutorpal.model.person.Tutor;
  * and cannot be in the future.
  */
 public class PaymentCommand extends Command {
-    private static final Logger logger = Logger.getLogger(PaymentCommand.class.getName());
 
     public static final String COMMAND_WORD = "pay";
 
@@ -43,6 +42,8 @@ public class PaymentCommand extends Command {
     public static final String MESSAGE_FUTURE_MONTH =
             "Cannot mark payment for future month";
     public static final String MESSAGE_ALREADY_PAID = "Payment for %1$s has already been marked as paid for %2$s.";
+
+    private static final Logger logger = Logger.getLogger(PaymentCommand.class.getName());
 
     private final Index index;
     private final YearMonth month;
@@ -68,7 +69,6 @@ public class PaymentCommand extends Command {
 
         Person personToEdit = getPersonFromModel(model);
         logger.info("Person to edit: " + personToEdit.getName() + " (Role: " + personToEdit.getRole() + ")");
-        
         validateMonthConstraints(personToEdit, month);
         ensureNotAlreadyPaid(personToEdit, month);
 
@@ -76,7 +76,6 @@ public class PaymentCommand extends Command {
         Person editedPerson = createEditedPerson(personToEdit, updatedPaymentHistory);
 
         model.setPerson(personToEdit, editedPerson);
-        
         String resultMessage = String.format(MESSAGE_SUCCESS, editedPerson.getName(), month);
         logger.info("Payment marked as paid: " + resultMessage);
         return new CommandResult(resultMessage);
@@ -119,7 +118,6 @@ public class PaymentCommand extends Command {
             logger.warning("Invalid payment month: " + month + " is in the future");
             throw new CommandException(MESSAGE_FUTURE_MONTH);
         }
-        
         assert month.compareTo(joinMonth) >= 0 : "Month must be >= join month after validation";
         assert month.compareTo(YearMonth.now()) <= 0 : "Month must be <= current month after validation";
     }
@@ -147,7 +145,7 @@ public class PaymentCommand extends Command {
      * @return the edited person
      * @throws CommandException if person creation fails
      */
-    private Person createEditedPerson(Person person, PaymentHistory updatedPaymentHistory) 
+    private Person createEditedPerson(Person person, PaymentHistory updatedPaymentHistory)
             throws CommandException {
         try {
             if (person.getRole() == Role.STUDENT) {
