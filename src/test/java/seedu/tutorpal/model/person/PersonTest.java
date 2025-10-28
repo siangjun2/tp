@@ -125,7 +125,7 @@ public class PersonTest {
                 new Phone("81111111"),
                 new Email("chris@example.com"),
                 new Address("Blk 1, Street 1"),
-                Set.of(),
+                ALICE.getClasses(),
                 jd,
                 fixed);
         Student s2 = new Student(
@@ -133,7 +133,7 @@ public class PersonTest {
                 new Phone("81111111"),
                 new Email("chris@example.com"),
                 new Address("Blk 1, Street 1"),
-                Set.of(),
+                ALICE.getClasses(),
                 jd,
                 fixed);
 

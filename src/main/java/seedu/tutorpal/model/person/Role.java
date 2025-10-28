@@ -48,10 +48,11 @@ public enum Role {
     }
 
     /**
-     * Returns the string value of the role (e.g., "student" or "tutor").
+     * Returns the string value of the role (e.g., "Student" or "Tutor").
+     * Formatted with first letter capitalized.
      */
     @Override
     public String toString() {
-        return value;
+        return value.substring(0, 1).toUpperCase() + value.substring(1);
     }
 }
