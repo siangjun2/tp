@@ -30,14 +30,15 @@ public class MarkCommand extends Command {
             + PREFIX_ATTENDANCE_WEEK + "WEEK"
             + "\n"
             + "Example: " + COMMAND_WORD + " 3 "
-            + PREFIX_ATTENDANCE_WEEK + "W2-10-2025";
+            + PREFIX_ATTENDANCE_WEEK + "W26-2025";
 
     // SHORTENED is used for help command
-    public static final String MESSAGE_USAGE_SHORTENED = COMMAND_WORD + ":\t" + COMMAND_WORD + " INDEX"
-        + "\n\t\tExample: " + COMMAND_WORD + " 1";
+    public static final String MESSAGE_USAGE_SHORTENED = COMMAND_WORD + ":\t" + COMMAND_WORD + " INDEX "
+            + PREFIX_ATTENDANCE_WEEK + "WEEK" + "\n\t\tExample: " + COMMAND_WORD + " 1";
 
     public static final String MESSAGE_SUCCESS = "Marked attendance for: %1$s on %2$s.";
-    public static final String MESSAGE_ALREADY_MARKED = "%1$s is already marked on %2$s.";
+    public static final String MESSAGE_ERROR_FOR = "%1$s for %2$s!";
+    public static final String MESSAGE_CANNOT_MARK_FOR = "Cannot mark attendance for %1$s.";
 
     private final Index index;
     private final WeeklyAttendance week;
@@ -63,19 +64,18 @@ public class MarkCommand extends Command {
 
         Person personToMark = lastShownList.get(index.getZeroBased());
 
-        if (personToMark.getRole() != Role.STUDENT) {
-            throw new CommandException("Cannot mark attendance for a tutor.");
+        //Block tutor roles as it does not have attendance history.
+        if (personToMark.getRole() == Role.TUTOR) {
+            throw new CommandException(String.format(MESSAGE_CANNOT_MARK_FOR, Role.TUTOR));
         }
 
+        //Should be student role only. Change to switch statement if got more roles.
         AttendanceHistory newAttendanceHistory;
+        AttendanceHistory oldAttendanceHistory = personToMark.getAttendanceHistory(); //Should not throw errors
         try {
-            newAttendanceHistory = personToMark.getAttendanceHistory().markAttendance(week);
+            newAttendanceHistory = oldAttendanceHistory.markAttendance(week);
         } catch (IllegalArgumentException e) {
-            if (e.getMessage().equals("Attendance for the given week is already marked.")) {
-                throw new CommandException(String.format(MESSAGE_ALREADY_MARKED, personToMark.getName(), week));
-            } else {
-                throw new CommandException(e.getMessage());
-            }
+            throw new CommandException(String.format(MESSAGE_ERROR_FOR, e.getMessage(), personToMark.getName()));
         }
 
         // Create a new Student with updated attendance history
@@ -86,11 +86,12 @@ public class MarkCommand extends Command {
                 personToMark.getAddress(),
                 personToMark.getClasses(),
                 personToMark.getJoinDate(),
-                newAttendanceHistory);
+                newAttendanceHistory,
+                personToMark.getPaymentHistory());
 
         model.setPerson(personToMark, markedPerson);
 
-        return new CommandResult(String.format(MESSAGE_SUCCESS, markedPerson.getName(), week));
+        return new CommandResult(String.format(MESSAGE_SUCCESS, markedPerson.getName(), this.week));
     }
 
     @Override

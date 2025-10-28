@@ -20,8 +20,8 @@ public class AttendanceHistory {
             + " It should be between the week of joining and the current week inclusive.\n"
             + "Join week : %1$s\n"
             + "Current week : %2$s";
-    public static final String MESSAGE_ALREADY_MARKED = "Attendance for %1$s week is already marked.";
-    public static final String MESSAGE_CANNOT_UNMARK = "Attendance for the %1$s week is not marked yet.";
+    public static final String MESSAGE_ALREADY_MARKED = "Attendance for %1$s week is already marked";
+    public static final String MESSAGE_CANNOT_UNMARK = "Attendance for the %1$s week is not marked yet";
 
     //JoinDate is immutable.
     private final JoinDate joinDate;
@@ -32,7 +32,7 @@ public class AttendanceHistory {
     private final Clock nowClock; // Represents current date for testability
 
     /**
-     * Constructs an {@code AttendanceHistory} with the given join month.
+     * Constructs an {@code AttendanceHistory} with the given join date.
      *
      * @param joinDate The date when the person joined the system.
      */

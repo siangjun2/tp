@@ -24,6 +24,9 @@ public class MarkCommandParser implements Parser<MarkCommand> {
 
         Index index;
 
+        //Get index
+        //Throw ParseError if invalid Index ie non-negative. Check for whether Index is out of range is done
+        //during run time.
         try {
             index = ParserUtil.parseIndex(argMultimap.getPreamble());
         } catch (ParseException pe) {
@@ -31,11 +34,13 @@ public class MarkCommandParser implements Parser<MarkCommand> {
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, MarkCommand.MESSAGE_USAGE), pe);
         }
 
+        //Get AttendanceWeek string
+        //Throw ParseError if not found
         if (!argMultimap.getValue(PREFIX_ATTENDANCE_WEEK).isPresent()) {
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, MarkCommand.MESSAGE_USAGE));
         }
-
+        //Throw parseError if invalid format
         WeeklyAttendance week = ParserUtil.parseWeeklyAttendance(argMultimap.getValue(PREFIX_ATTENDANCE_WEEK).get());
 
         return new MarkCommand(index, week);
