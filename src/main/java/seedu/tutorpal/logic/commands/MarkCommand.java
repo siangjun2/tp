@@ -1,7 +1,6 @@
 package seedu.tutorpal.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.tutorpal.commons.util.CollectionUtil.requireAllNonNull;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_ATTENDANCE_WEEK;
 
 import java.util.List;
@@ -16,6 +15,7 @@ import seedu.tutorpal.model.person.Person;
 import seedu.tutorpal.model.person.Role;
 import seedu.tutorpal.model.person.Student;
 import seedu.tutorpal.model.person.WeeklyAttendance;
+import seedu.tutorpal.model.person.exceptions.InvalidRangeException;
 
 /**
  * Marks the attendance of a student in the address book.
@@ -37,8 +37,7 @@ public class MarkCommand extends Command {
             + PREFIX_ATTENDANCE_WEEK + "WEEK" + "\n\t\tExample: " + COMMAND_WORD + " 1";
 
     public static final String MESSAGE_SUCCESS = "Marked attendance for: %1$s on %2$s.";
-    public static final String MESSAGE_ERROR_FOR = "%1$s for %2$s!";
-    public static final String MESSAGE_CANNOT_MARK_FOR = "Cannot mark attendance for %1$s.";
+    public static final String MESSAGE_CANNOT_MARK_FOR_ROLE = "Cannot mark attendance for %1$s.";
 
     private final Index index;
     private final WeeklyAttendance week;
@@ -48,7 +47,10 @@ public class MarkCommand extends Command {
      * week.
      */
     public MarkCommand(Index index, WeeklyAttendance week) {
-        requireAllNonNull(index, week);
+        //Based on AddressBookParser and ParserUtil implementation, impossible for null to be passed to commands
+        //constructor. No input validation here, only checking invariant.
+        assert index != null : "Index should not be null (guaranteed by parser)";
+        assert week != null : "Week should not be null (guaranteed by parser)";
         this.index = index;
         this.week = week;
     }
@@ -66,16 +68,20 @@ public class MarkCommand extends Command {
 
         //Block tutor roles as it does not have attendance history.
         if (personToMark.getRole() == Role.TUTOR) {
-            throw new CommandException(String.format(MESSAGE_CANNOT_MARK_FOR, Role.TUTOR));
+            throw new CommandException(String.format(MESSAGE_CANNOT_MARK_FOR_ROLE, Role.TUTOR));
         }
 
         //Should be student role only. Change to switch statement if got more roles.
+        assert personToMark instanceof Student;
         AttendanceHistory newAttendanceHistory;
         AttendanceHistory oldAttendanceHistory = personToMark.getAttendanceHistory(); //Should not throw errors
         try {
             newAttendanceHistory = oldAttendanceHistory.markAttendance(week);
-        } catch (IllegalArgumentException e) {
-            throw new CommandException(String.format(MESSAGE_ERROR_FOR, e.getMessage(), personToMark.getName()));
+        } catch (InvalidRangeException e) {
+            throw new CommandException(e.getMessage()); //For range Messages, no need to append additional details.
+        } catch (IllegalStateException e) {
+            // Adding Person name for better user feedback.
+            throw new CommandException(String.format(e.getMessage(), personToMark.getName()));
         }
 
         // Create a new Student with updated attendance history

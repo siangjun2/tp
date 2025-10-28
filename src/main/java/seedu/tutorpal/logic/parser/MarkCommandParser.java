@@ -20,6 +20,7 @@ public class MarkCommandParser implements Parser<MarkCommand> {
      * @throws ParseException if the user input does not conform the expected format
      */
     public MarkCommand parse(String args) throws ParseException {
+
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_ATTENDANCE_WEEK);
 
         Index index;
@@ -36,7 +37,7 @@ public class MarkCommandParser implements Parser<MarkCommand> {
 
         //Get AttendanceWeek string
         //Throw ParseError if not found
-        if (!argMultimap.getValue(PREFIX_ATTENDANCE_WEEK).isPresent()) {
+        if (argMultimap.getValue(PREFIX_ATTENDANCE_WEEK).isEmpty()) {
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, MarkCommand.MESSAGE_USAGE));
         }

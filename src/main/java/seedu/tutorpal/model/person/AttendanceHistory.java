@@ -17,12 +17,14 @@ import seedu.tutorpal.model.person.exceptions.InvalidRangeException;
  */
 public class AttendanceHistory {
 
-    public static final String MESSAGE_INVALID_WEEK_RANGE = "Weekly attendance period is out of valid range!\n"
+    public static final String MESSAGE_INVALID_WEEK_RANGE =
+            "Command causes Attendance Week %1$s to be out of valid range!\n"
             + "It should be between the week of joining and the current week inclusive.\n"
-            + "Join week : %1$s\n"
-            + "Current week : %2$s";
-    public static final String MESSAGE_ALREADY_MARKED = "Attendance for %1$s is already marked";
-    public static final String MESSAGE_CANNOT_UNMARK = "Attendance for the %1$s is not marked yet";
+            + "Join week : %2$s\t\t" + "Current week : %3$s";
+    public static final String MESSAGE_JOIN_DATE_IN_FUTURE = "Cannot set join date %1$s after current date %2$s!";
+    // The following 2 strings are left with 2 sets of %1$s to be appended with additional details.
+    public static final String MESSAGE_ALREADY_MARKED = "Attendance for %1$s is already marked %1$s";
+    public static final String MESSAGE_CANNOT_UNMARK = "Attendance for the %1$s is not marked yet %1$s";
 
     //JoinDate is immutable.
     private final JoinDate joinDate;
@@ -63,9 +65,12 @@ public class AttendanceHistory {
         this.nowClock = nowClock;
 
         // Validate invariant: joinDate cannot be after current date based on nowClock
-        assert !joinDate.isAfter(LocalDate.now(nowClock));
+        LocalDate today = LocalDate.now(nowClock);
+        if (joinDate.isAfter(today)) {
+            throw new InvalidRangeException(String.format(MESSAGE_JOIN_DATE_IN_FUTURE, joinDate, today));
+        }
         // Validate invariant: all provided attendances must be within [joinWeek, currentWeek]
-        // else throw InvalidArgumentException
+        // else throw InvalidRangeException
         for (WeeklyAttendance wa : attendances) {
             ensureWithinValidRange(wa);
         }
@@ -138,7 +143,8 @@ public class AttendanceHistory {
         WeeklyAttendance currentWeek = WeeklyAttendance.getCurrentWeek(this.nowClock);
 
         if (weeklyAttendance.isBefore(joinWeek) || weeklyAttendance.isAfter(currentWeek)) {
-            throw new InvalidRangeException(String.format(MESSAGE_INVALID_WEEK_RANGE, joinWeek, currentWeek));
+            throw new InvalidRangeException(String.format(MESSAGE_INVALID_WEEK_RANGE,
+                    weeklyAttendance, joinWeek, currentWeek));
         }
     }
 

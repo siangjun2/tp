@@ -45,18 +45,6 @@ public class MarkCommandTest {
     // -----------------------------
 
     @Test
-    public void constructor_nullIndex_throwsNullPointerException() {
-        WeeklyAttendance week = new WeeklyAttendance("W01-2025");
-        assertThrows(NullPointerException.class, () -> new MarkCommand(null, week));
-    }
-
-    @Test
-    public void constructor_nullWeek_throwsNullPointerException() {
-        Index index = Index.fromOneBased(1);
-        assertThrows(NullPointerException.class, () -> new MarkCommand(index, null));
-    }
-
-    @Test
     public void execute_nullModel_throwsNullPointerException() {
         MarkCommand cmd = new MarkCommand(Index.fromOneBased(1), new WeeklyAttendance("W01-2025"));
         assertThrows(NullPointerException.class, () -> cmd.execute(null));
@@ -141,7 +129,7 @@ public class MarkCommandTest {
 
         // Verify attendance really marked
         AttendanceHistory updatedHistory = ((Student) updated).getAttendanceHistory();
-        assertTrue(updatedHistory.hasAttended(week));
+        assertTrue(updatedHistory.hasBeenMarked(week));
     }
 
     @Test
