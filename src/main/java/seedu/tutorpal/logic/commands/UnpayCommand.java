@@ -15,9 +15,12 @@ import seedu.tutorpal.model.person.PaymentHistory;
 import seedu.tutorpal.model.person.Person;
 import seedu.tutorpal.model.person.Role;
 import seedu.tutorpal.model.person.Student;
+import seedu.tutorpal.model.person.Tutor;
+import seedu.tutorpal.model.person.AttendanceHistory;
+ 
 
 /**
- * Updates the payment status of a student in the address book by marking a
+ * Updates the payment status of a person in the address book by marking a
  * month as unpaid.
  */
 public class UnpayCommand extends Command {
@@ -25,7 +28,7 @@ public class UnpayCommand extends Command {
     public static final String COMMAND_WORD = "unpay";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Marks a specific month's payment as unpaid for the student identified by the index number.\n"
+            + ": Marks a specific month's payment as unpaid for the person identified by the index number.\n"
             + "Parameters: INDEX (must be a positive integer) m/MM-yyyy\n"
             + "Example: " + COMMAND_WORD + " 1 m/01-2024";
 
@@ -35,10 +38,8 @@ public class UnpayCommand extends Command {
         + "\t\tExample: " + COMMAND_WORD + " 1 m/01-2024";
 
     public static final String MESSAGE_SUCCESS = "Payment for %1$s for %2$s has been marked as unpaid.";
-    public static final String MESSAGE_NOT_STUDENT =
-            "Index belongs to a tutor. Please provide an index tied to a student instead";
     public static final String MESSAGE_MONTH_BEFORE_JOIN =
-            "Cannot mark payment for month before student's join date (%1$s)";
+            "Cannot mark payment for month before person's join date (%1$s)";
     public static final String MESSAGE_FUTURE_MONTH =
             "Cannot mark payment for future month";
     public static final String MESSAGE_ALREADY_UNPAID = "Payment for %1$s has already been marked as unpaid for %2$s.";
@@ -68,11 +69,6 @@ public class UnpayCommand extends Command {
 
         Person personToEdit = lastShownList.get(index.getZeroBased());
 
-        // Check if the person is a student
-        if (personToEdit.getRole() == Role.TUTOR) {
-            throw new CommandException(MESSAGE_NOT_STUDENT);
-        }
-
         // Validate month constraints
         YearMonth joinMonth = personToEdit.getJoinDate().toYearMonth();
         if (month.isBefore(joinMonth)) {
@@ -90,16 +86,32 @@ public class UnpayCommand extends Command {
         }
 
         PaymentHistory updatedPaymentHistory = personToEdit.getPaymentHistory().markMonthAsUnpaid(month);
-        Person editedPerson = new Person(
-                personToEdit.getName(),
-                personToEdit.getPhone(),
-                personToEdit.getEmail(),
-                personToEdit.getRole(),
-                personToEdit.getAddress(),
-                personToEdit.getClasses(),
-                updatedPaymentHistory,
-                personToEdit.isMarked()
-        );
+        Person editedPerson;
+        if (personToEdit.getRole() == Role.STUDENT) {
+            Student student = (Student) personToEdit;
+            AttendanceHistory attendanceHistory = student.getAttendanceHistory();
+            editedPerson = new Student(
+                    student.getName(),
+                    student.getPhone(),
+                    student.getEmail(),
+                    student.getAddress(),
+                    student.getClasses(),
+                    student.getJoinDate(),
+                    updatedPaymentHistory,
+                    attendanceHistory
+            );
+        } else {
+            // Tutor
+            editedPerson = new Tutor(
+                    personToEdit.getName(),
+                    personToEdit.getPhone(),
+                    personToEdit.getEmail(),
+                    personToEdit.getAddress(),
+                    personToEdit.getClasses(),
+                    personToEdit.getJoinDate(),
+                    updatedPaymentHistory
+            );
+        }
 
         model.setPerson(personToEdit, editedPerson);
 

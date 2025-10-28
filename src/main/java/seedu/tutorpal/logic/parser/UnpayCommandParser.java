@@ -1,7 +1,7 @@
 package seedu.tutorpal.logic.parser;
 
 import static seedu.tutorpal.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_JOIN_DATE;
+import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_PAYMENT_MONTH;
 
 import java.time.YearMonth;
 import java.time.format.DateTimeParseException;
@@ -24,7 +24,7 @@ public class UnpayCommandParser implements Parser<UnpayCommand> {
      * @throws ParseException if the user input does not conform the expected format
      */
     public UnpayCommand parse(String args) throws ParseException {
-        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_JOIN_DATE);
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_PAYMENT_MONTH);
 
         Index index;
         try {
@@ -34,12 +34,12 @@ public class UnpayCommandParser implements Parser<UnpayCommand> {
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, UnpayCommand.MESSAGE_USAGE), pe);
         }
 
-        if (!argMultimap.getValue(PREFIX_JOIN_DATE).isPresent()) {
+        if (!argMultimap.getValue(PREFIX_PAYMENT_MONTH).isPresent()) {
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, UnpayCommand.MESSAGE_USAGE));
         }
 
-        String monthString = argMultimap.getValue(PREFIX_JOIN_DATE).get().trim();
+        String monthString = argMultimap.getValue(PREFIX_PAYMENT_MONTH).get().trim();
         YearMonth month;
         try {
             month = YearMonth.parse(monthString, MONTH_FORMAT);
