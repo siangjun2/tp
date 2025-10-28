@@ -12,9 +12,7 @@ public class CliSyntax {
     public static final Prefix PREFIX_ADDRESS = new Prefix("a/");
     public static final Prefix PREFIX_ROLE = new Prefix("r/");
     public static final Prefix PREFIX_CLASS = new Prefix("c/");
-    public static final Prefix PREFIX_TAG = new Prefix("t/");
-    public static final Prefix PREFIX_STATUS = new Prefix("s/");
     public static final Prefix PREFIX_TUTOR = new Prefix("tu/");
-    public static final Prefix PREFIX_MONTH = new Prefix("m/");
-
+    public static final Prefix PREFIX_JOIN_DATE = new Prefix("d/");
+    public static final Prefix PREFIX_ATTENDANCE_WEEK = new Prefix("w/");
 }

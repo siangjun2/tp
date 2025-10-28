@@ -12,7 +12,8 @@ import seedu.tutorpal.model.person.Email;
 import seedu.tutorpal.model.person.Name;
 import seedu.tutorpal.model.person.Person;
 import seedu.tutorpal.model.person.Phone;
-import seedu.tutorpal.model.person.Role;
+import seedu.tutorpal.model.person.Student;
+import seedu.tutorpal.model.person.Tutor;
 
 /**
  * Contains utility methods for populating {@code AddressBook} with sample data.
@@ -20,24 +21,30 @@ import seedu.tutorpal.model.person.Role;
 public class SampleDataUtil {
     public static Person[] getSamplePersons() {
         return new Person[] {
-            new Person(new Name("Alex Yeoh"), new Phone("87438807"), new Email("alexyeoh@example.com"),
-                    new Role("student"), new Address("Blk 30 Geylang Street 29, #06-40"),
-                    getClassSet("s4mon1600"), false),
-            new Person(new Name("Bernice Yu"), new Phone("99272758"), new Email("berniceyu@example.com"),
-                    new Role("student"), new Address("Blk 30 Lorong 3 Serangoon Gardens, #07-18"),
-                    getClassSet("s3tue1400", "s3fri1000"), false),
-            new Person(new Name("Charlotte Oliveiro"), new Phone("93210283"), new Email("charlotte@example.com"),
-                    new Role("tutor"), new Address("Blk 11 Ang Mo Kio Street 74, #11-04"),
-                    getClassSet("s1mon0900", "s2wed1400"), false),
-            new Person(new Name("David Li"), new Phone("91031282"), new Email("lidavid@example.com"),
-                    new Role("student"), new Address("Blk 436 Serangoon Gardens Street 26, #16-43"),
-                    getClassSet("s5thu1600"), false),
-            new Person(new Name("Irfan Ibrahim"), new Phone("92492021"), new Email("irfan@example.com"),
-                    new Role("student"), new Address("Blk 47 Tampines Street 20, #17-35"),
-                    getClassSet("s2mon1000"), false),
-            new Person(new Name("Roy Balakrishnan"), new Phone("92624417"), new Email("royb@example.com"),
-                    new Role("tutor"), new Address("Blk 45 Aljunied Street 85, #11-31"),
-                    getClassSet("s4mon1600", "s5wed1400"), false)
+            new Student(new Name("Alice Tan"), new Phone("98765432"),
+                                new Email("alicetan@example.com"),
+                                new Address("Blk 123 Clementi Ave 3, #05-12"),
+                                getClassSet("s4mon1600")),
+            new Student(new Name("Benjamin Wong"), new Phone("87654321"),
+                                new Email("benwong@example.com"),
+                                new Address("Blk 456 Jurong West St 42, #08-20"),
+                                getClassSet("s3tue1400")),
+            new Tutor(new Name("Catherine Lim"), new Phone("91234567"),
+                                new Email("catherinelim@example.com"),
+                                new Address("Blk 789 Ang Mo Kio Ave 5, #10-15"),
+                                getClassSet("s1mon0900", "s2wed1400")),
+            new Student(new Name("Daniel Koh"), new Phone("92345678"),
+                                new Email("danielkoh@example.com"),
+                                new Address("Blk 234 Bedok North St 1, #12-34"),
+                                getClassSet("s5thu1600")),
+            new Student(new Name("Emily Chen"), new Phone("93456789"),
+                                new Email("emilychen@example.com"),
+                                new Address("Blk 567 Tampines Ave 7, #06-45"),
+                                getClassSet("s2mon1000")),
+            new Tutor(new Name("Francis Ng"), new Phone("94567890"),
+                                new Email("francisng@example.com"),
+                                new Address("Blk 890 Hougang St 91, #14-22"),
+                                getClassSet("s4mon1600", "s5wed1400"))
         };
     }
 
@@ -54,9 +61,8 @@ public class SampleDataUtil {
      */
     public static Set<Class> getClassSet(String... strings) {
         return Arrays.stream(strings)
-                .map(Class::new)
-                .collect(Collectors.toSet());
+                        .map(Class::new)
+                        .collect(Collectors.toSet());
     }
-
 
 }

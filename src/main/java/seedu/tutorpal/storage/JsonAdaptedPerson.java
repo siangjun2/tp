@@ -13,11 +13,14 @@ import seedu.tutorpal.commons.exceptions.IllegalValueException;
 import seedu.tutorpal.model.person.Address;
 import seedu.tutorpal.model.person.Class;
 import seedu.tutorpal.model.person.Email;
+import seedu.tutorpal.model.person.JoinDate;
 import seedu.tutorpal.model.person.Name;
 import seedu.tutorpal.model.person.PaymentHistory;
 import seedu.tutorpal.model.person.Person;
 import seedu.tutorpal.model.person.Phone;
 import seedu.tutorpal.model.person.Role;
+import seedu.tutorpal.model.person.Student;
+import seedu.tutorpal.model.person.Tutor;
 
 /**
  * Jackson-friendly version of {@link Person}.
@@ -32,21 +35,21 @@ class JsonAdaptedPerson {
     private final String role;
     private final String address;
     private final List<JsonAdaptedClass> classes = new ArrayList<>();
-    private final List<JsonAdaptedTag> tags = new ArrayList<>();
     private final JsonAdaptedPaymentHistory paymentHistory;
-    private final Boolean isMarked;
+    private final String joinDate;
+    private final JsonAdaptedAttendanceHistory attendanceHistory;
 
     /**
      * Constructs a {@code JsonAdaptedPerson} with the given person details.
      */
     @JsonCreator
     public JsonAdaptedPerson(@JsonProperty("name") String name, @JsonProperty("phone") String phone,
-                             @JsonProperty("email") String email, @JsonProperty("role") String role,
-                             @JsonProperty("address") String address,
-                             @JsonProperty("classes") List<JsonAdaptedClass> classes,
-                             @JsonProperty("tags") List<JsonAdaptedTag> tags,
-                             @JsonProperty("paymentHistory") JsonAdaptedPaymentHistory paymentHistory,
-                             @JsonProperty("isMarked") Boolean isMarked) {
+            @JsonProperty("email") String email, @JsonProperty("role") String role,
+            @JsonProperty("address") String address,
+            @JsonProperty("classes") List<JsonAdaptedClass> classes,
+            @JsonProperty("paymentHistory") JsonAdaptedPaymentHistory paymentHistory,
+            @JsonProperty("joinDate") String joinDate,
+            @JsonProperty("attendanceHistory") JsonAdaptedAttendanceHistory attendanceHistory) {
         this.name = name;
         this.phone = phone;
         this.email = email;
@@ -55,11 +58,9 @@ class JsonAdaptedPerson {
         if (classes != null) {
             this.classes.addAll(classes);
         }
-        if (tags != null) {
-            this.tags.addAll(tags);
-        }
         this.paymentHistory = paymentHistory;
-        this.isMarked = isMarked;
+        this.joinDate = joinDate;
+        this.attendanceHistory = attendanceHistory;
     }
 
     /**
@@ -69,26 +70,30 @@ class JsonAdaptedPerson {
         name = source.getName().fullName;
         phone = source.getPhone().value;
         email = source.getEmail().value;
-        role = source.getRole().value;
+        role = source.getRole().toString().toLowerCase();
         address = source.getAddress().value;
         classes.addAll(source.getClasses().stream()
                 .map(JsonAdaptedClass::new)
                 .collect(Collectors.toList()));
         paymentHistory = new JsonAdaptedPaymentHistory(source.getPaymentHistory());
-        isMarked = source.isMarked();
+        joinDate = source.getJoinDate().toString();
+        attendanceHistory = source.hasAttendanceHistory()
+                ? new JsonAdaptedAttendanceHistory(source.getAttendanceHistory())
+                : null;
     }
 
     /**
-     * Converts this Jackson-friendly adapted person object into the model's {@code Person} object.
+     * Converts this Jackson-friendly adapted person object into the model's
+     * {@code Person} object.
      *
-     * @throws IllegalValueException if there were any data constraints violated in the adapted person.
+     * @throws IllegalValueException if there were any data constraints violated in
+     *                               the adapted person.
      */
     public Person toModelType() throws IllegalValueException {
         final List<Class> personClasses = new ArrayList<>();
         for (JsonAdaptedClass classItem : classes) {
             personClasses.add(classItem.toModelType());
         }
-
 
         if (name == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
@@ -124,7 +129,7 @@ class JsonAdaptedPerson {
         if (!Role.isValidRole(role)) {
             throw new IllegalValueException(Role.MESSAGE_CONSTRAINTS);
         }
-        final Role modelRole = new Role(role);
+        final Role modelRole = Role.fromString(role);
 
         if (address == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
@@ -135,18 +140,33 @@ class JsonAdaptedPerson {
         }
         final Address modelAddress = new Address(address);
 
-        // Backward compatibility: if old JSON lacks paymentHistory, initialize from current date
+        // Backward compatibility: if old JSON lacks paymentHistory, initialize from
+        // current date
         final PaymentHistory modelPaymentHistory = (paymentHistory == null)
                 ? new PaymentHistory(java.time.LocalDate.now())
                 : paymentHistory.toModelType();
 
-        // Default to false if isMarked is null (for backward compatibility)
-        final boolean modelIsMarked = (isMarked != null) ? isMarked : false;
+        // Backward compatibility: if old JSON lacks joinDate, initialize to current date
+        final JoinDate modelJoinDate;
+        if (joinDate == null) {
+            modelJoinDate = JoinDate.now();
+        } else {
+            if (!JoinDate.isValidJoinDate(joinDate)) {
+                throw new IllegalValueException(JoinDate.MESSAGE_CONSTRAINTS);
+            }
+            modelJoinDate = new JoinDate(joinDate);
+        }
 
         final Set<Class> modelClasses = new HashSet<>(personClasses);
-        return new Person(modelName, modelPhone, modelEmail, modelRole, modelAddress,
-                modelClasses, modelPaymentHistory, modelIsMarked);
+
+        // Create Student or Tutor based on role
+        if (modelRole == Role.STUDENT) {
+            return new Student(modelName, modelPhone, modelEmail, modelAddress,
+                    modelClasses, modelJoinDate, modelPaymentHistory);
+        } else {
+            return new Tutor(modelName, modelPhone, modelEmail, modelAddress,
+                    modelClasses, modelJoinDate, modelPaymentHistory);
+        }
     }
 
 }
-

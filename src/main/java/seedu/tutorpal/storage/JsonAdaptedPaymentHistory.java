@@ -15,7 +15,7 @@ import seedu.tutorpal.model.person.PaymentHistory;
 /**
  * Jackson-friendly version of {@link PaymentHistory}.
  */
-class JsonAdaptedPaymentHistory {
+public class JsonAdaptedPaymentHistory {
 
     private final String joinDate;
     private final Set<JsonAdaptedMonthlyPayment> monthlyPayments;

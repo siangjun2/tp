@@ -1,7 +1,7 @@
 package seedu.tutorpal.logic.parser;
 
 import static seedu.tutorpal.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_MONTH;
+import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_JOIN_DATE;
 
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
@@ -24,7 +24,7 @@ public class PaymentCommandParser implements Parser<PaymentCommand> {
      * @throws ParseException if the user input does not conform the expected format
      */
     public PaymentCommand parse(String args) throws ParseException {
-        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_MONTH);
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_JOIN_DATE);
 
         Index index;
         try {
@@ -34,12 +34,12 @@ public class PaymentCommandParser implements Parser<PaymentCommand> {
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, PaymentCommand.MESSAGE_USAGE), pe);
         }
 
-        if (!argMultimap.getValue(PREFIX_MONTH).isPresent()) {
+        if (!argMultimap.getValue(PREFIX_JOIN_DATE).isPresent()) {
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, PaymentCommand.MESSAGE_USAGE));
         }
 
-        String monthString = argMultimap.getValue(PREFIX_MONTH).get().trim();
+        String monthString = argMultimap.getValue(PREFIX_JOIN_DATE).get().trim();
         YearMonth month;
         try {
             month = YearMonth.parse(monthString, MONTH_FORMAT);

@@ -1,8 +1,86 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
 <VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
-  <ListView fx:id="personListView" VBox.vgrow="ALWAYS" />
+  <!-- Table Header -->
+  <HBox style="-fx-background-color: #2d2d30; -fx-border-color: #3c3c3c; -fx-border-width: 0 0 1 0;">
+    <GridPane HBox.hgrow="ALWAYS">
+      <columnConstraints>
+        <!-- Person -->
+        <ColumnConstraints hgrow="NEVER" minWidth="100" prefWidth="100" />
+        <!-- Role -->
+        <ColumnConstraints hgrow="NEVER" minWidth="80" prefWidth="80" />
+        <!-- Class -->
+        <ColumnConstraints hgrow="NEVER" minWidth="150" prefWidth="150" />
+        <!-- Contact -->
+        <ColumnConstraints hgrow="NEVER" minWidth="200" prefWidth="200" />
+        <!-- Address -->
+        <ColumnConstraints hgrow="ALWAYS" minWidth="150" prefWidth="180" />
+        <!-- Attendance -->
+        <ColumnConstraints hgrow="NEVER" minWidth="80" prefWidth="80" />
+        <!-- Payment -->
+        <ColumnConstraints hgrow="NEVER" minWidth="90" prefWidth="90" />
+      </columnConstraints>
+
+      <Label text="PERSON" GridPane.columnIndex="0" GridPane.halignment="CENTER"
+             style="-fx-text-fill: #cccccc; -fx-font-size: 10px; -fx-font-weight: bold; -fx-font-family: 'Consolas', monospace;">
+        <padding>
+          <Insets top="8" right="8" bottom="8" left="10" />
+        </padding>
+      </Label>
+
+      <Label text="ROLE" GridPane.columnIndex="1" GridPane.halignment="CENTER"
+             style="-fx-text-fill: #cccccc; -fx-font-size: 10px; -fx-font-weight: bold; -fx-font-family: 'Consolas', monospace;">
+        <padding>
+          <Insets top="8" right="8" bottom="8" left="8" />
+        </padding>
+      </Label>
+
+      <Label text="CLASS" GridPane.columnIndex="2" GridPane.halignment="CENTER"
+             style="-fx-text-fill: #cccccc; -fx-font-size: 10px; -fx-font-weight: bold; -fx-font-family: 'Consolas', monospace;">
+        <padding>
+          <Insets top="8" right="8" bottom="8" left="8" />
+        </padding>
+      </Label>
+
+      <Label text="CONTACT" GridPane.columnIndex="3" GridPane.halignment="CENTER"
+             style="-fx-text-fill: #cccccc; -fx-font-size: 10px; -fx-font-weight: bold; -fx-font-family: 'Consolas', monospace;">
+        <padding>
+          <Insets top="8" right="8" bottom="8" left="8" />
+        </padding>
+      </Label>
+
+      <Label text="ADDRESS" GridPane.columnIndex="4" GridPane.halignment="CENTER"
+             style="-fx-text-fill: #cccccc; -fx-font-size: 10px; -fx-font-weight: bold; -fx-font-family: 'Consolas', monospace;">
+        <padding>
+          <Insets top="8" right="8" bottom="8" left="8" />
+        </padding>
+      </Label>
+
+      <Label text="ATTEND" GridPane.columnIndex="5" GridPane.halignment="CENTER"
+             style="-fx-text-fill: #cccccc; -fx-font-size: 10px; -fx-font-weight: bold; -fx-font-family: 'Consolas', monospace;">
+        <padding>
+          <Insets top="8" right="8" bottom="8" left="8" />
+        </padding>
+      </Label>
+
+      <Label text="PAYMENT" GridPane.columnIndex="6" GridPane.halignment="CENTER"
+             style="-fx-text-fill: #cccccc; -fx-font-size: 10px; -fx-font-weight: bold; -fx-font-family: 'Consolas', monospace;">
+        <padding>
+          <Insets top="8" right="8" bottom="8" left="8" />
+        </padding>
+      </Label>
+    </GridPane>
+  </HBox>
+
+  <!-- List View -->
+  <ListView fx:id="personListView" VBox.vgrow="ALWAYS"
+            style="-fx-background-color: #252526; -fx-background-insets: 0; -fx-padding: 0; -fx-border-color: transparent;" />
 </VBox>

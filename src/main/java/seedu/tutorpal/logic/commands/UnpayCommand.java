@@ -1,6 +1,7 @@
 package seedu.tutorpal.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_JOIN_DATE;
 
 import java.time.YearMonth;
 import java.util.List;
@@ -12,9 +13,12 @@ import seedu.tutorpal.logic.commands.exceptions.CommandException;
 import seedu.tutorpal.model.Model;
 import seedu.tutorpal.model.person.PaymentHistory;
 import seedu.tutorpal.model.person.Person;
+import seedu.tutorpal.model.person.Role;
+import seedu.tutorpal.model.person.Student;
 
 /**
- * Updates the payment status of a student in the address book by marking a month as unpaid.
+ * Updates the payment status of a student in the address book by marking a
+ * month as unpaid.
  */
 public class UnpayCommand extends Command {
 
@@ -24,6 +28,11 @@ public class UnpayCommand extends Command {
             + ": Marks a specific month's payment as unpaid for the student identified by the index number.\n"
             + "Parameters: INDEX (must be a positive integer) m/MM-yyyy\n"
             + "Example: " + COMMAND_WORD + " 1 m/01-2024";
+
+    // SHORTENED is used for help command
+    public static final String MESSAGE_USAGE_SHORTENED = COMMAND_WORD + ":\t" + COMMAND_WORD
+        + " INDEX " + PREFIX_JOIN_DATE + "MM-yyyy\n"
+        + "\t\tExample: " + COMMAND_WORD + " 1 m/01-2024";
 
     public static final String MESSAGE_SUCCESS = "Payment for %1$s for %2$s has been marked as unpaid.";
     public static final String MESSAGE_NOT_STUDENT =
@@ -38,7 +47,8 @@ public class UnpayCommand extends Command {
     private final YearMonth month;
 
     /**
-     * Creates an UnpayCommand to mark the specified month's payment as unpaid for the specified person.
+     * Creates an UnpayCommand to mark the specified month's payment as unpaid for
+     * the specified person.
      */
     public UnpayCommand(Index index, YearMonth month) {
         requireNonNull(index);
@@ -59,12 +69,12 @@ public class UnpayCommand extends Command {
         Person personToEdit = lastShownList.get(index.getZeroBased());
 
         // Check if the person is a student
-        if (personToEdit.getRole().value.equals("tutor")) {
+        if (personToEdit.getRole() == Role.TUTOR) {
             throw new CommandException(MESSAGE_NOT_STUDENT);
         }
 
         // Validate month constraints
-        YearMonth joinMonth = YearMonth.from(personToEdit.getJoinDate());
+        YearMonth joinMonth = personToEdit.getJoinDate().toYearMonth();
         if (month.isBefore(joinMonth)) {
             throw new CommandException(String.format(MESSAGE_MONTH_BEFORE_JOIN, joinMonth));
         }
