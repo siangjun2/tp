@@ -30,7 +30,8 @@ public class UnmarkCommand extends Command {
             + "Example: " + COMMAND_WORD + " 2 " + PREFIX_ATTENDANCE_WEEK + "W26-2025";
 
     public static final String MESSAGE_USAGE_SHORTENED = COMMAND_WORD + ":\t" + COMMAND_WORD + " INDEX "
-            + PREFIX_ATTENDANCE_WEEK + "WEEK\n\t\tExample: " + COMMAND_WORD + " 1 " + PREFIX_ATTENDANCE_WEEK + "W26-2025";
+            + PREFIX_ATTENDANCE_WEEK + "WEEK\n\t\tExample: "
+            + COMMAND_WORD + " 1 " + PREFIX_ATTENDANCE_WEEK + "W26-2025";
 
     public static final String MESSAGE_SUCCESS = "Unmarked attendance for: %1$s on %2$s.";
     public static final String MESSAGE_ERROR_FOR = "%1$s for %2$s!";
@@ -39,6 +40,11 @@ public class UnmarkCommand extends Command {
     private final Index index;
     private final WeeklyAttendance week;
 
+    /**
+     * Constuctor of Unmark Command.
+     * @param index
+     * @param week
+     */
     public UnmarkCommand(Index index, WeeklyAttendance week) {
         requireNonNull(index);
         requireNonNull(week);
@@ -66,7 +72,8 @@ public class UnmarkCommand extends Command {
         // Pre-check to avoid relying on exception message matching
         if (!oldHistory.hasBeenMarked(week)) {
             throw new CommandException(String.format(
-                    MESSAGE_ERROR_FOR, String.format(AttendanceHistory.MESSAGE_CANNOT_UNMARK, week), student.getName()));
+                    MESSAGE_ERROR_FOR,
+                    String.format(AttendanceHistory.MESSAGE_CANNOT_UNMARK, week), student.getName()));
         }
 
         AttendanceHistory newHistory;
