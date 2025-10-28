@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import seedu.tutorpal.commons.util.ToStringBuilder;
+import seedu.tutorpal.model.person.exceptions.InvalidRangeException;
 
 /**
  * Tracks attendance of students in a set of WeeklyAttendance.
@@ -74,10 +75,10 @@ public class AttendanceHistory {
     }
 
     /**
-     * Checks if the person attended on the given weekly attendance period.
+     * Checks if the weekly attendance is marked.
      * If outside valid range, return false.
      */
-    public boolean hasAttended(WeeklyAttendance weeklyAttendance) {
+    public boolean hasBeenMarked(WeeklyAttendance weeklyAttendance) {
         requireNonNull(weeklyAttendance);
         try {
             ensureWithinValidRange(weeklyAttendance);
@@ -98,7 +99,7 @@ public class AttendanceHistory {
         // This operation requires a new mutable set to avoid modifying the current instance.
         Set<WeeklyAttendance> newSet = new HashSet<>(this.weeklyAttendances);
         if (!newSet.add(weeklyAttendance)) {
-            throw new IllegalArgumentException(
+            throw new IllegalStateException(
                     String.format(AttendanceHistory.MESSAGE_ALREADY_MARKED, weeklyAttendance));
         }
 
@@ -117,7 +118,7 @@ public class AttendanceHistory {
         // This operation requires a new mutable set to avoid modifying the current instance.
         Set<WeeklyAttendance> newSet = new HashSet<>(this.weeklyAttendances);
         if (!newSet.remove(weeklyAttendance)) {
-            throw new IllegalArgumentException(
+            throw new IllegalStateException(
                     String.format(AttendanceHistory.MESSAGE_CANNOT_UNMARK, weeklyAttendance));
         }
 
@@ -130,14 +131,14 @@ public class AttendanceHistory {
      * - not before join week
      * - not after current week
      * i.e. join date week inclusive to current week inclusive
-     * else Throw IllegalArgumentException
+     * else Throw InvalidRangeException
      */
-    private void ensureWithinValidRange(WeeklyAttendance weeklyAttendance) throws IllegalArgumentException {
+    private void ensureWithinValidRange(WeeklyAttendance weeklyAttendance) {
         WeeklyAttendance joinWeek = this.joinDate.getJoinWeek();
         WeeklyAttendance currentWeek = WeeklyAttendance.getCurrentWeek(this.nowClock);
 
         if (weeklyAttendance.isBefore(joinWeek) || weeklyAttendance.isAfter(currentWeek)) {
-            throw new IllegalArgumentException(String.format(MESSAGE_INVALID_WEEK_RANGE, joinWeek, currentWeek));
+            throw new InvalidRangeException(String.format(MESSAGE_INVALID_WEEK_RANGE, joinWeek, currentWeek));
         }
     }
 
@@ -174,6 +175,7 @@ public class AttendanceHistory {
             return false;
         }
         AttendanceHistory otherHistory = (AttendanceHistory) other;
+        // Constructor already verifies these invariants.
         assert joinDate != null : "JoinDate should not be null";
         assert weeklyAttendances != null : "WeeklyAttendances should not be null";
         return joinDate.equals(otherHistory.joinDate)
@@ -182,6 +184,7 @@ public class AttendanceHistory {
 
     @Override
     public int hashCode() {
+        // Constructor already verifies these invariants.
         assert joinDate != null : "JoinDate should not be null";
         assert weeklyAttendances != null : "WeeklyAttendances should not be null";
         return joinDate.hashCode() + weeklyAttendances.hashCode();
