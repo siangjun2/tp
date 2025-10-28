@@ -6,6 +6,13 @@ plugins {
     id 'jacoco'
 }
 
+jacocoTestReport {
+    reports {
+        xml.required = true
+        html.required = true
+    }
+}
+
 mainClassName = 'seedu.tutorpal.Main'
 
 sourceCompatibility = JavaVersion.VERSION_17
