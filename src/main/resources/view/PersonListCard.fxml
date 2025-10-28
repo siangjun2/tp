@@ -43,7 +43,7 @@
       <padding>
         <Insets top="10" right="8" bottom="10" left="8" />
       </padding>
-      <Label fx:id="role" text="\$role" wrapText="true" maxWidth="70" />
+      <Label fx:id="role" text="\$role" wrapText="true" maxWidth="70" alignment="CENTER" />
     </VBox>
 
     <!-- Column 3: Classes -->
@@ -59,16 +59,16 @@
       <padding>
         <Insets top="10" right="8" bottom="10" left="8" />
       </padding>
-      <Label fx:id="phone" text="\$phone" styleClass="cell_small_label" maxWidth="190" wrapText="true" />
-      <Label fx:id="email" text="\$email" styleClass="cell_small_label" maxWidth="190" wrapText="true" />
+      <Label fx:id="phone" text="\$phone" styleClass="cell_small_label" maxWidth="190" wrapText="true" alignment="CENTER" />
+      <Label fx:id="email" text="\$email" styleClass="cell_small_label" maxWidth="190" wrapText="true" alignment="CENTER" />
     </VBox>
 
     <!-- Column 5: Address -->
-    <VBox GridPane.columnIndex="4" GridPane.halignment="CENTER">
+    <VBox alignment="CENTER" GridPane.columnIndex="4">
       <padding>
         <Insets top="10" right="8" bottom="10" left="8" />
       </padding>
-      <Label fx:id="address" text="\$address" styleClass="cell_small_label" wrapText="true" maxWidth="170" />
+      <Label fx:id="address" text="\$address" styleClass="cell_small_label" wrapText="true" maxWidth="170" alignment="CENTER" />
     </VBox>
 
     <!-- Column 6: Attendance -->
@@ -76,7 +76,7 @@
       <padding>
         <Insets top="10" right="8" bottom="10" left="8" />
       </padding>
-      <Label fx:id="attendance" text="\$attendance" styleClass="cell_small_label" wrapText="true" maxWidth="70" />
+      <Label fx:id="attendance" text="\$attendance" styleClass="cell_small_label" wrapText="true" maxWidth="70" alignment="CENTER" />
     </VBox>
 
     <!-- Column 7: Payment Status -->
@@ -84,7 +84,7 @@
       <padding>
         <Insets top="10" right="8" bottom="10" left="8" />
       </padding>
-      <Label fx:id="paymentStatus" text="\$status" wrapText="true" maxWidth="80" />
+      <Label fx:id="paymentStatus" text="\$status" wrapText="true" maxWidth="80" alignment="CENTER" />
     </VBox>
   </GridPane>
 </HBox>
