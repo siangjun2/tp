@@ -7,6 +7,7 @@ import java.time.YearMonth;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Represents a person's payment history across multiple months.
@@ -37,7 +38,11 @@ public class PaymentHistory {
         requireNonNull(joinDate);
         requireNonNull(monthlyPayments);
         this.joinDate = joinDate;
-        this.monthlyPayments = new HashSet<>(monthlyPayments);
+        YearMonth joinMonth = YearMonth.from(joinDate);
+        // Filter out payments before join date to maintain data validity
+        this.monthlyPayments = monthlyPayments.stream()
+                .filter(payment -> !payment.getMonth().isBefore(joinMonth))
+                .collect(Collectors.toSet());
     }
     /**
      * Initializes payment history from join date to current month.

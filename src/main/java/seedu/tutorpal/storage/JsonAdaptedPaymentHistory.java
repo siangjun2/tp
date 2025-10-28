@@ -1,6 +1,7 @@
 package seedu.tutorpal.storage;
 
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -58,10 +59,16 @@ class JsonAdaptedPaymentHistory {
         }
 
         Set<MonthlyPayment> modelMonthlyPayments = new HashSet<>();
+        YearMonth joinMonth = YearMonth.from(modelJoinDate);
+
         if (monthlyPayments != null) {
             for (JsonAdaptedMonthlyPayment adaptedPayment : monthlyPayments) {
                 try {
-                    modelMonthlyPayments.add(adaptedPayment.toModelType());
+                    MonthlyPayment payment = adaptedPayment.toModelType();
+                    // Filter out payments before join date to maintain data validity
+                    if (!payment.getMonth().isBefore(joinMonth)) {
+                        modelMonthlyPayments.add(payment);
+                    }
                 } catch (Exception e) {
                     throw new IllegalValueException("Invalid monthly payment: " + e.getMessage());
                 }

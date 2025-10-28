@@ -32,6 +32,7 @@ public class PaymentCommand extends Command {
             "Cannot mark payment for month before student's join date (%1$s)";
     public static final String MESSAGE_FUTURE_MONTH =
             "Cannot mark payment for future month";
+    public static final String MESSAGE_ALREADY_PAID = "Payment for %1$s has already been marked as paid for %2$s.";
 
     private final Index index;
     private final YearMonth month;
@@ -72,21 +73,28 @@ public class PaymentCommand extends Command {
             throw new CommandException(MESSAGE_FUTURE_MONTH);
         }
 
-        Person editedPerson = createPersonWithUpdatedPayment(personToEdit, month);
+        // Check if the month is already paid
+        if (personToEdit.getPaymentHistory().isMonthPaid(month)) {
+            throw new CommandException(String.format(MESSAGE_ALREADY_PAID,
+                    personToEdit.getName(), month));
+        }
+
+        PaymentHistory updatedPaymentHistory = personToEdit.getPaymentHistory().markMonthAsPaid(month);
+        Person editedPerson = new Person(
+                personToEdit.getName(),
+                personToEdit.getPhone(),
+                personToEdit.getEmail(),
+                personToEdit.getRole(),
+                personToEdit.getAddress(),
+                personToEdit.getClasses(),
+                updatedPaymentHistory,
+                personToEdit.isMarked()
+        );
+
         model.setPerson(personToEdit, editedPerson);
 
         return new CommandResult(String.format(MESSAGE_SUCCESS,
                 editedPerson.getName(), month));
-    }
-
-    /**
-     * Creates and returns a {@code Person} with the updated payment status for the specified month.
-     */
-    private Person createPersonWithUpdatedPayment(Person person, YearMonth month) {
-        PaymentHistory updatedPaymentHistory = person.getPaymentHistory().markMonthAsPaid(month);
-        return new Person(person.getName(), person.getPhone(), person.getEmail(),
-                person.getRole(), person.getAddress(), person.getClasses(),
-                updatedPaymentHistory, person.isMarked());
     }
 
     @Override
