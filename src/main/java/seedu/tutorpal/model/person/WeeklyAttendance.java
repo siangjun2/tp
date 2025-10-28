@@ -23,7 +23,7 @@ import java.util.regex.Pattern;
  * <li>Each year has either 52 or 53 weeks.</li>
  * </ul>
  */
-public class WeeklyAttendance {
+public final class WeeklyAttendance {
 
     public static final String MESSAGE_CONSTRAINTS = "Weekly attendance must be in the format W[XX]-YYYY, "
             + "where:\n"

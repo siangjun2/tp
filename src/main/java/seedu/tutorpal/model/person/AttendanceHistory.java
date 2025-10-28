@@ -15,7 +15,7 @@ import seedu.tutorpal.model.person.exceptions.InvalidRangeException;
  * Tracks attendance of students in a set of WeeklyAttendance.
  * Guarantees : immutable
  */
-public class AttendanceHistory {
+public final class AttendanceHistory {
 
     public static final String MESSAGE_INVALID_WEEK_RANGE =
             "Command causes Attendance Week %1$s to be out of valid range!\n"
