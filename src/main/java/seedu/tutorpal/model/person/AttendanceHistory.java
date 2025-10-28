@@ -17,11 +17,11 @@ import seedu.tutorpal.commons.util.ToStringBuilder;
 public class AttendanceHistory {
 
     public static final String MESSAGE_INVALID_WEEK_RANGE = "Weekly attendance period is out of valid range!\n"
-            + " It should be between the week of joining and the current week inclusive.\n"
+            + "It should be between the week of joining and the current week inclusive.\n"
             + "Join week : %1$s\n"
             + "Current week : %2$s";
-    public static final String MESSAGE_ALREADY_MARKED = "Attendance for %1$s week is already marked";
-    public static final String MESSAGE_CANNOT_UNMARK = "Attendance for the %1$s week is not marked yet";
+    public static final String MESSAGE_ALREADY_MARKED = "Attendance for %1$s is already marked";
+    public static final String MESSAGE_CANNOT_UNMARK = "Attendance for the %1$s is not marked yet";
 
     //JoinDate is immutable.
     private final JoinDate joinDate;
