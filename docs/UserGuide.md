@@ -6,7 +6,7 @@
 
 # TutorPal User Guide
 
-TutorPal aims to help small math tuition centre owners manage students effortlessly by centralizing student contact info, grades, attendance, payment status, subject assignments, tutors, and class schedules in one easy-to-use command-line system. TutorPal aims to help tution center owners save time, make less errors, and focus on teaching instead of paperwork.
+TutorPal aims to help small math tuition centre owners manage students effortlessly by centralizing student contact info, grades, attendance, payment status, subject assignments, tutors, and class schedules in one easy-to-use command-line system. TutorPal aims to help tuition centre owners save time, make less errors, and focus on teaching instead of paperwork.
 
 TutorPal is a **desktop app for managing contacts, optimized for use via a Command Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, TutorPal can get your contact management tasks done faster than traditional GUI apps.
 
@@ -24,7 +24,7 @@ TutorPal is a **desktop app for managing contacts, optimized for use via a Comma
 
 1. Copy the file to the folder you want to use as the _home folder_ for your AddressBook.
 
-1. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar addressbook.jar` command to run the application.<br>
+1. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar tutorpal.jar` command to run the application.<br>
    A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
    ![Ui](images/Ui.png)
 
@@ -67,30 +67,34 @@ Shows a message explaining how to access the [help page](https://ay2526s1-cs2103
 
 ![help message](images/helpMessage.png) #TODO
 
-Format: `help`
+Format: 
+`help`
 
 
 ### Adding a person: `add`
+
 Adds a student or tutor to the system.
 
 Format:
-add r/ROLE n/NAME p/PHONE e/EMAIL c/CLASS [c/MORE_CLASSES]... [a/ADDRESS]
+`add r/ROLE n/NAME p/PHONE e/EMAIL c/CLASS [a/ADDRESS] [j/JOINDATE] [c/MORE_CLASSES]...`
 
 Examples:
-add r/student n/Kevin p/98761234 e/kevin@gmail.com a/Kent Ridge c/s4mon1600
-add r/tutor n/Calvin p/99998888 e/calvin@gmail.com a/Jurong West c/s4mon1600 c/s1mon1800
+- add r/student n/Kevin p/98761234 e/kevin@gmail.com a/Kent Ridge c/s4mon1600 j/06-10-2025
+- add r/tutor n/Calvin p/99998888 e/calvin@gmail.com a/Jurong West c/s4mon1600 c/s1mon1800
 
-Notes:
+What to know:
+- ROLE must be student or tutor.
+- At least one class is required (c/). Class format: s[level][day][time], e.g., s4mon1600.
+- Address (a/) is optional.
+- Join date (j/) is optional; defaults to today. Format: dd-MM-yyyy.
 
-Details:
-* ROLE must be either student or tutor.
-* At least one class (c/CLASS) is required.
-* CLASS format: First 2 characters must be s1, s2, s3, s4, or s5 (class level), followed by 3 lowercase letters for the day (mon, tue, wed, thu, fri, sat, sun), and ending with 4 digits representing time in 24-hour format (e.g., s4mon1600 for Secondary 4 Monday 4:00 PM).
-* Address (a/ADDRESS) is optional.
+Corner cases:
+- Students can have exactly one class; tutors can have one or more classes (repeat c/).
+- Repeating the same non-repeatable field (r/, n/, p/, e/, a/) is not allowed and shows a “repeated field” error.
+- If any value is invalid (e.g., phone, email, class), the command fails with a clear message.
 
 <box type="tip" seamless>
-
-**Tip:** A student can only have 1 class. A tutor can have one or more classes.
+Tip: For tutors, add more classes by repeating c/, e.g., c/s4mon1600 c/s4wed1400.
 </box>
 
 ### Listing all persons : `list`
@@ -126,21 +130,34 @@ Examples:
 
 Edits an existing person in the address book.
 
-Format: `edit INDEX [r/ROLE][n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [c/CLASS]…​`
-
-* Edits the person at the specified `INDEX`. The index refers to the index number shown in the displayed person list. The index **must be a positive integer** 1, 2, 3, …​
-* At least one of the optional fields must be provided.
-* Existing values will be updated to the input values.
-* When editing classes, the existing classes of the person will be removed i.e adding of classes is not cumulative.
+Format:
+`edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [j/JOINDATE] [c/CLASS]…`
 
 Examples:
-*  `edit 1 p/91234567 e/johndoe@example.com` Edits the phone number and email address of the 1st person to be `91234567` and `johndoe@example.com` respectively.
+- edit 1 p/91234567 e/johndoe@example.com
+- edit 2 c/s4wed1400
+- edit 3 j/15-02-2024
+
+What to know:
+- INDEX refers to the number shown in the list (1-based).
+- At least one field must be provided.
+- Role (r/) cannot be edited.
+- Editing classes replaces all existing classes (not added on top).
+
+Corner cases:
+- Students must end up with exactly one class. If you provide more than one class for a student, the edit fails.
+- Providing an empty class (c/ with no value) is not allowed; at least one class is required.
+- Changing join date (j/) is allowed, but any already-marked attendance must still be valid with the new join date:
+  - Attendance is only valid from the join week up to the current week (inclusive).
+  - If the new join date would make some marked weeks invalid, the edit will fail. Unmark those weeks first, then edit the join date. This avoids hidden changes and keeps attendance clean.
+- If INDEX is not in the displayed list, the command fails with an “invalid index” message.
 
 ### Locating students and tutors by name: `find`
 
 Finds students and tutors whose names contain any of the given keywords.
 
-Format: `find KEYWORD [MORE_KEYWORDS]`
+Format: 
+`find KEYWORD [MORE_KEYWORDS]`
 
 * The search is case-insensitive. e.g `chong` will match `Chong`
 * The order of the keywords does not matter. e.g. `Chong Rui` will match `Rui Chong`
@@ -154,39 +171,47 @@ Examples:
   
 ### Marking attendance for students : `mark`
 
-Marks the specified student as having attended the class for that week.
+Marks the selected student as having attended a specific ISO week.
 
-Format: `mark INDEX w/WEEK`
+Format:
+`mark INDEX w/[ATTENDANCEWEEK]`
 
-* Marks the person at the specified `INDEX`.
-* The index refers to the index number shown in the displayed person list.
-* The index **must be a positive integer** 1,2,3,...
-* Weeks are grouped by month, and identified with a number 1 - 4 representing 1st to 4th week.
-* e.g. `w/W2-10-2025` represents the second week in Oct 2025.
-* Using an invalid week number or invalid month will result in an error displayed.
-* Tutors cannot be marked. Attempting to do so will result in an error displayed.
+Example:
+- mark 3 w/W10-2024
 
-Examples:
-* `mark 3 w/W2-10-2025` marks the 3rd person in the displayed list as having attended the second week in Oct 2025.
+What to know:
+- Only students can be marked; marking tutors shows an error.
+- Attendance weeks are in W[XX]-YYYY format. Where XX represents the ISO week, the student attended, and YYYY represents the corresponding year. The format is case-insensitive.
+- ISO-8601 weeks:
+  - Weeks start Monday; Week 1 is the week containing Jan 4.
+  - Some years have 53 weeks.
+  - The week “year” (YYYY) can differ from the calendar year near year-end.
+  - Valid years are 0001–9999.
+
+Corner cases:
+- You can only mark weeks from the student’s join week up to the current week (inclusive).
+- Marking the same week again fails with “already marked”.
+- Week 53 is only valid in years that actually have 53 weeks.
 
 ![markimage](images/mark.png)
 
 ### Unmarking attendance for students : `unmark`
 
-Unmarks the specified student as having attended the class for that week.
+Removes attendance for a specific ISO week.
 
-Format: `unmark INDEX w/WEEK`
+Format:
+`unmark INDEX w/[ATTENDANCEWEEK]`
 
-* Unmarks the person at the specified `INDEX`.
-* The index refers to the index number shown in the displayed person list.
-* The index **must be a positive integer** 1,2,3,...
-* Weeks are grouped by month, and identified with a number 1 - 4 representing 1st to 4th week.
-* e.g. `w/W2-10-2025` represents the second week in Oct 2025.
-* Using an invalid week number or invalid month will result in an error displayed.
-* Tutors cannot be unmarked. Attempting to do so will result in an error displayed.
+Example:
+- unmark 3 w/W10-2024
 
-Examples:
-* `unmark 3 w/W2-10-2025` unmarks the 3rd person in the displayed list as having attended the second week in Oct 2025.
+What to know:
+- Only students can be unmarked.
+- Uses the same ISO week format as mark.
+
+Corner cases:
+- You can only unmark weeks within the valid range (join week to current week, inclusive).
+- Unmarking a week that was never marked fails with “not marked yet”.
 
 ### Managing payments : `pay`
 
@@ -206,7 +231,9 @@ Details:
 Examples (assume today is Oct 2025):
 * `pay 3 m/09-2025` - marks Sept 2025 as paid for person #3
 
-### Deleting a person : `delete`
+--------------------------------------------------------------------------------------------------------------------
+
+## Deleting a person : `delete`
 
 Deletes the specified person from the address book.
 
@@ -267,13 +294,13 @@ Furthermore, certain edits can cause the AddressBook to behave in unexpected way
 
 Action     | Format, Examples
 -----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-**Add**    | `add r/ROLE n/NAME p/PHONE e/EMAIL c/CLASS [c/MORE_CLASSES]... [a/ADDRESS]​` <br> e.g., `add r/student n/Kevin p/98761234 e/kevin@gmail.com a/Kent Ridge c/s4mon1600`
+**Add**    | `add r/ROLE n/NAME p/PHONE e/EMAIL c/CLASS [a/ADDRESS] [j/JOINDATE] [c/MORE_CLASSES]...` <br> e.g., `add r/student n/Kevin p/98761234 e/kevin@gmail.com a/Kent Ridge c/s4mon1600 j/06-10-2025`
 **Clear**  | `clear`
 **Delete** | `delete INDEX`<br> e.g., `delete 3`
-**Edit**   | `edit INDEX [r/ROLE][n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [c/CLASS]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
+**Edit**   | `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [j/JOINDATE] [c/CLASS]…`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
 **Exit**   | `exit`
 **Find**   | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
 **List**   | `list [c/CLASS] [tu/TUTOR]`
-**Mark**   | `mark INDEX w/WEEK`
-**UnMark** | `unmark INDEX w/WEEK`
+**Mark**   | `mark INDEX w/[ATTENDANCEWEEK]`<br> e.g., `mark 3 w/W10-2024`
+**Unmark** | `unmark INDEX w/[ATTENDANCEWEEK]`<br> e.g., `unmark 3 w/W10-2024`
 **Help**   | `help`

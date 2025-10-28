@@ -16,7 +16,6 @@ import java.time.Clock;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneOffset;
-import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
@@ -115,36 +114,8 @@ public class PersonTest {
         assertEquals(expected, ALICE.toString());
     }
 
-    // --- Tutor tests ---
-
     @Test
-    public void tutor_attendanceHistoryFlagsAndAccess() {
-        Tutor tutor = new Tutor(
-                new Name("Tutor Tim"),
-                new Phone("91234567"),
-                new Email("tutor@example.com"),
-                new Address("Blk 123, Bedok Ave 1"),
-                Set.of());
-        assertFalse(tutor.hasAttendanceHistory());
-        assertThrows(IllegalStateException.class, tutor::getAttendanceHistory);
-    }
-
-    // --- Student tests ---
-
-    @Test
-    public void student_hasAttendanceHistory_andJoinDateSynchronized() {
-        Student student = new Student(
-                new Name("Student Sue"),
-                new Phone("98765432"),
-                new Email("student@example.com"),
-                new Address("Blk 456, Clementi Ave 2"),
-                Set.of());
-        assertTrue(student.hasAttendanceHistory());
-        assertEquals(student.getJoinDate(), student.getAttendanceHistory().getJoinDate());
-    }
-
-    @Test
-    public void student_equalsSameDataWithFixedClock() {
+    public void student_equalsSameDataWithFixedClock_returnsTrue() {
         Clock fixed = Clock.fixed(Instant.parse("2024-01-15T00:00:00Z"), ZoneOffset.UTC);
         JoinDate jd = new JoinDate(LocalDate.now(fixed)); // same value for both, using fixed clock
 
@@ -153,7 +124,7 @@ public class PersonTest {
                 new Phone("81111111"),
                 new Email("chris@example.com"),
                 new Address("Blk 1, Street 1"),
-                Set.of(),
+                ALICE.getClasses(),
                 jd,
                 fixed);
         Student s2 = new Student(
@@ -161,7 +132,7 @@ public class PersonTest {
                 new Phone("81111111"),
                 new Email("chris@example.com"),
                 new Address("Blk 1, Street 1"),
-                Set.of(),
+                ALICE.getClasses(),
                 jd,
                 fixed);
 

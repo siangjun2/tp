@@ -186,7 +186,7 @@ public class PersonBuilder {
     public Person build() {
         if (role == Role.STUDENT) {
             return new Student(name, phone, email, address, classes, joinDate,
-                    paymentHistory, attendanceHistory);
+                    attendanceHistory, paymentHistory);
         } else {
             return new Tutor(name, phone, email, address, classes, joinDate, paymentHistory);
         }

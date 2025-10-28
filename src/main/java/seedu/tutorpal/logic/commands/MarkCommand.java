@@ -86,7 +86,6 @@ public class MarkCommand extends Command {
                 personToMark.getAddress(),
                 personToMark.getClasses(),
                 personToMark.getJoinDate(),
-                personToMark.getPaymentHistory(),
                 newAttendanceHistory);
 
         model.setPerson(personToMark, markedPerson);
