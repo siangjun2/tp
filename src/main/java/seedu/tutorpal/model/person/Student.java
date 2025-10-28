@@ -1,12 +1,13 @@
 package seedu.tutorpal.model.person;
 
+import static seedu.tutorpal.model.person.Role.STUDENT;
+
 import java.time.Clock;
 import java.time.LocalDate;
 import java.util.Objects;
 import java.util.Set;
 
 import seedu.tutorpal.commons.util.ToStringBuilder;
-import static seedu.tutorpal.model.person.Role.STUDENT;
 
 /**
  * Subtype of Person, representing a Student
@@ -24,6 +25,15 @@ public class Student extends Person {
             JoinDate joinDate) {
         this(name, phone, email, address, classes, joinDate, null, Clock.systemDefaultZone(),
                 new PaymentHistory(LocalDate.now()));
+    }
+
+    /**
+     * Public constructor with explicit joinDate and paymentHistory.
+     * Used by Storage when restoring from JSON.
+     */
+    public Student(Name name, Phone phone, Email email, Address address, Set<Class> classes,
+                   JoinDate joinDate, PaymentHistory paymentHistory) {
+        this(name, phone, email, address, classes, joinDate, null, Clock.systemDefaultZone(), paymentHistory);
     }
 
     /**
@@ -54,6 +64,15 @@ public class Student extends Person {
                    JoinDate joinDate, AttendanceHistory attendanceHistory, Clock nowClock) {
         this(name, phone, email, address, classes, joinDate, attendanceHistory, nowClock,
                 new PaymentHistory(LocalDate.now(nowClock)));
+    }
+
+    /**
+     * With all fields except clock
+     */
+    public Student(Name name, Phone phone, Email email, Address address, Set<Class> classes,
+                   JoinDate joinDate, AttendanceHistory attendanceHistory, PaymentHistory paymentHistory) {
+        this(name, phone, email, address, classes, joinDate, attendanceHistory, Clock.systemDefaultZone(),
+                paymentHistory);
     }
 
     /**

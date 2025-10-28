@@ -1,11 +1,5 @@
 package seedu.tutorpal.logic.parser;
 
-import java.util.Collections;
-
-import org.junit.jupiter.api.Test;
-
-import seedu.tutorpal.commons.core.index.Index;
-import seedu.tutorpal.logic.Messages;
 import static seedu.tutorpal.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.tutorpal.logic.commands.CommandTestUtil.ADDRESS_DESC_AMY;
 import static seedu.tutorpal.logic.commands.CommandTestUtil.ADDRESS_DESC_BOB;
@@ -26,8 +20,6 @@ import static seedu.tutorpal.logic.commands.CommandTestUtil.VALID_EMAIL_AMY;
 import static seedu.tutorpal.logic.commands.CommandTestUtil.VALID_NAME_AMY;
 import static seedu.tutorpal.logic.commands.CommandTestUtil.VALID_PHONE_AMY;
 import static seedu.tutorpal.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
-import seedu.tutorpal.logic.commands.EditCommand;
-import seedu.tutorpal.logic.commands.EditCommand.EditPersonDescriptor;
 import static seedu.tutorpal.logic.commands.EditCommand.MESSAGE_INVALID_EDIT;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_CLASS;
@@ -37,20 +29,29 @@ import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_ROLE;
 import static seedu.tutorpal.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.tutorpal.logic.parser.CommandParserTestUtil.assertParseSuccess;
+import static seedu.tutorpal.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
+import static seedu.tutorpal.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
+import static seedu.tutorpal.testutil.TypicalIndexes.INDEX_THIRD_PERSON;
+
+import java.util.Collections;
+
+import org.junit.jupiter.api.Test;
+
+import seedu.tutorpal.commons.core.index.Index;
+import seedu.tutorpal.logic.Messages;
+import seedu.tutorpal.logic.commands.EditCommand;
+import seedu.tutorpal.logic.commands.EditCommand.EditPersonDescriptor;
 import seedu.tutorpal.model.person.Address;
 import seedu.tutorpal.model.person.Email;
 import seedu.tutorpal.model.person.JoinDate;
 import seedu.tutorpal.model.person.Name;
 import seedu.tutorpal.model.person.Phone;
 import seedu.tutorpal.testutil.EditPersonDescriptorBuilder;
-import static seedu.tutorpal.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
-import static seedu.tutorpal.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
-import static seedu.tutorpal.testutil.TypicalIndexes.INDEX_THIRD_PERSON;
 
 public class EditCommandParserTest {
 
-    private static final String MESSAGE_INVALID_FORMAT =
-            String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE);
+    private static final String MESSAGE_INVALID_FORMAT = String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+            EditCommand.MESSAGE_USAGE);
 
     private EditCommandParser parser = new EditCommandParser();
 
@@ -90,7 +91,6 @@ public class EditCommandParserTest {
 
         // invalid phone followed by valid email
         assertParseFailure(parser, "1" + INVALID_PHONE_DESC + EMAIL_DESC_AMY, Phone.MESSAGE_CONSTRAINTS);
-
 
         // multiple invalid values, but only the first invalid value is captured
         assertParseFailure(parser, "1" + INVALID_NAME_DESC + INVALID_EMAIL_DESC + VALID_ADDRESS_AMY + VALID_PHONE_AMY,

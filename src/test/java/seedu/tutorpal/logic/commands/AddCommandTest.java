@@ -1,14 +1,17 @@
 package seedu.tutorpal.logic.commands;
 
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Arrays;
 import static java.util.Objects.requireNonNull;
-import java.util.function.Predicate;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.tutorpal.testutil.Assert.assertThrows;
+import static seedu.tutorpal.testutil.TypicalPersons.ALICE;
+
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.function.Predicate;
+
 import org.junit.jupiter.api.Test;
 
 import javafx.collections.ObservableList;
@@ -19,9 +22,7 @@ import seedu.tutorpal.model.Model;
 import seedu.tutorpal.model.ReadOnlyAddressBook;
 import seedu.tutorpal.model.ReadOnlyUserPrefs;
 import seedu.tutorpal.model.person.Person;
-import static seedu.tutorpal.testutil.Assert.assertThrows;
 import seedu.tutorpal.testutil.PersonBuilder;
-import static seedu.tutorpal.testutil.TypicalPersons.ALICE;
 
 public class AddCommandTest {
 
@@ -69,8 +70,10 @@ public class AddCommandTest {
 
         assertEquals(Arrays.asList(p1, p2), modelStub.personsAdded);
 
-        String expectedMsg1 = String.format(AddCommand.MESSAGE_SUCCESS, p1.getRole().toString(), p1.getName().toString());
-        String expectedMsg2 = String.format(AddCommand.MESSAGE_SUCCESS, p2.getRole().toString(), p2.getName().toString());
+        String expectedMsg1 = String.format(AddCommand.MESSAGE_SUCCESS, p1.getRole().toString(),
+                p1.getName().toString());
+        String expectedMsg2 = String.format(AddCommand.MESSAGE_SUCCESS, p2.getRole().toString(),
+                p2.getName().toString());
         assertEquals(expectedMsg1, r1.getFeedbackToUser());
         assertEquals(expectedMsg2, r2.getFeedbackToUser());
     }

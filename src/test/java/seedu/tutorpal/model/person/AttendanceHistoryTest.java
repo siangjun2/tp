@@ -1,14 +1,15 @@
 package seedu.tutorpal.model.person;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.time.Clock;
 import java.time.Instant;
 import java.time.Year;
 import java.time.ZoneId;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 public class AttendanceHistoryTest {
@@ -223,10 +224,8 @@ public class AttendanceHistoryTest {
         AttendanceHistory history = new AttendanceHistory(joinDate, FIXED_CLOCK_2024_W10);
 
         var view = history.getWeeklyAttendances();
-        assertThrows(UnsupportedOperationException.class, ()
-                -> view.add(new WeeklyAttendance(1, Year.of(2024))));
-        assertThrows(UnsupportedOperationException.class, ()
-                -> view.remove(new WeeklyAttendance(1, Year.of(2024))));
+        assertThrows(UnsupportedOperationException.class, () -> view.add(new WeeklyAttendance(1, Year.of(2024))));
+        assertThrows(UnsupportedOperationException.class, () -> view.remove(new WeeklyAttendance(1, Year.of(2024))));
     }
 
     // ===== ISO EDGE CASES (week-year boundaries) =====
@@ -244,9 +243,10 @@ public class AttendanceHistoryTest {
         // Marking join week is allowed
         AttendanceHistory history2 = history.markAttendance(joinWeek);
         assertTrue(history2.hasAttended(joinWeek));
-        assertFalse(history.hasAttended(joinWeek)); //immutability
+        assertFalse(history.hasAttended(joinWeek)); // immutability
 
-        // Current week with this clock is also W53-2015; trying to mark next week (W01-2016) is after current -> throws
+        // Current week with this clock is also W53-2015; trying to mark next week
+        // (W01-2016) is after current -> throws
         WeeklyAttendance nextWeek = new WeeklyAttendance(1, Year.of(2016));
         assertThrows(IllegalArgumentException.class, () -> history2.markAttendance(nextWeek));
         assertFalse(history.hasAttended(nextWeek));

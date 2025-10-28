@@ -1,15 +1,15 @@
 package seedu.tutorpal.model.person;
 
+import static java.util.Objects.requireNonNull;
+import static seedu.tutorpal.commons.util.AppUtil.checkArgument;
+import static seedu.tutorpal.commons.util.CollectionUtil.requireAllNonNull;
+
 import java.time.Clock;
 import java.time.LocalDate;
 import java.time.Year;
 import java.time.temporal.IsoFields;
-import static java.util.Objects.requireNonNull;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static seedu.tutorpal.commons.util.AppUtil.checkArgument;
-import static seedu.tutorpal.commons.util.CollectionUtil.requireAllNonNull;
 
 /**
  * Represents a weekly attendance period for a specific ISO week in a year.

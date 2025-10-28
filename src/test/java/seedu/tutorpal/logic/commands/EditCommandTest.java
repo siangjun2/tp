@@ -1,15 +1,9 @@
 package seedu.tutorpal.logic.commands;
 
-import java.util.Collections;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import org.junit.jupiter.api.Test;
-
-import seedu.tutorpal.commons.core.index.Index;
-import seedu.tutorpal.logic.Messages;
 import static seedu.tutorpal.logic.commands.CommandTestUtil.DESC_AMY;
 import static seedu.tutorpal.logic.commands.CommandTestUtil.DESC_BOB;
 import static seedu.tutorpal.logic.commands.CommandTestUtil.VALID_NAME_BOB;
@@ -17,6 +11,16 @@ import static seedu.tutorpal.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
 import static seedu.tutorpal.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.tutorpal.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.tutorpal.logic.commands.CommandTestUtil.showPersonAtIndex;
+import static seedu.tutorpal.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
+import static seedu.tutorpal.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
+import static seedu.tutorpal.testutil.TypicalPersons.getTypicalAddressBook;
+
+import java.util.Collections;
+
+import org.junit.jupiter.api.Test;
+
+import seedu.tutorpal.commons.core.index.Index;
+import seedu.tutorpal.logic.Messages;
 import seedu.tutorpal.logic.commands.EditCommand.EditPersonDescriptor;
 import seedu.tutorpal.model.AddressBook;
 import seedu.tutorpal.model.Model;
@@ -25,9 +29,6 @@ import seedu.tutorpal.model.UserPrefs;
 import seedu.tutorpal.model.person.Person;
 import seedu.tutorpal.testutil.EditPersonDescriptorBuilder;
 import seedu.tutorpal.testutil.PersonBuilder;
-import static seedu.tutorpal.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
-import static seedu.tutorpal.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
-import static seedu.tutorpal.testutil.TypicalPersons.getTypicalAddressBook;
 
 /**
  * Contains integration tests (interaction with the Model) and unit tests for EditCommand.
