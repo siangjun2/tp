@@ -22,9 +22,8 @@ public final class AttendanceHistory {
             + "It should be between the week of joining and the current week inclusive.\n"
             + "Join week : %2$s\t\t" + "Current week : %3$s";
     public static final String MESSAGE_JOIN_DATE_IN_FUTURE = "Cannot set join date %1$s after current date %2$s!";
-    // The following 2 strings are left with 2 sets of %1$s to be appended with additional details.
-    public static final String MESSAGE_ALREADY_MARKED = "Attendance for %1$s is already marked %1$s";
-    public static final String MESSAGE_CANNOT_UNMARK = "Attendance for the %1$s is not marked yet %1$s";
+    public static final String MESSAGE_ALREADY_MARKED = "Attendance for %1$s is already marked for %2$s.";
+    public static final String MESSAGE_CANNOT_UNMARK = "Attendance for the %1$s is not marked yet for %2$s.";
 
     //JoinDate is immutable.
     private final JoinDate joinDate;
@@ -105,7 +104,7 @@ public final class AttendanceHistory {
         Set<WeeklyAttendance> newSet = new HashSet<>(this.weeklyAttendances);
         if (!newSet.add(weeklyAttendance)) {
             throw new IllegalStateException(
-                    String.format(AttendanceHistory.MESSAGE_ALREADY_MARKED, weeklyAttendance));
+                    String.format(AttendanceHistory.MESSAGE_ALREADY_MARKED, weeklyAttendance, "%1$s"));
         }
 
         // Return a new immutable AttendanceHistory with the updated set.
@@ -124,7 +123,7 @@ public final class AttendanceHistory {
         Set<WeeklyAttendance> newSet = new HashSet<>(this.weeklyAttendances);
         if (!newSet.remove(weeklyAttendance)) {
             throw new IllegalStateException(
-                    String.format(AttendanceHistory.MESSAGE_CANNOT_UNMARK, weeklyAttendance));
+                    String.format(AttendanceHistory.MESSAGE_CANNOT_UNMARK, weeklyAttendance, "%1$s"));
         }
 
         // Return a new immutable AttendanceHistory with the updated set.

@@ -36,18 +36,6 @@ import seedu.tutorpal.model.person.WeeklyAttendance;
 public class UnmarkCommandTest {
 
     @Test
-    public void constructor_nullIndex_throwsNullPointerException() {
-        WeeklyAttendance week = new WeeklyAttendance("W01-2025");
-        assertThrows(NullPointerException.class, () -> new UnmarkCommand(null, week));
-    }
-
-    @Test
-    public void constructor_nullWeek_throwsNullPointerException() {
-        Index index = Index.fromOneBased(1);
-        assertThrows(NullPointerException.class, () -> new UnmarkCommand(index, null));
-    }
-
-    @Test
     public void execute_nullModel_throwsNullPointerException() {
         UnmarkCommand cmd = new UnmarkCommand(Index.fromOneBased(1), new WeeklyAttendance("W01-2025"));
         assertThrows(NullPointerException.class, () -> cmd.execute(null));
@@ -78,7 +66,6 @@ public class UnmarkCommandTest {
         String s = cmd.toString();
         assertTrue(s.contains("index"));
         assertTrue(s.contains("week"));
-        assertTrue(s.contains("3"));
         assertTrue(s.contains("W26-2025"));
     }
 
@@ -211,17 +198,41 @@ public class UnmarkCommandTest {
         }
 
         // Unused methods
-        @Override public void setUserPrefs(ReadOnlyUserPrefs userPrefs) { throw new AssertionError(); }
-        @Override public ReadOnlyUserPrefs getUserPrefs() { throw new AssertionError(); }
-        @Override public GuiSettings getGuiSettings() { throw new AssertionError(); }
-        @Override public void setGuiSettings(GuiSettings guiSettings) { throw new AssertionError(); }
-        @Override public java.nio.file.Path getAddressBookFilePath() { throw new AssertionError(); }
-        @Override public void setAddressBookFilePath(java.nio.file.Path addressBookFilePath) { throw new AssertionError(); }
-        @Override public void setAddressBook(ReadOnlyAddressBook addressBook) { throw new AssertionError(); }
-        @Override public ReadOnlyAddressBook getAddressBook() { throw new AssertionError(); }
-        @Override public boolean hasPerson(Person person) { throw new AssertionError(); }
-        @Override public void deletePerson(Person target) { throw new AssertionError(); }
-        @Override public void addPerson(Person person) { throw new AssertionError(); }
-        @Override public void updateFilteredPersonList(java.util.function.Predicate<Person> predicate) { throw new AssertionError(); }
+        @Override public void setUserPrefs(ReadOnlyUserPrefs userPrefs) {
+            throw new AssertionError();
+        }
+        @Override public ReadOnlyUserPrefs getUserPrefs() {
+            throw new AssertionError();
+        }
+        @Override public GuiSettings getGuiSettings() {
+            throw new AssertionError();
+        }
+        @Override public void setGuiSettings(GuiSettings guiSettings) {
+            throw new AssertionError();
+        }
+        @Override public java.nio.file.Path getAddressBookFilePath() {
+            throw new AssertionError();
+        }
+        @Override public void setAddressBookFilePath(java.nio.file.Path addressBookFilePath) {
+            throw new AssertionError();
+        }
+        @Override public void setAddressBook(ReadOnlyAddressBook addressBook) {
+            throw new AssertionError();
+        }
+        @Override public ReadOnlyAddressBook getAddressBook() {
+            throw new AssertionError();
+        }
+        @Override public boolean hasPerson(Person person) {
+            throw new AssertionError();
+        }
+        @Override public void deletePerson(Person target) {
+            throw new AssertionError();
+        }
+        @Override public void addPerson(Person person) {
+            throw new AssertionError();
+        }
+        @Override public void updateFilteredPersonList(java.util.function.Predicate<Person> predicate) {
+            throw new AssertionError();
+        }
     }
 }

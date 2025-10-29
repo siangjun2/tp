@@ -15,6 +15,7 @@ import seedu.tutorpal.model.person.Person;
 import seedu.tutorpal.model.person.Role;
 import seedu.tutorpal.model.person.Student;
 import seedu.tutorpal.model.person.WeeklyAttendance;
+import seedu.tutorpal.model.person.exceptions.InvalidRangeException;
 
 /**
  * Unmarks the attendance of a student for a specified week.
@@ -29,25 +30,25 @@ public class UnmarkCommand extends Command {
             + PREFIX_ATTENDANCE_WEEK + "WEEK\n"
             + "Example: " + COMMAND_WORD + " 2 " + PREFIX_ATTENDANCE_WEEK + "W26-2025";
 
+    // SHORTENED is used for help command
     public static final String MESSAGE_USAGE_SHORTENED = COMMAND_WORD + ":\t" + COMMAND_WORD + " INDEX "
             + PREFIX_ATTENDANCE_WEEK + "WEEK\n\t\tExample: "
             + COMMAND_WORD + " 1 " + PREFIX_ATTENDANCE_WEEK + "W26-2025";
 
     public static final String MESSAGE_SUCCESS = "Unmarked attendance for: %1$s on %2$s.";
-    public static final String MESSAGE_ERROR_FOR = "%1$s for %2$s!";
-    public static final String MESSAGE_CANNOT_UNMARK_FOR = "Cannot unmark attendance for %1$s.";
+    public static final String MESSAGE_CANNOT_UNMARK_FOR_ROLE = "Cannot unmark attendance for %1$s.";
 
     private final Index index;
     private final WeeklyAttendance week;
 
     /**
-     * Constuctor of Unmark Command.
-     * @param index
-     * @param week
+     * Creates an Unmark Command to be executed later.
      */
     public UnmarkCommand(Index index, WeeklyAttendance week) {
-        requireNonNull(index);
-        requireNonNull(week);
+        //Based on AddressBookParser and ParserUtil implementation, impossible for null to be passed to commands
+        //constructor. No input validation here, only checking invariant.
+        assert index != null : "Index should not be null (guaranteed by parser)";
+        assert week != null : "Week should not be null (guaranteed by parser)";
         this.index = index;
         this.week = week;
     }
@@ -55,47 +56,44 @@ public class UnmarkCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-
         List<Person> lastShownList = model.getFilteredPersonList();
+
         if (index.getZeroBased() >= lastShownList.size()) {
             throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
         }
 
         Person personToUnmark = lastShownList.get(index.getZeroBased());
-        if (personToUnmark.getRole() != Role.STUDENT) {
-            throw new CommandException(String.format(MESSAGE_CANNOT_UNMARK_FOR, personToUnmark.getRole()));
+
+        if (personToUnmark.getRole() == Role.TUTOR) {
+            throw new CommandException(String.format(MESSAGE_CANNOT_UNMARK_FOR_ROLE, Role.TUTOR));
         }
 
-        Student student = (Student) personToUnmark;
-        AttendanceHistory oldHistory = student.getAttendanceHistory();
-
-        // Pre-check to avoid relying on exception message matching
-        if (!oldHistory.hasBeenMarked(week)) {
-            throw new CommandException(String.format(
-                    MESSAGE_ERROR_FOR,
-                    String.format(AttendanceHistory.MESSAGE_CANNOT_UNMARK, week), student.getName()));
-        }
-
-        AttendanceHistory newHistory;
+        //Should be student role only. Test with assertion in case more roles are added.
+        assert personToUnmark instanceof Student;
+        AttendanceHistory newAttendanceHistory;
+        AttendanceHistory oldHistory = personToUnmark.getAttendanceHistory(); //should not throw errors
         try {
-            newHistory = oldHistory.unmarkAttendance(week);
-        } catch (IllegalArgumentException e) {
-            // Range or validation issues from model layer
-            throw new CommandException(e.getMessage());
+            newAttendanceHistory = oldHistory.unmarkAttendance(week);
+        } catch (InvalidRangeException e) {
+            throw new CommandException(e.getMessage()); //For range Messages, no need to append additional details.
+        } catch (IllegalStateException e) {
+            // Adding Person name for better user feedback.
+            throw new CommandException(String.format(e.getMessage(), personToUnmark.getName()));
         }
 
-        Student editedStudent = new Student(
-                student.getName(),
-                student.getPhone(),
-                student.getEmail(),
-                student.getAddress(),
-                student.getClasses(),
-                student.getJoinDate(),
-                newHistory
-        );
+        // Create a new Student with updated attendance history
+        Person unmarkedPerson = new Student(
+                personToUnmark.getName(),
+                personToUnmark.getPhone(),
+                personToUnmark.getEmail(),
+                personToUnmark.getAddress(),
+                personToUnmark.getClasses(),
+                personToUnmark.getJoinDate(),
+                newAttendanceHistory,
+                personToUnmark.getPaymentHistory());
 
-        model.setPerson(student, editedStudent);
-        return new CommandResult(String.format(MESSAGE_SUCCESS, editedStudent.getName(), week));
+        model.setPerson(personToUnmark, unmarkedPerson);
+        return new CommandResult(String.format(MESSAGE_SUCCESS, unmarkedPerson.getName(), week));
     }
 
     @Override

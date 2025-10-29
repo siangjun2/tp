@@ -2,6 +2,7 @@ package seedu.tutorpal.logic.parser;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_ATTENDANCE_WEEK;
 
 import org.junit.jupiter.api.Test;
 
@@ -17,7 +18,7 @@ public class UnmarkCommandParserTest {
 
     @Test
     public void parse_validArgs_success() throws Exception {
-        String input = "3 w/W10-2025";
+        String input = "3 " + PREFIX_ATTENDANCE_WEEK + "W10-2025";
         UnmarkCommand result = parser.parse(input);
 
         UnmarkCommand expected = new UnmarkCommand(Index.fromOneBased(3), new WeeklyAttendance("W10-2025"));
@@ -26,7 +27,7 @@ public class UnmarkCommandParserTest {
 
     @Test
     public void parse_validArgsWithWhitespace_success() throws Exception {
-        String input = "   1   w/W52-2024   ";
+        String input = "   1   " + PREFIX_ATTENDANCE_WEEK + "W52-2024   ";
         UnmarkCommand result = parser.parse(input);
 
         UnmarkCommand expected = new UnmarkCommand(Index.fromOneBased(1), new WeeklyAttendance("W52-2024"));
@@ -35,7 +36,7 @@ public class UnmarkCommandParserTest {
 
     @Test
     public void parse_missingWeekPrefix_failure() {
-        String input = "1 W26-2025"; // missing w/
+        String input = "1 W26-2025"; // missing prefix
         ParseException ex = assertThrows(ParseException.class, () -> parser.parse(input));
         assertEquals(String.format(Messages.MESSAGE_INVALID_COMMAND_FORMAT, UnmarkCommand.MESSAGE_USAGE),
                 ex.getMessage());
@@ -43,7 +44,7 @@ public class UnmarkCommandParserTest {
 
     @Test
     public void parse_missingIndex_failure() {
-        String input = "w/W26-2025";
+        String input = "" + PREFIX_ATTENDANCE_WEEK + "W26-2025";
         ParseException ex = assertThrows(ParseException.class, () -> parser.parse(input));
         assertEquals(String.format(Messages.MESSAGE_INVALID_COMMAND_FORMAT, UnmarkCommand.MESSAGE_USAGE),
                 ex.getMessage());
@@ -59,14 +60,14 @@ public class UnmarkCommandParserTest {
 
     @Test
     public void parse_invalidIndex_failure() {
-        assertThrows(ParseException.class, () -> parser.parse("0 w/W26-2025"));
-        assertThrows(ParseException.class, () -> parser.parse("-1 w/W26-2025"));
-        assertThrows(ParseException.class, () -> parser.parse("xyz w/W26-2025"));
+        assertThrows(ParseException.class, () -> parser.parse("0 " + PREFIX_ATTENDANCE_WEEK + "W26-2025"));
+        assertThrows(ParseException.class, () -> parser.parse("-1 " + PREFIX_ATTENDANCE_WEEK + "W26-2025"));
+        assertThrows(ParseException.class, () -> parser.parse("xyz " + PREFIX_ATTENDANCE_WEEK + "W26-2025"));
     }
 
     @Test
     public void parse_invalidWeek_failure() {
-        String input = "1 w/invalid";
+        String input = "1 " + PREFIX_ATTENDANCE_WEEK + "invalid";
         ParseException ex = assertThrows(ParseException.class, () -> parser.parse(input));
         assertEquals(WeeklyAttendance.MESSAGE_CONSTRAINTS, ex.getMessage());
     }

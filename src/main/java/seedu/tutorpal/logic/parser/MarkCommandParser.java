@@ -1,5 +1,6 @@
 package seedu.tutorpal.logic.parser;
 
+import static java.util.Objects.requireNonNull;
 import static seedu.tutorpal.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_ATTENDANCE_WEEK;
 
@@ -17,32 +18,30 @@ public class MarkCommandParser implements Parser<MarkCommand> {
      * Parses the given {@code String} of arguments in the context of the
      * MarkCommand
      * and returns a MarkCommand object for execution.
+     * 
      * @throws ParseException if the user input does not conform the expected format
      */
     public MarkCommand parse(String args) throws ParseException {
+        requireNonNull(args);
 
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_ATTENDANCE_WEEK);
 
-        Index index;
+        if (argMultimap.getPreamble().isEmpty()
+                || argMultimap.getValue(PREFIX_ATTENDANCE_WEEK).isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, MarkCommand.MESSAGE_USAGE));
+        }
 
-        //Get index
-        //Throw ParseError if invalid Index ie non-negative. Check for whether Index is out of range is done
-        //during run time.
+        // Get index. Throws parse exception.
+        Index index = ParserUtil.parseIndex(argMultimap.getPreamble());
+
+        String weekStr = argMultimap.getValue(PREFIX_ATTENDANCE_WEEK).get();
+        WeeklyAttendance week;
         try {
-            index = ParserUtil.parseIndex(argMultimap.getPreamble());
-        } catch (ParseException pe) {
-            throw new ParseException(
-                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, MarkCommand.MESSAGE_USAGE), pe);
+            week = new WeeklyAttendance(weekStr);
+        } catch (IllegalArgumentException e) {
+            // Wrap validation error into a ParseException for the parser layer
+            throw new ParseException(WeeklyAttendance.MESSAGE_CONSTRAINTS);
         }
-
-        //Get AttendanceWeek string
-        //Throw ParseError if not found
-        if (argMultimap.getValue(PREFIX_ATTENDANCE_WEEK).isEmpty()) {
-            throw new ParseException(
-                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, MarkCommand.MESSAGE_USAGE));
-        }
-        //Throw parseError if invalid format
-        WeeklyAttendance week = ParserUtil.parseWeeklyAttendance(argMultimap.getValue(PREFIX_ATTENDANCE_WEEK).get());
 
         return new MarkCommand(index, week);
     }

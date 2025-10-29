@@ -29,8 +29,7 @@ public class MarkCommand extends Command {
             + "Parameters: INDEX     "
             + PREFIX_ATTENDANCE_WEEK + "WEEK"
             + "\n"
-            + "Example: " + COMMAND_WORD + " 3 "
-            + PREFIX_ATTENDANCE_WEEK + "W26-2025";
+            + "Example: " + COMMAND_WORD + " 3 " + PREFIX_ATTENDANCE_WEEK + "W26-2025";
 
     // SHORTENED is used for help command
     public static final String MESSAGE_USAGE_SHORTENED = COMMAND_WORD + ":\t" + COMMAND_WORD + " INDEX "
