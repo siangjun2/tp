@@ -89,6 +89,7 @@ public class PaymentHistory {
     public List<MonthlyPayment> getLatestPayments() {
         List<MonthlyPayment> sorted = monthlyPayments.stream()
             .sorted((a, b) -> b.getMonth().compareTo(a.getMonth()))
+            .limit(6)
             .toList();
 
         return sorted;

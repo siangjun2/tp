@@ -23,7 +23,7 @@ import java.util.regex.Pattern;
  * <li>Each year has either 52 or 53 weeks.</li>
  * </ul>
  */
-public final class WeeklyAttendance {
+public final class WeeklyAttendance implements Comparable<WeeklyAttendance> {
 
     public static final String MESSAGE_CONSTRAINTS = "Weekly attendance must be in the format W[XX]-YYYY, "
             + "where:\n"
@@ -167,6 +167,17 @@ public final class WeeklyAttendance {
         int weekIndex = date.get(IsoFields.WEEK_OF_WEEK_BASED_YEAR);
         int weekYear = date.get(IsoFields.WEEK_BASED_YEAR);
         return new WeeklyAttendance(weekIndex, Year.of(weekYear));
+    }
+
+    @Override
+    public int compareTo(WeeklyAttendance other) {
+        if (this.isBefore(other)) {
+            return -1;
+        } else if (this.isAfter(other)) {
+            return 1;
+        } else {
+            return 0;
+        }
     }
 
     @Override

@@ -121,6 +121,15 @@ public class Student extends Person {
         }
     }
 
+    public String printAttendanceHistory() {
+        return null;
+    }
+
+    @Override
+    public String displayInfo() {
+        return super.displayInfo() + "\n" + attendanceHistory.getLatestAttendance().toString();
+    }
+
     @Override
     public boolean equals(Object other) {
         if (!(other instanceof Student)) {
