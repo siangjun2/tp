@@ -4,6 +4,8 @@ import static seedu.tutorpal.model.person.Role.STUDENT;
 
 import java.time.Clock;
 import java.time.LocalDate;
+import java.time.temporal.IsoFields;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -122,12 +124,34 @@ public class Student extends Person {
     }
 
     public String printAttendanceHistory() {
-        return null;
+        List<WeeklyAttendance> attendanceList = attendanceHistory.getLatestAttendance();
+        boolean[] latestTenWeeks = new boolean[10];
+        LocalDate today = LocalDate.now();
+        int nowWeek = today.get(IsoFields.WEEK_OF_WEEK_BASED_YEAR);
+
+        for (WeeklyAttendance weeklyAttendance: attendanceList) {
+            int attendanceWeek = weeklyAttendance.getWeekIndex();
+            if (attendanceWeek <= nowWeek && attendanceWeek >= nowWeek - 9) {
+                latestTenWeeks[attendanceWeek - nowWeek + 9] = true;
+            }
+        }
+
+        String output = "";
+
+        for (int i = 0; i < latestTenWeeks.length; i++) {
+            if (latestTenWeeks[i]) {
+                output += String.format("W%d:present ", i + nowWeek - 9);
+            } else {
+                output += String.format("W%d:absent ", i + nowWeek - 9);
+            }
+        }
+
+        return output;
     }
 
     @Override
     public String displayInfo() {
-        return super.displayInfo() + "\n" + attendanceHistory.getLatestAttendance().toString();
+        return super.displayInfo() + "\n" + printAttendanceHistory();
     }
 
     @Override

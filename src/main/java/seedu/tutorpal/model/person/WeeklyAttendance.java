@@ -123,6 +123,10 @@ public final class WeeklyAttendance implements Comparable<WeeklyAttendance> {
         return date.get(IsoFields.WEEK_OF_WEEK_BASED_YEAR);
     }
 
+    public int getWeekIndex() {
+        return this.weekIndex;
+    }
+
     /**
      * Check if this week is before another week.
      */
