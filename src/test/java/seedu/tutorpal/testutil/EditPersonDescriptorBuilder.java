@@ -7,7 +7,6 @@ import seedu.tutorpal.model.person.Email;
 import seedu.tutorpal.model.person.Name;
 import seedu.tutorpal.model.person.Person;
 import seedu.tutorpal.model.person.Phone;
-import seedu.tutorpal.model.person.Role;
 
 /**
  * A utility class to help with building EditPersonDescriptor objects.
@@ -64,14 +63,6 @@ public class EditPersonDescriptorBuilder {
      */
     public EditPersonDescriptorBuilder withAddress(String address) {
         descriptor.setAddress(new Address(address));
-        return this;
-    }
-
-    /**
-     * Sets the {@code Role} of the {@code EditPersonDescriptor} that we are building.
-     */
-    public EditPersonDescriptorBuilder withRole(String role) {
-        descriptor.setRole(new Role(role));
         return this;
     }
 

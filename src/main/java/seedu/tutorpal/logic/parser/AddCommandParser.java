@@ -4,26 +4,26 @@ import static seedu.tutorpal.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_CLASS;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_EMAIL;
+import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_JOIN_DATE;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_ROLE;
 
-import java.time.YearMonth;
 import java.util.Set;
 import java.util.stream.Stream;
 
 import seedu.tutorpal.logic.commands.AddCommand;
 import seedu.tutorpal.logic.parser.exceptions.ParseException;
 import seedu.tutorpal.model.person.Address;
-import seedu.tutorpal.model.person.AttendanceHistory;
 import seedu.tutorpal.model.person.Class;
 import seedu.tutorpal.model.person.Email;
-import seedu.tutorpal.model.person.JoinMonth;
+import seedu.tutorpal.model.person.JoinDate;
 import seedu.tutorpal.model.person.Name;
-import seedu.tutorpal.model.person.PaymentHistory;
 import seedu.tutorpal.model.person.Person;
 import seedu.tutorpal.model.person.Phone;
 import seedu.tutorpal.model.person.Role;
+import seedu.tutorpal.model.person.Student;
+import seedu.tutorpal.model.person.Tutor;
 
 /**
  * Parses input arguments and creates a new AddCommand object
@@ -38,8 +38,7 @@ public class AddCommandParser implements Parser<AddCommand> {
     @Override
     public AddCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL,
-                PREFIX_ROLE,
-                PREFIX_ADDRESS, PREFIX_CLASS);
+                PREFIX_ROLE, PREFIX_ADDRESS, PREFIX_CLASS, PREFIX_JOIN_DATE);
 
         if (!arePrefixesPresent(argMultimap, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ROLE)
                 || !argMultimap.getPreamble().isEmpty()) {
@@ -52,31 +51,27 @@ public class AddCommandParser implements Parser<AddCommand> {
         Email email = ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL).get());
         Role role = ParserUtil.parseRole(argMultimap.getValue(PREFIX_ROLE).get());
 
-        if (role.value.equalsIgnoreCase("student")) {
+        if (role == Role.STUDENT) {
+            // Student must have at most one class token
             argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_CLASS);
         }
 
-        // Defaults the address to an empty string if not provided
         Address address = argMultimap.getValue(PREFIX_ADDRESS).isPresent()
                 ? ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS).get())
                 : new Address("-");
         Set<Class> classList = ParserUtil.parseClasses(argMultimap.getAllValues(PREFIX_CLASS));
-        JoinMonth joinMonth = new JoinMonth(YearMonth.now());
-        AttendanceHistory attendanceHistory;
-        if (!Role.isStudent(role)) {
-            // If tutor, attendance history should be null
-            attendanceHistory = null;
-        } else {
-            attendanceHistory = new AttendanceHistory(joinMonth);
-        }
 
         if (classList.isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
                     "At least one class must be specified using c/ prefix"));
         }
 
-        Person person = new Person(name, phone, email, role, address, classList,
-                joinMonth, attendanceHistory, new PaymentHistory(java.time.LocalDate.now()));
+        JoinDate joinDate = argMultimap.getValue(PREFIX_JOIN_DATE).isPresent()
+                ? ParserUtil.parseJoinDate(argMultimap.getValue(PREFIX_JOIN_DATE).get())
+                : JoinDate.now();
+        Person person = (role == Role.STUDENT)
+                ? new Student(name, phone, email, address, classList, joinDate)
+                : new Tutor(name, phone, email, address, classList, joinDate);
 
         return new AddCommand(person);
     }

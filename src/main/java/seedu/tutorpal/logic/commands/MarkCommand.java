@@ -14,6 +14,7 @@ import seedu.tutorpal.model.Model;
 import seedu.tutorpal.model.person.AttendanceHistory;
 import seedu.tutorpal.model.person.Person;
 import seedu.tutorpal.model.person.Role;
+import seedu.tutorpal.model.person.Student;
 import seedu.tutorpal.model.person.WeeklyAttendance;
 
 /**
@@ -62,27 +63,30 @@ public class MarkCommand extends Command {
 
         Person personToMark = lastShownList.get(index.getZeroBased());
 
-        if (!Role.isStudent(personToMark.getRole())) {
+        if (personToMark.getRole() != Role.STUDENT) {
             throw new CommandException("Cannot mark attendance for a tutor.");
         }
 
-        AttendanceHistory newAttendanceHistory = new AttendanceHistory(personToMark.getAttendanceHistory());
+        AttendanceHistory newAttendanceHistory;
         try {
-            newAttendanceHistory.markAttendance(week);
+            newAttendanceHistory = personToMark.getAttendanceHistory().markAttendance(week);
         } catch (IllegalArgumentException e) {
-            throw new CommandException(String.format(e.getMessage(), personToMark.getName(), week));
+            if (e.getMessage().equals("Attendance for the given week is already marked.")) {
+                throw new CommandException(String.format(MESSAGE_ALREADY_MARKED, personToMark.getName(), week));
+            } else {
+                throw new CommandException(e.getMessage());
+            }
         }
 
-        Person markedPerson = new Person(
+        // Create a new Student with updated attendance history
+        Person markedPerson = new Student(
                 personToMark.getName(),
                 personToMark.getPhone(),
                 personToMark.getEmail(),
-                personToMark.getRole(),
                 personToMark.getAddress(),
                 personToMark.getClasses(),
-                personToMark.getJoinMonth(),
-                newAttendanceHistory,
-                personToMark.getPaymentHistory());
+                personToMark.getJoinDate(),
+                newAttendanceHistory);
 
         model.setPerson(personToMark, markedPerson);
 

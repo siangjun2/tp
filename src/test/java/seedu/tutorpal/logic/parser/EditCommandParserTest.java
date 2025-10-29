@@ -20,15 +20,20 @@ import static seedu.tutorpal.logic.commands.CommandTestUtil.VALID_EMAIL_AMY;
 import static seedu.tutorpal.logic.commands.CommandTestUtil.VALID_NAME_AMY;
 import static seedu.tutorpal.logic.commands.CommandTestUtil.VALID_PHONE_AMY;
 import static seedu.tutorpal.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
-import static seedu.tutorpal.logic.commands.CommandTestUtil.VALID_ROLE_AMY;
+import static seedu.tutorpal.logic.commands.EditCommand.MESSAGE_INVALID_EDIT;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_ADDRESS;
+import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_CLASS;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_EMAIL;
+import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_JOIN_DATE;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_ROLE;
 import static seedu.tutorpal.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.tutorpal.logic.parser.CommandParserTestUtil.assertParseSuccess;
 import static seedu.tutorpal.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.tutorpal.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
 import static seedu.tutorpal.testutil.TypicalIndexes.INDEX_THIRD_PERSON;
+
+import java.util.Collections;
 
 import org.junit.jupiter.api.Test;
 
@@ -38,14 +43,15 @@ import seedu.tutorpal.logic.commands.EditCommand;
 import seedu.tutorpal.logic.commands.EditCommand.EditPersonDescriptor;
 import seedu.tutorpal.model.person.Address;
 import seedu.tutorpal.model.person.Email;
+import seedu.tutorpal.model.person.JoinDate;
 import seedu.tutorpal.model.person.Name;
 import seedu.tutorpal.model.person.Phone;
 import seedu.tutorpal.testutil.EditPersonDescriptorBuilder;
 
 public class EditCommandParserTest {
 
-    private static final String MESSAGE_INVALID_FORMAT =
-            String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE);
+    private static final String MESSAGE_INVALID_FORMAT = String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+            EditCommand.MESSAGE_USAGE);
 
     private EditCommandParser parser = new EditCommandParser();
 
@@ -85,7 +91,6 @@ public class EditCommandParserTest {
 
         // invalid phone followed by valid email
         assertParseFailure(parser, "1" + INVALID_PHONE_DESC + EMAIL_DESC_AMY, Phone.MESSAGE_CONSTRAINTS);
-
 
         // multiple invalid values, but only the first invalid value is captured
         assertParseFailure(parser, "1" + INVALID_NAME_DESC + INVALID_EMAIL_DESC + VALID_ADDRESS_AMY + VALID_PHONE_AMY,
@@ -145,11 +150,9 @@ public class EditCommandParserTest {
         expectedCommand = new EditCommand(targetIndex, descriptor);
         assertParseSuccess(parser, userInput, expectedCommand);
 
-        // role
+        // role (not editable) -> failure
         userInput = targetIndex.getOneBased() + ROLE_DESC_AMY;
-        descriptor = new EditPersonDescriptorBuilder().withRole(VALID_ROLE_AMY).build();
-        expectedCommand = new EditCommand(targetIndex, descriptor);
-        assertParseSuccess(parser, userInput, expectedCommand);
+        assertParseFailure(parser, userInput, String.format(MESSAGE_INVALID_EDIT, PREFIX_ROLE));
     }
 
     @Test
@@ -190,6 +193,35 @@ public class EditCommandParserTest {
         String userInput = targetIndex.getOneBased() + CLASS_DESC_AMY;
 
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder().withClasses(VALID_CLASS_AMY).build();
+        EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
+
+        assertParseSuccess(parser, userInput, expectedCommand);
+    }
+
+    @Test
+    public void parse_duplicateJoinDate_failure() {
+        Index targetIndex = INDEX_FIRST_PERSON;
+        String userInput = targetIndex.getOneBased() + " "
+                + PREFIX_JOIN_DATE + "01-01-2024 "
+                + PREFIX_JOIN_DATE + "02-02-2024";
+        assertParseFailure(parser, userInput, Messages.getErrorMessageForDuplicatePrefixes(PREFIX_JOIN_DATE));
+    }
+
+    @Test
+    public void parse_invalidJoinDate_failure() {
+        Index targetIndex = INDEX_FIRST_PERSON;
+        String userInput = targetIndex.getOneBased() + " " + PREFIX_JOIN_DATE + "32-13-2024";
+        assertParseFailure(parser, userInput, JoinDate.MESSAGE_CONSTRAINTS);
+    }
+
+    @Test
+    public void parse_emptyClassParsedAsEmptySet_success() {
+        // Single empty class value should parse to empty set; parsing succeeds
+        Index targetIndex = INDEX_FIRST_PERSON;
+        String userInput = targetIndex.getOneBased() + " " + PREFIX_CLASS;
+
+        EditPersonDescriptor descriptor = new EditPersonDescriptor();
+        descriptor.setClasses(Collections.emptySet());
         EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
 
         assertParseSuccess(parser, userInput, expectedCommand);

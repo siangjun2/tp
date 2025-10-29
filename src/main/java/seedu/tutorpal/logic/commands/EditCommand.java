@@ -7,7 +7,6 @@ import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_JOIN_DATE;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_PHONE;
-import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_ROLE;
 import static seedu.tutorpal.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
 import java.util.Collections;
@@ -27,11 +26,13 @@ import seedu.tutorpal.model.person.Address;
 import seedu.tutorpal.model.person.AttendanceHistory;
 import seedu.tutorpal.model.person.Class;
 import seedu.tutorpal.model.person.Email;
-import seedu.tutorpal.model.person.JoinMonth;
+import seedu.tutorpal.model.person.JoinDate;
 import seedu.tutorpal.model.person.Name;
 import seedu.tutorpal.model.person.Person;
 import seedu.tutorpal.model.person.Phone;
 import seedu.tutorpal.model.person.Role;
+import seedu.tutorpal.model.person.Student;
+import seedu.tutorpal.model.person.Tutor;
 
 /**
  * Edits the details of an existing person in the address book.
@@ -44,36 +45,38 @@ public class EditCommand extends Command {
             + "by the index number used in the displayed person list. "
             + "Existing values will be overwritten by the input values.\n"
             + "Parameters: INDEX (must be a positive integer) "
-            + "[" + PREFIX_ROLE + "ROLE] "
             + "[" + PREFIX_NAME + "NAME] "
             + "[" + PREFIX_PHONE + "PHONE] "
             + "[" + PREFIX_EMAIL + "EMAIL] "
-            + "[" + PREFIX_ROLE + "ROLE] "
             + "[" + PREFIX_ADDRESS + "ADDRESS] "
             + "[" + PREFIX_CLASS + "CLASS] "
-            + "[" + PREFIX_JOIN_DATE + "JOIN_MONTH] "
+            + "[" + PREFIX_JOIN_DATE + "JOINDATE] "
             + "...\n"
+            + "Note: Tutors may specify multiple classes by repeating " + PREFIX_CLASS + "; "
+            + "students must specify exactly one class.\n"
             + "Example: " + COMMAND_WORD + " 1 "
             + PREFIX_PHONE + "91234567 "
             + PREFIX_EMAIL + "johndoe@example.com";
 
     public static final String MESSAGE_USAGE_SHORTENED = COMMAND_WORD + ":\t\t" + COMMAND_WORD + " "
-        + "[" + PREFIX_ROLE + "ROLE] "
-        + "[" + PREFIX_NAME + "NAME] "
-        + "[" + PREFIX_PHONE + "PHONE] "
-        + "[" + PREFIX_EMAIL + "EMAIL] "
-        + "[" + PREFIX_CLASS + "CLASS]... "
-        + "[" + PREFIX_ADDRESS + "ADDRESS]\n"
-        + "\t\tExample: " + COMMAND_WORD + " 1 "
-        + PREFIX_ROLE + "student "
-        + PREFIX_PHONE + "91234567 "
-        + PREFIX_EMAIL + "johndoe@example.com";;
+            + "[" + PREFIX_NAME + "NAME] "
+            + "[" + PREFIX_PHONE + "PHONE] "
+            + "[" + PREFIX_EMAIL + "EMAIL] "
+            + "[" + PREFIX_CLASS + "CLASS]... "
+            + "[" + PREFIX_ADDRESS + "ADDRESS]\n"
+            + "\t\tNote: Tutors may specify multiple classes by repeating " + PREFIX_CLASS + "; "
+            + "students must specify exactly one class.\n"
+            + "\t\tExample: " + COMMAND_WORD + " 1 "
+            + PREFIX_PHONE + "91234567 "
+            + PREFIX_EMAIL + "johndoe@example.com";
 
     public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Edited Person: %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
     public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book.";
     public static final String MESSAGE_STUDENT_MULTIPLE_CLASSES = "Students can only have one class. "
             + "Please specify only one class.";
+    public static final String MESSAGE_INVALID_EDIT = "Invalid argument %1$s given to Edit Command!";
+    public static final String MESSAGE_AT_LEAST_ONE_CLASS = "At least one class must be specified.";
 
     private final Index index;
     private final EditPersonDescriptor editPersonDescriptor;
@@ -104,9 +107,11 @@ public class EditCommand extends Command {
         // Check class constraints before creating edited person
         if (editPersonDescriptor.getClasses().isPresent()) {
             Set<Class> newClasses = editPersonDescriptor.getClasses().get();
-            Role roleToCheck = editPersonDescriptor.getRole().orElse(personToEdit.getRole());
-
-            if (roleToCheck.value.equals("student") && newClasses.size() > 1) {
+            if (newClasses.isEmpty()) {
+                throw new CommandException(MESSAGE_AT_LEAST_ONE_CLASS);
+            }
+            Role roleToCheck = personToEdit.getRole();
+            if (roleToCheck == Role.STUDENT && newClasses.size() > 1) {
                 throw new CommandException(MESSAGE_STUDENT_MULTIPLE_CLASSES);
             }
         }
@@ -126,31 +131,41 @@ public class EditCommand extends Command {
      * Creates and returns a {@code Person} with the details of {@code personToEdit}
      * edited with {@code editPersonDescriptor}.
      */
-    private static Person createEditedPerson(Person personToEdit, EditPersonDescriptor editPersonDescriptor) {
+    private static Person createEditedPerson(Person personToEdit, EditPersonDescriptor editPersonDescriptor)
+            throws CommandException {
         assert personToEdit != null;
 
         Name updatedName = editPersonDescriptor.getName().orElse(personToEdit.getName());
         Phone updatedPhone = editPersonDescriptor.getPhone().orElse(personToEdit.getPhone());
         Email updatedEmail = editPersonDescriptor.getEmail().orElse(personToEdit.getEmail());
         Address updatedAddress = editPersonDescriptor.getAddress().orElse(personToEdit.getAddress());
-        Role updatedRole = editPersonDescriptor.getRole().orElse(personToEdit.getRole());
         Set<Class> updatedClasses = editPersonDescriptor.getClasses().orElse(personToEdit.getClasses());
-        JoinMonth updatedJoinMonth = editPersonDescriptor.getJoinMonth().orElse(personToEdit.getJoinMonth());
+        JoinDate updatedJoinDate = editPersonDescriptor.getJoinDate().orElse(personToEdit.getJoinDate());
 
-        AttendanceHistory updatedAttendanceHistory;
-        if (!Role.isStudent(updatedRole)) {
-            // If tutor, attendance history should be null
-            updatedAttendanceHistory = null;
-        } else if (!updatedJoinMonth.equals(personToEdit.getJoinMonth())) {
-            // If join month is edited, create a new AttendanceHistory with the new join
-            // month
-            updatedAttendanceHistory = new AttendanceHistory(updatedJoinMonth);
+        // Construct appropriate subtype; role is not editable per parser
+        if (personToEdit.getRole() == Role.STUDENT) {
+            // Validating invariant : Student always have attendance history
+            AttendanceHistory oldAttendanceHistory = personToEdit.getAttendanceHistory();
+            assert oldAttendanceHistory != null;
+            // When editing person, AttendanceHistory is reinitialised with updated Join date.
+            // Constructor then checks and ensure all WeeklyAttendance inside are still valid in the new range.
+            AttendanceHistory updatedAttendanceHistory;
+            try {
+                updatedAttendanceHistory = oldAttendanceHistory.changeJoinDate(updatedJoinDate);
+            } catch (IllegalArgumentException e) {
+                // Surface AttendanceHistory validation failures to the user
+                throw new CommandException(e.getMessage());
+            }
+            return new Student(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedClasses,
+                    updatedJoinDate, updatedAttendanceHistory);
         } else {
-            updatedAttendanceHistory = personToEdit.getAttendanceHistory();
+            // Validating invariant : Tutor never have attendance history
+            if (personToEdit.hasAttendanceHistory()) {
+                // Defensive: should never happen since roles cannot be swapped
+                throw new IllegalStateException(String.format(Person.MESSAGE_NO_ATTENDANCE_HISTORY, Tutor.PERSON_WORD));
+            }
+            return new Tutor(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedClasses, updatedJoinDate);
         }
-
-        return new Person(updatedName, updatedPhone, updatedEmail, updatedRole, updatedAddress, updatedClasses,
-                updatedJoinMonth, updatedAttendanceHistory, personToEdit.getPaymentHistory());
     }
 
     @Override
@@ -187,9 +202,8 @@ public class EditCommand extends Command {
         private Phone phone;
         private Email email;
         private Address address;
-        private Role role;
         private Set<Class> classes;
-        private JoinMonth joinMonth;
+        private JoinDate joinDate;
 
         public EditPersonDescriptor() {
         }
@@ -203,16 +217,15 @@ public class EditCommand extends Command {
             setPhone(toCopy.phone);
             setEmail(toCopy.email);
             setAddress(toCopy.address);
-            setRole(toCopy.role);
             setClasses(toCopy.classes);
-            setJoinMonth(toCopy.joinMonth);
+            setJoinDate(toCopy.joinDate);
         }
 
         /**
          * Returns true if at least one field is edited.
          */
         public boolean isAnyFieldEdited() {
-            return CollectionUtil.isAnyNonNull(name, phone, email, address, role, classes, joinMonth);
+            return CollectionUtil.isAnyNonNull(name, phone, email, address, classes, joinDate);
         }
 
         public void setName(Name name) {
@@ -247,14 +260,6 @@ public class EditCommand extends Command {
             return Optional.ofNullable(address);
         }
 
-        public void setRole(Role role) {
-            this.role = role;
-        }
-
-        public Optional<Role> getRole() {
-            return Optional.ofNullable(role);
-        }
-
         /**
          * Sets {@code classes} to this object's {@code classes}.
          * A defensive copy of {@code classes} is used internally.
@@ -274,19 +279,19 @@ public class EditCommand extends Command {
         }
 
         /**
-         * Sets {@code joinMonth} to this object's {@code joinMonth}
-         * @param joinMonth
+         * Sets {@code joinDate} to this object's {@code joinDate}
+         * @param joinDate New Join date
          */
-        public void setJoinMonth(JoinMonth joinMonth) {
-            this.joinMonth = joinMonth;
+        public void setJoinDate(JoinDate joinDate) {
+            this.joinDate = joinDate;
         }
 
         /**
-         * Returns {@code joinMonth}.
-         * @return
+         * Returns {@code joinDate}.
+         * @return joinDate New join date
          */
-        public Optional<JoinMonth> getJoinMonth() {
-            return Optional.ofNullable(joinMonth);
+        public Optional<JoinDate> getJoinDate() {
+            return Optional.ofNullable(joinDate);
         }
 
         @Override
@@ -305,9 +310,8 @@ public class EditCommand extends Command {
                     && Objects.equals(phone, otherEditPersonDescriptor.phone)
                     && Objects.equals(email, otherEditPersonDescriptor.email)
                     && Objects.equals(address, otherEditPersonDescriptor.address)
-                    && Objects.equals(role, otherEditPersonDescriptor.role)
                     && Objects.equals(classes, otherEditPersonDescriptor.classes)
-                    && Objects.equals(joinMonth, otherEditPersonDescriptor.joinMonth);
+                    && Objects.equals(joinDate, otherEditPersonDescriptor.joinDate);
         }
 
         @Override
@@ -317,9 +321,8 @@ public class EditCommand extends Command {
                     .add("phone", phone)
                     .add("email", email)
                     .add("address", address)
-                    .add("role", role)
                     .add("classes", classes)
-                    .add("joinMonth", joinMonth)
+                    .add("joinDate", joinDate)
                     .toString();
         }
     }

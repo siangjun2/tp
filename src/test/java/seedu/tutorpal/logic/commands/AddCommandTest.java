@@ -47,6 +47,38 @@ public class AddCommandTest {
     }
 
     @Test
+    public void execute_duplicateAfterFirstAdd_throwsCommandException() throws Exception {
+        ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
+        Person validPerson = new PersonBuilder().build();
+        AddCommand addCommand = new AddCommand(validPerson);
+
+        // First add succeeds
+        addCommand.execute(modelStub);
+
+        // Second add of same person should fail
+        assertThrows(CommandException.class, AddCommand.MESSAGE_DUPLICATE_PERSON, () -> addCommand.execute(modelStub));
+    }
+
+    @Test
+    public void execute_multiplePersonsAccepted_addAllSuccessful() throws Exception {
+        ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
+        Person p1 = new PersonBuilder().withName("Alice One").build();
+        Person p2 = new PersonBuilder().withName("Bob Two").build();
+
+        CommandResult r1 = new AddCommand(p1).execute(modelStub);
+        CommandResult r2 = new AddCommand(p2).execute(modelStub);
+
+        assertEquals(Arrays.asList(p1, p2), modelStub.personsAdded);
+
+        String expectedMsg1 = String.format(AddCommand.MESSAGE_SUCCESS, p1.getRole().toString(),
+                p1.getName().toString());
+        String expectedMsg2 = String.format(AddCommand.MESSAGE_SUCCESS, p2.getRole().toString(),
+                p2.getName().toString());
+        assertEquals(expectedMsg1, r1.getFeedbackToUser());
+        assertEquals(expectedMsg2, r2.getFeedbackToUser());
+    }
+
+    @Test
     public void execute_duplicatePerson_throwsCommandException() {
         Person validPerson = new PersonBuilder().build();
         AddCommand addCommand = new AddCommand(validPerson);

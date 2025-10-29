@@ -1,5 +1,6 @@
 package seedu.tutorpal.model.util;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -9,10 +10,12 @@ import seedu.tutorpal.model.ReadOnlyAddressBook;
 import seedu.tutorpal.model.person.Address;
 import seedu.tutorpal.model.person.Class;
 import seedu.tutorpal.model.person.Email;
+import seedu.tutorpal.model.person.JoinDate;
 import seedu.tutorpal.model.person.Name;
 import seedu.tutorpal.model.person.Person;
 import seedu.tutorpal.model.person.Phone;
-import seedu.tutorpal.model.person.Role;
+import seedu.tutorpal.model.person.Student;
+import seedu.tutorpal.model.person.Tutor;
 
 /**
  * Contains utility methods for populating {@code AddressBook} with sample data.
@@ -20,30 +23,42 @@ import seedu.tutorpal.model.person.Role;
 public class SampleDataUtil {
     public static Person[] getSamplePersons() {
         return new Person[] {
-            new Person(new Name("Alice Tan"), new Phone("98765432"),
-                                new Email("alicetan@example.com"),
-                                new Role("student"), new Address("Blk 123 Clementi Ave 3, #05-12"),
-                                getClassSet("s4mon1600")),
-            new Person(new Name("Benjamin Wong"), new Phone("87654321"),
-                                new Email("benwong@example.com"),
-                                new Role("student"), new Address("Blk 456 Jurong West St 42, #08-20"),
-                                getClassSet("s3tue1400", "s3fri1000")),
-            new Person(new Name("Catherine Lim"), new Phone("91234567"),
-                                new Email("catherinelim@example.com"),
-                                new Role("tutor"), new Address("Blk 789 Ang Mo Kio Ave 5, #10-15"),
-                                getClassSet("s1mon0900", "s2wed1400")),
-            new Person(new Name("Daniel Koh"), new Phone("92345678"),
-                                new Email("danielkoh@example.com"),
-                                new Role("student"), new Address("Blk 234 Bedok North St 1, #12-34"),
-                                getClassSet("s5thu1600")),
-            new Person(new Name("Emily Chen"), new Phone("93456789"),
-                                new Email("emilychen@example.com"),
-                                new Role("student"), new Address("Blk 567 Tampines Ave 7, #06-45"),
-                                getClassSet("s2mon1000")),
-            new Person(new Name("Francis Ng"), new Phone("94567890"),
-                                new Email("francisng@example.com"),
-                                new Role("tutor"), new Address("Blk 890 Hougang St 91, #14-22"),
-                                getClassSet("s4mon1600", "s5wed1400"))
+            new Student(new Name("Alice Tan"), new Phone("98765432"),
+                    new Email("alicetan@example.com"),
+                    new Address("Blk 123 Clementi Ave 3, #05-12"),
+                    getClassSet("s4mon1600"),
+                    new JoinDate(LocalDate.of(2024, 3, 11))),
+
+            // Student must have exactly 1 class
+            new Student(new Name("Benjamin Wong"), new Phone("87654321"),
+                    new Email("benwong@example.com"),
+                    new Address("Blk 456 Jurong West St 42, #08-20"),
+                    getClassSet("s3tue1400"),
+                    new JoinDate(LocalDate.of(2023, 9, 5))),
+
+            new Tutor(new Name("Catherine Lim"), new Phone("91234567"),
+                    new Email("catherinelim@example.com"),
+                    new Address("Blk 789 Ang Mo Kio Ave 5, #10-15"),
+                    getClassSet("s1mon0900", "s2wed1400"),
+                    new JoinDate(LocalDate.of(2022, 6, 20))),
+
+            new Student(new Name("Daniel Koh"), new Phone("92345678"),
+                    new Email("danielkoh@example.com"),
+                    new Address("Blk 234 Bedok North St 1, #12-34"),
+                    getClassSet("s5thu1600"),
+                    new JoinDate(LocalDate.of(2023, 12, 1))),
+
+            new Student(new Name("Emily Chen"), new Phone("93456789"),
+                    new Email("emilychen@example.com"),
+                    new Address("Blk 567 Tampines Ave 7, #06-45"),
+                    getClassSet("s2mon1000"),
+                    new JoinDate(LocalDate.of(2024, 7, 1))),
+
+            new Tutor(new Name("Francis Ng"), new Phone("94567890"),
+                    new Email("francisng@example.com"),
+                    new Address("Blk 890 Hougang St 91, #14-22"),
+                    getClassSet("s4mon1600", "s5wed1400"),
+                    new JoinDate(LocalDate.of(2021, 11, 30)))
         };
     }
 

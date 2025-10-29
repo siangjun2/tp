@@ -22,7 +22,6 @@ public class AttendanceHistory {
             + "Current week : %2$s";
     public static final String MESSAGE_ALREADY_MARKED = "Attendance for %1$s week is already marked.";
     public static final String MESSAGE_CANNOT_UNMARK = "Attendance for the %1$s week is not marked yet.";
-    public static final String MESSAGE_INVALID_JOIN_DATE = "Join date cannot be after current date";
 
     //JoinDate is immutable.
     private final JoinDate joinDate;
@@ -63,7 +62,7 @@ public class AttendanceHistory {
         this.nowClock = nowClock;
 
         // Validate invariant: joinDate cannot be after current date based on nowClock
-        ensureValidJoinDate(joinDate, nowClock);
+        assert !joinDate.isAfter(LocalDate.now(nowClock));
         // Validate invariant: all provided attendances must be within [joinWeek, currentWeek]
         // else throw InvalidArgumentException
         for (WeeklyAttendance wa : attendances) {
@@ -143,20 +142,8 @@ public class AttendanceHistory {
     }
 
     /**
-     * Check if join date is not after current date.
-     * Error should be caught in Command, and should not reach here.
-     */
-    public void ensureValidJoinDate(JoinDate joinDate, Clock nowClock) {
-        requireAllNonNull(joinDate, nowClock);
-        LocalDate currentDate = LocalDate.now(nowClock);
-        if (joinDate.isAfter(currentDate)) {
-            throw new IllegalArgumentException(AttendanceHistory.MESSAGE_INVALID_JOIN_DATE);
-        }
-    }
-
-    /**
      * Allows edit command to change Join Date of Person.
-     * Built in validation of WeeklyAttendance in constructor already.
+     * Built in validation of WeeklyAttendance in constructor.
      * @param joinDate New JoinDate
      * @return AttendanceHistory with new JoinDate
      */

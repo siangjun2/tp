@@ -57,11 +57,11 @@ public class RoleTest {
     }
 
     @Test
-    public void toString_returnsLowercaseValue() {
-        assertEquals("student", Role.STUDENT.toString());
-        assertEquals("tutor", Role.TUTOR.toString());
+    public void toString_returnsCapitalizedValue() {
+        assertEquals("Student", Role.STUDENT.toString());
+        assertEquals("Tutor", Role.TUTOR.toString());
         // round-trip
-        assertEquals("student", Role.fromString("StuDent").toString());
-        assertEquals("tutor", Role.fromString("TuToR").toString());
+        assertEquals("Student", Role.fromString("StuDent").toString());
+        assertEquals("Tutor", Role.fromString("TuToR").toString());
     }
 }

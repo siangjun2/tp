@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import seedu.tutorpal.logic.parser.Prefix;
+import seedu.tutorpal.model.person.AttendanceHistory;
 import seedu.tutorpal.model.person.Person;
 
 /**
@@ -52,7 +53,9 @@ public class Messages {
         builder.append("; JoinDate: ")
                 .append(person.getJoinDate())
                 .append("; AttendanceHistory: ")
-                .append(person.getAttendanceHistory())
+                .append(person.hasAttendanceHistory()
+                        ? person.getAttendanceHistory()
+                        : new AttendanceHistory(person.getJoinDate()))
                 .append("; PaymentHistory: ")
                 .append(person.getPaymentHistory());
         return builder.toString();
