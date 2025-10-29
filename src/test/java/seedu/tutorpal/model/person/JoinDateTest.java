@@ -1,18 +1,18 @@
 package seedu.tutorpal.model.person;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static seedu.tutorpal.testutil.Assert.assertThrows;
-
 import java.time.Clock;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.ZoneId;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
+
+import static seedu.tutorpal.testutil.Assert.assertThrows;
 
 public class JoinDateTest {
 
@@ -50,12 +50,14 @@ public class JoinDateTest {
         assertFalse(JoinDate.isValidJoinDate(" 15-01-2024")); // leading space
         assertFalse(JoinDate.isValidJoinDate("15-01-2024 ")); // trailing space
 
+        // invalid join dates (year constraints and future dates)
+        assertFalse(JoinDate.isValidJoinDate("01-01-0001")); // year before 2000
+        assertFalse(JoinDate.isValidJoinDate("31-12-1999")); // year before 2000
+        assertFalse(JoinDate.isValidJoinDate("31-12-9999")); // future date
+
         // valid join dates (extremes and typical)
-        assertTrue(JoinDate.isValidJoinDate("01-01-0001")); // earliest AD year commonly used
-        assertTrue(JoinDate.isValidJoinDate("31-12-9999")); // upper bound of 4-digit year
-        assertTrue(JoinDate.isValidJoinDate("01-01-2024")); // valid date
+        assertTrue(JoinDate.isValidJoinDate("01-01-2000")); // earliest valid year
         assertTrue(JoinDate.isValidJoinDate("15-06-2023")); // valid date
-        assertTrue(JoinDate.isValidJoinDate("31-12-2024")); // end of year
         assertTrue(JoinDate.isValidJoinDate("29-02-2024")); // valid leap year date
         assertTrue(JoinDate.isValidJoinDate("28-02-2023")); // valid non-leap year date
         assertTrue(JoinDate.isValidJoinDate("31-01-2024")); // January has 31 days
