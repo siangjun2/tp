@@ -33,7 +33,7 @@ public class MarkCommand extends Command {
             + PREFIX_ATTENDANCE_WEEK + "W2-10-2025";
 
     // SHORTENED is used for help command
-    public static final String MESSAGE_USAGE_SHORTENED = COMMAND_WORD + ":\t" + COMMAND_WORD + " INDEX"
+    public static final String MESSAGE_USAGE_SHORTENED = COMMAND_WORD + ":\t\t" + COMMAND_WORD + " INDEX"
         + "\n\t\tExample: " + COMMAND_WORD + " 1";
 
     public static final String MESSAGE_SUCCESS = "Marked attendance for: %1$s on %2$s.";

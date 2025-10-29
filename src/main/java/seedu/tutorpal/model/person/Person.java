@@ -126,6 +126,10 @@ public abstract class Person {
         return paymentHistory;
     }
 
+    public String printPaymentHistory() {
+        return paymentHistory.getLatestPayments().toString();
+    }
+
     /**
      * Returns true if both persons have the same name and phone number.
      * This defines a weaker notion of equality between two persons.
@@ -174,7 +178,8 @@ public abstract class Person {
         return name.fullName + "\n"
             + phone.value + "\n"
             + email.value + "\n"
-            + address.value + "\n";
+            + address.value + "\n"
+            + this.printPaymentHistory();
     }
 
     @Override
