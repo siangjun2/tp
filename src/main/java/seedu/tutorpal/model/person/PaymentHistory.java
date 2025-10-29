@@ -185,6 +185,28 @@ public class PaymentHistory {
     public int hashCode() {
         return Objects.hash(joinDate, monthlyPayments);
     }
+    /**
+     * Validates that the new joinDate is not after any existing payment history entries.
+     * This ensures data integrity when updating a person's join date.
+     *
+     * @param newJoinDate The new join date to validate
+     * @throws seedu.tutorpal.model.person.exceptions.InvalidRangeException if the new joinDate is after existing
+     *         payment records
+     */
+    public void validateJoinDate(JoinDate newJoinDate) {
+        YearMonth newJoinMonth = newJoinDate.toYearMonth();
+
+        // Check if any existing payment records would be before the new join date
+        for (MonthlyPayment payment : monthlyPayments) {
+            if (payment.getMonth().isBefore(newJoinMonth)) {
+                throw new seedu.tutorpal.model.person.exceptions.InvalidRangeException(
+                    String.format("Cannot set join date to %s as there are existing payment records "
+                        + "before this date. Earliest payment record: %s",
+                        newJoinDate.toString(), payment.getMonth()));
+            }
+        }
+    }
+
     @Override
     public String toString() {
         return "PaymentHistory{"

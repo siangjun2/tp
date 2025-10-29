@@ -33,6 +33,7 @@ import seedu.tutorpal.model.person.Phone;
 import seedu.tutorpal.model.person.Role;
 import seedu.tutorpal.model.person.Student;
 import seedu.tutorpal.model.person.Tutor;
+import seedu.tutorpal.model.person.exceptions.InvalidRangeException;
 
 /**
  * Edits the details of an existing person in the address book.
@@ -141,6 +142,13 @@ public class EditCommand extends Command {
         Address updatedAddress = editPersonDescriptor.getAddress().orElse(personToEdit.getAddress());
         Set<Class> updatedClasses = editPersonDescriptor.getClasses().orElse(personToEdit.getClasses());
         JoinDate updatedJoinDate = editPersonDescriptor.getJoinDate().orElse(personToEdit.getJoinDate());
+
+        // Validate that new joinDate is not after existing payment history
+        try {
+            personToEdit.getPaymentHistory().validateJoinDate(updatedJoinDate);
+        } catch (InvalidRangeException e) {
+            throw new CommandException(e.getMessage());
+        }
 
         // Construct appropriate subtype; role is not editable per parser
         if (personToEdit.getRole() == Role.STUDENT) {
