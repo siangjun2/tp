@@ -1,18 +1,17 @@
 package seedu.tutorpal.logic.parser;
 
-import static java.util.Objects.requireNonNull;
-import static seedu.tutorpal.commons.core.commandword.CommandWord.COMMANDS;
-import static seedu.tutorpal.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import static java.util.Objects.requireNonNull;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import seedu.tutorpal.commons.core.commandword.CommandWord;
+import static seedu.tutorpal.commons.core.commandword.CommandWord.COMMANDS;
 import seedu.tutorpal.commons.core.index.Index;
 import seedu.tutorpal.commons.util.StringUtil;
+import static seedu.tutorpal.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import seedu.tutorpal.logic.commands.HelpCommand;
 import seedu.tutorpal.logic.parser.exceptions.ParseException;
 import seedu.tutorpal.model.person.Address;
@@ -199,12 +198,18 @@ public class ParserUtil {
 
     /**
      * Parses {@code Collection<String> classes} into a {@code Set<Class>}.
+     * @throws ParseException if duplicate classes are detected
      */
     public static Set<Class> parseClasses(Collection<String> classes) throws ParseException {
         requireNonNull(classes);
         final Set<Class> classSet = new HashSet<>();
         for (String className : classes) {
-            classSet.add(parseClass(className));
+            Class parsedClass = parseClass(className);
+            if (!classSet.add(parsedClass)) {
+                // Duplicate class detected (add() returns false if element already exists)
+                throw new ParseException("Duplicate class detected: " + className
+                        + ". Each class should only be specified once.");
+            }
         }
         return classSet;
     }
