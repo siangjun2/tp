@@ -12,6 +12,8 @@ import java.time.ZoneId;
 
 import org.junit.jupiter.api.Test;
 
+import seedu.tutorpal.model.person.exceptions.InvalidRangeException;
+
 public class AttendanceHistoryTest {
 
     // Fixed clock: 2024-03-10 is ISO week 10 of 2024
@@ -19,12 +21,12 @@ public class AttendanceHistoryTest {
             Instant.parse("2024-03-10T10:00:00Z"), ZoneId.of("UTC"));
 
     @Test
-    public void hasAttended_noAttendanceMarked_returnsFalse() {
+    public void hasBeenMarked_noAttendanceMarked_returnsFalse() {
         JoinDate joinDate = new JoinDate("01-01-2024"); // ISO week 1
         AttendanceHistory history = new AttendanceHistory(joinDate, FIXED_CLOCK_2024_W10);
         WeeklyAttendance week = new WeeklyAttendance(2, Year.of(2024));
 
-        assertFalse(history.hasAttended(week));
+        assertFalse(history.hasBeenMarked(week));
     }
 
     @Test
@@ -34,7 +36,7 @@ public class AttendanceHistoryTest {
         WeeklyAttendance week = new WeeklyAttendance(2, Year.of(2024));
 
         history = history.markAttendance(week);
-        assertTrue(history.hasAttended(week));
+        assertTrue(history.hasBeenMarked(week));
     }
 
     @Test
@@ -45,7 +47,7 @@ public class AttendanceHistoryTest {
 
         history = history.markAttendance(week);
         AttendanceHistory finalHistory = history;
-        assertThrows(IllegalArgumentException.class, () -> finalHistory.markAttendance(week));
+        assertThrows(IllegalStateException.class, () -> finalHistory.markAttendance(week));
     }
 
     @Test
@@ -56,7 +58,7 @@ public class AttendanceHistoryTest {
 
         history = history.markAttendance(week);
         history = history.unmarkAttendance(week);
-        assertFalse(history.hasAttended(week));
+        assertFalse(history.hasBeenMarked(week));
     }
 
     @Test
@@ -65,7 +67,7 @@ public class AttendanceHistoryTest {
         AttendanceHistory history = new AttendanceHistory(joinDate, FIXED_CLOCK_2024_W10);
         WeeklyAttendance week = new WeeklyAttendance(2, Year.of(2024));
 
-        assertThrows(IllegalArgumentException.class, () -> history.unmarkAttendance(week));
+        assertThrows(IllegalStateException.class, () -> history.unmarkAttendance(week));
     }
 
     @Test
@@ -74,7 +76,7 @@ public class AttendanceHistoryTest {
         AttendanceHistory history = new AttendanceHistory(joinDate, FIXED_CLOCK_2024_W10);
         WeeklyAttendance weekBeforeJoin = new WeeklyAttendance(6, Year.of(2024)); // before join week
 
-        assertThrows(IllegalArgumentException.class, () -> history.markAttendance(weekBeforeJoin));
+        assertThrows(InvalidRangeException.class, () -> history.markAttendance(weekBeforeJoin));
     }
 
     @Test
@@ -84,7 +86,7 @@ public class AttendanceHistoryTest {
         WeeklyAttendance joinWeek = joinDate.getJoinWeek();
 
         history = history.markAttendance(joinWeek);
-        assertTrue(history.hasAttended(joinWeek));
+        assertTrue(history.hasBeenMarked(joinWeek));
     }
 
     @Test
@@ -94,7 +96,7 @@ public class AttendanceHistoryTest {
         WeeklyAttendance currentWeek = WeeklyAttendance.getCurrentWeek(FIXED_CLOCK_2024_W10); // W10-2024
 
         history = history.markAttendance(currentWeek);
-        assertTrue(history.hasAttended(currentWeek));
+        assertTrue(history.hasBeenMarked(currentWeek));
     }
 
     @Test
@@ -103,16 +105,16 @@ public class AttendanceHistoryTest {
         AttendanceHistory history = new AttendanceHistory(joinDate, FIXED_CLOCK_2024_W10);
 
         WeeklyAttendance futureWeek = new WeeklyAttendance(11, Year.of(2024)); // after current week 10
-        assertThrows(IllegalArgumentException.class, () -> history.markAttendance(futureWeek));
+        assertThrows(InvalidRangeException.class, () -> history.markAttendance(futureWeek));
     }
 
     @Test
-    public void hasAttended_weekOutOfRange_returnsFalse() {
+    public void hasBeenMarked_weekOutOfRange_returnsFalse() {
         JoinDate joinDate = new JoinDate("15-02-2024"); // join week 7
         AttendanceHistory history = new AttendanceHistory(joinDate, FIXED_CLOCK_2024_W10);
 
         WeeklyAttendance outOfRange = new WeeklyAttendance(12, Year.of(2024)); // after current week 10
-        assertFalse(history.hasAttended(outOfRange));
+        assertFalse(history.hasBeenMarked(outOfRange));
     }
 
     @Test
@@ -213,9 +215,9 @@ public class AttendanceHistoryTest {
         history = history.markAttendance(week2);
         history = history.markAttendance(week3);
 
-        assertTrue(history.hasAttended(week1));
-        assertTrue(history.hasAttended(week2));
-        assertTrue(history.hasAttended(week3));
+        assertTrue(history.hasBeenMarked(week1));
+        assertTrue(history.hasBeenMarked(week2));
+        assertTrue(history.hasBeenMarked(week3));
     }
 
     @Test
@@ -242,14 +244,14 @@ public class AttendanceHistoryTest {
 
         // Marking join week is allowed
         AttendanceHistory history2 = history.markAttendance(joinWeek);
-        assertTrue(history2.hasAttended(joinWeek));
-        assertFalse(history.hasAttended(joinWeek)); // immutability
+        assertTrue(history2.hasBeenMarked(joinWeek));
+        assertFalse(history.hasBeenMarked(joinWeek)); // immutability
 
         // Current week with this clock is also W53-2015; trying to mark next week
         // (W01-2016) is after current -> throws
         WeeklyAttendance nextWeek = new WeeklyAttendance(1, Year.of(2016));
-        assertThrows(IllegalArgumentException.class, () -> history2.markAttendance(nextWeek));
-        assertFalse(history.hasAttended(nextWeek));
+        assertThrows(InvalidRangeException.class, () -> history2.markAttendance(nextWeek));
+        assertFalse(history.hasBeenMarked(nextWeek));
     }
 
     @Test
@@ -264,12 +266,12 @@ public class AttendanceHistoryTest {
 
         // Week 53 of 2015 is before join week -> disallowed
         WeeklyAttendance prevYearLastWeek = new WeeklyAttendance(53, Year.of(2015));
-        assertThrows(IllegalArgumentException.class, () -> history.markAttendance(prevYearLastWeek));
-        assertFalse(history.hasAttended(prevYearLastWeek));
+        assertThrows(InvalidRangeException.class, () -> history.markAttendance(prevYearLastWeek));
+        assertFalse(history.hasBeenMarked(prevYearLastWeek));
 
         // Marking join week is allowed
         AttendanceHistory history2 = history.markAttendance(joinWeek);
-        assertTrue(history2.hasAttended(joinWeek));
+        assertTrue(history2.hasBeenMarked(joinWeek));
     }
 
     @Test
@@ -284,16 +286,16 @@ public class AttendanceHistoryTest {
 
         // Marking join week is allowed
         final AttendanceHistory history2 = history.markAttendance(joinWeek);
-        assertTrue(history2.hasAttended(joinWeek));
+        assertTrue(history2.hasBeenMarked(joinWeek));
 
         // Week 52 of 2014 is before join week -> disallowed
         WeeklyAttendance prevWeek = new WeeklyAttendance(52, Year.of(2014));
-        assertThrows(IllegalArgumentException.class, () -> history.markAttendance(prevWeek));
-        assertFalse(history.hasAttended(prevWeek));
+        assertThrows(InvalidRangeException.class, () -> history.markAttendance(prevWeek));
+        assertFalse(history.hasBeenMarked(prevWeek));
 
         // Any week after current (current is W01-2015 at this clock) is disallowed
         WeeklyAttendance futureWeekSameYear = new WeeklyAttendance(2, Year.of(2015));
-        assertThrows(IllegalArgumentException.class, () -> history.markAttendance(futureWeekSameYear));
-        assertFalse(history.hasAttended(futureWeekSameYear));
+        assertThrows(InvalidRangeException.class, () -> history.markAttendance(futureWeekSameYear));
+        assertFalse(history.hasBeenMarked(futureWeekSameYear));
     }
 }
