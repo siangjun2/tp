@@ -2,6 +2,7 @@ package seedu.tutorpal.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.tutorpal.logic.commands.CommandTestUtil.DESC_AMY;
 import static seedu.tutorpal.logic.commands.CommandTestUtil.DESC_BOB;
@@ -13,6 +14,8 @@ import static seedu.tutorpal.logic.commands.CommandTestUtil.showPersonAtIndex;
 import static seedu.tutorpal.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.tutorpal.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
 import static seedu.tutorpal.testutil.TypicalPersons.getTypicalAddressBook;
+
+import java.util.Collections;
 
 import org.junit.jupiter.api.Test;
 
@@ -178,6 +181,66 @@ public class EditCommandTest {
         String expected = EditCommand.class.getCanonicalName() + "{index=" + index + ", editPersonDescriptor="
                 + editPersonDescriptor + "}";
         assertEquals(expected, editCommand.toString());
+    }
+
+    @Test
+    public void execute_nullModel_throwsNullPointerException() {
+        EditCommand cmd = new EditCommand(INDEX_FIRST_PERSON, new EditPersonDescriptor());
+        assertThrows(NullPointerException.class, () -> cmd.execute(null));
+    }
+
+    @Test
+    public void execute_studentMultipleClasses_failure() {
+        // Build a model with a student
+        Model customModel = new ModelManager(new AddressBook(), new UserPrefs());
+        Person student = new PersonBuilder().withRole("student").withName("Stu Dent")
+                .withClasses("s4mon0900").build();
+        customModel.addPerson(student);
+
+        // Try to set multiple classes (students cannot have multiple classes)
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
+                .withClasses("s4mon0900", "s4wed1400").build();
+        EditCommand edit = new EditCommand(Index.fromOneBased(1), descriptor);
+
+        assertCommandFailure(edit, customModel, EditCommand.MESSAGE_STUDENT_MULTIPLE_CLASSES);
+    }
+
+    @Test
+    public void execute_emptyClasses_failure() {
+        // Build a model with a student
+        Model customModel = new ModelManager(new AddressBook(), new UserPrefs());
+        Person student = new PersonBuilder().withRole("student").withName("Stu Dent")
+                .withClasses("s4mon0900").build();
+        customModel.addPerson(student);
+
+        // Explicitly set classes to empty set -> not allowed by command
+        EditPersonDescriptor descriptor = new EditPersonDescriptor();
+        descriptor.setClasses(Collections.emptySet());
+        EditCommand edit = new EditCommand(Index.fromOneBased(1), descriptor);
+
+        assertCommandFailure(edit, customModel, EditCommand.MESSAGE_AT_LEAST_ONE_CLASS);
+    }
+
+    @Test
+    public void execute_tutorMultipleClasses_success() {
+        // Build a model with a tutor
+        Model customModel = new ModelManager(new AddressBook(), new UserPrefs());
+        Person tutor = new PersonBuilder().withRole("tutor").withName("Tu Tor")
+                .withClasses("s4mon0900").build();
+        customModel.addPerson(tutor);
+
+        // Tutors may have multiple classes
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
+                .withClasses("s4mon0900", "s4wed1400").build();
+        EditCommand edit = new EditCommand(Index.fromOneBased(1), descriptor);
+
+        Person editedPerson = new PersonBuilder(tutor).withClasses("s4mon0900", "s4wed1400").build();
+        String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson));
+
+        Model expectedModel = new ModelManager(new AddressBook(customModel.getAddressBook()), new UserPrefs());
+        expectedModel.setPerson(tutor, editedPerson);
+
+        assertCommandSuccess(edit, customModel, expectedMessage, expectedModel);
     }
 
 }

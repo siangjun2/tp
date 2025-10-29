@@ -15,14 +15,7 @@ public class Tutor extends Person {
     public static final String PERSON_WORD = TUTOR.toString();
 
     /**
-     * Public constructor (default "now").
-     */
-    public Tutor(Name name, Phone phone, Email email, Address address, Set<Class> classes) {
-        this(name, phone, email, address, classes, JoinDate.now(), null, Clock.systemDefaultZone(),
-                new PaymentHistory(LocalDate.now()));
-    }
-
-    /**
+     * For Add Command and Edit Command
      * Public constructor with explicit joinDate (uses system clock for defaults).
      */
     public Tutor(Name name, Phone phone, Email email, Address address, Set<Class> classes,
@@ -43,7 +36,6 @@ public class Tutor extends Person {
     /**
      * TODO Added for Payment extension. Please remove and simplify constructors if not needed.
      * Testing version of public constructor. Allows injecting of clock to control "now".
-     * ONLY MEANT FOR TESTS
      */
     protected Tutor(Name name, Phone phone, Email email, Address address, Set<Class> classes,
                     JoinDate joinDate, Clock nowClock) {
@@ -57,7 +49,7 @@ public class Tutor extends Person {
     private Tutor(Name name, Phone phone, Email email, Address address, Set<Class> classes,
                   JoinDate joinDate, AttendanceHistory attendanceHistory, Clock nowClock,
                   PaymentHistory paymentHistory) {
-        super(name, phone, email, address, classes, joinDate, paymentHistory);
+        super(name, phone, email, address, classes, joinDate, paymentHistory, nowClock);
         validateAttendanceHistoryRules(attendanceHistory);
     }
 

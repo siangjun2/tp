@@ -25,10 +25,13 @@ import seedu.tutorpal.model.person.Role;
 import seedu.tutorpal.model.person.WeeklyAttendance;
 
 /**
- * Contains utility methods used for parsing strings in the various *Parser classes.
+ * Contains utility methods used for parsing strings in the various *Parser
+ * classes.
  * <p>
- * All methods in this class are pure utilities: they validate and transform raw {@link String}
- * inputs (typically from user commands) into strongly-typed model objects, or throw a
+ * All methods in this class are pure utilities: they validate and transform raw
+ * {@link String}
+ * inputs (typically from user commands) into strongly-typed model objects, or
+ * throw a
  * {@link ParseException} if validation fails.
  */
 public class ParserUtil {
@@ -36,7 +39,8 @@ public class ParserUtil {
     /**
      * Error message used when an index fails validation.
      * <p>
-     * An index is considered valid only if it is a non-zero unsigned integer (e.g. {@code "1"}, {@code "23"}).
+     * An index is considered valid only if it is a non-zero unsigned integer (e.g.
+     * {@code "1"}, {@code "23"}).
      */
     public static final String MESSAGE_INVALID_INDEX = "Index is not a non-zero unsigned integer.";
 
@@ -47,7 +51,8 @@ public class ParserUtil {
      *
      * @param oneBasedIndex string representing a 1-based index
      * @return an {@link Index} corresponding to the given string
-     * @throws ParseException if the specified index is invalid (not non-zero unsigned integer).
+     * @throws ParseException if the specified index is invalid (not non-zero
+     *                        unsigned integer).
      */
     public static Index parseIndex(String oneBasedIndex) throws ParseException {
         String trimmedIndex = oneBasedIndex.trim();
@@ -60,24 +65,28 @@ public class ParserUtil {
     /**
      * Parses a raw command word string into a cached {@link CommandWord}.
      * <p>
-     * This method checks the given {@code commandWord} against the set of known command classes referenced by
-     * {@link seedu.tutorpal.commons.core.commandword.CommandWord#COMMANDS}. If the word is not recognised,
+     * This method checks the given {@code commandWord} against the set of known
+     * command classes referenced by
+     * {@link seedu.tutorpal.commons.core.commandword.CommandWord#COMMANDS}. If the
+     * word is not recognised,
      * a {@link ParseException} is thrown with a hint to use {@link HelpCommand}.
      *
-     * @param commandWord the raw command word provided by the user (e.g. {@code "add"}, {@code "list"})
+     * @param commandWord the raw command word provided by the user (e.g.
+     *                    {@code "add"}, {@code "list"})
      * @return the corresponding {@link CommandWord} instance
-     * @throws ParseException if {@code commandWord} does not match any known command
+     * @throws ParseException if {@code commandWord} does not match any known
+     *                        command
      */
     public static CommandWord parseCommandWord(String commandWord) throws ParseException {
         List<String> commands = COMMANDS.stream()
-            .map(f -> {
-                try {
-                    return (String) f.getField("COMMAND_WORD").get(null);
-                } catch (IllegalArgumentException | NoSuchFieldException | IllegalAccessException e) {
-                    return null;
-                }
-            })
-            .collect(Collectors.toUnmodifiableList());
+                .map(f -> {
+                    try {
+                        return (String) f.getField("COMMAND_WORD").get(null);
+                    } catch (IllegalArgumentException | NoSuchFieldException | IllegalAccessException e) {
+                        return null;
+                    }
+                })
+                .collect(Collectors.toUnmodifiableList());
 
         if (!commands.contains(commandWord)) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, HelpCommand.MESSAGE_USAGE));
@@ -164,11 +173,11 @@ public class ParserUtil {
      */
     public static Role parseRole(String role) throws ParseException {
         requireNonNull(role);
-        String trimmedRole = role.trim();
-        if (!Role.isValidRole(trimmedRole)) {
-            throw new ParseException(Role.MESSAGE_CONSTRAINTS);
+        try {
+            return Role.fromString(role);
+        } catch (IllegalArgumentException e) {
+            throw new ParseException(Role.MESSAGE_CONSTRAINTS, e);
         }
-        return Role.fromString(trimmedRole);
     }
 
     /**
@@ -208,11 +217,11 @@ public class ParserUtil {
      */
     public static JoinDate parseJoinDate(String joinDate) throws ParseException {
         requireNonNull(joinDate);
-        String trimmedDate = joinDate.trim();
-        if (!JoinDate.isValidJoinDate(trimmedDate)) {
+        String trimmed = joinDate.trim();
+        if (!JoinDate.isValidJoinDate(trimmed)) {
             throw new ParseException(JoinDate.MESSAGE_CONSTRAINTS);
         }
-        return new JoinDate(trimmedDate);
+        return new JoinDate(trimmed);
     }
 
     /**

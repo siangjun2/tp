@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import seedu.tutorpal.logic.parser.Prefix;
+import seedu.tutorpal.model.person.AttendanceHistory;
 import seedu.tutorpal.model.person.Person;
 
 /**
@@ -50,16 +51,13 @@ public class Messages {
                 .append("; Classes: ");
         person.getClasses().forEach(c -> builder.append(c).append(" "));
         builder.append("; JoinDate: ")
-            .append(person.getJoinDate());
-        try {
-            person.getAttendanceHistory();
-            builder.append("; AttendanceHistory: ")
-                    .append(person.getAttendanceHistory())
-                    .append("; PaymentHistory: ")
-                    .append(person.getPaymentHistory());
-        } catch (IllegalStateException e) {
-            // Ignore exception as it means it is a tutor
-        }
+                .append(person.getJoinDate())
+                .append("; AttendanceHistory: ")
+                .append(person.hasAttendanceHistory()
+                        ? person.getAttendanceHistory()
+                        : new AttendanceHistory(person.getJoinDate()))
+                .append("; PaymentHistory: ")
+                .append(person.getPaymentHistory());
         return builder.toString();
     }
 

@@ -10,6 +10,7 @@ import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import seedu.tutorpal.commons.core.GuiSettings;
 import seedu.tutorpal.commons.core.LogsCenter;
 import seedu.tutorpal.logic.Logic;
@@ -169,6 +170,11 @@ public class MainWindow extends UiPart<Stage> {
     /**
      * Closes the application.
      */
+    @FXML
+    private void handleExit(WindowEvent event) {
+        handleExit();
+    }
+
     @FXML
     private void handleExit() {
         GuiSettings guiSettings = new GuiSettings(primaryStage.getWidth(), primaryStage.getHeight(),

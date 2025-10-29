@@ -2,6 +2,8 @@ package seedu.tutorpal.model.person;
 
 import static seedu.tutorpal.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.time.Clock;
+import java.time.LocalDate;
 import java.util.Objects;
 import java.util.Set;
 
@@ -18,6 +20,7 @@ public abstract class Person {
     public static final String MESSAGE_NO_ATTENDANCE_HISTORY = "%1$s must not have attendance history.";
     public static final String MESSAGE_OUT_OF_SYNC = "%1$s.joinDate must match %2$s.joinDate.";
     public static final String MESSAGE_INVALID_ATTENDANCE_RETRIEVAL = "%1$s does not have attendance history.";
+    public static final String MESSAGE_INVALID_JOIN_DATE = "Join date cannot be after current date";
 
     // Identity fields
     private final Name name;
@@ -35,12 +38,15 @@ public abstract class Person {
      * Core constructor with all common fields.
      */
     protected Person(Name name, Phone phone, Email email, Address address,
-                     Set<Class> classes, JoinDate joinDate, PaymentHistory paymentHistory) {
+                     Set<Class> classes, JoinDate joinDate, PaymentHistory paymentHistory,
+                     Clock nowClock) {
         requireAllNonNull(name, phone, email, address, classes, joinDate, paymentHistory);
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.address = address;
+        // Validate invariant: joinDate cannot be after current date based on nowClock
+        Person.ensureValidJoinDate(joinDate, nowClock);
         this.joinDate = joinDate;
         this.classes = Set.copyOf(classes);
         this.paymentHistory = paymentHistory;
@@ -63,7 +69,7 @@ public abstract class Person {
     }
 
     /**
-     * Returns a String to represent role of person
+     * Returns a Role to represent role of person. For UI and Storage.
      */
     public abstract Role getRole();
 
@@ -80,6 +86,18 @@ public abstract class Person {
      */
     public JoinDate getJoinDate() {
         return joinDate;
+    }
+
+    /**
+     * Check if join date is not after current date.
+     * Error should be caught in Command, and should not reach here.
+     */
+    public static void ensureValidJoinDate(JoinDate joinDate, Clock nowClock) {
+        requireAllNonNull(joinDate, nowClock);
+        LocalDate currentDate = LocalDate.now(nowClock);
+        if (joinDate.isAfter(currentDate)) {
+            throw new IllegalArgumentException(Person.MESSAGE_INVALID_JOIN_DATE);
+        }
     }
 
     /**

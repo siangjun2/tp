@@ -71,7 +71,11 @@ public class MarkCommand extends Command {
         try {
             newAttendanceHistory = personToMark.getAttendanceHistory().markAttendance(week);
         } catch (IllegalArgumentException e) {
-            throw new CommandException(String.format(e.getMessage(), personToMark.getName(), week));
+            if (e.getMessage().equals("Attendance for the given week is already marked.")) {
+                throw new CommandException(String.format(MESSAGE_ALREADY_MARKED, personToMark.getName(), week));
+            } else {
+                throw new CommandException(e.getMessage());
+            }
         }
 
         // Create a new Student with updated attendance history
@@ -82,7 +86,6 @@ public class MarkCommand extends Command {
                 personToMark.getAddress(),
                 personToMark.getClasses(),
                 personToMark.getJoinDate(),
-                personToMark.getPaymentHistory(),
                 newAttendanceHistory);
 
         model.setPerson(personToMark, markedPerson);
