@@ -11,6 +11,8 @@ import org.junit.jupiter.api.Test;
 import seedu.tutorpal.logic.commands.ListCommand;
 import seedu.tutorpal.logic.parser.exceptions.ParseException;
 import seedu.tutorpal.model.person.ClassContainsKeywordsPredicate;
+import seedu.tutorpal.model.person.Payment;
+import seedu.tutorpal.model.person.PaymentStatusMatchesPredicate;
 import seedu.tutorpal.model.person.StudentBelongsToTutorPredicate;
 
 public class ListCommandParserTest {
@@ -74,6 +76,85 @@ public class ListCommandParserTest {
             new ClassContainsKeywordsPredicate(Arrays.asList("s4mon1600")),
             new StudentBelongsToTutorPredicate(Arrays.asList("John")),
             null), command);
+    }
+
+    @Test
+    public void parse_invalidPrefixTu_throwsParseException() {
+        assertThrows(ParseException.class,
+            String.format(MESSAGE_INVALID_COMMAND_FORMAT, ListCommand.MESSAGE_USAGE), () -> parser.parse(" tu/John"));
+    }
+
+    @Test
+    public void parse_invalidPrefixP_throwsParseException() {
+        assertThrows(ParseException.class,
+            String.format(MESSAGE_INVALID_COMMAND_FORMAT, ListCommand.MESSAGE_USAGE), () -> parser.parse(" p/paid"));
+    }
+
+    @Test
+    public void parse_multipleClassFilters_returnsListCommand() throws ParseException {
+        // Test that multiple class filters are OR-ed together
+        ListCommand command = parser.parse(" c/s4mon1600 c/s2tue1400");
+        assertEquals(new ListCommand(
+            new ClassContainsKeywordsPredicate(Arrays.asList("s4mon1600", "s2tue1400")),
+            null,
+            null), command);
+    }
+
+    @Test
+    public void parse_multipleTutorFilters_returnsListCommand() throws ParseException {
+        // Test that multiple tutor filters are OR-ed together
+        ListCommand command = parser.parse(" t/John Doe t/Alice Smith");
+        assertEquals(new ListCommand(
+            null,
+            new StudentBelongsToTutorPredicate(Arrays.asList("John Doe", "Alice Smith")),
+            null), command);
+    }
+
+    @Test
+    public void parse_multiplePaymentStatusFilters_returnsListCommand() throws ParseException {
+        // Test that multiple payment status filters are OR-ed together
+        ListCommand command = parser.parse(" ps/paid ps/unpaid");
+        assertEquals(new ListCommand(
+            null,
+            null,
+            new PaymentStatusMatchesPredicate(Arrays.asList("paid", "unpaid"))), command);
+    }
+
+    @Test
+    public void parse_caseInsensitivePaymentStatus_returnsListCommand() throws ParseException {
+        // Test that payment status is case-insensitive (uNpaID should be valid)
+        ListCommand command = parser.parse(" ps/uNpaID");
+        assertEquals(new ListCommand(
+            null,
+            null,
+            new PaymentStatusMatchesPredicate(Arrays.asList("uNpaID"))), command);
+    }
+
+    @Test
+    public void parse_invalidPaymentStatus_throwsParseException() {
+        // Test that invalid payment status (unpad) throws Payment.MESSAGE_CONSTRAINTS
+        assertThrows(ParseException.class,
+            Payment.MESSAGE_CONSTRAINTS, () -> parser.parse(" ps/unpad"));
+    }
+
+    @Test
+    public void parse_classAndPaymentStatusFilters_returnsListCommand() throws ParseException {
+        // Test combining multiple classes with payment status (two filter types)
+        ListCommand command = parser.parse(" c/s4mon1600 c/s2tue1400 ps/unpaid");
+        assertEquals(new ListCommand(
+            new ClassContainsKeywordsPredicate(Arrays.asList("s4mon1600", "s2tue1400")),
+            null,
+            new PaymentStatusMatchesPredicate(Arrays.asList("unpaid"))), command);
+    }
+
+    @Test
+    public void parse_allThreeFilterTypes_returnsListCommand() throws ParseException {
+        // Test combining all three filter types together
+        ListCommand command = parser.parse(" c/s4mon1600 c/s2tue1400 ps/unpaid t/John Doe");
+        assertEquals(new ListCommand(
+            new ClassContainsKeywordsPredicate(Arrays.asList("s4mon1600", "s2tue1400")),
+            new StudentBelongsToTutorPredicate(Arrays.asList("John Doe")),
+            new PaymentStatusMatchesPredicate(Arrays.asList("unpaid"))), command);
     }
 }
 
