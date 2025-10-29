@@ -1,14 +1,15 @@
 package seedu.tutorpal.logic.parser;
 
+import static seedu.tutorpal.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_PAYMENT_MONTH;
+
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.logging.Logger;
 
 import seedu.tutorpal.commons.core.index.Index;
-import static seedu.tutorpal.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import seedu.tutorpal.logic.commands.UnpayCommand;
-import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_PAYMENT_MONTH;
 import seedu.tutorpal.logic.parser.exceptions.ParseException;
 
 /**
