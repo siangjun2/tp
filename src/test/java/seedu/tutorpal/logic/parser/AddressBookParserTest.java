@@ -90,7 +90,7 @@ public class AddressBookParserTest {
                 (ListCommand) parser.parseCommand(ListCommand.COMMAND_WORD + " c/s4mon1600");
         assertEquals(
                 new ListCommand(new seedu.tutorpal.model.person.ClassContainsKeywordsPredicate(
-                        Arrays.asList("s4mon1600"))),
+                        Arrays.asList("s4mon1600")), null, null),
                 filteredCommand);
     }
 
