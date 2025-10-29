@@ -9,19 +9,21 @@ import java.util.HashSet;
 import java.util.Set;
 
 import seedu.tutorpal.commons.util.ToStringBuilder;
+import seedu.tutorpal.model.person.exceptions.InvalidRangeException;
 
 /**
  * Tracks attendance of students in a set of WeeklyAttendance.
  * Guarantees : immutable
  */
-public class AttendanceHistory {
+public final class AttendanceHistory {
 
-    public static final String MESSAGE_INVALID_WEEK_RANGE = "Weekly attendance period is out of valid range!\n"
-            + " It should be between the week of joining and the current week inclusive.\n"
-            + "Join week : %1$s\n"
-            + "Current week : %2$s";
-    public static final String MESSAGE_ALREADY_MARKED = "Attendance for %1$s week is already marked.";
-    public static final String MESSAGE_CANNOT_UNMARK = "Attendance for the %1$s week is not marked yet.";
+    public static final String MESSAGE_INVALID_WEEK_RANGE =
+            "Command causes Attendance Week %1$s to be out of valid range!\n"
+            + "It should be between the week of joining and the current week inclusive.\n"
+            + "Join week : %2$s\t\t" + "Current week : %3$s";
+    public static final String MESSAGE_JOIN_DATE_IN_FUTURE = "Cannot set join date %1$s after current date %2$s!";
+    public static final String MESSAGE_ALREADY_MARKED = "Attendance for %1$s is already marked for %2$s.";
+    public static final String MESSAGE_CANNOT_UNMARK = "Attendance for the %1$s is not marked yet for %2$s.";
 
     //JoinDate is immutable.
     private final JoinDate joinDate;
@@ -32,7 +34,7 @@ public class AttendanceHistory {
     private final Clock nowClock; // Represents current date for testability
 
     /**
-     * Constructs an {@code AttendanceHistory} with the given join month.
+     * Constructs an {@code AttendanceHistory} with the given join date.
      *
      * @param joinDate The date when the person joined the system.
      */
@@ -62,9 +64,12 @@ public class AttendanceHistory {
         this.nowClock = nowClock;
 
         // Validate invariant: joinDate cannot be after current date based on nowClock
-        assert !joinDate.isAfter(LocalDate.now(nowClock));
+        LocalDate today = LocalDate.now(nowClock);
+        if (joinDate.isAfter(today)) {
+            throw new InvalidRangeException(String.format(MESSAGE_JOIN_DATE_IN_FUTURE, joinDate, today));
+        }
         // Validate invariant: all provided attendances must be within [joinWeek, currentWeek]
-        // else throw InvalidArgumentException
+        // else throw InvalidRangeException
         for (WeeklyAttendance wa : attendances) {
             ensureWithinValidRange(wa);
         }
@@ -74,10 +79,10 @@ public class AttendanceHistory {
     }
 
     /**
-     * Checks if the person attended on the given weekly attendance period.
+     * Checks if the weekly attendance is marked.
      * If outside valid range, return false.
      */
-    public boolean hasAttended(WeeklyAttendance weeklyAttendance) {
+    public boolean hasBeenMarked(WeeklyAttendance weeklyAttendance) {
         requireNonNull(weeklyAttendance);
         try {
             ensureWithinValidRange(weeklyAttendance);
@@ -98,8 +103,8 @@ public class AttendanceHistory {
         // This operation requires a new mutable set to avoid modifying the current instance.
         Set<WeeklyAttendance> newSet = new HashSet<>(this.weeklyAttendances);
         if (!newSet.add(weeklyAttendance)) {
-            throw new IllegalArgumentException(
-                    String.format(AttendanceHistory.MESSAGE_ALREADY_MARKED, weeklyAttendance));
+            throw new IllegalStateException(
+                    String.format(AttendanceHistory.MESSAGE_ALREADY_MARKED, weeklyAttendance, "%1$s"));
         }
 
         // Return a new immutable AttendanceHistory with the updated set.
@@ -117,8 +122,8 @@ public class AttendanceHistory {
         // This operation requires a new mutable set to avoid modifying the current instance.
         Set<WeeklyAttendance> newSet = new HashSet<>(this.weeklyAttendances);
         if (!newSet.remove(weeklyAttendance)) {
-            throw new IllegalArgumentException(
-                    String.format(AttendanceHistory.MESSAGE_CANNOT_UNMARK, weeklyAttendance));
+            throw new IllegalStateException(
+                    String.format(AttendanceHistory.MESSAGE_CANNOT_UNMARK, weeklyAttendance, "%1$s"));
         }
 
         // Return a new immutable AttendanceHistory with the updated set.
@@ -130,14 +135,15 @@ public class AttendanceHistory {
      * - not before join week
      * - not after current week
      * i.e. join date week inclusive to current week inclusive
-     * else Throw IllegalArgumentException
+     * else Throw InvalidRangeException
      */
-    private void ensureWithinValidRange(WeeklyAttendance weeklyAttendance) throws IllegalArgumentException {
+    private void ensureWithinValidRange(WeeklyAttendance weeklyAttendance) {
         WeeklyAttendance joinWeek = this.joinDate.getJoinWeek();
         WeeklyAttendance currentWeek = WeeklyAttendance.getCurrentWeek(this.nowClock);
 
         if (weeklyAttendance.isBefore(joinWeek) || weeklyAttendance.isAfter(currentWeek)) {
-            throw new IllegalArgumentException(String.format(MESSAGE_INVALID_WEEK_RANGE, joinWeek, currentWeek));
+            throw new InvalidRangeException(String.format(MESSAGE_INVALID_WEEK_RANGE,
+                    weeklyAttendance, joinWeek, currentWeek));
         }
     }
 
@@ -174,6 +180,7 @@ public class AttendanceHistory {
             return false;
         }
         AttendanceHistory otherHistory = (AttendanceHistory) other;
+        // Constructor already verifies these invariants.
         assert joinDate != null : "JoinDate should not be null";
         assert weeklyAttendances != null : "WeeklyAttendances should not be null";
         return joinDate.equals(otherHistory.joinDate)
@@ -182,6 +189,7 @@ public class AttendanceHistory {
 
     @Override
     public int hashCode() {
+        // Constructor already verifies these invariants.
         assert joinDate != null : "JoinDate should not be null";
         assert weeklyAttendances != null : "WeeklyAttendances should not be null";
         return joinDate.hashCode() + weeklyAttendances.hashCode();
