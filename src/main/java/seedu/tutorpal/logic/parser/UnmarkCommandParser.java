@@ -1,11 +1,11 @@
 package seedu.tutorpal.logic.parser;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.tutorpal.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_ATTENDANCE_WEEK;
 
 import seedu.tutorpal.commons.core.index.Index;
-import static seedu.tutorpal.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import seedu.tutorpal.logic.commands.UnmarkCommand;
-import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_ATTENDANCE_WEEK;
 import seedu.tutorpal.logic.parser.exceptions.ParseException;
 import seedu.tutorpal.model.person.WeeklyAttendance;
 

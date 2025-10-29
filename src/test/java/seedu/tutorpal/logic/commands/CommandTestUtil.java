@@ -1,25 +1,25 @@
 package seedu.tutorpal.logic.commands;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import seedu.tutorpal.commons.core.index.Index;
-import seedu.tutorpal.logic.commands.exceptions.CommandException;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_CLASS;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_ROLE;
+import static seedu.tutorpal.testutil.Assert.assertThrows;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import seedu.tutorpal.commons.core.index.Index;
+import seedu.tutorpal.logic.commands.exceptions.CommandException;
 import seedu.tutorpal.model.AddressBook;
 import seedu.tutorpal.model.Model;
 import seedu.tutorpal.model.person.NameContainsKeywordsPredicate;
 import seedu.tutorpal.model.person.Person;
-import static seedu.tutorpal.testutil.Assert.assertThrows;
 import seedu.tutorpal.testutil.EditPersonDescriptorBuilder;
 
 /**

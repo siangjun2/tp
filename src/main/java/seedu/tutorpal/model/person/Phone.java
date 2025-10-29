@@ -1,7 +1,6 @@
 package seedu.tutorpal.model.person;
 
 import static java.util.Objects.requireNonNull;
-
 import static seedu.tutorpal.commons.util.AppUtil.checkArgument;
 
 /**
