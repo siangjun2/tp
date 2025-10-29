@@ -123,6 +123,28 @@ public class Student extends Person {
         }
     }
 
+    /**
+     * Generates a formatted string summarizing the student's attendance
+     * over the most recent ten ISO weeks.
+     *
+     * <p>The method retrieves the student's latest weekly attendance records
+     * from {@code attendanceHistory.getLatestAttendance()}, determines which of the
+     * past ten ISO weeks (including the current week) the student attended, and
+     * constructs a textual summary marking each week as either "present" or "absent".</p>
+     *
+     * <p>Weeks are labeled using their ISO week numbers (as defined by
+     * {@link java.time.temporal.IsoFields#WEEK_OF_WEEK_BASED_YEAR}).</p>
+     *
+     * <p>Example output:</p>
+     * <pre>{@code
+     * W35:absent W36:present W37:present W38:absent W39:present
+     * W40:present W41:present W42:absent W43:present W44:present
+     * }</pre>
+     *
+     * @return a formatted {@link String} listing attendance status for each of the last ten ISO weeks
+     * @see java.time.temporal.IsoFields#WEEK_OF_WEEK_BASED_YEAR
+     * @see WeeklyAttendance
+     */
     public String printAttendanceHistory() {
         List<WeeklyAttendance> attendanceList = attendanceHistory.getLatestAttendance();
         boolean[] latestTenWeeks = new boolean[10];
