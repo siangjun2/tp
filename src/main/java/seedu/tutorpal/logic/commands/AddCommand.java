@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_CLASS;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_EMAIL;
+import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_JOIN_DATE;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_ROLE;
@@ -29,14 +30,18 @@ public class AddCommand extends Command {
             + PREFIX_EMAIL + "EMAIL "
             + PREFIX_CLASS + "CLASS "
             + "[" + PREFIX_ADDRESS + "ADDRESS] "
+            + "[" + PREFIX_JOIN_DATE + "JOINDATE] "
             + "[" + PREFIX_CLASS + "MORE_CLASSES]... \n"
+            + "Note: Tutors may specify multiple classes by repeating " + PREFIX_CLASS + "; "
+            + "students must specify exactly one class.\n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_ROLE + "student "
             + PREFIX_NAME + "Kevin "
             + PREFIX_PHONE + "98761234 "
             + PREFIX_EMAIL + "kevin@gmail.com "
             + PREFIX_ADDRESS + "Kent Ridge "
-            + PREFIX_CLASS + "s4mon1600";
+            + PREFIX_CLASS + "s4mon1600 "
+            + PREFIX_JOIN_DATE + "06-10-2025";
 
     // SHORTENED is used for help command
     public static final String MESSAGE_USAGE_SHORTENED = COMMAND_WORD + ":\t\t" + COMMAND_WORD + " "
@@ -46,7 +51,10 @@ public class AddCommand extends Command {
         + PREFIX_EMAIL + "EMAIL "
         + PREFIX_CLASS + "CLASS "
         + "[" + PREFIX_ADDRESS + "ADDRESS] "
+        + "[" + PREFIX_JOIN_DATE + "JOINDATE] "
         + "[" + PREFIX_CLASS + "MORE_CLASSES]... \n"
+        + "\t\tNote: Tutors may specify multiple classes by repeating " + PREFIX_CLASS + "; "
+        + "students must specify exactly one class.\n"
         + "\t\tExample: " + COMMAND_WORD + " "
         + PREFIX_ROLE + "student "
         + PREFIX_NAME + "Kevin "
@@ -80,9 +88,7 @@ public class AddCommand extends Command {
         model.addPerson(toAdd);
         String role = toAdd.getRole().toString();
         String name = toAdd.getName().toString();
-        // Capitalize first letter of role for display
-        String capitalizedRole = role.substring(0, 1).toUpperCase() + role.substring(1);
-        return new CommandResult(String.format(MESSAGE_SUCCESS, capitalizedRole, name));
+        return new CommandResult(String.format(MESSAGE_SUCCESS, role, name));
     }
 
     @Override

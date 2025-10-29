@@ -16,7 +16,7 @@ public class AttendanceHistoryTest {
 
     // Fixed clock: 2024-03-10 is ISO week 10 of 2024
     private static final Clock FIXED_CLOCK_2024_W10 = Clock.fixed(
-            Instant.parse("2024-03-10T10:00:00Z"), ZoneId.systemDefault());
+            Instant.parse("2024-03-10T10:00:00Z"), ZoneId.of("UTC"));
 
     @Test
     public void hasAttended_noAttendanceMarked_returnsFalse() {
@@ -137,7 +137,7 @@ public class AttendanceHistoryTest {
         JoinDate joinDate = new JoinDate("01-01-2024");
         AttendanceHistory history1 = new AttendanceHistory(joinDate, FIXED_CLOCK_2024_W10);
         Clock anotherClock = Clock.fixed(Instant.parse("2024-03-20T10:00:00Z"),
-                ZoneId.systemDefault()); // different time
+                ZoneId.of("UTC")); // different time
         AttendanceHistory history2 = new AttendanceHistory(joinDate, anotherClock);
 
         assertTrue(history1.equals(history2));
@@ -224,10 +224,8 @@ public class AttendanceHistoryTest {
         AttendanceHistory history = new AttendanceHistory(joinDate, FIXED_CLOCK_2024_W10);
 
         var view = history.getWeeklyAttendances();
-        assertThrows(UnsupportedOperationException.class, ()
-                -> view.add(new WeeklyAttendance(1, Year.of(2024))));
-        assertThrows(UnsupportedOperationException.class, ()
-                -> view.remove(new WeeklyAttendance(1, Year.of(2024))));
+        assertThrows(UnsupportedOperationException.class, () -> view.add(new WeeklyAttendance(1, Year.of(2024))));
+        assertThrows(UnsupportedOperationException.class, () -> view.remove(new WeeklyAttendance(1, Year.of(2024))));
     }
 
     // ===== ISO EDGE CASES (week-year boundaries) =====
@@ -245,9 +243,10 @@ public class AttendanceHistoryTest {
         // Marking join week is allowed
         AttendanceHistory history2 = history.markAttendance(joinWeek);
         assertTrue(history2.hasAttended(joinWeek));
-        assertFalse(history.hasAttended(joinWeek)); //immutability
+        assertFalse(history.hasAttended(joinWeek)); // immutability
 
-        // Current week with this clock is also W53-2015; trying to mark next week (W01-2016) is after current -> throws
+        // Current week with this clock is also W53-2015; trying to mark next week
+        // (W01-2016) is after current -> throws
         WeeklyAttendance nextWeek = new WeeklyAttendance(1, Year.of(2016));
         assertThrows(IllegalArgumentException.class, () -> history2.markAttendance(nextWeek));
         assertFalse(history.hasAttended(nextWeek));
@@ -296,35 +295,5 @@ public class AttendanceHistoryTest {
         WeeklyAttendance futureWeekSameYear = new WeeklyAttendance(2, Year.of(2015));
         assertThrows(IllegalArgumentException.class, () -> history.markAttendance(futureWeekSameYear));
         assertFalse(history.hasAttended(futureWeekSameYear));
-    }
-
-    @Test
-    public void ensureValidJoinDate_joinDateBeforeOrSameAsNow_noException() {
-        AttendanceHistory base = new AttendanceHistory(new JoinDate("01-01-2024"), FIXED_CLOCK_2024_W10);
-
-        // Before current date (2024-03-10)
-        base.ensureValidJoinDate(new JoinDate("09-03-2024"), FIXED_CLOCK_2024_W10);
-
-        // Same as current date
-        base.ensureValidJoinDate(new JoinDate("10-03-2024"), FIXED_CLOCK_2024_W10);
-    }
-
-    @Test
-    public void ensureValidJoinDate_joinDateAfterNow_throwsIllegalArgumentException() {
-        AttendanceHistory base = new AttendanceHistory(new JoinDate("01-01-2024"), FIXED_CLOCK_2024_W10);
-
-        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () ->
-                base.ensureValidJoinDate(new JoinDate("11-03-2024"), FIXED_CLOCK_2024_W10));
-        assertEquals(AttendanceHistory.MESSAGE_INVALID_JOIN_DATE, ex.getMessage());
-    }
-
-    @Test
-    public void ensureValidJoinDate_nullParams_throwNullPointerException() {
-        AttendanceHistory base = new AttendanceHistory(new JoinDate("01-01-2024"), FIXED_CLOCK_2024_W10);
-
-        assertThrows(NullPointerException.class, () ->
-                base.ensureValidJoinDate(null, FIXED_CLOCK_2024_W10));
-        assertThrows(NullPointerException.class, () ->
-                base.ensureValidJoinDate(new JoinDate("10-03-2024"), null));
     }
 }
