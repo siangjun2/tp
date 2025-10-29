@@ -43,12 +43,12 @@ public class ListCommandTest {
         // Test with a class filter
         ClassContainsKeywordsPredicate predicate =
                 new ClassContainsKeywordsPredicate(java.util.Arrays.asList("s4mon1600"));
-        ListCommand listCommand = new ListCommand(predicate);
+        ListCommand listCommand = new ListCommand(predicate, null, null);
         // Update expected model to show filtered results
         expectedModel.updateFilteredPersonList(predicate);
         String classMsg = String.format(
                 ListCommand.MESSAGE_SUCCESS_FILTERED_CLASS,
-                String.join(", ", predicate.getKeywords()));
+                String.join(" or ", predicate.getKeywords()));
         String countMsg = String.format(
                 seedu.tutorpal.logic.Messages.MESSAGE_PERSONS_LISTED_OVERVIEW,
                 expectedModel.getFilteredPersonList().size());

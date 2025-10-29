@@ -1,8 +1,8 @@
 package seedu.tutorpal.logic.parser;
 
-import static seedu.tutorpal.logic.Messages.MESSAGE_CONFLICTING_FILTERS;
 import static seedu.tutorpal.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_CLASS;
+import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_PAYMENT_STATUS;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_TUTOR;
 
 import java.util.ArrayList;
@@ -13,6 +13,8 @@ import java.util.logging.Logger;
 import seedu.tutorpal.logic.commands.ListCommand;
 import seedu.tutorpal.logic.parser.exceptions.ParseException;
 import seedu.tutorpal.model.person.ClassContainsKeywordsPredicate;
+import seedu.tutorpal.model.person.Payment;
+import seedu.tutorpal.model.person.PaymentStatusMatchesPredicate;
 import seedu.tutorpal.model.person.StudentBelongsToTutorPredicate;
 
 /**
@@ -28,38 +30,78 @@ public class ListCommandParser implements Parser<ListCommand> {
      */
     public ListCommand parse(String args) throws ParseException {
         logger.log(Level.INFO, "Parsing ListCommand with args: \"" + args + "\"");
-        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_CLASS, PREFIX_TUTOR);
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args,
+            PREFIX_CLASS, PREFIX_TUTOR, PREFIX_PAYMENT_STATUS);
 
         // If no arguments provided, return command to list all persons
         if (args.trim().isEmpty()) {
             return new ListCommand();
         }
 
-        // Check for conflicting filters
         boolean hasClassFilter = argMultimap.getValue(PREFIX_CLASS).isPresent();
         boolean hasTutorFilter = argMultimap.getValue(PREFIX_TUTOR).isPresent();
-        if (hasClassFilter && hasTutorFilter) {
-            logger.log(Level.WARNING, "Conflicting filters: both c/ and tu/ provided");
-            throw new ParseException(MESSAGE_CONFLICTING_FILTERS);
+        boolean hasPaymentStatusFilter = argMultimap.getValue(PREFIX_PAYMENT_STATUS).isPresent();
+
+        ClassContainsKeywordsPredicate classPredicate = null;
+        StudentBelongsToTutorPredicate tutorPredicate = null;
+        PaymentStatusMatchesPredicate paymentPredicate = null;
+
+        // Class filter (support multiple occurrences of c/)
+        if (hasClassFilter) {
+            List<String> classValues = argMultimap.getAllValues(PREFIX_CLASS);
+            List<String> keywords = new ArrayList<>();
+            for (String cls : classValues) {
+                String trimmed = cls.trim();
+                if (trimmed.isEmpty()) {
+                    logger.log(Level.WARNING, "Empty class value after trim");
+                    throw new ParseException(ListCommand.MESSAGE_EMPTY_CLASS_FILTER);
+                }
+                keywords.add(trimmed);
+            }
+            logger.log(Level.FINE, "List filter selected: class=" + keywords);
+            classPredicate = new ClassContainsKeywordsPredicate(keywords);
         }
 
-        // Check if class prefix is provided
-        if (hasClassFilter) {
-            String classKeyword = argMultimap.getValue(PREFIX_CLASS).get().trim();
-            logger.log(Level.FINE, "List filter selected: class=" + classKeyword);
-            List<String> keywords = new ArrayList<>();
-            keywords.add(classKeyword);
-            return new ListCommand(new ClassContainsKeywordsPredicate(keywords));
-        } else if (hasTutorFilter) {
-            String tutorName = argMultimap.getValue(PREFIX_TUTOR).get().trim();
-            if (tutorName.isEmpty()) {
-                logger.log(Level.WARNING, "Empty tutor name after trim");
-                throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ListCommand.MESSAGE_USAGE));
-            }
-            logger.log(Level.FINE, "List filter selected: tutor=" + tutorName);
+        // Tutor filter (support multiple occurrences of t/)
+        if (hasTutorFilter) {
+            List<String> tutorValues = argMultimap.getAllValues(PREFIX_TUTOR);
             List<String> tutorNames = new ArrayList<>();
-            tutorNames.add(tutorName);
-            return new ListCommand(new StudentBelongsToTutorPredicate(tutorNames));
+            for (String t : tutorValues) {
+                String trimmed = t.trim();
+                if (trimmed.isEmpty()) {
+                    logger.log(Level.WARNING, "Empty tutor name after trim");
+                    throw new ParseException(ListCommand.MESSAGE_EMPTY_TUTOR_FILTER);
+                }
+                tutorNames.add(trimmed);
+            }
+            logger.log(Level.FINE, "List filter selected: tutor=" + tutorNames);
+            tutorPredicate = new StudentBelongsToTutorPredicate(tutorNames);
+        }
+
+        // Payment status filter (comma-separated supported)
+        if (hasPaymentStatusFilter) {
+            List<String> statuses = argMultimap.getAllValues(PREFIX_PAYMENT_STATUS);
+            List<String> keywords = new ArrayList<>();
+
+            for (String status : statuses) {
+                String trimmedStatus = status.trim();
+                if (trimmedStatus.isEmpty()) {
+                    logger.log(Level.WARNING, "Empty payment status after trim");
+                    throw new ParseException(ListCommand.MESSAGE_EMPTY_PAYMENT_STATUS_FILTER);
+                }
+                if (!Payment.isValidPayment(trimmedStatus)) {
+                    logger.log(Level.WARNING, "Invalid payment status: " + trimmedStatus);
+                    throw new ParseException(Payment.MESSAGE_CONSTRAINTS);
+                }
+                keywords.add(trimmedStatus);
+            }
+
+            logger.log(Level.FINE, "List filter selected: paymentStatus=" + keywords);
+            paymentPredicate = new PaymentStatusMatchesPredicate(keywords);
+        }
+
+        if (classPredicate != null || tutorPredicate != null || paymentPredicate != null) {
+            return new ListCommand(classPredicate, tutorPredicate, paymentPredicate);
         }
 
         // If arguments are provided but no valid prefix, throw exception
