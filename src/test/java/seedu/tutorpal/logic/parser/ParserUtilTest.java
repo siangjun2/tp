@@ -1,17 +1,16 @@
 package seedu.tutorpal.logic.parser;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static seedu.tutorpal.logic.parser.ParserUtil.MESSAGE_INVALID_INDEX;
-import static seedu.tutorpal.testutil.Assert.assertThrows;
-import static seedu.tutorpal.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
-
 import org.junit.jupiter.api.Test;
 
+import static seedu.tutorpal.logic.parser.ParserUtil.MESSAGE_INVALID_INDEX;
 import seedu.tutorpal.logic.parser.exceptions.ParseException;
 import seedu.tutorpal.model.person.Address;
 import seedu.tutorpal.model.person.Email;
 import seedu.tutorpal.model.person.Name;
 import seedu.tutorpal.model.person.Phone;
+import static seedu.tutorpal.testutil.Assert.assertThrows;
+import static seedu.tutorpal.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 
 public class ParserUtilTest {
     private static final String INVALID_NAME = "R@chel";
@@ -20,7 +19,7 @@ public class ParserUtilTest {
     private static final String INVALID_EMAIL = "example.com";
 
     private static final String VALID_NAME = "Rachel Walker";
-    private static final String VALID_PHONE = "12345678";
+    private static final String VALID_PHONE = "91234567";
     private static final String VALID_ADDRESS = "123 Main Street #0505";
     private static final String VALID_EMAIL = "rachel@example.com";
 

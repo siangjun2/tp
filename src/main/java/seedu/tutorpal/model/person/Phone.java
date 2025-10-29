@@ -1,6 +1,7 @@
 package seedu.tutorpal.model.person;
 
 import static java.util.Objects.requireNonNull;
+
 import static seedu.tutorpal.commons.util.AppUtil.checkArgument;
 
 /**
@@ -11,8 +12,8 @@ public class Phone {
 
 
     public static final String MESSAGE_CONSTRAINTS =
-            "Phone numbers should be a valid 8-digit Singapore phone number";
-    public static final String VALIDATION_REGEX = "\\d{8}";
+            "Phone numbers should be a valid 8-digit Singapore phone number starting with 6, 8, or 9";
+    public static final String VALIDATION_REGEX = "[689]\\d{7}";
     public final String value;
 
     /**
