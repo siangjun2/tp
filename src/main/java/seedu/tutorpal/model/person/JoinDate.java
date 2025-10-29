@@ -3,6 +3,7 @@ package seedu.tutorpal.model.person;
 import static java.util.Objects.requireNonNull;
 import static seedu.tutorpal.commons.util.AppUtil.checkArgument;
 
+import java.time.Clock;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
@@ -14,7 +15,7 @@ import java.time.format.ResolverStyle;
  * Guarantees: immutable; is valid as declared in
  * {@link #isValidJoinDate(String)}
  */
-public class JoinDate {
+public final class JoinDate {
 
     public static final String MESSAGE_CONSTRAINTS = "Join dates should be in the format dd-MM-yyyy, "
             + "and it should be a valid date!";
@@ -50,6 +51,13 @@ public class JoinDate {
      */
     public static JoinDate now() {
         return new JoinDate(LocalDate.now());
+    }
+
+    /**
+     * Testable version of now
+     */
+    public static JoinDate now(Clock nowClock) {
+        return new JoinDate(LocalDate.now(nowClock));
     }
 
     /**
@@ -92,12 +100,14 @@ public class JoinDate {
 
     @Override
     public String toString() {
+        // Validating invariant. value should not be mutable, and can never be null.
         assert value != null : "JoinDate value should not be null";
         return value.format(DATE_FORMATTER);
     }
 
     @Override
     public boolean equals(Object other) {
+        // Validating invariant. value should not be mutable.
         assert value != null : "JoinDate value should not be null";
         if (other == this) {
             return true;
@@ -114,6 +124,7 @@ public class JoinDate {
 
     @Override
     public int hashCode() {
+        // Validating invariant. value should not be mutable.
         assert value != null : "JoinDate value should not be null";
         return value.hashCode();
     }

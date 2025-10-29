@@ -1,6 +1,6 @@
 ---
   layout: default.md
-  title: "User Guide"
+  title: "TutorPal User Guide"
   pageNav: 3
 ---
 
@@ -55,7 +55,7 @@ TODO
 * Parameters can be in any order.<br>
   e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
 
-* Extraneous parameters for commands that do not take in parameters (such as `help`, `exit` and `clear`) will be ignored.<br>
+* Extraneous parameters for commands that do not take in parameters (such as `exit` and `clear`) will be ignored.<br>
   e.g. if the command specifies `exit 123`, it will be interpreted as `exit`.
 
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
@@ -76,21 +76,21 @@ Format:
 Adds a student or tutor to the system.
 
 Format:
-`add r/ROLE n/NAME p/PHONE e/EMAIL c/CLASS [a/ADDRESS] [j/JOINDATE] [c/MORE_CLASSES]...`
+`add r/ROLE n/NAME p/PHONE e/EMAIL c/CLASS [a/ADDRESS] [d/JOINDATE] [c/MORE_CLASSES]...`
 
 Examples:
-- add r/student n/Kevin p/98761234 e/kevin@gmail.com a/Kent Ridge c/s4mon1600 j/06-10-2025
-- add r/tutor n/Calvin p/99998888 e/calvin@gmail.com a/Jurong West c/s4mon1600 c/s1mon1800
+- add r/student n/Kevin p/98761234 e/kevin@gmail.com a/Kent Ridge c/s4mon1600 d/06-10-2025
+- add r/tutor n/Calvin p/99998888 e/calvin@gmail.com c/s4mon1600 d/29-10-2025 c/s1mon1800
 
 What to know:
 - ROLE must be student or tutor.
 - At least one class is required (c/). Class format: s[level][day][time], e.g., s4mon1600.
 - Address (a/) is optional.
-- Join date (j/) is optional; defaults to today. Format: dd-MM-yyyy.
+- Join date (d/) is optional; defaults to today. Format: dd-MM-yyyy.
 
 Corner cases:
 - Students can have exactly one class; tutors can have one or more classes (repeat c/).
-- Repeating the same non-repeatable field (r/, n/, p/, e/, a/) is not allowed and shows a “repeated field” error.
+- Repeating the same non-repeatable field (r/, n/, p/, e/, a/, d/) is not allowed and shows a “repeated field” error.
 - If any value is invalid (e.g., phone, email, class), the command fails with a clear message.
 
 <box type="tip" seamless>

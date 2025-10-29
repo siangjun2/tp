@@ -18,34 +18,33 @@ import seedu.tutorpal.model.person.WeeklyAttendance;
 import seedu.tutorpal.model.person.exceptions.InvalidRangeException;
 
 /**
- * Marks the attendance of a student in the address book.
+ * Unmarks the attendance of a student for a specified week.
  */
-public class MarkCommand extends Command {
+public class UnmarkCommand extends Command {
 
-    public static final String COMMAND_WORD = "mark";
+    public static final String COMMAND_WORD = "unmark";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Marks the attendance of the student as having attended class for the specified week.\n"
-            + "Parameters: INDEX     "
-            + PREFIX_ATTENDANCE_WEEK + "WEEK"
-            + "\n"
-            + "Example: " + COMMAND_WORD + " 3 " + PREFIX_ATTENDANCE_WEEK + "W26-2025";
+            + ": Unmarks the attendance of the student for the specified week.\n"
+            + "Parameters: INDEX "
+            + PREFIX_ATTENDANCE_WEEK + "WEEK\n"
+            + "Example: " + COMMAND_WORD + " 2 " + PREFIX_ATTENDANCE_WEEK + "W26-2025";
 
     // SHORTENED is used for help command
     public static final String MESSAGE_USAGE_SHORTENED = COMMAND_WORD + ":\t" + COMMAND_WORD + " INDEX "
-            + PREFIX_ATTENDANCE_WEEK + "WEEK" + "\n\t\tExample: " + COMMAND_WORD + " 1";
+            + PREFIX_ATTENDANCE_WEEK + "WEEK\n\t\tExample: "
+            + COMMAND_WORD + " 1 " + PREFIX_ATTENDANCE_WEEK + "W26-2025";
 
-    public static final String MESSAGE_SUCCESS = "Marked attendance for: %1$s on %2$s.";
-    public static final String MESSAGE_CANNOT_MARK_FOR_ROLE = "Cannot mark attendance for %1$s.";
+    public static final String MESSAGE_SUCCESS = "Unmarked attendance for: %1$s on %2$s.";
+    public static final String MESSAGE_CANNOT_UNMARK_FOR_ROLE = "Cannot unmark attendance for %1$s.";
 
     private final Index index;
     private final WeeklyAttendance week;
 
     /**
-     * Creates a MarkCommand to mark attendance of the specified person on specified
-     * week.
+     * Creates an Unmark Command to be executed later.
      */
-    public MarkCommand(Index index, WeeklyAttendance week) {
+    public UnmarkCommand(Index index, WeeklyAttendance week) {
         //Based on AddressBookParser and ParserUtil implementation, impossible for null to be passed to commands
         //constructor. No input validation here, only checking invariant.
         assert index != null : "Index should not be null (guaranteed by parser)";
@@ -63,40 +62,38 @@ public class MarkCommand extends Command {
             throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
         }
 
-        Person personToMark = lastShownList.get(index.getZeroBased());
+        Person personToUnmark = lastShownList.get(index.getZeroBased());
 
-        //Block tutor roles as it does not have attendance history.
-        if (personToMark.getRole() == Role.TUTOR) {
-            throw new CommandException(String.format(MESSAGE_CANNOT_MARK_FOR_ROLE, Role.TUTOR));
+        if (personToUnmark.getRole() == Role.TUTOR) {
+            throw new CommandException(String.format(MESSAGE_CANNOT_UNMARK_FOR_ROLE, Role.TUTOR));
         }
 
-        //Should be student role only. Change to switch statement if got more roles.
-        assert personToMark instanceof Student;
+        //Should be student role only. Test with assertion in case more roles are added.
+        assert personToUnmark instanceof Student;
         AttendanceHistory newAttendanceHistory;
-        AttendanceHistory oldAttendanceHistory = personToMark.getAttendanceHistory(); //Should not throw errors
+        AttendanceHistory oldHistory = personToUnmark.getAttendanceHistory(); //should not throw errors
         try {
-            newAttendanceHistory = oldAttendanceHistory.markAttendance(week);
+            newAttendanceHistory = oldHistory.unmarkAttendance(week);
         } catch (InvalidRangeException e) {
             throw new CommandException(e.getMessage()); //For range Messages, no need to append additional details.
         } catch (IllegalStateException e) {
             // Adding Person name for better user feedback.
-            throw new CommandException(String.format(e.getMessage(), personToMark.getName()));
+            throw new CommandException(String.format(e.getMessage(), personToUnmark.getName()));
         }
 
         // Create a new Student with updated attendance history
-        Person markedPerson = new Student(
-                personToMark.getName(),
-                personToMark.getPhone(),
-                personToMark.getEmail(),
-                personToMark.getAddress(),
-                personToMark.getClasses(),
-                personToMark.getJoinDate(),
+        Person unmarkedPerson = new Student(
+                personToUnmark.getName(),
+                personToUnmark.getPhone(),
+                personToUnmark.getEmail(),
+                personToUnmark.getAddress(),
+                personToUnmark.getClasses(),
+                personToUnmark.getJoinDate(),
                 newAttendanceHistory,
-                personToMark.getPaymentHistory());
+                personToUnmark.getPaymentHistory());
 
-        model.setPerson(personToMark, markedPerson);
-
-        return new CommandResult(String.format(MESSAGE_SUCCESS, markedPerson.getName(), this.week));
+        model.setPerson(personToUnmark, unmarkedPerson);
+        return new CommandResult(String.format(MESSAGE_SUCCESS, unmarkedPerson.getName(), week));
     }
 
     @Override
@@ -104,14 +101,11 @@ public class MarkCommand extends Command {
         if (other == this) {
             return true;
         }
-
-        if (!(other instanceof MarkCommand)) {
+        if (!(other instanceof UnmarkCommand)) {
             return false;
         }
-
-        MarkCommand otherCommand = (MarkCommand) other;
-        return index.equals(otherCommand.index)
-                && week.equals(otherCommand.week);
+        UnmarkCommand o = (UnmarkCommand) other;
+        return index.equals(o.index) && week.equals(o.week);
     }
 
     @Override
