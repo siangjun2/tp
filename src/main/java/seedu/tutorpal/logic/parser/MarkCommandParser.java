@@ -1,11 +1,11 @@
 package seedu.tutorpal.logic.parser;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.tutorpal.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_ATTENDANCE_WEEK;
 
 import seedu.tutorpal.commons.core.index.Index;
+import static seedu.tutorpal.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import seedu.tutorpal.logic.commands.MarkCommand;
+import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_ATTENDANCE_WEEK;
 import seedu.tutorpal.logic.parser.exceptions.ParseException;
 import seedu.tutorpal.model.person.WeeklyAttendance;
 
@@ -29,6 +29,8 @@ public class MarkCommandParser implements Parser<MarkCommand> {
                 || argMultimap.getValue(PREFIX_ATTENDANCE_WEEK).isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, MarkCommand.MESSAGE_USAGE));
         }
+
+        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_ATTENDANCE_WEEK);
 
         // Get index. Throws parse exception.
         Index index = ParserUtil.parseIndex(argMultimap.getPreamble());
