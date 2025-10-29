@@ -29,16 +29,15 @@ public final class WeeklyAttendance {
             + "where:\n"
             + "1) W is case insensitive,\n"
             + "2) week number [XX] is between 01 and 52 (or 53 if that year has 53 weeks), and\n"
-            + "3) YYYY is a 4-digit year between 0001 and 9999. "
+            + "3) YYYY is a 4-digit year between 2000 and 9999 inclusive. "
             + "This week format is following the international standard of ISO-8601 week numbering.\n"
             + "Example: W04-2025 represents the fourth ISO week of 2025.";
 
     public static final int FIRST_WEEK_NUMBER = 1;
 
     // Allow up to 53 weeks (some ISO years have 53)
-    // Does not allow Year 0000 because of Year.of() limitations.
     public static final String WEEKLY_ATTENDANCE_REGEX =
-            "(?i)^W(0[1-9]|[1-4][0-9]|5[0-3])-(?!0000)(\\d{4})$";
+            "(?i)^W(0[1-9]|[1-4][0-9]|5[0-3])-([2-9]\\d{3})$";
 
     private final int weekIndex; // 01 to 52 or 53 depending on year
     private final Year year; //immutable
@@ -52,6 +51,7 @@ public final class WeeklyAttendance {
     public WeeklyAttendance(int weekIndex, Year year) {
         requireAllNonNull(weekIndex, year);
         checkArgument(isValidWeekIndex(weekIndex, year), MESSAGE_CONSTRAINTS);
+        checkArgument(isValidYear(year), MESSAGE_CONSTRAINTS);
         this.weekIndex = weekIndex;
         this.year = year;
     }
@@ -77,6 +77,7 @@ public final class WeeklyAttendance {
         int yearValue = Integer.parseInt(matcher.group(2));
         Year year = Year.of(yearValue);
         assert isValidWeekIndex(weekIndex, year);
+        assert isValidYear(year);
 
         this.weekIndex = weekIndex;
         this.year = year;
@@ -97,7 +98,7 @@ public final class WeeklyAttendance {
             int yearValue = Integer.parseInt(matcher.group(2));
             Year year = Year.of(yearValue);
 
-            return isValidWeekIndex(weekIndex, year);
+            return isValidWeekIndex(weekIndex, year) && isValidYear(year);
         }
         return false;
     }
@@ -110,6 +111,15 @@ public final class WeeklyAttendance {
         requireNonNull(year);
         return WeeklyAttendance.FIRST_WEEK_NUMBER <= weekIndex
                 && weekIndex <= getNumberOfWeeksInIsoYear(year.getValue());
+    }
+
+    /**
+     * Returns true if a given year is valid. ie 2000 <= year <= 9999
+     */
+    private static boolean isValidYear(Year year) {
+        // Enforce year 2000–9999 and valid ISO week for that year
+        int yearValue = year.getValue();
+        return yearValue >= 2000 && yearValue <= 9999;
     }
 
     /**
