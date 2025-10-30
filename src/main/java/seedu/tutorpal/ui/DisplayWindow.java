@@ -8,7 +8,6 @@ import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import seedu.tutorpal.commons.core.LogsCenter;
 
@@ -40,14 +39,15 @@ public class DisplayWindow extends UiPart<Stage> {
         this(new Stage(), personInfo);
     }
 
-    /** Builds coloured text into the TextFlow.
-     *  Example colouring rules: "paid" -> green, "overdue" -> red
-     *  You can adjust the sets or make this accept parameters.
+    /**
+     * Builds coloured text into the TextFlow.
+     * Example colouring rules: "paid" -> green, "overdue" -> red
+     * You can adjust the sets or make this accept parameters.
      */
     private void setRichMessage(String message) {
         // Example vocabulary to colour
         Set<String> greenWords = new HashSet<>(Arrays.asList("paid", "present"));
-        Set<String> redWords   = new HashSet<>(Arrays.asList("unpaid", "absent"));
+        Set<String> redWords = new HashSet<>(Arrays.asList("unpaid", "absent"));
 
         messageFlow.getChildren().clear();
 
