@@ -4,7 +4,7 @@ import static seedu.tutorpal.model.person.Role.STUDENT;
 
 import java.time.Clock;
 import java.time.LocalDate;
-import java.time.temporal.IsoFields;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -146,7 +146,36 @@ public class Student extends Person {
      * @see WeeklyAttendance
      */
     public String printAttendanceHistory() {
+        HashMap<WeeklyAttendance, Boolean> attendanceWeeks = new HashMap<>();
+        LocalDate today = LocalDate.now();
+        WeeklyAttendance todayWeeklyAttendance = WeeklyAttendance.of(today);
+        for (int i = 0; i < 10; i++) {
+            attendanceWeeks.put(todayWeeklyAttendance.minusWeeks(i), false);
+        }
+
         List<WeeklyAttendance> attendanceList = attendanceHistory.getLatestAttendance();
+        for (WeeklyAttendance weeklyAttendance : attendanceList) {
+            attendanceWeeks.replace(weeklyAttendance, true);
+        }
+
+        String output = "";
+        int iterator = 0;
+        LocalDate joinDate = super.getJoinDate().toLocalDate();
+        WeeklyAttendance joinWeeklyAttendance = WeeklyAttendance.of(joinDate);
+        if (joinWeeklyAttendance.isAfter(todayWeeklyAttendance.minusWeeks(10 - 1))) {
+            iterator = todayWeeklyAttendance.subtractWeeklyAttendance(joinWeeklyAttendance);
+        }
+        for (int i = iterator; i < 10; i++) {
+            WeeklyAttendance currWeeklyAttendance = todayWeeklyAttendance.minusWeeks(10 - 1 - i);
+            if (attendanceWeeks.get(currWeeklyAttendance)) {
+                output += String.format("W%d:present ", currWeeklyAttendance.getWeekIndex());
+            } else {
+                output += String.format("W%d:absent ", currWeeklyAttendance.getWeekIndex());
+            }
+        }
+
+        return output;
+        /*List<WeeklyAttendance> attendanceList = attendanceHistory.getLatestAttendance();
         boolean[] latestTenWeeks = new boolean[10];
         LocalDate today = LocalDate.now();
         int nowWeek = today.get(IsoFields.WEEK_OF_WEEK_BASED_YEAR);
@@ -168,7 +197,7 @@ public class Student extends Person {
             }
         }
 
-        return output;
+        return output;*/
     }
 
     @Override
