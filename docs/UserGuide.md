@@ -88,18 +88,18 @@ Format:
 `add r/ROLE n/NAME p/PHONE e/EMAIL c/CLASS [a/ADDRESS] [d/JOINDATE] [c/MORE_CLASSES]...`
 
 Examples:
-- add r/student n/Kevin p/98761234 e/kevin@gmail.com a/Kent Ridge c/s4mon1600 d/06-10-2025
-- add r/tutor n/Calvin p/99998888 e/calvin@gmail.com c/s4mon1600 d/29-10-2025 c/s1mon1800
+- `add r/student n/Kevin p/98761234 e/kevin@gmail.com a/Kent Ridge c/s4mon1600 d/06-10-2025`
+- `add r/tutor n/Calvin p/99998888 e/calvin@gmail.com c/s4mon1600 d/29-10-2025 c/s1mon1800`
 
 What to know:
 - ROLE must be student or tutor.
-- At least one class is required (c/). Class format: s[level][day][time], e.g., s4mon1600.
-- Address (a/) is optional.
-- Join date (d/) is optional; defaults to today. Format: dd-MM-yyyy. Year must be from 2000 onwards.
+- At least one class is required (`c/`). Class format: s[level][day][time], e.g., s4mon1600.
+- Address (`a/`) is optional.
+- Join date (`d/`) is optional; defaults to today. Format: dd-MM-yyyy. Year must be from 2000 onwards.
 
 Corner cases:
-- Students can have exactly one class; tutors can have one or more classes (repeat c/).
-- Repeating the same non-repeatable field (r/, n/, p/, e/, a/, d/) is not allowed and shows a “repeated field” error.
+- Students can have exactly one class; tutors can have one or more classes (repeat `c/`).
+- Repeating the same non-repeatable field (`r/`, `n/`, `p/`, `e/`, `a/`, `d/`) is not allowed and shows a “repeated field” error.
 - If any value is invalid (e.g., phone, email, class), the command fails with a clear message.
 
 <box type="tip" seamless>
@@ -124,7 +124,7 @@ What to know:
         * s4 - all Secondary 4 classes (any day/time)
         * s4mon - all Secondary 4 Monday classes (any time)
     * If you provide only part of the class, it acts as a wildcard for the remaining parts
-* `list tu/...` shows **students** enrolled in any class taught by tutors whose name contains the given keyword
+* `list t/...` shows **students** enrolled in any class taught by tutors whose name contains the given keyword
     * The keyword can be **any continuous part** of the name (in order), and matching is case-insensitive
     * If multiple tutors match, students from **all** those tutors' classes are listed (duplicates removed)
 * `list ps/...` shows **students/tutors** by monthly payment status (tuition fees for students, salary for tutors)
@@ -144,6 +144,20 @@ Examples:
 * `list t/Alex` - **students** taught by any tutor whose name contains `Alex`
 * `list ps/paid` - shows persons whose payment status is **Paid**
 
+### Displaying a person: `display`
+
+Displays detailed information about a person in TutorPal.
+
+Format:
+`display INDEX`
+
+* Displays the person at the specified `INDEX`.
+* The index refers to the index number shown in the displayed person list.
+* The index **must be a positive integer** 1, 2, 3, …​
+
+Examples:
+- `display 3`
+
 ### Editing a person : `edit`
 
 Edits an existing person in TutorPal.
@@ -152,21 +166,21 @@ Format:
 `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [d/JOINDATE] [c/CLASS]…`
 
 Examples:
-- edit 1 p/91234567 e/johndoe@example.com
-- edit 2 c/s4mon1600 c/s4wed1400 (For a tutor)
-- edit 3 d/15-02-2024
+- `edit 1 p/91234567 e/johndoe@example.com`
+- `edit 2 c/s4mon1600 c/s4wed1400` (For a tutor)
+- `edit 3 d/15-02-2024`
 
 What to know:
 - INDEX refers to the number shown in the list (1-based).
 - At least one field must be provided.
-- Role (r/) cannot be edited.
+- Role (`r/`) cannot be edited.
 - Editing classes replaces all existing classes (not added on top).
-- Join date (d/) must be from year 2000 onwards.
+- Join date (`d/`) must be from year 2000 onwards.
 
 Corner cases:
 - Students must end up with exactly one class. If you provide more than one class for a student, the edit fails.
-- Providing an empty class (c/ with no value) is not allowed; at least one class is required.
-- Changing join date (d/) is allowed, but any already-marked attendance must still be valid with the new join date:
+- Providing an empty class (`c/` with no value) is not allowed; at least one class is required.
+- Changing join date (`d/`) is allowed, but any already-marked attendance must still be valid with the new join date:
   - Attendance is valid only from the student’s join week up to the current week (inclusive).
   - If the new join date would make some marked weeks invalid, the edit will fail. Unmark those weeks first, then edit the join date. 
   - This avoids unexpected hidden changes while ensuring all attendance are valid.
@@ -197,7 +211,7 @@ Format:
 `mark INDEX w/[ATTENDANCEWEEK]`
 
 Example:
-- mark 3 w/W10-2024
+- `mark 3 w/W10-2024`
 
 What to know:
 - Only students can be marked; marking tutors shows an error.
@@ -223,7 +237,7 @@ Format:
 `unmark INDEX w/[ATTENDANCEWEEK]`
 
 Example:
-- unmark 3 w/W10-2024
+- `unmark 3 w/W10-2024`
 
 What to know:
 - Only students can be unmarked; attempting to unmark a tutor shows an error.
@@ -361,6 +375,7 @@ Action     | Format, Examples
 **Add**    | `add r/ROLE n/NAME p/PHONE e/EMAIL c/CLASS [a/ADDRESS] [d/JOINDATE] [c/MORE_CLASSES]...` <br> e.g., `add r/student n/Kevin p/98761234 e/kevin@gmail.com a/Kent Ridge c/s4mon1600 d/06-10-2025`
 **Clear**  | `clear`
 **Delete** | `delete INDEX`<br> e.g., `delete 3`
+**Display** | `display INDEX`<br> e.g., `display 4`
 **Edit**   | `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [d/JOINDATE] [c/CLASS]…`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
 **Exit**   | `exit`
 **Find**   | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
