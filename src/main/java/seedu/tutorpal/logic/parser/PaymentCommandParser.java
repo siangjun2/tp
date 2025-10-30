@@ -9,6 +9,7 @@ import java.time.format.DateTimeParseException;
 import java.util.logging.Logger;
 
 import seedu.tutorpal.commons.core.index.Index;
+import seedu.tutorpal.logic.Messages;
 import seedu.tutorpal.logic.commands.PaymentCommand;
 import seedu.tutorpal.logic.parser.exceptions.ParseException;
 
@@ -48,10 +49,23 @@ public class PaymentCommandParser implements Parser<PaymentCommand> {
      * @throws ParseException if the index is invalid or missing
      */
     private Index parseIndex(ArgumentMultimap argMultimap) throws ParseException {
+        String preamble = argMultimap.getPreamble().trim();
+
+        // If the preamble is numeric and <= 0, align message with out-of-range case
         try {
-            return ParserUtil.parseIndex(argMultimap.getPreamble());
+            int numeric = Integer.parseInt(preamble);
+            if (numeric <= 0) {
+                logger.warning("Non-positive index in payment command: " + preamble);
+                throw new ParseException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+            }
+        } catch (NumberFormatException ignore) {
+            // Not a plain integer; fall through to standard parsing/format handling
+        }
+
+        try {
+            return ParserUtil.parseIndex(preamble);
         } catch (ParseException pe) {
-            logger.warning("Invalid index in payment command: " + argMultimap.getPreamble());
+            logger.warning("Invalid index in payment command: " + preamble);
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, PaymentCommand.MESSAGE_USAGE), pe);
         }
