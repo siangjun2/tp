@@ -132,6 +132,22 @@ public class PaymentHistory {
     }
 
     /**
+     * Deletes the payment record for a specific month, if present.
+     * After deletion, queries like isMonthPaid(month) will return false for the deleted month.
+     *
+     * @param month The month whose record should be deleted (must not be null)
+     * @return A new PaymentHistory without an entry for the specified month
+     * @throws IllegalArgumentException if the month is before join date or in the future
+     */
+    public PaymentHistory deleteMonth(YearMonth month) {
+        assert month != null : "Month cannot be null";
+        validateMonth(month);
+        Set<MonthlyPayment> newPayments = new HashSet<>(monthlyPayments);
+        newPayments.removeIf(payment -> payment.getMonth().equals(month));
+        return new PaymentHistory(joinDate, newPayments);
+    }
+
+    /**
      * Returns a new PaymentHistory adjusted to the provided join date.
      * Ensures no existing monthly payment falls before the new join month.
      *

@@ -267,6 +267,21 @@ Details:
 Examples (assume today is Oct 2025):
 * `unpay 3 m/09-2025`- marks Sept 2025 as unpaid for person #3
 
+### Deleting a payment record: `delpay`
+
+Removes the stored payment record for a specific month.
+
+Format: `delpay INDEX m/MM-YYYY`
+
+Details:
+* Deletes the record for the specified month and year for the person at `INDEX`
+* Month format must be MM-YYYY (e.g., 04-2025)
+* You can only delete months from the Join Month up to the current month
+* After deletion, the month is treated as unpaid for display and status
+
+Example:
+* `delpay 2 m/08-2025`
+
 --------------------------------------------------------------------------------------------------------------------
 
 ## Deleting a person : `delete`
@@ -341,4 +356,5 @@ Action     | Format, Examples
 **Unmark** | `unmark INDEX w/[ATTENDANCEWEEK]`<br> e.g., `unmark 3 w/W10-2024`
 **Pay**    | `pay INDEX m/MM-YYYY [m/MM-YYYY]`
 **Unpay**  | `unpay INDEX m/MM-YYYY [m/MM-YYYY]`
+**Delpay** | `delpay INDEX m/MM-YYYY`
 **Help**   | `help`

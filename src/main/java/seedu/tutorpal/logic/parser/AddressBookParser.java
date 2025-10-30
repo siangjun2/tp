@@ -20,6 +20,7 @@ import seedu.tutorpal.logic.commands.HelpCommand;
 import seedu.tutorpal.logic.commands.ListCommand;
 import seedu.tutorpal.logic.commands.MarkCommand;
 import seedu.tutorpal.logic.commands.PaymentCommand;
+import seedu.tutorpal.logic.commands.DelpayCommand;
 import seedu.tutorpal.logic.commands.UnmarkCommand;
 import seedu.tutorpal.logic.commands.UnpayCommand;
 import seedu.tutorpal.logic.parser.exceptions.ParseException;
@@ -87,6 +88,9 @@ public class AddressBookParser {
 
         case PaymentCommand.COMMAND_WORD:
             return new PaymentCommandParser().parse(arguments);
+
+        case DelpayCommand.COMMAND_WORD:
+            return new DelpayCommandParser().parse(arguments);
 
         case UnpayCommand.COMMAND_WORD:
             return new UnpayCommandParser().parse(arguments);
