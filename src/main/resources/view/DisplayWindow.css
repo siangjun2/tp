@@ -1,0 +1,8 @@
+.display-window {
+    -fx-background-color: #1e1e1e;
+    -fx-font-family: "Consolas", monospace;
+}
+
+#messageFlow Text {
+    -fx-fill: white;
+}

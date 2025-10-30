@@ -7,6 +7,7 @@ import seedu.tutorpal.logic.commands.AddCommand;
 import seedu.tutorpal.logic.commands.ClearCommand;
 import seedu.tutorpal.logic.commands.Command;
 import seedu.tutorpal.logic.commands.DeleteCommand;
+import seedu.tutorpal.logic.commands.DisplayCommand;
 import seedu.tutorpal.logic.commands.EditCommand;
 import seedu.tutorpal.logic.commands.ExitCommand;
 import seedu.tutorpal.logic.commands.FindCommand;
@@ -42,6 +43,7 @@ public class CommandWord {
         AddCommand.class,
         ClearCommand.class,
         DeleteCommand.class,
+        DisplayCommand.class,
         EditCommand.class,
         ExitCommand.class,
         FindCommand.class,

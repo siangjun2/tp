@@ -37,6 +37,8 @@ public class MarkCommandParser implements Parser<MarkCommand> {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, MarkCommand.MESSAGE_USAGE));
         }
 
+        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_ATTENDANCE_WEEK);
+
         // Get index. Throws parse exception.
         Index index = ParserUtil.parseIndex(argMultimap.getPreamble());
 

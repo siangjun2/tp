@@ -38,6 +38,8 @@ public class UnmarkCommandParser implements Parser<UnmarkCommand> {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, UnmarkCommand.MESSAGE_USAGE));
         }
 
+        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_ATTENDANCE_WEEK);
+
         Index index = ParserUtil.parseIndex(argMultimap.getPreamble());
 
         String weekStr = argMultimap.getValue(PREFIX_ATTENDANCE_WEEK).get();

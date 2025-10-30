@@ -7,6 +7,7 @@ import java.time.Clock;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Optional;
+import java.util.List;
 import java.util.Set;
 
 import seedu.tutorpal.commons.util.ToStringBuilder;
@@ -78,6 +79,15 @@ public final class AttendanceHistory {
         }
         // Use Set.copyOf() so code is more defended
         this.weeklyAttendances = Set.copyOf(attendances);
+    }
+
+    public List<WeeklyAttendance> getLatestAttendance() {
+        List<WeeklyAttendance> sorted = weeklyAttendances.stream()
+            .sorted((a, b) -> b.compareTo(a))
+            .limit(10)
+            .toList();
+
+        return sorted;
     }
 
     /**
