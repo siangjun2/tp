@@ -18,7 +18,7 @@ import java.time.format.ResolverStyle;
 public final class JoinDate {
 
     public static final String MESSAGE_CONSTRAINTS = "Join dates should be in the format dd-MM-yyyy, "
-            + "and it should be a valid date!";
+            + "must be a valid date from year 2000 onwards, and cannot be in the future!";
 
     public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd-MM-uuuu")
             .withResolverStyle(ResolverStyle.STRICT);
@@ -62,12 +62,14 @@ public final class JoinDate {
 
     /**
      * Returns true if a given string is a valid join date.
+     * Join date must be from year 2000 onwards and not in the future.
      */
     public static boolean isValidJoinDate(String test) {
         requireNonNull(test);
         try {
-            LocalDate.parse(test, DATE_FORMATTER);
-            return true;
+            LocalDate date = LocalDate.parse(test, DATE_FORMATTER);
+            // Must be year 2000 or later, and not in the future
+            return date.getYear() >= 2000 && !date.isAfter(LocalDate.now());
         } catch (DateTimeParseException e) {
             return false;
         }
