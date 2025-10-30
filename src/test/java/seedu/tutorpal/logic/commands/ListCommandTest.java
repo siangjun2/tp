@@ -9,14 +9,14 @@ import static seedu.tutorpal.testutil.TypicalPersons.getTypicalAddressBook;
 
 import java.util.Arrays;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import seedu.tutorpal.model.Model;
 import seedu.tutorpal.model.ModelManager;
 import seedu.tutorpal.model.UserPrefs;
 import seedu.tutorpal.model.person.ClassContainsKeywordsPredicate;
 import seedu.tutorpal.model.person.StudentBelongsToTutorPredicate;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
 /**
  * Contains integration tests (interaction with the Model) and unit tests for ListCommand.
