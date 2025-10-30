@@ -22,7 +22,7 @@ public class HelpCommandTest {
     }
 
     @Test
-    public void execute_help_withCommandWord_returnsUsage() {
+    public void execute_helpCommandWord() {
         // Pick any real command word your project defines (e.g., ADD)
         CommandWord cw = CommandWord.of("add");
 
@@ -47,7 +47,7 @@ public class HelpCommandTest {
     }
 
     @Test
-    public void execute_help_resultHasNoDisplay_andDefaultPersonInfoMessage() {
+    public void execute_help_NoPerson() {
         CommandResult result = new HelpCommand().execute(model);
 
         // Ensure we are not triggering any display panel behaviour
