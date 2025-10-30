@@ -47,7 +47,7 @@ public class DisplayWindow extends UiPart<Stage> {
     private void setRichMessage(String message) {
         // Example vocabulary to colour
         Set<String> greenWords = new HashSet<>(Arrays.asList("paid", "present"));
-        Set<String> redWords = new HashSet<>(Arrays.asList("unpaid", "absent"));
+        Set<String> redWords = new HashSet<>(Arrays.asList("unpaid", "absent", "overdue"));
 
         messageFlow.getChildren().clear();
 

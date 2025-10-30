@@ -4,6 +4,10 @@ import static seedu.tutorpal.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.time.Clock;
 import java.time.LocalDate;
+import java.time.YearMonth;
+import java.time.temporal.ChronoUnit;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -127,7 +131,36 @@ public abstract class Person {
     }
 
     public String printPaymentHistory() {
-        return paymentHistory.getLatestPayments().toString();
+        HashMap<YearMonth, Boolean> paymentMonths = new HashMap<>();
+        YearMonth today = YearMonth.now();
+        for (int i = 0; i < 6; i++) {
+            paymentMonths.put(today.minusMonths(i), false);
+        }
+
+        List<MonthlyPayment> paymentList = paymentHistory.getLatestPayments();
+        for (MonthlyPayment monthlyPayment: paymentList) {
+            if (monthlyPayment.isPaid()) {
+                paymentMonths.replace(monthlyPayment.getMonth(), true);
+            }
+        }
+
+        String output = "";
+        long iterator = 0;
+        if (joinDate.toYearMonth().isAfter(today.minusMonths(6 - 1))) {
+            iterator = ChronoUnit.MONTHS.between(today.minusMonths(6 - 1), joinDate.toYearMonth()   );
+        }
+        for (long i = iterator; i < 6; i ++) {
+            YearMonth currYearMonth = today.minusMonths(6 - 1 - i);
+            if (paymentMonths.get(currYearMonth)) {
+                output += currYearMonth.toString() + ":paid ";
+            } else if (currYearMonth.equals(today)) {
+                output += currYearMonth.toString() + ":unpaid ";
+            } else {
+                output += currYearMonth.toString() + ":overdue ";
+            }
+        }
+
+        return output;
     }
 
     /**
