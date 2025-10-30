@@ -6,9 +6,7 @@
 
 # TutorPal User Guide
 
-TutorPal aims to help small math tuition centre owners manage students effortlessly by centralizing student contact info, grades, attendance, payment status, subject assignments, tutors, and class schedules in one easy-to-use command-line system. TutorPal aims to help tuition centre owners save time, make less errors, and focus on teaching instead of paperwork.
-
-TutorPal is a **desktop app for managing contacts, optimized for use via a Command Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, TutorPal can get your contact management tasks done faster than traditional GUI apps.
+TutorPal helps small, single-subject tuition centres manage students effortlessly by centralising contact details, grades, attendance, payment status, subject assignments, tutors, and class schedules in one easy-to-use command-line system (with a simple GUI). Designed for owners, tutors, and admins who are familiar with CLI workflows, it saves time, reduces errors, and lets you focus on teaching instead of paperwork.
 
 <!-- * Table of Contents -->
 <page-nav-print />
@@ -22,7 +20,7 @@ TutorPal is a **desktop app for managing contacts, optimized for use via a Comma
 
 1. Download the latest `.jar` file from [here](https://github.com/AY2526S1-CS2103T-F11-2/tp/releases).
 
-1. Copy the file to the folder you want to use as the _home folder_ for TutorPal.
+1. Copy the file to the folder you want to use as the _home folder_ for your TutorPal.
 
 1. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar tutorpal.jar` command to run the application.<br>
    A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
@@ -110,32 +108,41 @@ Tip: For tutors, add more classes by repeating c/, e.g., c/s4mon1600 c/s4wed1400
 
 ### Listing all persons : `list`
 
-Shows a list of all persons in TutorPal.
+Shows a list of students and tutors, optionally filtered by criterias.
 
 Formats:
 * `list`
 * `list c/CLASS`
 * `list tu/TUTOR`
+* `list ps/STATUS`
 
-Details:
-* `list` shows all persons' contact
-* `list c/...` shows students whose class matches the given code or prefix
+What to know:
+* `list` shows **all contacts** (students and tutors)
+* `list c/...` shows **students/tutors** whose class code matches the given code or prefix
     * Accepts same class format as add: s[1-5][day][time] (e.g. s4mon1600)
     * Prefix matching is allowed:
         * s4 - all Secondary 4 classes (any day/time)
         * s4mon - all Secondary 4 Monday classes (any time)
     * If you provide only part of the class, it acts as a wildcard for the remaining parts
-* `list tu/...` shows students enrolled in any class taught by tutors whose name contains the given substring
-    * Name matching uses Java's `String.contains` behaviour
-    * If multiple tutors match, students from all those tutors' classes are listed (duplicates removed)
-* Only one filter may be used per command (use either `c/...` or `tu/...`)
+* `list tu/...` shows **students** enrolled in any class taught by tutors whose name contains the given keyword
+    * The keyword can be **any continuous part** of the name (in order), and matching is case-insensitive
+    * If multiple tutors match, students from **all** those tutors' classes are listed (duplicates removed)
+* `list ps/...` shows **students/tutors** by monthly payment status (tuition fees for students, salary for tutors)
+    * Allowed values (case-insensitive): `paid`, `unpaid`, `overdue`
+    * Paid — every month from Join Month up to and including the current month is paid
+    * Unpaid — all months before the current month are paid, but the current month is not yet paid
+    * Overdue — there exists any unpaid month before the current month
+* Combining Filters
+    * Filters of the same type are **OR-ed**: e.g. `list c/s4 c/s2` returns students in class s4 or s2.
+    * Filters of different types are **AND-ed**: e.g. `list c/s4 ps/unpaid` returns students in s4 and with unpaid fees.
+    * Used together: e.g. `list c/s4 c/s2 ps/unpaid` returns students in s4 or s2 and with unpaid fees (duplicates removed).
 
 Examples:
 * `list` - shows all persons
 * `list c/s4` - shows **all Sec 4 students** across day/time
 * `list c/s4mon1600` - shows **Sec 4 Monday 1600** students only
 * `list tu/Alex` - **students** taught by any tutor whose name contains `Alex`
-* `list tu/` - shows **all students** assigned to at least one tutor
+* `list ps/paid` - shows persons whose payment status is **Paid**
 
 ### Editing a person : `edit`
 

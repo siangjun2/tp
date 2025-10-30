@@ -16,7 +16,7 @@ public class ClearCommand extends Command {
         + "Parameters: -\n"
         + "Example: " + COMMAND_WORD;
 
-    public static final String MESSAGE_USAGE_SHORTENED = COMMAND_WORD + ":\t" + COMMAND_WORD;
+    public static final String MESSAGE_USAGE_SHORTENED = COMMAND_WORD + ":\t\t" + COMMAND_WORD;
 
     public static final String MESSAGE_SUCCESS = "Address book has been cleared!";
 

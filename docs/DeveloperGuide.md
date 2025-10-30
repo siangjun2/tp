@@ -298,8 +298,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `* * *`  | tuition centre owner | record payment status        | collect my fees on time                                                |
 | `* * *`  | tuition centre owner | list all my student details  | get a overview of the students in my tuition centre                    |
 | `* *`    | tutor                | record attendance            | track any students who may be missing classes                          |
-| `* *`    | tutor                | filter students by tags      | find the right group of people easily                                  |
-| `*`      | user                 | view students' grade history | better understand their academic performance                           |
+| `* *`    | admin                | filter students by `class`, `tutor`, or `payment status` | find the right group of people easily                                  |
 | `*`      | tuition centre owner | Set reminders for payments   | do not forget to ask for pending payments                              |
 
 _{More to be added}_

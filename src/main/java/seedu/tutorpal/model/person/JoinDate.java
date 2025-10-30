@@ -100,6 +100,13 @@ public final class JoinDate {
         return YearMonth.from(this.value);
     }
 
+    /**
+     * Returns the underlying LocalDate value.
+     */
+    public LocalDate toLocalDate() {
+        return this.value;
+    }
+
     @Override
     public String toString() {
         // Validating invariant. value should not be mutable, and can never be null.
