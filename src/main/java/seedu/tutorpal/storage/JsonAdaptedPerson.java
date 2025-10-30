@@ -161,8 +161,15 @@ class JsonAdaptedPerson {
 
         // Create Student or Tutor based on role
         if (modelRole == Role.STUDENT) {
+            // Preserve attendance history if present in JSON; otherwise initialize empty history
+            final seedu.tutorpal.model.person.AttendanceHistory modelAttendanceHistory =
+                    (attendanceHistory == null)
+                            ? null
+                            : attendanceHistory.toModelType();
+
+            // Use constructor that accepts attendance history to avoid wiping existing records
             return new Student(modelName, modelPhone, modelEmail, modelAddress,
-                    modelClasses, modelJoinDate, modelPaymentHistory);
+                    modelClasses, modelJoinDate, modelAttendanceHistory, modelPaymentHistory);
         } else {
             return new Tutor(modelName, modelPhone, modelEmail, modelAddress,
                     modelClasses, modelJoinDate, modelPaymentHistory);
