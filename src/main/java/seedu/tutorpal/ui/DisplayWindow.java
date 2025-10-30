@@ -41,38 +41,44 @@ public class DisplayWindow extends UiPart<Stage> {
 
     /**
      * Builds coloured text into the TextFlow.
-     * Example colouring rules: "paid" -> green, "overdue" -> red
-     * You can adjust the sets or make this accept parameters.
      */
     private void setRichMessage(String message) {
-        // Example vocabulary to colour
         Set<String> greenWords = new HashSet<>(Arrays.asList("paid", "present"));
-        Set<String> redWords = new HashSet<>(Arrays.asList("unpaid", "absent"));
+        Set<String> redWords = new HashSet<>(Arrays.asList("unpaid", "absent", "overdue"));
+        Set<String> blueWords = new HashSet<>(Arrays.asList("student", "tutor"));
+        Set<String> yellowWords = new HashSet<>(Arrays.asList("pending"));
 
         messageFlow.getChildren().clear();
 
-        // Split but keep delimiters so punctuation/spaces don’t disappear
-        // This splits on word boundaries, preserving non-word chunks.
         String[] parts = message.split("(?<=\\b)|(?=\\b)");
 
         for (String part : parts) {
             Text t = new Text(part);
+            t.setStyle("-fx-font-family: 'Consolas', monospace; -fx-font-size: 11pt; -fx-fill: #cccccc;");
 
-            String lower = part.toLowerCase();
+            String lower = part.toLowerCase().trim();
+
             if (greenWords.contains(lower)) {
-                t.setStyle("-fx-fill: rgb(57,255,20);");
-                // Optional: t.setStyle("-fx-font-weight: bold;");
+                t.setStyle("-fx-font-family: 'Consolas', monospace; -fx-font-size: 11pt; "
+                        + "-fx-fill: #6a9955; -fx-font-weight: bold;");
             } else if (redWords.contains(lower)) {
-                t.setStyle("-fx-fill: red;");
-                // Optional: t.setStyle("-fx-font-weight: bold;");
-            } else {
-                // default colour inherited from CSS / theme
+                t.setStyle("-fx-font-family: 'Consolas', monospace; -fx-font-size: 11pt; "
+                        + "-fx-fill: #f48771; -fx-font-weight: bold;");
+            } else if (blueWords.contains(lower)) {
+                t.setStyle("-fx-font-family: 'Consolas', monospace; -fx-font-size: 11pt; "
+                        + "-fx-fill: #4fc3f7; -fx-font-weight: bold;");
+            } else if (yellowWords.contains(lower)) {
+                t.setStyle("-fx-font-family: 'Consolas', monospace; -fx-font-size: 11pt; "
+                        + "-fx-fill: #dcdcaa; -fx-font-weight: bold;");
             }
+
             messageFlow.getChildren().add(t);
         }
     }
 
-    /** Shows the window. */
+    /**
+     * Shows the window.
+     */
     public void show() {
         logger.fine("Showing display page about the selected contact.");
         getRoot().show();
@@ -98,5 +104,13 @@ public class DisplayWindow extends UiPart<Stage> {
      */
     public void focus() {
         getRoot().requestFocus();
+    }
+
+    /**
+     * Handles the close button action.
+     */
+    @FXML
+    private void handleClose() {
+        hide();
     }
 }
