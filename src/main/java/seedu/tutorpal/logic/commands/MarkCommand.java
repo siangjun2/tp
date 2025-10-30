@@ -26,14 +26,15 @@ public class MarkCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Marks the attendance of the student as having attended class for the specified week.\n"
-            + "Parameters: INDEX     "
+            + "Parameters: INDEX "
             + PREFIX_ATTENDANCE_WEEK + "WEEK"
             + "\n"
             + "Example: " + COMMAND_WORD + " 3 " + PREFIX_ATTENDANCE_WEEK + "W26-2025";
 
     // SHORTENED is used for help command
     public static final String MESSAGE_USAGE_SHORTENED = COMMAND_WORD + ":\t\t" + COMMAND_WORD + " INDEX "
-            + PREFIX_ATTENDANCE_WEEK + "WEEK" + "\n\t\tExample: " + COMMAND_WORD + " 1";
+        + PREFIX_ATTENDANCE_WEEK + "WEEK"
+        + "\n\t\tExample: " + COMMAND_WORD + " 1 " + PREFIX_ATTENDANCE_WEEK + "W26-2025";
 
     public static final String MESSAGE_SUCCESS = "Marked attendance for: %1$s on %2$s.";
     public static final String MESSAGE_CANNOT_MARK_FOR_ROLE = "Cannot mark attendance for %1$s.";
