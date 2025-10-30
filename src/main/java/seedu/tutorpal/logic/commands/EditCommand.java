@@ -125,7 +125,6 @@ public class EditCommand extends Command {
 
         model.setPerson(personToEdit, editedPerson);
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
-        //return new CommandResult(String.format(MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson)));
         String editedSummary = summarizeEditedFields(editPersonDescriptor);
         return new CommandResult(String.format(MESSAGE_EDIT_PERSON_SUCCESS, editedSummary));
     }
@@ -142,7 +141,9 @@ public class EditCommand extends Command {
             return "No fields edited"; // (Optional: you may have a separate guard that throws)
         }
         // trim trailing space+semicolon
-        if (sb.charAt(sb.length() - 2) == ';') sb.setLength(sb.length() - 2);
+        if (sb.charAt(sb.length() - 2) == ';') {
+            sb.setLength(sb.length() - 2);
+        }
         return sb.toString();
     }
 
