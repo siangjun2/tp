@@ -47,6 +47,13 @@ public class DelpayCommand extends Command {
     private final Index index;
     private final YearMonth month;
 
+    /**
+     * Creates a DelpayCommand to delete the specified month's payment
+     * for the person at the given index.
+     *
+     * @param index the index of the person in the filtered list
+     * @param month the month to delete from history (format: MM-yyyy)
+     */
     public DelpayCommand(Index index, YearMonth month) {
         assert index != null : "Index cannot be null";
         assert month != null : "Month cannot be null";
