@@ -242,12 +242,30 @@ Details:
 * Each person has a **Join Month** in MMMM-YYYY. Billing starts from this month inclusive
 * Month format must be MM-YYYY (e.g., 04-2025)
 * By default, paying for months **after the current month** and **before Join Month** are not allowed
+* Only one m/ is allowed, providing m/ more than once is rejected.
 * Paid - every month from **Join Month** up to **and including** the current month is paid
 * Unpaid - all months **before** the current month are paid, but the **current month** is not yet paid
 * Overdue - there exists **any unpaid month** before the current month 
 
 Examples (assume today is Oct 2025):
 * `pay 3 m/09-2025` - marks Sept 2025 as paid for person #3
+
+--------------------------------------------------------------------------------------------------------------------
+
+### Managing payments : `unpay`
+
+Reverts monthly fee payments and show each person's payment status
+
+Format: `unpay INDEX m/MM-YYYY [m/MM-YYYY]`
+
+Details:
+* Marks the specified month and year as unpaid for the person at `INDEX`
+* Month format must be MM-YYYY (e.g., 04-2025)
+* By default, unpaying months **after the current month** and **before Join Month** are not allowed
+* Only one m/ is allowed, providing m/ more than once is rejected.
+
+Examples (assume today is Oct 2025):
+* `unpay 3 m/09-2025`- marks Sept 2025 as unpaid for person #3
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -321,4 +339,6 @@ Action     | Format, Examples
 **List**   | `list [c/CLASS] [t/TUTOR]`
 **Mark**   | `mark INDEX w/[ATTENDANCEWEEK]`<br> e.g., `mark 3 w/W10-2024`
 **Unmark** | `unmark INDEX w/[ATTENDANCEWEEK]`<br> e.g., `unmark 3 w/W10-2024`
-**Help**   | `help [COMMAND_WORD]`
+**Pay**    | `pay INDEX m/MM-YYYY [m/MM-YYYY]`
+**Unpay**  | `unpay INDEX m/MM-YYYY [m/MM-YYYY]`
+**Help**   | `help`
