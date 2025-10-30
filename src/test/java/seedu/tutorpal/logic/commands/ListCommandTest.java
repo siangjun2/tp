@@ -1,15 +1,7 @@
 package seedu.tutorpal.logic.commands;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static seedu.tutorpal.logic.commands.CommandTestUtil.assertCommandSuccess;
-import static seedu.tutorpal.logic.commands.CommandTestUtil.showPersonAtIndex;
-import static seedu.tutorpal.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
-import static seedu.tutorpal.testutil.TypicalPersons.getTypicalAddressBook;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import seedu.tutorpal.model.Model;
 import seedu.tutorpal.model.ModelManager;
 import seedu.tutorpal.model.UserPrefs;
@@ -17,6 +9,13 @@ import seedu.tutorpal.model.person.ClassContainsKeywordsPredicate;
 import seedu.tutorpal.model.person.StudentBelongsToTutorPredicate;
 
 import java.util.Arrays;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.tutorpal.logic.commands.CommandTestUtil.assertCommandSuccess;
+import static seedu.tutorpal.logic.commands.CommandTestUtil.showPersonAtIndex;
+import static seedu.tutorpal.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
+import static seedu.tutorpal.testutil.TypicalPersons.getTypicalAddressBook;
 
 /**
  * Contains integration tests (interaction with the Model) and unit tests for ListCommand.
@@ -97,7 +96,7 @@ public class ListCommandTest {
     }
 
     @Test
-    public void execute_class_and_tutor() {
+    public void execute_classAndTutor() {
         ClassContainsKeywordsPredicate classPred =
             new ClassContainsKeywordsPredicate(Arrays.asList("s4"));
 
@@ -119,7 +118,7 @@ public class ListCommandTest {
     }
 
     @Test
-    public void equals_same_values_true() {
+    public void equals_sameValuesTrue() {
         ClassContainsKeywordsPredicate c1 =
             new ClassContainsKeywordsPredicate(Arrays.asList("s4"));
         StudentBelongsToTutorPredicate t1 =
@@ -134,7 +133,7 @@ public class ListCommandTest {
     }
 
     @Test
-    public void equals_different_values_false() {
+    public void equals_differentValuesFalse() {
         ListCommand all = new ListCommand();
         ListCommand classOnly = new ListCommand(
             new ClassContainsKeywordsPredicate(Arrays.asList("s3")), null, null);
