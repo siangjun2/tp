@@ -121,6 +121,29 @@ public class PaymentHistory {
     }
 
     /**
+     * Returns a new PaymentHistory adjusted to the provided join date.
+     * Ensures no existing monthly payment falls before the new join month.
+     *
+     * @param newJoinDate The new join date to apply
+     * @return a new PaymentHistory instance reflecting the new join date
+     * @throws seedu.tutorpal.model.person.exceptions.InvalidRangeException if any existing payment
+     *         is before the new join month
+     */
+    public PaymentHistory withJoinDate(JoinDate newJoinDate) {
+        YearMonth newJoinMonth = newJoinDate.toYearMonth();
+        for (MonthlyPayment payment : monthlyPayments) {
+            if (payment.getMonth().isBefore(newJoinMonth)) {
+                throw new seedu.tutorpal.model.person.exceptions.InvalidRangeException(
+                        String.format("Cannot set join date to %s as there are existing payment records "
+                                + "before this date. Earliest payment record: %s",
+                                newJoinDate.toString(), payment.getMonth()));
+            }
+        }
+        // Constructor filters out any payment that would be before join date defensively
+        return new PaymentHistory(newJoinDate.toLocalDate(), monthlyPayments);
+    }
+
+    /**
      * Validates that a month is within the valid range for payment tracking.
      * The month must be on or after the join date and cannot be in the future.
      *

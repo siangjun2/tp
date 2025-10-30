@@ -28,6 +28,7 @@ import seedu.tutorpal.model.person.Class;
 import seedu.tutorpal.model.person.Email;
 import seedu.tutorpal.model.person.JoinDate;
 import seedu.tutorpal.model.person.Name;
+import seedu.tutorpal.model.person.PaymentHistory;
 import seedu.tutorpal.model.person.Person;
 import seedu.tutorpal.model.person.Phone;
 import seedu.tutorpal.model.person.Role;
@@ -150,6 +151,16 @@ public class EditCommand extends Command {
             throw new CommandException(e.getMessage());
         }
 
+        // Rebuild payment history only if join date actually changes
+        PaymentHistory updatedPaymentHistory = personToEdit.getPaymentHistory();
+        if (!updatedJoinDate.equals(personToEdit.getJoinDate())) {
+            try {
+                updatedPaymentHistory = personToEdit.getPaymentHistory().withJoinDate(updatedJoinDate);
+            } catch (InvalidRangeException e) {
+                throw new CommandException(e.getMessage());
+            }
+        }
+
         // Construct appropriate subtype; role is not editable per parser
         if (personToEdit.getRole() == Role.STUDENT) {
             // Validating invariant : Student always have attendance history
@@ -165,14 +176,15 @@ public class EditCommand extends Command {
                 throw new CommandException(e.getMessage());
             }
             return new Student(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedClasses,
-                    updatedJoinDate, updatedAttendanceHistory);
+                    updatedJoinDate, updatedAttendanceHistory, updatedPaymentHistory);
         } else {
             // Validating invariant : Tutor never have attendance history
             if (personToEdit.hasAttendanceHistory()) {
                 // Defensive: should never happen since roles cannot be swapped
                 throw new IllegalStateException(String.format(Person.MESSAGE_NO_ATTENDANCE_HISTORY, Tutor.PERSON_WORD));
             }
-            return new Tutor(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedClasses, updatedJoinDate);
+            return new Tutor(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedClasses,
+                    updatedJoinDate, updatedPaymentHistory);
         }
     }
 
