@@ -202,7 +202,7 @@ public class Student extends Person {
 
     @Override
     public String displayInfo() {
-        return super.displayInfo() + "\n" + printAttendanceHistory();
+        return super.displayInfo() + "\n" + printAttendanceHistory() + "\n";
     }
 
     @Override
