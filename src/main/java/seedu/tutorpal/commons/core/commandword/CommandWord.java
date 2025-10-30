@@ -14,6 +14,7 @@ import seedu.tutorpal.logic.commands.FindCommand;
 import seedu.tutorpal.logic.commands.ListCommand;
 import seedu.tutorpal.logic.commands.MarkCommand;
 import seedu.tutorpal.logic.commands.PaymentCommand;
+import seedu.tutorpal.logic.commands.UnmarkCommand;
 import seedu.tutorpal.logic.commands.UnpayCommand;
 
 /**
@@ -48,6 +49,7 @@ public class CommandWord {
         FindCommand.class,
         ListCommand.class,
         MarkCommand.class,
+        UnmarkCommand.class,
         PaymentCommand.class,
         UnpayCommand.class
     );
