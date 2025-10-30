@@ -62,7 +62,7 @@ public class CommandResultTest {
     }
 
     @Test
-    public void constructor_withPersonInfo_setsShowDisplayTrue_andStoresInfo() {
+    public void constructor_withPersonInfo() {
         CommandResult withInfo = new CommandResult("feedback", false, false, "Alice • +65 9999 9999");
         assertTrue(withInfo.isShowDisplay());
         assertEquals("Alice • +65 9999 9999", withInfo.getPersonInfo());
