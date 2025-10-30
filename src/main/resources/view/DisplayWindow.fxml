@@ -8,6 +8,7 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.stage.Stage?>
+<?import javafx.scene.text.TextFlow?>
 
 <fx:root resizable="false" title="Display" type="javafx.stage.Stage" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
   <icons>
@@ -16,16 +17,17 @@
   <scene>
     <Scene>
       <stylesheets>
-        <URL value="@HelpWindow.css" />
+        <URL value="@DisplayWindow.css" />
       </stylesheets>
 
-      <HBox alignment="CENTER" fx:id="helpMessageContainer">
+      <HBox styleClass="display-window" alignment="CENTER" fx:id="helpMessageContainer">
         <children>
-          <Label fx:id="helpMessage" text="Label">
+          <!-- Replaced Label with TextFlow for per-word colouring -->
+          <TextFlow fx:id="messageFlow" id="messageFlow">
             <HBox.margin>
               <Insets right="5.0" />
             </HBox.margin>
-          </Label>
+          </TextFlow>
         </children>
         <opaqueInsets>
           <Insets bottom="10.0" left="5.0" right="10.0" top="5.0" />
