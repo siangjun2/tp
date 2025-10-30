@@ -1,7 +1,7 @@
 ---
   layout: default.md
-  title: "TutorPal User Guide"
-  pageNav: 3
+    title: "TutorPal User Guide"
+    pageNav: 3
 ---
 
 # TutorPal User Guide
@@ -63,16 +63,16 @@ TutorPal helps small, single-subject tuition centres manage students effortlessl
   e.g. if the command specifies `exit 123`, it will be interpreted as `exit`.
 
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
-</box>
+  </box>
 
 ### Viewing help : `help`
 
-Shows a message explaining how to access the [help page](https://ay2526s1-cs2103t-f11-2.github.io/tp/UserGuide.html), as well as a quick summary of all commands and how to use them. 
+Shows a message explaining how to access the [help page](https://ay2526s1-cs2103t-f11-2.github.io/tp/UserGuide.html), as well as a quick summary of all commands and how to use them.
 When used with a command, it displays a detailed description of how the command should be used.
 
 ![help message](images/helpMessage.png)
 
-Format: 
+Format:
 `help [COMMAND_WORD]`
 
 Examples:
@@ -88,18 +88,18 @@ Format:
 `add r/ROLE n/NAME p/PHONE e/EMAIL c/CLASS [a/ADDRESS] [d/JOINDATE] [c/MORE_CLASSES]...`
 
 Examples:
-- add r/student n/Kevin p/98761234 e/kevin@gmail.com a/Kent Ridge c/s4mon1600 d/06-10-2025
-- add r/tutor n/Calvin p/99998888 e/calvin@gmail.com c/s4mon1600 d/29-10-2025 c/s1mon1800
+- `add r/student n/Kevin p/98761234 e/kevin@gmail.com a/Kent Ridge c/s4mon1600 d/06-10-2025`
+- `add r/tutor n/Calvin p/99998888 e/calvin@gmail.com c/s4mon1600 d/29-10-2025 c/s1mon1800`
 
 What to know:
 - ROLE must be student or tutor.
-- At least one class is required (c/). Class format: s[level][day][time], e.g., s4mon1600.
-- Address (a/) is optional.
-- Join date (d/) is optional; defaults to today. Format: dd-MM-yyyy.
+- At least one class is required (`c/`). Class format: s[level][day][time], e.g., s4mon1600.
+- Address (`a/`) is optional.
+- Join date (`d/`) is optional; defaults to today. Format: dd-MM-yyyy.
 
 Corner cases:
-- Students can have exactly one class; tutors can have one or more classes (repeat c/).
-- Repeating the same non-repeatable field (r/, n/, p/, e/, a/, d/) is not allowed and shows a “repeated field” error.
+- Students can have exactly one class; tutors can have one or more classes (repeat `c/`).
+- Repeating the same non-repeatable field (`r/`, `n/`, `p/`, `e/`, `a/`, `d/`) is not allowed and shows a “repeated field” error.
 - If any value is invalid (e.g., phone, email, class), the command fails with a clear message.
 
 <box type="tip" seamless>
@@ -124,7 +124,7 @@ What to know:
         * s4 - all Secondary 4 classes (any day/time)
         * s4mon - all Secondary 4 Monday classes (any time)
     * If you provide only part of the class, it acts as a wildcard for the remaining parts
-* `list tu/...` shows **students** enrolled in any class taught by tutors whose name contains the given keyword
+* `list t/...` shows **students** enrolled in any class taught by tutors whose name contains the given keyword
     * The keyword can be **any continuous part** of the name (in order), and matching is case-insensitive
     * If multiple tutors match, students from **all** those tutors' classes are listed (duplicates removed)
 * `list ps/...` shows **students/tutors** by monthly payment status (tuition fees for students, salary for tutors)
@@ -144,37 +144,51 @@ Examples:
 * `list t/Alex` - **students** taught by any tutor whose name contains `Alex`
 * `list ps/paid` - shows persons whose payment status is **Paid**
 
+### Displaying a person: `display`
+
+Displays detailed information about a person in TutorPal.
+
+Format:
+`display INDEX`
+
+* Displays the person at the specified `INDEX`.
+* The index refers to the index number shown in the displayed person list.
+* The index **must be a positive integer** 1, 2, 3, …​
+
+Examples:
+- `display 3`
+
 ### Editing a person : `edit`
 
 Edits an existing person in TutorPal.
 
 Format:
-`edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [j/JOINDATE] [c/CLASS]…`
+`edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [d/JOINDATE] [c/CLASS]…`
 
 Examples:
-- edit 1 p/91234567 e/johndoe@example.com
-- edit 2 c/s4wed1400
-- edit 3 j/15-02-2024
+- `edit 1 p/91234567 e/johndoe@example.com`
+- `edit 2 c/s4wed1400`
+- `edit 3 d/15-02-2024`
 
 What to know:
 - INDEX refers to the number shown in the list (1-based).
 - At least one field must be provided.
-- Role (r/) cannot be edited.
+- Role (`r/`) cannot be edited.
 - Editing classes replaces all existing classes (not added on top).
 
 Corner cases:
 - Students must end up with exactly one class. If you provide more than one class for a student, the edit fails.
-- Providing an empty class (c/ with no value) is not allowed; at least one class is required.
-- Changing join date (j/) is allowed, but any already-marked attendance must still be valid with the new join date:
-  - Attendance is only valid from the join week up to the current week (inclusive).
-  - If the new join date would make some marked weeks invalid, the edit will fail. Unmark those weeks first, then edit the join date. This avoids hidden changes and keeps attendance clean.
+- Providing an empty class (`c/` with no value) is not allowed; at least one class is required.
+- Changing join date (`d/`) is allowed, but any already-marked attendance must still be valid with the new join date:
+    - Attendance is only valid from the join week up to the current week (inclusive).
+    - If the new join date would make some marked weeks invalid, the edit will fail. Unmark those weeks first, then edit the join date. This avoids hidden changes and keeps attendance clean.
 - If INDEX is not in the displayed list, the command fails with an “invalid index” message.
 
 ### Locating students and tutors by name: `find`
 
 Finds students and tutors whose names contain any of the given keywords.
 
-Format: 
+Format:
 `find KEYWORD [MORE_KEYWORDS]`
 
 * The search is case-insensitive. e.g `chong` will match `Chong`
@@ -186,7 +200,7 @@ Format:
 Examples:
 * `find Sheng` returns `Sheng` and `Yong Sheng`
 * `find Lee Sen More` returns `Lee Ze Xuan`, `Sen Yong Sheng` and `More Robin`
-  
+
 ### Marking attendance for students : `mark`
 
 Marks the selected student as having attended a specific ISO week.
@@ -195,16 +209,16 @@ Format:
 `mark INDEX w/[ATTENDANCEWEEK]`
 
 Example:
-- mark 3 w/W10-2024
+- `mark 3 w/W10-2024`
 
 What to know:
 - Only students can be marked; marking tutors shows an error.
 - Attendance weeks are in W[XX]-YYYY format. Where XX represents the ISO week, the student attended, and YYYY represents the corresponding year. The format is case-insensitive.
 - ISO-8601 weeks:
-  - Weeks start Monday; Week 1 is the week containing Jan 4.
-  - Some years have 53 weeks.
-  - The week “year” (YYYY) can differ from the calendar year near year-end.
-  - Valid years are 0001–9999.
+    - Weeks start Monday; Week 1 is the week containing Jan 4.
+    - Some years have 53 weeks.
+    - The week “year” (YYYY) can differ from the calendar year near year-end.
+    - Valid years are 0001–9999.
 
 Corner cases:
 - You can only mark weeks from the student’s join week up to the current week (inclusive).
@@ -221,7 +235,7 @@ Format:
 `unmark INDEX w/[ATTENDANCEWEEK]`
 
 Example:
-- unmark 3 w/W10-2024
+- `unmark 3 w/W10-2024`
 
 What to know:
 - Only students can be unmarked.
@@ -245,7 +259,7 @@ Details:
 * Only one m/ is allowed, providing m/ more than once is rejected.
 * Paid - every month from **Join Month** up to **and including** the current month is paid
 * Unpaid - all months **before** the current month are paid, but the **current month** is not yet paid
-* Overdue - there exists **any unpaid month** before the current month 
+* Overdue - there exists **any unpaid month** before the current month
 
 Examples (assume today is Oct 2025):
 * `pay 3 m/09-2025` - marks Sept 2025 as paid for person #3
@@ -345,10 +359,11 @@ Furthermore, certain edits can cause the TutorPal to behave in unexpected ways (
 
 Action     | Format, Examples
 -----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-**Add**    | `add r/ROLE n/NAME p/PHONE e/EMAIL c/CLASS [a/ADDRESS] [j/JOINDATE] [c/MORE_CLASSES]...` <br> e.g., `add r/student n/Kevin p/98761234 e/kevin@gmail.com a/Kent Ridge c/s4mon1600 j/06-10-2025`
+**Add**    | `add r/ROLE n/NAME p/PHONE e/EMAIL c/CLASS [a/ADDRESS] [d/JOINDATE] [c/MORE_CLASSES]...` <br> e.g., `add r/student n/Kevin p/98761234 e/kevin@gmail.com a/Kent Ridge c/s4mon1600 d/06-10-2025`
 **Clear**  | `clear`
 **Delete** | `delete INDEX`<br> e.g., `delete 3`
-**Edit**   | `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [j/JOINDATE] [c/CLASS]…`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
+**Display** | `display INDEX`<br> e.g., `display 4`
+**Edit**   | `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [d/JOINDATE] [c/CLASS]…`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
 **Exit**   | `exit`
 **Find**   | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
 **List**   | `list [c/CLASS] [t/TUTOR]`
