@@ -3,6 +3,7 @@ package seedu.tutorpal.model.person;
 import static java.util.Objects.requireNonNull;
 import static seedu.tutorpal.commons.util.AppUtil.checkArgument;
 
+import java.time.Clock;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
@@ -14,10 +15,10 @@ import java.time.format.ResolverStyle;
  * Guarantees: immutable; is valid as declared in
  * {@link #isValidJoinDate(String)}
  */
-public class JoinDate {
+public final class JoinDate {
 
     public static final String MESSAGE_CONSTRAINTS = "Join dates should be in the format dd-MM-yyyy, "
-            + "and it should be a valid date!";
+            + "must be a valid date from year 2000 onwards, and cannot be in the future!";
 
     public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd-MM-uuuu")
             .withResolverStyle(ResolverStyle.STRICT);
@@ -53,13 +54,22 @@ public class JoinDate {
     }
 
     /**
+     * Testable version of now
+     */
+    public static JoinDate now(Clock nowClock) {
+        return new JoinDate(LocalDate.now(nowClock));
+    }
+
+    /**
      * Returns true if a given string is a valid join date.
+     * Join date must be from year 2000 onwards and not in the future.
      */
     public static boolean isValidJoinDate(String test) {
         requireNonNull(test);
         try {
-            LocalDate.parse(test, DATE_FORMATTER);
-            return true;
+            LocalDate date = LocalDate.parse(test, DATE_FORMATTER);
+            // Must be year 2000 or later, and not in the future
+            return date.getYear() >= 2000 && !date.isAfter(LocalDate.now());
         } catch (DateTimeParseException e) {
             return false;
         }
@@ -90,14 +100,23 @@ public class JoinDate {
         return YearMonth.from(this.value);
     }
 
+    /**
+     * Returns the underlying LocalDate value.
+     */
+    public LocalDate toLocalDate() {
+        return this.value;
+    }
+
     @Override
     public String toString() {
+        // Validating invariant. value should not be mutable, and can never be null.
         assert value != null : "JoinDate value should not be null";
         return value.format(DATE_FORMATTER);
     }
 
     @Override
     public boolean equals(Object other) {
+        // Validating invariant. value should not be mutable.
         assert value != null : "JoinDate value should not be null";
         if (other == this) {
             return true;
@@ -114,6 +133,7 @@ public class JoinDate {
 
     @Override
     public int hashCode() {
+        // Validating invariant. value should not be mutable.
         assert value != null : "JoinDate value should not be null";
         return value.hashCode();
     }

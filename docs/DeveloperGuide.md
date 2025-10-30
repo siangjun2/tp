@@ -156,6 +156,7 @@ Classes used by multiple components are in the `seedu.tutorpal.commons` package.
 
 This section describes some noteworthy details on how certain features are implemented.
 
+
 ### \[Proposed\] Undo/redo feature
 
 #### Proposed Implementation
@@ -297,9 +298,10 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `* * *`  | user                 | find a person by name        | locate details of persons without having to go through the entire list |
 | `* * *`  | tuition centre owner | record payment status        | collect my fees on time                                                |
 | `* * *`  | tuition centre owner | list all my student details  | get a overview of the students in my tuition centre                    |
+| `* * *`  | tuition centre owner | unpay a month's payment      | correct payment mistakes quickly                                       |
+| `* * *`  | tuition centre owner | view monthly payment summary | see paid/unpaid/overdue at a glance                                    |
 | `* *`    | tutor                | record attendance            | track any students who may be missing classes                          |
-| `* *`    | tutor                | filter students by tags      | find the right group of people easily                                  |
-| `*`      | user                 | view students' grade history | better understand their academic performance                           |
+| `* *`    | admin                | filter students by `class`, `tutor`, or `payment status` | find the right group of people easily                                  |
 | `*`      | tuition centre owner | Set reminders for payments   | do not forget to ask for pending payments                              |
 
 _{More to be added}_
@@ -476,6 +478,14 @@ testers are expected to do more *exploratory* testing.
 
    1. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
       Expected: Similar to previous.
+
+### Paying a month (validation cases)
+1. Duplicate month (m/) provided more than once
+
+    1. Prerequisites: List all persons using the list command. Multiple persons in the list.
+
+    1. Test case: `pay 1 m/09-2025 m/09-2025`<br>
+      Expected: Command rejected with a “duplicate month” error. No changes applied.
 
 1. _{ more test cases …​ }_
 

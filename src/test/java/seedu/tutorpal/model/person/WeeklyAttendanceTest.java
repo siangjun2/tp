@@ -590,4 +590,52 @@ public class WeeklyAttendanceTest {
         Clock c3 = Clock.fixed(Instant.parse("2014-12-29T10:00:00Z"), ZoneId.of("UTC"));
         assertEquals(WeeklyAttendance.at(LocalDate.of(2014, 12, 29)), WeeklyAttendance.getCurrentWeek(c3));
     }
+
+    @Test
+    void getNumberOfWeeksInIsoYear_knownYears() {
+        assertEquals(53, WeeklyAttendance.getNumberOfWeeksInIsoYear(2015)); // Thu start
+        assertEquals(53, WeeklyAttendance.getNumberOfWeeksInIsoYear(2020)); // Leap, Wed start
+        assertEquals(52, WeeklyAttendance.getNumberOfWeeksInIsoYear(2021));
+        assertEquals(52, WeeklyAttendance.getNumberOfWeeksInIsoYear(2024));
+        assertEquals(53, WeeklyAttendance.getNumberOfWeeksInIsoYear(2026)); // Thu start
+    }
+
+    @Test
+    void at_handlesYearBoundaries_noDaysLost() {
+        // 2020 had 53 weeks; year-end days map correctly
+        WeeklyAttendance d1 = WeeklyAttendance.at(LocalDate.of(2020, 12, 31));
+        assertEquals("W53-2020", d1.toString());
+
+        // Jan 1–3, 2021 are still W53-2020
+        assertEquals("W53-2020", WeeklyAttendance.at(LocalDate.of(2021, 1, 1)).toString());
+        assertEquals("W53-2020", WeeklyAttendance.at(LocalDate.of(2021, 1, 3)).toString());
+
+        // First ISO week of 2021 starts on Jan 4
+        assertEquals("W01-2021", WeeklyAttendance.at(LocalDate.of(2021, 1, 4)).toString());
+    }
+
+    @Test
+    void validation_respects53WeekYearsOnlyWhenApplicable() {
+        assertTrue(WeeklyAttendance.isValidWeeklyAttendance("W53-2020"));
+        assertFalse(WeeklyAttendance.isValidWeeklyAttendance("W53-2021"));
+        assertTrue(WeeklyAttendance.isValidWeeklyAttendance("w01-0001")); // case-insensitive, min year
+        assertFalse(WeeklyAttendance.isValidWeeklyAttendance("W00-2020"));
+        assertFalse(WeeklyAttendance.isValidWeeklyAttendance("W54-2020"));
+        assertFalse(WeeklyAttendance.isValidWeeklyAttendance("W01-0000")); // 0000 disallowed
+    }
+
+    @Test
+    void ordering_beforeAfter() {
+        WeeklyAttendance w201553 = new WeeklyAttendance("W53-2015");
+        WeeklyAttendance w201601 = new WeeklyAttendance("W01-2016");
+        assertTrue(w201553.isBefore(w201601));
+        assertTrue(w201601.isAfter(w201553));
+    }
+
+    @Test
+    void getCurrentWeek_withFixedClock() {
+        Clock fixed = Clock.fixed(Instant.parse("2021-01-02T12:00:00Z"), ZoneId.of("UTC"));
+        WeeklyAttendance cur = WeeklyAttendance.getCurrentWeek(fixed);
+        assertEquals("W53-2020", cur.toString());
+    }
 }

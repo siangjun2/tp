@@ -6,7 +6,11 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.tutorpal.testutil.Assert.assertThrows;
 
+import java.time.Clock;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.YearMonth;
+import java.time.ZoneId;
 
 import org.junit.jupiter.api.Test;
 
@@ -43,11 +47,17 @@ public class JoinDateTest {
         assertFalse(JoinDate.isValidJoinDate("01-abc-2024")); // non-numeric month
         assertFalse(JoinDate.isValidJoinDate("01-01-abcd")); // non-numeric year
         assertFalse(JoinDate.isValidJoinDate("1-1-2024")); // single digit day and month
+        assertFalse(JoinDate.isValidJoinDate(" 15-01-2024")); // leading space
+        assertFalse(JoinDate.isValidJoinDate("15-01-2024 ")); // trailing space
 
-        // valid join dates
-        assertTrue(JoinDate.isValidJoinDate("01-01-2024")); // valid date
+        // invalid join dates (year constraints and future dates)
+        assertFalse(JoinDate.isValidJoinDate("01-01-0001")); // year before 2000
+        assertFalse(JoinDate.isValidJoinDate("31-12-1999")); // year before 2000
+        assertFalse(JoinDate.isValidJoinDate("31-12-9999")); // future date
+
+        // valid join dates (extremes and typical)
+        assertTrue(JoinDate.isValidJoinDate("01-01-2000")); // earliest valid year
         assertTrue(JoinDate.isValidJoinDate("15-06-2023")); // valid date
-        assertTrue(JoinDate.isValidJoinDate("31-12-2024")); // end of year
         assertTrue(JoinDate.isValidJoinDate("29-02-2024")); // valid leap year date
         assertTrue(JoinDate.isValidJoinDate("28-02-2023")); // valid non-leap year date
         assertTrue(JoinDate.isValidJoinDate("31-01-2024")); // January has 31 days
@@ -74,40 +84,59 @@ public class JoinDateTest {
     }
 
     @Test
-    public void equals() {
-        JoinDate joinDate = new JoinDate("15-01-2024");
+    public void now_withFixedUtcClock_returnsExpectedDate() {
+        Instant instant = Instant.parse("2025-07-01T00:00:00Z");
+        Clock clock = Clock.fixed(instant, ZoneId.of("UTC"));
 
-        // same values -> returns true
-        assertEquals(new JoinDate("15-01-2024"), joinDate);
-        assertEquals(joinDate, new JoinDate(LocalDate.of(2024, 1, 15)));
-
-        // same object -> returns true
-        assertEquals(joinDate, joinDate);
-
-        // null -> returns false
-        assertNotEquals(null, joinDate);
-
-        // different types -> returns false
-        assertNotEquals(0.5f, joinDate);
-
-        // different values -> returns false
-        assertNotEquals(new JoinDate("16-01-2024"), joinDate);
-        assertNotEquals(new JoinDate("15-02-2024"), joinDate);
-        assertNotEquals(new JoinDate("15-01-2023"), joinDate);
+        JoinDate jd = JoinDate.now(clock);
+        assertEquals("01-07-2025", jd.toString());
     }
 
     @Test
-    public void hashCode_sameDate_sameHashCode() {
-        JoinDate joinDate1 = new JoinDate("15-01-2024");
-        JoinDate joinDate2 = new JoinDate("15-01-2024");
-        assertEquals(joinDate1.hashCode(), joinDate2.hashCode());
+    public void now_withDifferentZones_reflectsZoneCalendarDate() {
+        // Same instant, different zones -> different LocalDate
+        Instant instant = Instant.parse("2025-01-01T05:00:00Z");
+
+        Clock kiritimati = Clock.fixed(instant, ZoneId.of("Pacific/Kiritimati")); // UTC+14
+        Clock honolulu = Clock.fixed(instant, ZoneId.of("Pacific/Honolulu")); // UTC-10
+
+        assertEquals("01-01-2025", JoinDate.now(kiritimati).toString());
+        assertEquals("31-12-2024", JoinDate.now(honolulu).toString());
     }
 
     @Test
-    public void hashCode_differentDate_differentHashCode() {
-        JoinDate joinDate1 = new JoinDate("15-01-2024");
-        JoinDate joinDate2 = new JoinDate("16-01-2024");
-        assertNotEquals(joinDate1.hashCode(), joinDate2.hashCode());
+    public void now_nullClock_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> JoinDate.now((Clock) null));
+    }
+
+    @Test
+    public void toYearMonth_returnsExpectedYearMonth() {
+        JoinDate jd = new JoinDate("15-07-2024");
+        YearMonth ym = jd.toYearMonth();
+        assertEquals(YearMonth.of(2024, 7), ym);
+    }
+
+    @Test
+    public void getJoinWeek_knownIsoWeek_returnsExpectedWeek() {
+        // 04-01-2025 is within ISO week 1 of 2025
+        JoinDate jd = new JoinDate("04-01-2025");
+        WeeklyAttendance expected = new WeeklyAttendance("W01-2025");
+        assertEquals(expected, jd.getJoinWeek());
+    }
+
+    @Test
+    public void equals_hashCode_contract() {
+        JoinDate a = new JoinDate("15-01-2024");
+        JoinDate b = new JoinDate(LocalDate.of(2024, 1, 15));
+        JoinDate c = new JoinDate("16-01-2024");
+
+        // equals
+        assertEquals(a, b);
+        assertNotEquals(a, c);
+
+        // hashCode
+        assertEquals(a.hashCode(), b.hashCode());
+        assertNotEquals(a.hashCode(), c.hashCode());
     }
 
     @Test

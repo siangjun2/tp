@@ -23,7 +23,7 @@ import java.util.regex.Pattern;
  * <li>Each year has either 52 or 53 weeks.</li>
  * </ul>
  */
-public class WeeklyAttendance {
+public final class WeeklyAttendance implements Comparable<WeeklyAttendance> {
 
     public static final String MESSAGE_CONSTRAINTS = "Weekly attendance must be in the format W[XX]-YYYY, "
             + "where:\n"
@@ -68,7 +68,10 @@ public class WeeklyAttendance {
 
         Pattern pattern = Pattern.compile(WEEKLY_ATTENDANCE_REGEX);
         Matcher matcher = pattern.matcher(weeklyAttendanceString);
-        assert matcher.matches() : "The weekly attendance string should match the regex pattern.";
+        if (!matcher.matches()) {
+            // Should be checked by checkArgument already.
+            throw new IllegalArgumentException(MESSAGE_CONSTRAINTS);
+        }
 
         int weekIndex = Integer.parseInt(matcher.group(1));
         int yearValue = Integer.parseInt(matcher.group(2));
@@ -120,6 +123,10 @@ public class WeeklyAttendance {
         return date.get(IsoFields.WEEK_OF_WEEK_BASED_YEAR);
     }
 
+    public int getWeekIndex() {
+        return this.weekIndex;
+    }
+
     /**
      * Check if this week is before another week.
      */
@@ -164,6 +171,17 @@ public class WeeklyAttendance {
         int weekIndex = date.get(IsoFields.WEEK_OF_WEEK_BASED_YEAR);
         int weekYear = date.get(IsoFields.WEEK_BASED_YEAR);
         return new WeeklyAttendance(weekIndex, Year.of(weekYear));
+    }
+
+    @Override
+    public int compareTo(WeeklyAttendance other) {
+        if (this.isBefore(other)) {
+            return -1;
+        } else if (this.isAfter(other)) {
+            return 1;
+        } else {
+            return 0;
+        }
     }
 
     @Override

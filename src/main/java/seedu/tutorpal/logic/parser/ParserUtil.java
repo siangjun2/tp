@@ -199,12 +199,18 @@ public class ParserUtil {
 
     /**
      * Parses {@code Collection<String> classes} into a {@code Set<Class>}.
+     * @throws ParseException if duplicate classes are detected
      */
     public static Set<Class> parseClasses(Collection<String> classes) throws ParseException {
         requireNonNull(classes);
         final Set<Class> classSet = new HashSet<>();
         for (String className : classes) {
-            classSet.add(parseClass(className));
+            Class parsedClass = parseClass(className);
+            if (!classSet.add(parsedClass)) {
+                // Duplicate class detected (add() returns false if element already exists)
+                throw new ParseException("Duplicate class detected: " + className
+                        + ". Each class should only be specified once.");
+            }
         }
         return classSet;
     }

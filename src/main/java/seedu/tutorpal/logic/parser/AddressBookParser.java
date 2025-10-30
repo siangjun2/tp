@@ -12,6 +12,7 @@ import seedu.tutorpal.logic.commands.AddCommand;
 import seedu.tutorpal.logic.commands.ClearCommand;
 import seedu.tutorpal.logic.commands.Command;
 import seedu.tutorpal.logic.commands.DeleteCommand;
+import seedu.tutorpal.logic.commands.DisplayCommand;
 import seedu.tutorpal.logic.commands.EditCommand;
 import seedu.tutorpal.logic.commands.ExitCommand;
 import seedu.tutorpal.logic.commands.FindCommand;
@@ -19,6 +20,7 @@ import seedu.tutorpal.logic.commands.HelpCommand;
 import seedu.tutorpal.logic.commands.ListCommand;
 import seedu.tutorpal.logic.commands.MarkCommand;
 import seedu.tutorpal.logic.commands.PaymentCommand;
+import seedu.tutorpal.logic.commands.UnmarkCommand;
 import seedu.tutorpal.logic.commands.UnpayCommand;
 import seedu.tutorpal.logic.parser.exceptions.ParseException;
 
@@ -65,6 +67,9 @@ public class AddressBookParser {
         case DeleteCommand.COMMAND_WORD:
             return new DeleteCommandParser().parse(arguments);
 
+        case DisplayCommand.COMMAND_WORD:
+            return new DisplayCommandParser().parse(arguments);
+
         case ClearCommand.COMMAND_WORD:
             return new ClearCommand();
 
@@ -88,6 +93,9 @@ public class AddressBookParser {
 
         case MarkCommand.COMMAND_WORD:
             return new MarkCommandParser().parse(arguments);
+
+        case UnmarkCommand.COMMAND_WORD:
+            return new UnmarkCommandParser().parse(arguments);
 
         default:
             logger.finer("This user input caused a ParseException: " + userInput);

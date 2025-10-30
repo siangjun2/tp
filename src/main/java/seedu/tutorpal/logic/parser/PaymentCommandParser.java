@@ -34,6 +34,8 @@ public class PaymentCommandParser implements Parser<PaymentCommand> {
     public PaymentCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_PAYMENT_MONTH);
 
+        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_PAYMENT_MONTH);
+
         Index index = parseIndex(argMultimap);
         YearMonth month = parsePaymentMonth(argMultimap);
 
