@@ -18,15 +18,15 @@ TutorPal helps small, single-subject tuition centres manage students effortlessl
 1. Ensure you have Java `17` or above installed in your Computer.<br>
    **Mac users:** Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
 
-1. Download the latest `.jar` file from [here](https://github.com/AY2526S1-CS2103T-F11-2/tp/releases).
+2. Download the latest `.jar` file from [here](https://github.com/AY2526S1-CS2103T-F11-2/tp/releases).
 
 1. Copy the file to the folder you want to use as the _home folder_ for your TutorPal.
 
-1. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar tutorpal.jar` command to run the application.<br>
+4. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar tutorpal.jar` command to run the application.<br>
    A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
    ![Ui](images/Ui.png)
 
-1. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
+5. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
    Some example commands you can try:
    `add r/student n/Kevin p/98761234 e/kevin@gmail.com a/Kent Ridge c/s4mon1600 d/06-10-2025`
    `add r/tutor n/Calvin p/99998888 e/calvin@gmail.com c/s4mon1600 d/29-10-2025 c/s1mon1800`
@@ -59,7 +59,7 @@ TutorPal helps small, single-subject tuition centres manage students effortlessl
 * Parameters can be in any order.<br>
   e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
 
-* Extraneous parameters for commands that do not take in parameters (such as `exit` and `clear`) will be ignored.<br>
+* Extraneous parameters for commands that do not take any parameters (such as `exit` and `clear`) will be ignored.<br>
   e.g. if the command specifies `exit 123`, it will be interpreted as `exit`.
 
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
@@ -95,7 +95,7 @@ What to know:
 - ROLE must be student or tutor.
 - At least one class is required (c/). Class format: s[level][day][time], e.g., s4mon1600.
 - Address (a/) is optional.
-- Join date (d/) is optional; defaults to today. Format: dd-MM-yyyy.
+- Join date (d/) is optional; defaults to today. Format: dd-MM-yyyy. Year must be from 2000 onwards.
 
 Corner cases:
 - Students can have exactly one class; tutors can have one or more classes (repeat c/).
@@ -149,25 +149,27 @@ Examples:
 Edits an existing person in TutorPal.
 
 Format:
-`edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [j/JOINDATE] [c/CLASS]…`
+`edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [d/JOINDATE] [c/CLASS]…`
 
 Examples:
 - edit 1 p/91234567 e/johndoe@example.com
-- edit 2 c/s4wed1400
-- edit 3 j/15-02-2024
+- edit 2 c/s4mon1600 c/s4wed1400 (For a tutor)
+- edit 3 d/15-02-2024
 
 What to know:
 - INDEX refers to the number shown in the list (1-based).
 - At least one field must be provided.
 - Role (r/) cannot be edited.
 - Editing classes replaces all existing classes (not added on top).
+- Join date (d/) must be from year 2000 onwards.
 
 Corner cases:
 - Students must end up with exactly one class. If you provide more than one class for a student, the edit fails.
 - Providing an empty class (c/ with no value) is not allowed; at least one class is required.
-- Changing join date (j/) is allowed, but any already-marked attendance must still be valid with the new join date:
-  - Attendance is only valid from the join week up to the current week (inclusive).
-  - If the new join date would make some marked weeks invalid, the edit will fail. Unmark those weeks first, then edit the join date. This avoids hidden changes and keeps attendance clean.
+- Changing join date (d/) is allowed, but any already-marked attendance must still be valid with the new join date:
+  - Attendance is valid only from the student’s join week up to the current week (inclusive).
+  - If the new join date would make some marked weeks invalid, the edit will fail. Unmark those weeks first, then edit the join date. 
+  - This avoids unexpected hidden changes while ensuring all attendance are valid.
 - If INDEX is not in the displayed list, the command fails with an “invalid index” message.
 
 ### Locating students and tutors by name: `find`
@@ -180,14 +182,14 @@ Format:
 * The search is case-insensitive. e.g `chong` will match `Chong`
 * The order of the keywords does not matter. e.g. `Chong Rui` will match `Rui Chong`
 * Only the name is searched.
-* Only full words will be matched e.g. `Shen` will not match `Sheng`
+* Only full words are matched; e.g., `Shen` will not match `Sheng`.
 * Persons matching at least one keyword will be returned (i.e. `OR` search).
 
 Examples:
 * `find Sheng` returns `Sheng` and `Yong Sheng`
 * `find Lee Sen More` returns `Lee Ze Xuan`, `Sen Yong Sheng` and `More Robin`
   
-### Marking attendance for students : `mark`
+### Marking attendance for students : `mark` {: #mark}
 
 Marks the selected student as having attended a specific ISO week.
 
@@ -199,23 +201,23 @@ Example:
 
 What to know:
 - Only students can be marked; marking tutors shows an error.
-- Attendance weeks are in W[XX]-YYYY format. Where XX represents the ISO week, the student attended, and YYYY represents the corresponding year. The format is case-insensitive.
-- ISO-8601 weeks:
-  - Weeks start Monday; Week 1 is the week containing Jan 4.
-  - Some years have 53 weeks.
-  - The week “year” (YYYY) can differ from the calendar year near year-end.
-  - Valid years are 0001–9999.
+- Attendance weeks are in WXX-YYYY format (ISO-8601), same as [unmark](#unmark).
+    - Where W is case-insensitive,
+    - XX represents the ISO week, the student attended,
+    - and YYYY represents the corresponding year. Supported years are year 2000 and onwards.
+- We are using weeks defined according to ISO-8601, which is an international standard. 
+    - This is also a common standard used in the education industry.
+    - To find out more, please visit [this page](https://www.iso.org/iso-8601-date-and-time-format.html).
+- To view marked attendances, please use the [display command](#display).
 
 Corner cases:
-- You can only mark weeks from the student’s join week up to the current week (inclusive).
-- Marking the same week again fails with “already marked”.
+- You can only mark weeks from the student’s join week up to the current week inclusive.
+- Marking the same week again fails with an error.
 - Week 53 is only valid in years that actually have 53 weeks.
 
-![markimage](images/mark.png)
+### Unmarking attendance for students : `unmark` {: #unmark}
 
-### Unmarking attendance for students : `unmark`
-
-Removes attendance for a specific ISO week.
+Unmarks the selected student as having attended a specific ISO week.
 
 Format:
 `unmark INDEX w/[ATTENDANCEWEEK]`
@@ -224,12 +226,20 @@ Example:
 - unmark 3 w/W10-2024
 
 What to know:
-- Only students can be unmarked.
-- Uses the same ISO week format as mark.
+- Only students can be unmarked; attempting to unmark a tutor shows an error.
+- Attendance weeks are in WXX-YYYY format (ISO-8601), same as [mark](#mark).
+    - W is case-insensitive,
+    - XX is the ISO week the student was previously marked for,
+    - YYYY is the corresponding year (2000 and onwards supported).
+- We are using weeks defined according to ISO-8601, which is an international standard.
+    - This is also a common standard used in the education industry.
+    - To find out more, please visit [this page](https://www.iso.org/iso-8601-date-and-time-format.html).
+- To view marked attendances before unmarking, use the [display command](#display).
 
 Corner cases:
-- You can only unmark weeks within the valid range (join week to current week, inclusive).
-- Unmarking a week that was never marked fails with “not marked yet”.
+- You can only unmark weeks from the student’s join week up to the current week inclusive.
+- Unmarking a week that was never marked fails with an error.
+- Week 53 is only valid in years that actually have ISO week 53.
 
 ### Managing payments : `pay`
 
@@ -332,6 +342,9 @@ Furthermore, certain edits can cause the TutorPal to behave in unexpected ways (
 **Q**: How do I transfer my data to another Computer?<br>
 **A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous TutorPal home folder.
 
+**Q**: Can I back up my data?<br>
+**A**: Yes. Simply copy the data folder (containing addressbook.json) to another location.
+
 --------------------------------------------------------------------------------------------------------------------
 
 ## Known issues
@@ -345,10 +358,10 @@ Furthermore, certain edits can cause the TutorPal to behave in unexpected ways (
 
 Action     | Format, Examples
 -----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-**Add**    | `add r/ROLE n/NAME p/PHONE e/EMAIL c/CLASS [a/ADDRESS] [j/JOINDATE] [c/MORE_CLASSES]...` <br> e.g., `add r/student n/Kevin p/98761234 e/kevin@gmail.com a/Kent Ridge c/s4mon1600 j/06-10-2025`
+**Add**    | `add r/ROLE n/NAME p/PHONE e/EMAIL c/CLASS [a/ADDRESS] [d/JOINDATE] [c/MORE_CLASSES]...` <br> e.g., `add r/student n/Kevin p/98761234 e/kevin@gmail.com a/Kent Ridge c/s4mon1600 d/06-10-2025`
 **Clear**  | `clear`
 **Delete** | `delete INDEX`<br> e.g., `delete 3`
-**Edit**   | `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [j/JOINDATE] [c/CLASS]…`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
+**Edit**   | `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [d/JOINDATE] [c/CLASS]…`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
 **Exit**   | `exit`
 **Find**   | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
 **List**   | `list [c/CLASS] [t/TUTOR]`
