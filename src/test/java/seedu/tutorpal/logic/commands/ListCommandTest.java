@@ -7,8 +7,7 @@ import static seedu.tutorpal.logic.commands.CommandTestUtil.showPersonAtIndex;
 import static seedu.tutorpal.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.tutorpal.testutil.TypicalPersons.getTypicalAddressBook;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import java.util.Arrays;
 
 import seedu.tutorpal.model.Model;
 import seedu.tutorpal.model.ModelManager;
@@ -16,7 +15,8 @@ import seedu.tutorpal.model.UserPrefs;
 import seedu.tutorpal.model.person.ClassContainsKeywordsPredicate;
 import seedu.tutorpal.model.person.StudentBelongsToTutorPredicate;
 
-import java.util.Arrays;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Contains integration tests (interaction with the Model) and unit tests for ListCommand.
