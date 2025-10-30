@@ -130,6 +130,9 @@ public abstract class Person {
         return paymentHistory;
     }
 
+    /**
+     * Returns the payment history of this person, up to 6 most recent, in String format.
+     */
     public String printPaymentHistory() {
         HashMap<YearMonth, Boolean> paymentMonths = new HashMap<>();
         YearMonth today = YearMonth.now();
@@ -147,9 +150,9 @@ public abstract class Person {
         String output = "";
         long iterator = 0;
         if (joinDate.toYearMonth().isAfter(today.minusMonths(6 - 1))) {
-            iterator = ChronoUnit.MONTHS.between(today.minusMonths(6 - 1), joinDate.toYearMonth()   );
+            iterator = ChronoUnit.MONTHS.between(today.minusMonths(6 - 1), joinDate.toYearMonth());
         }
-        for (long i = iterator; i < 6; i ++) {
+        for (long i = iterator; i < 6; i++) {
             YearMonth currYearMonth = today.minusMonths(6 - 1 - i);
             if (paymentMonths.get(currYearMonth)) {
                 output += currYearMonth.toString() + ":paid ";
