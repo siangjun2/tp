@@ -4,6 +4,10 @@ import static seedu.tutorpal.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.time.Clock;
 import java.time.LocalDate;
+import java.time.YearMonth;
+import java.time.temporal.ChronoUnit;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -127,6 +131,42 @@ public abstract class Person {
     }
 
     /**
+     * Returns the payment history of this person, up to 6 most recent, in String format.
+     */
+    public String printPaymentHistory() {
+        HashMap<YearMonth, Boolean> paymentMonths = new HashMap<>();
+        YearMonth today = YearMonth.now();
+        for (int i = 0; i < 6; i++) {
+            paymentMonths.put(today.minusMonths(i), false);
+        }
+
+        List<MonthlyPayment> paymentList = paymentHistory.getLatestPayments();
+        for (MonthlyPayment monthlyPayment: paymentList) {
+            if (monthlyPayment.isPaid()) {
+                paymentMonths.replace(monthlyPayment.getMonth(), true);
+            }
+        }
+
+        String output = "";
+        long iterator = 0;
+        if (joinDate.toYearMonth().isAfter(today.minusMonths(6 - 1))) {
+            iterator = ChronoUnit.MONTHS.between(today.minusMonths(6 - 1), joinDate.toYearMonth());
+        }
+        for (long i = iterator; i < 6; i++) {
+            YearMonth currYearMonth = today.minusMonths(6 - 1 - i);
+            if (paymentMonths.get(currYearMonth)) {
+                output += currYearMonth.toString() + ":paid ";
+            } else if (currYearMonth.equals(today)) {
+                output += currYearMonth.toString() + ":unpaid ";
+            } else {
+                output += currYearMonth.toString() + ":overdue ";
+            }
+        }
+
+        return output;
+    }
+
+    /**
      * Returns true if both persons have the same name and phone number.
      * This defines a weaker notion of equality between two persons.
      */
@@ -165,6 +205,17 @@ public abstract class Person {
     public int hashCode() {
         return Objects.hash(name, phone, email, address, classes,
                 joinDate, paymentHistory);
+    }
+
+    /**
+     * Returns a String representation of the detailed information of the Person.
+     */
+    public String displayInfo() {
+        return name.fullName + "\n"
+            + phone.value + "\n"
+            + email.value + "\n"
+            + address.value + "\n"
+            + this.printPaymentHistory();
     }
 
     @Override

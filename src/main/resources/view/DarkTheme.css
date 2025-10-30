@@ -1,10 +1,10 @@
 //Dark Theme
+
 .background {
     -fx-background-color: #1e1e1e;
     background-color: #1e1e1e;
 }
 
-//Labels
 .label {
     -fx-font-size: 11pt;
     -fx-font-family: "Consolas", "Courier New", monospace;
@@ -25,7 +25,7 @@
     -fx-opacity: 1;
 }
 
-//Text Fields
+
 .text-field {
     -fx-font-size: 13pt;
     -fx-font-family: "Consolas", monospace;
@@ -41,7 +41,6 @@
     -fx-border-width: 1;
 }
 
-//Command Box
 #commandTextField {
     -fx-background-color: #252526;
     -fx-background-insets: 0;
@@ -60,7 +59,11 @@
     -fx-border-width: 0 0 2 0;
 }
 
-// Split Pane
+#commandTextField.error {
+    -fx-border-color: #f48771;
+    -fx-border-width: 0 0 2 0;
+}
+
 .split-pane:horizontal .split-pane-divider {
     -fx-background-color: #2d2d30;
     -fx-border-color: transparent;
@@ -72,12 +75,23 @@
     -fx-background-color: #1e1e1e;
 }
 
-//List View
+//list
 .list-view {
     -fx-background-insets: 0;
     -fx-padding: 0;
     -fx-background-color: #252526;
     -fx-border-color: transparent;
+}
+
+.list-view .scroll-bar:horizontal {
+    -fx-opacity: 0;
+    -fx-pref-height: 0;
+    -fx-max-height: 0;
+}
+
+.list-view .scroll-bar:horizontal .thumb {
+    -fx-opacity: 0;
+    -fx-pref-height: 0;
 }
 
 .list-cell {
@@ -86,8 +100,9 @@
     -fx-padding: 0;
     -fx-background-color: #252526;
     -fx-border-color: transparent;
-    -fx-pref-height: USE_COMPUTED_SIZE;
+    -fx-pref-height: -1;
     -fx-min-height: 70;
+    -fx-max-height: 200;
 }
 
 .list-cell:filled:even {
@@ -115,7 +130,6 @@
     -fx-text-fill: #cccccc;
 }
 
-//Cell Labels
 .cell_big_label {
     -fx-font-family: "Consolas", monospace;
     -fx-font-size: 14px;
@@ -129,7 +143,7 @@
     -fx-text-fill: #cccccc;
 }
 
-//Stack Pane
+//stack
 .stack-pane {
     -fx-background-color: #1e1e1e;
 }
@@ -140,7 +154,7 @@
     -fx-border-width: 0 0 1 0;
 }
 
-//Status Bar
+//status bar
 .status-bar {
     -fx-background-color: #007acc;
     -fx-border-color: transparent;
@@ -163,7 +177,7 @@
     -fx-text-fill: #ffffff;
 }
 
-//Result Display
+//result display
 .result-display {
     -fx-background-color: #1e1e1e;
     -fx-font-family: "Consolas", monospace;
@@ -186,6 +200,8 @@
     -fx-border-color: transparent;
     -fx-background-insets: 0;
     -fx-padding: 8;
+    -fx-font-family: "Consolas", monospace;
+    -fx-font-size: 10pt;
 }
 
 .result-display .text-area .scroll-pane {
@@ -213,7 +229,6 @@
     -fx-background-color: #4e4e4e;
 }
 
-//Grid Pane
 .grid-pane {
     -fx-background-color: #252526;
     -fx-border-color: transparent;
@@ -223,7 +238,7 @@
     -fx-background-color: #252526;
 }
 
-//Menu Bar
+//main menu
 .menu-bar {
     -fx-background-color: #3c3c3c;
     -fx-border-color: transparent;
@@ -244,7 +259,7 @@
     -fx-background-color: #3c3c3c;
 }
 
-//Context Menu
+//context menu
 .context-menu {
     -fx-background-color: #252526;
     -fx-border-color: #454545;
@@ -255,7 +270,7 @@
     -fx-text-fill: #cccccc;
 }
 
-//Buttons
+//button
 .button {
     -fx-padding: 6 14 6 14;
     -fx-border-color: #3c3c3c;
@@ -287,7 +302,7 @@
     -fx-background-color: #3c3c3c;
 }
 
-//Card Pane
+//cardpane
 #cardPane {
     -fx-background-color: transparent;
     -fx-border-width: 0;
@@ -308,106 +323,7 @@
     -fx-font-size: 9px;
 }
 
-//Class Tags with Color Mapping
-.class-tag {
-    -fx-text-fill: #ffffff;
-    -fx-padding: 2 8 2 8;
-    -fx-border-radius: 3;
-    -fx-background-radius: 3;
-    -fx-font-size: 10px;
-    -fx-font-weight: bold;
-}
-
-/* Predefined class colors - add more as needed */
-.class-math {
-    -fx-background-color: #4fc3f7;
-}
-
-.class-physics {
-    -fx-background-color: #ce93d8;
-}
-
-.class-chemistry {
-    -fx-background-color: #81c784;
-}
-
-.class-biology {
-    -fx-background-color: #ffb74d;
-}
-
-.class-english {
-    -fx-background-color: #e57373;
-}
-
-.class-history {
-    -fx-background-color: #a1887f;
-}
-
-.class-geography {
-    -fx-background-color: #64b5f6;
-}
-
-.class-economics {
-    -fx-background-color: #9575cd;
-}
-
-/* Default class color */
-.class-default {
-    -fx-background-color: #4ec9b0;
-}
-
-//Role Styling
-.role-tutor {
-    -fx-text-fill: #4fc3f7 !important;
-    -fx-font-weight: bold;
-    -fx-font-size: 12px;
-}
-
-.role-student {
-    -fx-text-fill: #f48771 !important;
-    -fx-font-weight: bold;
-    -fx-font-size: 12px;
-}
-
-//Payment Styling
-.payment-paid {
-    -fx-text-fill: #6a9955 !important;
-    -fx-font-weight: bold;
-    -fx-font-size: 11px;
-}
-
-.payment-unpaid {
-    -fx-text-fill: #ce9178 !important;
-    -fx-font-weight: bold;
-    -fx-font-size: 11px;
-}
-
-.payment-overdue {
-    -fx-text-fill: #f48771 !important;
-    -fx-font-weight: bold;
-    -fx-font-size: 11px;
-}
-
-//Attendance Styling
-.attendance-rate {
-    -fx-text-fill: #cccccc;
-    -fx-font-size: 10px;
-}
-
-.attendance-high {
-    -fx-text-fill: #6a9955 !important;
-    -fx-font-weight: bold;
-}
-
-.attendance-medium {
-    -fx-text-fill: #dcdcaa !important;
-}
-
-.attendance-low {
-    -fx-text-fill: #f48771 !important;
-}
-
-//Dialog
+//dialog
 .dialog-pane {
     -fx-background-color: #252526;
 }
@@ -430,18 +346,14 @@
     -fx-text-fill: #cccccc;
 }
 
+//error message
 .error {
     -fx-text-fill: #f48771 !important;
     -fx-font-weight: bold;
     -fx-font-size: 10pt !important;
 }
 
-#commandTextField.error {
-    -fx-border-color: #f48771;
-    -fx-border-width: 0 0 2 0;
-}
-
-//Table Header
+//header
 .table-header {
     -fx-background-color: #2d2d30;
     -fx-border-color: #3c3c3c;

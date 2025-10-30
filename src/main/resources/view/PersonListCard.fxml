@@ -10,7 +10,7 @@
 
 <HBox id="cardPane" fx:id="cardPane" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
       style="-fx-background-color: transparent; -fx-border-color: #3c3c3c; -fx-border-width: 0 0 1 0;"
-      minHeight="70" prefHeight="70">
+      minHeight="70" maxHeight="200">
   <GridPane HBox.hgrow="ALWAYS">
     <columnConstraints>
       <!-- Person: ID + Name -->
@@ -22,7 +22,7 @@
       <!-- Contact: Phone + Email -->
       <ColumnConstraints hgrow="NEVER" minWidth="200" prefWidth="200" maxWidth="200" />
       <!-- Address -->
-      <ColumnConstraints hgrow="ALWAYS" minWidth="150" prefWidth="180" />
+      <ColumnConstraints hgrow="ALWAYS" minWidth="100" prefWidth="180" />
       <!-- Attendance -->
       <ColumnConstraints hgrow="NEVER" minWidth="80" prefWidth="80" maxWidth="80" />
       <!-- Payment -->
@@ -43,7 +43,7 @@
       <padding>
         <Insets top="10" right="8" bottom="10" left="8" />
       </padding>
-      <Label fx:id="role" text="\$role" wrapText="true" maxWidth="70" />
+      <Label fx:id="role" text="\$role" wrapText="true" maxWidth="70" alignment="CENTER" />
     </VBox>
 
     <!-- Column 3: Classes -->
@@ -59,16 +59,16 @@
       <padding>
         <Insets top="10" right="8" bottom="10" left="8" />
       </padding>
-      <Label fx:id="phone" text="\$phone" styleClass="cell_small_label" maxWidth="190" wrapText="true" />
-      <Label fx:id="email" text="\$email" styleClass="cell_small_label" maxWidth="190" wrapText="true" />
+      <Label fx:id="phone" text="\$phone" alignment="CENTER" styleClass="cell_small_label" maxWidth="190" wrapText="true" />
+      <Label fx:id="email" text="\$email" alignment="CENTER" styleClass="cell_small_label" maxWidth="190" wrapText="true" />
     </VBox>
 
     <!-- Column 5: Address -->
-    <VBox GridPane.columnIndex="4" GridPane.halignment="CENTER">
+    <VBox GridPane.columnIndex="4" alignment="CENTER">
       <padding>
         <Insets top="10" right="8" bottom="10" left="8" />
       </padding>
-      <Label fx:id="address" text="\$address" styleClass="cell_small_label" wrapText="true" maxWidth="170" />
+      <Label fx:id="address" text="\$address" alignment="CENTER" styleClass="cell_small_label" wrapText="true" maxWidth="Infinity" />
     </VBox>
 
     <!-- Column 6: Attendance -->
@@ -76,7 +76,7 @@
       <padding>
         <Insets top="10" right="8" bottom="10" left="8" />
       </padding>
-      <Label fx:id="attendance" text="\$attendance" styleClass="cell_small_label" wrapText="true" maxWidth="70" />
+      <Label fx:id="attendance" text="\$attendance" alignment="CENTER" styleClass="cell_small_label" wrapText="true" maxWidth="70" />
     </VBox>
 
     <!-- Column 7: Payment Status -->
@@ -84,7 +84,7 @@
       <padding>
         <Insets top="10" right="8" bottom="10" left="8" />
       </padding>
-      <Label fx:id="paymentStatus" text="\$status" wrapText="true" maxWidth="80" />
+      <Label fx:id="paymentStatus" text="\$status" alignment="CENTER" wrapText="true" maxWidth="80" />
     </VBox>
   </GridPane>
 </HBox>

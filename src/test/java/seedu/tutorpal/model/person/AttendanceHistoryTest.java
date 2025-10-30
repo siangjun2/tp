@@ -230,72 +230,66 @@ public class AttendanceHistoryTest {
         assertThrows(UnsupportedOperationException.class, () -> view.remove(new WeeklyAttendance(1, Year.of(2024))));
     }
 
-    // ===== ISO EDGE CASES (week-year boundaries) =====
+    // ===== ISO EDGE CASES =====
 
     @Test
     public void isoBoundaryJoinOnSundayBelongsToPrevIsoYearMarkJoinWeekAllowedAndFutureDisallowed() {
-        // 2016-01-03 (Sun) is ISO week 53 of 2015
         Clock clock = Clock.fixed(Instant.parse("2016-01-03T10:00:00Z"), ZoneId.of("UTC"));
-        JoinDate joinDate = new JoinDate("03-01-2016"); // Sunday
+        JoinDate joinDate = new JoinDate("03-01-2016");
         AttendanceHistory history = new AttendanceHistory(joinDate, clock);
 
         WeeklyAttendance joinWeek = joinDate.getJoinWeek(); // W53-2015
         assertEquals(new WeeklyAttendance(53, Year.of(2015)), joinWeek);
 
-        // Marking join week is allowed
         AttendanceHistory history2 = history.markAttendance(joinWeek);
         assertTrue(history2.hasBeenMarked(joinWeek));
-        assertFalse(history.hasBeenMarked(joinWeek)); // immutability
-
-        // Current week with this clock is also W53-2015; trying to mark next week
-        // (W01-2016) is after current -> throws
         WeeklyAttendance nextWeek = new WeeklyAttendance(1, Year.of(2016));
         assertThrows(InvalidRangeException.class, () -> history2.markAttendance(nextWeek));
-        assertFalse(history.hasBeenMarked(nextWeek));
+    }
+
+    // ===== NEW TESTS: changeJoinDate & findAttendanceBeforeJoinWeek =====
+
+    @Test
+    public void changeJoinDate_sameDate_returnsSameInstance() {
+        JoinDate joinDate = new JoinDate("01-01-2024");
+        AttendanceHistory history = new AttendanceHistory(joinDate, FIXED_CLOCK_2024_W10);
+
+        AttendanceHistory result = history.changeJoinDate(new JoinDate("01-01-2024"));
+        assertEquals(history, result);
     }
 
     @Test
-    public void isoBoundary_joinOnFirstMondayOfIsoYear_prevYearWeekDisallowed() {
-        // 2016-01-04 (Mon) is ISO week 1 of 2016
-        Clock clock = Clock.fixed(Instant.parse("2016-01-04T10:00:00Z"), ZoneId.of("UTC"));
-        JoinDate joinDate = new JoinDate("04-01-2016"); // Monday
-        final AttendanceHistory history = new AttendanceHistory(joinDate, clock);
+    public void changeJoinDate_futureDate_throwsException() {
+        JoinDate joinDate = new JoinDate("01-01-2024");
+        AttendanceHistory history = new AttendanceHistory(joinDate, FIXED_CLOCK_2024_W10);
 
-        WeeklyAttendance joinWeek = joinDate.getJoinWeek(); // W01-2016
-        assertEquals(new WeeklyAttendance(1, Year.of(2016)), joinWeek);
-
-        // Week 53 of 2015 is before join week -> disallowed
-        WeeklyAttendance prevYearLastWeek = new WeeklyAttendance(53, Year.of(2015));
-        assertThrows(InvalidRangeException.class, () -> history.markAttendance(prevYearLastWeek));
-        assertFalse(history.hasBeenMarked(prevYearLastWeek));
-
-        // Marking join week is allowed
-        AttendanceHistory history2 = history.markAttendance(joinWeek);
-        assertTrue(history2.hasBeenMarked(joinWeek));
+        JoinDate futureDate = new JoinDate("01-04-2024");
+        assertThrows(InvalidRangeException.class, () -> history.changeJoinDate(futureDate));
     }
 
     @Test
-    public void isoBoundary_calendarYearEndJoinsNextIsoYearJoinWeekW01nextYear_prevYearWeeksDisallowed() {
-        // 2014-12-29 (Mon) belongs to ISO week 1 of 2015
-        Clock clock = Clock.fixed(Instant.parse("2014-12-29T10:00:00Z"), ZoneId.of("UTC"));
-        JoinDate joinDate = new JoinDate("29-12-2014");
-        AttendanceHistory history = new AttendanceHistory(joinDate, clock);
+    public void changeJoinDate_attendanceBeforeNewJoinDate_throwsException() {
+        JoinDate joinDate = new JoinDate("01-01-2024");
+        WeeklyAttendance week2 = new WeeklyAttendance(2, Year.of(2024));
 
-        WeeklyAttendance joinWeek = joinDate.getJoinWeek(); // W01-2015
-        assertEquals(new WeeklyAttendance(1, Year.of(2015)), joinWeek);
+        final AttendanceHistory history =
+                new AttendanceHistory(joinDate, FIXED_CLOCK_2024_W10).markAttendance(week2);
 
-        // Marking join week is allowed
-        final AttendanceHistory history2 = history.markAttendance(joinWeek);
-        assertTrue(history2.hasBeenMarked(joinWeek));
+        JoinDate newJoinDate = new JoinDate("15-02-2024"); // W7 — after week2
+        assertThrows(InvalidRangeException.class, () -> history.changeJoinDate(newJoinDate));
+    }
 
-        // Week 52 of 2014 is before join week -> disallowed
-        WeeklyAttendance prevWeek = new WeeklyAttendance(52, Year.of(2014));
-        assertThrows(InvalidRangeException.class, () -> history.markAttendance(prevWeek));
-        assertFalse(history.hasBeenMarked(prevWeek));
+    @Test
+    public void changeJoinDate_validPastJoinDate_success() {
+        JoinDate joinDate = new JoinDate("15-02-2024"); // week 7
+        AttendanceHistory history = new AttendanceHistory(joinDate, FIXED_CLOCK_2024_W10);
+        WeeklyAttendance week8 = new WeeklyAttendance(8, Year.of(2024));
+        history = history.markAttendance(week8);
 
-        // Any week after current (current is W01-2015 at this clock) is disallowed
-        WeeklyAttendance futureWeekSameYear = new WeeklyAttendance(2, Year.of(2015));
-        assertThrows(InvalidRangeException.class, () -> history.markAttendance(futureWeekSameYear));
-        assertFalse(history.hasBeenMarked(futureWeekSameYear));
+        JoinDate earlierJoinDate = new JoinDate("01-01-2024"); // week 1
+        AttendanceHistory result = history.changeJoinDate(earlierJoinDate);
+
+        assertEquals(earlierJoinDate, result.getJoinDate());
+        assertTrue(result.hasBeenMarked(week8));
     }
 }

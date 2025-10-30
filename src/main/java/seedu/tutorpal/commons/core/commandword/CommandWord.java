@@ -7,12 +7,15 @@ import seedu.tutorpal.logic.commands.AddCommand;
 import seedu.tutorpal.logic.commands.ClearCommand;
 import seedu.tutorpal.logic.commands.Command;
 import seedu.tutorpal.logic.commands.DeleteCommand;
+import seedu.tutorpal.logic.commands.DelpayCommand;
+import seedu.tutorpal.logic.commands.DisplayCommand;
 import seedu.tutorpal.logic.commands.EditCommand;
 import seedu.tutorpal.logic.commands.ExitCommand;
 import seedu.tutorpal.logic.commands.FindCommand;
 import seedu.tutorpal.logic.commands.ListCommand;
 import seedu.tutorpal.logic.commands.MarkCommand;
 import seedu.tutorpal.logic.commands.PaymentCommand;
+import seedu.tutorpal.logic.commands.UnmarkCommand;
 import seedu.tutorpal.logic.commands.UnpayCommand;
 
 /**
@@ -41,12 +44,16 @@ public class CommandWord {
         AddCommand.class,
         ClearCommand.class,
         DeleteCommand.class,
+        DelpayCommand.class,
+        DisplayCommand.class,
         EditCommand.class,
         ExitCommand.class,
         FindCommand.class,
         ListCommand.class,
         MarkCommand.class,
+        UnmarkCommand.class,
         PaymentCommand.class,
+        UnmarkCommand.class,
         UnpayCommand.class
     );
 

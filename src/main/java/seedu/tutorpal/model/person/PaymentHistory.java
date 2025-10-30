@@ -3,6 +3,7 @@ package seedu.tutorpal.model.person;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -42,8 +43,8 @@ public class PaymentHistory {
         YearMonth joinMonth = YearMonth.from(joinDate);
         // Filter out payments before join date to maintain data validity
         this.monthlyPayments = monthlyPayments.stream()
-                .filter(payment -> !payment.getMonth().isBefore(joinMonth))
-                .collect(Collectors.toSet());
+            .filter(payment -> !payment.getMonth().isBefore(joinMonth))
+            .collect(Collectors.toSet());
         assert this.monthlyPayments != null : "Monthly payments should not be null after filtering";
     }
     /**
@@ -84,6 +85,16 @@ public class PaymentHistory {
     public Set<MonthlyPayment> getMonthlyPayments() {
         return new HashSet<>(monthlyPayments);
     }
+
+    public List<MonthlyPayment> getLatestPayments() {
+        List<MonthlyPayment> sorted = monthlyPayments.stream()
+            .sorted((a, b) -> b.getMonth().compareTo(a.getMonth()))
+            .limit(6)
+            .toList();
+
+        return sorted;
+    }
+
     /**
      * Marks a specific month as unpaid.
      *
@@ -118,6 +129,45 @@ public class PaymentHistory {
         // Add the updated payment
         newPayments.add(new MonthlyPayment(month, true));
         return new PaymentHistory(joinDate, newPayments);
+    }
+
+    /**
+     * Deletes the payment record for a specific month, if present.
+     * After deletion, queries like isMonthPaid(month) will return false for the deleted month.
+     *
+     * @param month The month whose record should be deleted (must not be null)
+     * @return A new PaymentHistory without an entry for the specified month
+     * @throws IllegalArgumentException if the month is before join date or in the future
+     */
+    public PaymentHistory deleteMonth(YearMonth month) {
+        assert month != null : "Month cannot be null";
+        validateMonth(month);
+        Set<MonthlyPayment> newPayments = new HashSet<>(monthlyPayments);
+        newPayments.removeIf(payment -> payment.getMonth().equals(month));
+        return new PaymentHistory(joinDate, newPayments);
+    }
+
+    /**
+     * Returns a new PaymentHistory adjusted to the provided join date.
+     * Ensures no existing monthly payment falls before the new join month.
+     *
+     * @param newJoinDate The new join date to apply
+     * @return a new PaymentHistory instance reflecting the new join date
+     * @throws seedu.tutorpal.model.person.exceptions.InvalidRangeException if any existing payment
+     *         is before the new join month
+     */
+    public PaymentHistory withJoinDate(JoinDate newJoinDate) {
+        YearMonth newJoinMonth = newJoinDate.toYearMonth();
+        for (MonthlyPayment payment : monthlyPayments) {
+            if (payment.getMonth().isBefore(newJoinMonth)) {
+                throw new seedu.tutorpal.model.person.exceptions.InvalidRangeException(
+                        String.format("Cannot set join date to %s as there are existing payment records "
+                                + "before this date. Earliest payment record: %s",
+                                newJoinDate.toString(), payment.getMonth()));
+            }
+        }
+        // Constructor filters out any payment that would be before join date defensively
+        return new PaymentHistory(newJoinDate.toLocalDate(), monthlyPayments);
     }
 
     /**
@@ -164,10 +214,10 @@ public class PaymentHistory {
     public boolean isMonthPaid(YearMonth month) {
         assert month != null : "Month cannot be null";
         return monthlyPayments.stream()
-                .filter(payment -> payment.getMonth().equals(month))
-                .findFirst()
-                .map(MonthlyPayment::isPaid)
-                .orElse(false);
+            .filter(payment -> payment.getMonth().equals(month))
+            .findFirst()
+            .map(MonthlyPayment::isPaid)
+            .orElse(false);
     }
     @Override
     public boolean equals(Object other) {
@@ -179,7 +229,7 @@ public class PaymentHistory {
         }
         PaymentHistory otherHistory = (PaymentHistory) other;
         return joinDate.equals(otherHistory.joinDate)
-                && monthlyPayments.equals(otherHistory.monthlyPayments);
+            && monthlyPayments.equals(otherHistory.monthlyPayments);
     }
     @Override
     public int hashCode() {
@@ -210,11 +260,11 @@ public class PaymentHistory {
     @Override
     public String toString() {
         return "PaymentHistory{"
-                + "joinDate=" + joinDate
-                + ", monthlyPayments="
-                + monthlyPayments
-                + ", status="
-                + getOverallStatus()
-                + '}';
+            + "joinDate=" + joinDate
+            + ", monthlyPayments="
+            + monthlyPayments
+            + ", status="
+            + getOverallStatus()
+            + '}';
     }
 }

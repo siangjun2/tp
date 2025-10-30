@@ -130,6 +130,7 @@ The `Model` component,
 <box type="info" seamless>
 
 **Note:** An alternative (arguably, a more OOP) model is given below. It has a `Tag` list in the `AddressBook`, which `Person` references. This allows `AddressBook` to only require one `Tag` object per unique tag, instead of each `Person` needing their own `Tag` objects.<br>
++This alternative is not used in TutorPal; it’s included for reference only.
 
 <puml src="diagrams/BetterModelClassDiagram.puml" width="450" />
 
@@ -155,6 +156,7 @@ Classes used by multiple components are in the `seedu.tutorpal.commons` package.
 ## **Implementation**
 
 This section describes some noteworthy details on how certain features are implemented.
+
 
 ### \[Proposed\] Undo/redo feature
 
@@ -297,9 +299,10 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `* * *`  | user                 | find a person by name        | locate details of persons without having to go through the entire list |
 | `* * *`  | tuition centre owner | record payment status        | collect my fees on time                                                |
 | `* * *`  | tuition centre owner | list all my student details  | get a overview of the students in my tuition centre                    |
+| `* * *`  | tuition centre owner | unpay a month's payment      | correct payment mistakes quickly                                       |
+| `* * *`  | tuition centre owner | view monthly payment summary | see paid/unpaid/overdue at a glance                                    |
 | `* *`    | tutor                | record attendance            | track any students who may be missing classes                          |
-| `* *`    | tutor                | filter students by tags      | find the right group of people easily                                  |
-| `*`      | user                 | view students' grade history | better understand their academic performance                           |
+| `* *`    | admin                | filter students by `class`, `tutor`, or `payment status` | find the right group of people easily                                  |
 | `*`      | tuition centre owner | Set reminders for payments   | do not forget to ask for pending payments                              |
 
 _{More to be added}_
@@ -356,7 +359,7 @@ _{More to be added}_
 
 **Extensions**
 
-- 1a. TutorPal detects an invalid filter (e.g., both class and tutor, or invalid format).
+- 1a. TutorPal detects an invalid filter (e.g., invalid format or filter).
 
   - 1a1. TutorPal displays an error message and requests a valid filter.
   - 1a2. Admin enters a new filter.
@@ -393,7 +396,7 @@ _{More to be added}_
 
 **MSS**
 
-1.  Admin enters the payment command with a valid index and status (e.g., payment 3 s/paid).
+1.  Admin enters the pay command with a valid index and status (e.g., pay 3 s/paid).
 2.  TutorPal updates the payment status for the student and displays a success message.
 
     Use case ends.
@@ -426,11 +429,11 @@ _{More to be added}_
   - `ddd` represents the day of the week (mon, tue, wed, thu, fri)
   - `HHMM` represents the time in 24-hour format (e.g., s4mon1600 means Secondary 4, Monday, 4:00 PM)
 * **Payment Status**: The current state of a student's tuition fee payment. Can be `paid` (fees received), `unpaid` (fees due but not received), or `overdue` (fees past due date)
-* **Index**: A positive integer used to identify a specific entry in the currently displayed contact list. Used in commands like `delete` and `payment`
+* **Index**: A positive integer used to identify a specific entry in the currently displayed contact list. Used in commands like `delete` and `pay`
 * **Contact**: A record in TutorPal containing information about a student or tutor, including name, phone number, email, and address
 * **Parameter**: A value provided by the user as part of a command, prefixed with identifiers like `n/` (name), `p/` (phone), `e/` (email), `c/` (class)
 * **Role**: The classification of a contact as either a `student` or `tutor` in the system
-* **Command**: An instruction typed by the user to perform an action in TutorPal (e.g., `add`, `delete`, `list`, `find`, `payment`)
+* **Command**: An instruction typed by the user to perform an action in TutorPal (e.g., `add`, `delete`, `list`, `find`, `pay`)
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -476,6 +479,14 @@ testers are expected to do more *exploratory* testing.
 
    1. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
       Expected: Similar to previous.
+
+### Paying a month (validation cases)
+1. Duplicate month (m/) provided more than once
+
+    1. Prerequisites: List all persons using the list command. Multiple persons in the list.
+
+    1. Test case: `pay 1 m/09-2025 m/09-2025`<br>
+      Expected: Command rejected with a “duplicate month” error. No changes applied.
 
 1. _{ more test cases …​ }_
 

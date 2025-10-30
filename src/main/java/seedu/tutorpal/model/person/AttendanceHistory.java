@@ -6,6 +6,8 @@ import static seedu.tutorpal.commons.util.CollectionUtil.requireAllNonNull;
 import java.time.Clock;
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import seedu.tutorpal.commons.util.ToStringBuilder;
@@ -18,12 +20,16 @@ import seedu.tutorpal.model.person.exceptions.InvalidRangeException;
 public final class AttendanceHistory {
 
     public static final String MESSAGE_INVALID_WEEK_RANGE =
-            "Command causes Attendance Week %1$s to be out of valid range!\n"
-            + "It should be between the week of joining and the current week inclusive.\n"
-            + "Join week : %2$s\t\t" + "Current week : %3$s";
+            "Attendance Week %1$s appears to be out of valid range!\n"
+                    + "All attendance should be between the week of joining and the current week inclusive.\n"
+                    + "Join week : %2$s\t\t" + "Current week : %3$s";
     public static final String MESSAGE_JOIN_DATE_IN_FUTURE = "Cannot set join date %1$s after current date %2$s!";
     public static final String MESSAGE_ALREADY_MARKED = "Attendance for %1$s is already marked for %2$s.";
     public static final String MESSAGE_CANNOT_UNMARK = "Attendance for the %1$s is not marked yet for %2$s.";
+    public static final String MESSAGE_CANNOT_CHANGE_JOIN_DATE =
+            "Unable to change JoinDate to %1$s! It makes %2$s lie outside the valid range.\n"
+                    + "All attendance should be between the week of joining and the current week inclusive.\n"
+                    + "New Join week : %3$s\t\t" + "Current week : %4$s";
 
     //JoinDate is immutable.
     private final JoinDate joinDate;
@@ -60,22 +66,28 @@ public final class AttendanceHistory {
      */
     private AttendanceHistory(JoinDate joinDate, Set<WeeklyAttendance> attendances, Clock nowClock) {
         requireAllNonNull(joinDate, attendances, nowClock);
+        // Validate invariant: joinDate cannot be after current date based on nowClock.
+        LocalDate today = LocalDate.now(nowClock);
+        ensureJoinDateNotAfterToday(today, joinDate);
         this.joinDate = joinDate;
         this.nowClock = nowClock;
 
-        // Validate invariant: joinDate cannot be after current date based on nowClock
-        LocalDate today = LocalDate.now(nowClock);
-        if (joinDate.isAfter(today)) {
-            throw new InvalidRangeException(String.format(MESSAGE_JOIN_DATE_IN_FUTURE, joinDate, today));
-        }
         // Validate invariant: all provided attendances must be within [joinWeek, currentWeek]
-        // else throw InvalidRangeException
+        // else throw InvalidRangeException. Should never be triggered.
         for (WeeklyAttendance wa : attendances) {
             ensureWithinValidRange(wa);
         }
-
         // Use Set.copyOf() so code is more defended
         this.weeklyAttendances = Set.copyOf(attendances);
+    }
+
+    public List<WeeklyAttendance> getLatestAttendance() {
+        List<WeeklyAttendance> sorted = weeklyAttendances.stream()
+            .sorted((a, b) -> b.compareTo(a))
+            .limit(10)
+            .toList();
+
+        return sorted;
     }
 
     /**
@@ -147,14 +159,60 @@ public final class AttendanceHistory {
         }
     }
 
+    private static void ensureJoinDateNotAfterToday(LocalDate today, JoinDate joinDate) {
+        if (joinDate.isAfter(today)) {
+            throw new InvalidRangeException(String.format(MESSAGE_JOIN_DATE_IN_FUTURE, joinDate, today));
+        }
+    }
+
     /**
-     * Allows edit command to change Join Date of Person.
-     * Built in validation of WeeklyAttendance in constructor.
-     * @param joinDate New JoinDate
-     * @return AttendanceHistory with new JoinDate
+     * Attempts to change the join date while preserving all domain invariants.
+     * Returns a new immutable AttendanceHistory if successful.
+     * Throws InvalidRangeException if:
+     *  - The new join date is in the future, or
+     *  - Any existing attendance lies before the new join week.
      */
-    public AttendanceHistory changeJoinDate(JoinDate joinDate) {
-        return new AttendanceHistory(joinDate, this.weeklyAttendances, this.nowClock);
+    public AttendanceHistory changeJoinDate(JoinDate newJoinDate) {
+        requireNonNull(newJoinDate);
+
+        // Avoid unnecessary reconstruction if no change. SLightly more efficient.
+        if (this.joinDate.equals(newJoinDate)) {
+            return this;
+        }
+
+        // 1. Validate that join date is not in the future
+        LocalDate today = LocalDate.now(this.nowClock);
+        ensureJoinDateNotAfterToday(today, newJoinDate);
+
+        // 2. Ensure no attendance lies before the new join week
+        findAttendanceBeforeJoinWeek(newJoinDate, this.weeklyAttendances)
+                .ifPresent(invalid -> {
+                    WeeklyAttendance newJoinWeek = newJoinDate.getJoinWeek();
+                    WeeklyAttendance currentWeek = WeeklyAttendance.getCurrentWeek(this.nowClock);
+                    throw new InvalidRangeException(String.format(
+                            MESSAGE_CANNOT_CHANGE_JOIN_DATE, newJoinDate, invalid, newJoinWeek, currentWeek));
+                });
+
+        // 3. All validations passed — return a new immutable instance
+        return new AttendanceHistory(newJoinDate, this.weeklyAttendances, this.nowClock);
+    }
+
+    /**
+     * Finds the first attendance record that occurs before the given join date’s week.
+     * Returns Optional.empty() if all attendances are valid.
+     */
+    private static Optional<WeeklyAttendance> findAttendanceBeforeJoinWeek(
+            JoinDate newJoinDate, Set<WeeklyAttendance> allAttendances) {
+
+        requireAllNonNull(newJoinDate, allAttendances);
+        WeeklyAttendance newJoinWeek = newJoinDate.getJoinWeek();
+
+        for (WeeklyAttendance wa : allAttendances) {
+            if (wa.isBefore(newJoinWeek)) {
+                return Optional.of(wa); // early exit on first offending record
+            }
+        }
+        return Optional.empty();
     }
 
     /**

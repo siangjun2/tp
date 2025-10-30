@@ -6,9 +6,7 @@
 
 # TutorPal User Guide
 
-TutorPal aims to help small math tuition centre owners manage students effortlessly by centralizing student contact info, grades, attendance, payment status, subject assignments, tutors, and class schedules in one easy-to-use command-line system. TutorPal aims to help tuition centre owners save time, make less errors, and focus on teaching instead of paperwork.
-
-TutorPal is a **desktop app for managing contacts, optimized for use via a Command Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, TutorPal can get your contact management tasks done faster than traditional GUI apps.
+TutorPal helps small, single-subject tuition centres manage students effortlessly by centralising contact details, grades, attendance, payment status, subject assignments, tutors, and class schedules in one easy-to-use command-line system (with a simple GUI). Designed for owners, tutors, and admins who are familiar with CLI workflows, it saves time, reduces errors, and lets you focus on teaching instead of paperwork.
 
 <!-- * Table of Contents -->
 <page-nav-print />
@@ -22,7 +20,7 @@ TutorPal is a **desktop app for managing contacts, optimized for use via a Comma
 
 2. Download the latest `.jar` file from [here](https://github.com/AY2526S1-CS2103T-F11-2/tp/releases).
 
-3. Copy the file to the folder you want to use as the _home folder_ for TutorPal.
+1. Copy the file to the folder you want to use as the _home folder_ for your TutorPal.
 
 4. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar tutorpal.jar` command to run the application.<br>
    A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
@@ -30,12 +28,16 @@ TutorPal is a **desktop app for managing contacts, optimized for use via a Comma
 
 5. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
    Some example commands you can try:
-    * `list` — lists all students and tutors
-    * `add r/student n/Amy p/91234567 e/amy@gmail.com c/s4mon1600`
-    * `mark 1 w/W44-2025` — marks student #1 present for Week 44
-    * `help` — opens the help window
+   `add r/student n/Kevin p/98761234 e/kevin@gmail.com a/Kent Ridge c/s4mon1600 d/06-10-2025`
+   `add r/tutor n/Calvin p/99998888 e/calvin@gmail.com c/s4mon1600 d/29-10-2025 c/s1mon1800`
+   `pay 1 m/10-2025`
+   `mark 1 w/W44-2025`
+   `delete 2`
+   `find Kevin`
+   `list c/s4mon1600`
 
-6. Refer to the [Features](#features) below for details of each command.
+
+1. Refer to the [Features](#features) below for details of each command.
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -65,12 +67,17 @@ TutorPal is a **desktop app for managing contacts, optimized for use via a Comma
 
 ### Viewing help : `help`
 
-Shows a message explaining how to access the [help page](https://ay2526s1-cs2103t-f11-2.github.io/tp/UserGuide.html), as well as a quick summary of all commands and how to use them.
+Shows a message explaining how to access the [help page](https://ay2526s1-cs2103t-f11-2.github.io/tp/UserGuide.html), as well as a quick summary of all commands and how to use them. 
+When used with a command, it displays a detailed description of how the command should be used.
 
-![help message](images/helpMessage.png) #TODO
+![help message](images/helpMessage.png)
 
 Format: 
-`help`
+`help [COMMAND_WORD]`
+
+Examples:
+- help add
+- help delete
 
 
 ### Adding a person: `add`
@@ -101,36 +108,45 @@ Tip: For tutors, add more classes by repeating c/, e.g., c/s4mon1600 c/s4wed1400
 
 ### Listing all persons : `list`
 
-Shows a list of all persons in the address book.
+Shows a list of students and tutors, optionally filtered by criterias.
 
 Formats:
 * `list`
 * `list c/CLASS`
-* `list tu/TUTOR`
+* `list t/TUTOR`
+* `list ps/STATUS`
 
-Details:
-* `list` shows all persons' contact
-* `list c/...` shows students whose class matches the given code or prefix
+What to know:
+* `list` shows **all contacts** (students and tutors)
+* `list c/...` shows **students/tutors** whose class code matches the given code or prefix
     * Accepts same class format as add: s[1-5][day][time] (e.g. s4mon1600)
     * Prefix matching is allowed:
         * s4 - all Secondary 4 classes (any day/time)
         * s4mon - all Secondary 4 Monday classes (any time)
     * If you provide only part of the class, it acts as a wildcard for the remaining parts
-* `list tu/...` shows students enrolled in any class taught by tutors whose name contains the given substring
-    * Name matching uses Java's `String.contains` behaviour
-    * If multiple tutors match, students from all those tutors' classes are listed (duplicates removed)
-* Only one filter may be used per command (use either `c/...` or `tu/...`)
+* `list tu/...` shows **students** enrolled in any class taught by tutors whose name contains the given keyword
+    * The keyword can be **any continuous part** of the name (in order), and matching is case-insensitive
+    * If multiple tutors match, students from **all** those tutors' classes are listed (duplicates removed)
+* `list ps/...` shows **students/tutors** by monthly payment status (tuition fees for students, salary for tutors)
+    * Allowed values (case-insensitive): `paid`, `unpaid`, `overdue`
+    * Paid — every month from Join Month up to and including the current month is paid
+    * Unpaid — all months before the current month are paid, but the current month is not yet paid
+    * Overdue — there exists any unpaid month before the current month
+* Combining Filters
+    * Filters of the same type are **OR-ed**: e.g. `list c/s4 c/s2` returns students in class s4 or s2.
+    * Filters of different types are **AND-ed**: e.g. `list c/s4 ps/unpaid` returns students in s4 and with unpaid fees.
+    * Used together: e.g. `list c/s4 c/s2 ps/unpaid` returns students in s4 or s2 and with unpaid fees (duplicates removed).
 
 Examples:
 * `list` - shows all persons
 * `list c/s4` - shows **all Sec 4 students** across day/time
 * `list c/s4mon1600` - shows **Sec 4 Monday 1600** students only
-* `list tu/Alex` - **students** taught by any tutor whose name contains `Alex`
-* `list tu/` - shows **all students** assigned to at least one tutor
+* `list t/Alex` - **students** taught by any tutor whose name contains `Alex`
+* `list ps/paid` - shows persons whose payment status is **Paid**
 
 ### Editing a person : `edit`
 
-Edits an existing person in the address book.
+Edits an existing person in TutorPal.
 
 Format:
 `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [d/JOINDATE] [c/CLASS]…`
@@ -229,19 +245,52 @@ Corner cases:
 
 Records monthly fee payments and show each person's payment status
 
-Format: `pay INDEX m/MM-YYYY [m/MM-YYYY]`
+Format: `pay INDEX [m/MM-YYYY]`
 
 Details:
 * Marks the specified month and year as paid for the person at `INDEX`
 * Each person has a **Join Month** in MMMM-YYYY. Billing starts from this month inclusive
 * Month format must be MM-YYYY (e.g., 04-2025)
 * By default, paying for months **after the current month** and **before Join Month** are not allowed
+* Only one m/ is allowed, providing m/ more than once is rejected.
 * Paid - every month from **Join Month** up to **and including** the current month is paid
 * Unpaid - all months **before** the current month are paid, but the **current month** is not yet paid
 * Overdue - there exists **any unpaid month** before the current month 
 
 Examples (assume today is Oct 2025):
 * `pay 3 m/09-2025` - marks Sept 2025 as paid for person #3
+
+--------------------------------------------------------------------------------------------------------------------
+
+### Managing payments : `unpay`
+
+Reverts monthly fee payments and show each person's payment status
+
+Format: `unpay INDEX m/MM-YYYY [m/MM-YYYY]`
+
+Details:
+* Marks the specified month and year as unpaid for the person at `INDEX`
+* Month format must be MM-YYYY (e.g., 04-2025)
+* By default, unpaying months **after the current month** and **before Join Month** are not allowed
+* Only one m/ is allowed, providing m/ more than once is rejected.
+
+Examples (assume today is Oct 2025):
+* `unpay 3 m/09-2025`- marks Sept 2025 as unpaid for person #3
+
+### Deleting a payment record: `delpay`
+
+Removes the stored payment record for a specific month.
+
+Format: `delpay INDEX m/MM-YYYY`
+
+Details:
+* Deletes the record for the specified month and year for the person at `INDEX`
+* Month format must be MM-YYYY (e.g., 04-2025)
+* You can only delete months from the Join Month up to the current month
+* After deletion, the month is treated as unpaid for display and status
+
+Example:
+* `delpay 2 m/08-2025`
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -315,7 +364,10 @@ Action     | Format, Examples
 **Edit**   | `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [d/JOINDATE] [c/CLASS]…`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
 **Exit**   | `exit`
 **Find**   | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
-**List**   | `list [c/CLASS] [tu/TUTOR]`
+**List**   | `list [c/CLASS] [t/TUTOR]`
 **Mark**   | `mark INDEX w/[ATTENDANCEWEEK]`<br> e.g., `mark 3 w/W10-2024`
 **Unmark** | `unmark INDEX w/[ATTENDANCEWEEK]`<br> e.g., `unmark 3 w/W10-2024`
+**Pay**    | `pay INDEX m/MM-YYYY [m/MM-YYYY]`
+**Unpay**  | `unpay INDEX m/MM-YYYY [m/MM-YYYY]`
+**Delpay** | `delpay INDEX m/MM-YYYY`
 **Help**   | `help`

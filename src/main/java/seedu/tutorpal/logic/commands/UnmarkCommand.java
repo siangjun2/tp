@@ -4,6 +4,8 @@ import static java.util.Objects.requireNonNull;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_ATTENDANCE_WEEK;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import seedu.tutorpal.commons.core.index.Index;
 import seedu.tutorpal.commons.util.ToStringBuilder;
@@ -31,12 +33,14 @@ public class UnmarkCommand extends Command {
             + "Example: " + COMMAND_WORD + " 2 " + PREFIX_ATTENDANCE_WEEK + "W26-2025";
 
     // SHORTENED is used for help command
-    public static final String MESSAGE_USAGE_SHORTENED = COMMAND_WORD + ":\t" + COMMAND_WORD + " INDEX "
+    public static final String MESSAGE_USAGE_SHORTENED = COMMAND_WORD + ":\t\t" + COMMAND_WORD + " INDEX "
             + PREFIX_ATTENDANCE_WEEK + "WEEK\n\t\tExample: "
             + COMMAND_WORD + " 1 " + PREFIX_ATTENDANCE_WEEK + "W26-2025";
 
     public static final String MESSAGE_SUCCESS = "Unmarked attendance for: %1$s on %2$s.";
     public static final String MESSAGE_CANNOT_UNMARK_FOR_ROLE = "Cannot unmark attendance for %1$s.";
+
+    private static final Logger LOGGER = Logger.getLogger(MarkCommand.class.getName());
 
     private final Index index;
     private final WeeklyAttendance week;
@@ -73,11 +77,15 @@ public class UnmarkCommand extends Command {
         AttendanceHistory newAttendanceHistory;
         AttendanceHistory oldHistory = personToUnmark.getAttendanceHistory(); //should not throw errors
         try {
+            LOGGER.log(Level.FINE, "Attempting to unmark " + personToUnmark.getName() + " on " + week);
             newAttendanceHistory = oldHistory.unmarkAttendance(week);
         } catch (InvalidRangeException e) {
+            LOGGER.log(Level.WARNING, "A date related error occurred!");
             throw new CommandException(e.getMessage()); //For range Messages, no need to append additional details.
         } catch (IllegalStateException e) {
             // Adding Person name for better user feedback.
+            LOGGER.log(Level.WARNING, "Attempted to unmark week which isn't marked! Person="
+                    + personToUnmark.getName() + " Week=" + week);
             throw new CommandException(String.format(e.getMessage(), personToUnmark.getName()));
         }
 
@@ -93,6 +101,7 @@ public class UnmarkCommand extends Command {
                 personToUnmark.getPaymentHistory());
 
         model.setPerson(personToUnmark, unmarkedPerson);
+        LOGGER.log(Level.FINE, "Unmark success! Unmarked " + unmarkedPerson.getName() + " on " + week);
         return new CommandResult(String.format(MESSAGE_SUCCESS, unmarkedPerson.getName(), week));
     }
 

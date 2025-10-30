@@ -28,6 +28,7 @@ import seedu.tutorpal.model.person.Class;
 import seedu.tutorpal.model.person.Email;
 import seedu.tutorpal.model.person.JoinDate;
 import seedu.tutorpal.model.person.Name;
+import seedu.tutorpal.model.person.PaymentHistory;
 import seedu.tutorpal.model.person.Person;
 import seedu.tutorpal.model.person.Phone;
 import seedu.tutorpal.model.person.Role;
@@ -125,8 +126,28 @@ public class EditCommand extends Command {
 
         model.setPerson(personToEdit, editedPerson);
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
-        return new CommandResult(String.format(MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson)));
+        String editedSummary = summarizeEditedFields(editPersonDescriptor);
+        return new CommandResult(String.format(MESSAGE_EDIT_PERSON_SUCCESS, editedSummary));
     }
+
+    private static String summarizeEditedFields(EditPersonDescriptor d) {
+        StringBuilder sb = new StringBuilder();
+        d.getName().ifPresent(v -> sb.append("name: ").append(v).append("; "));
+        d.getPhone().ifPresent(v -> sb.append("phone: ").append(v).append("; "));
+        d.getEmail().ifPresent(v -> sb.append("email: ").append(v).append("; "));
+        d.getAddress().ifPresent(v -> sb.append("address: ").append(v).append("; "));
+        d.getClasses().ifPresent(v -> sb.append("class(es): ").append(v).append("; "));
+        d.getJoinDate().ifPresent(v -> sb.append("joinDate: ").append(v).append("; "));
+        if (sb.length() == 0) {
+            return "No fields edited"; // (Optional: you may have a separate guard that throws)
+        }
+        // trim trailing space+semicolon
+        if (sb.charAt(sb.length() - 2) == ';') {
+            sb.setLength(sb.length() - 2);
+        }
+        return sb.toString();
+    }
+
 
     /**
      * Creates and returns a {@code Person} with the details of {@code personToEdit}
@@ -150,6 +171,16 @@ public class EditCommand extends Command {
             throw new CommandException(e.getMessage());
         }
 
+        // Rebuild payment history only if join date actually changes
+        PaymentHistory updatedPaymentHistory = personToEdit.getPaymentHistory();
+        if (!updatedJoinDate.equals(personToEdit.getJoinDate())) {
+            try {
+                updatedPaymentHistory = personToEdit.getPaymentHistory().withJoinDate(updatedJoinDate);
+            } catch (InvalidRangeException e) {
+                throw new CommandException(e.getMessage());
+            }
+        }
+
         // Construct appropriate subtype; role is not editable per parser
         if (personToEdit.getRole() == Role.STUDENT) {
             // Validating invariant : Student always have attendance history
@@ -165,14 +196,15 @@ public class EditCommand extends Command {
                 throw new CommandException(e.getMessage());
             }
             return new Student(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedClasses,
-                    updatedJoinDate, updatedAttendanceHistory);
+                    updatedJoinDate, updatedAttendanceHistory, updatedPaymentHistory);
         } else {
             // Validating invariant : Tutor never have attendance history
             if (personToEdit.hasAttendanceHistory()) {
                 // Defensive: should never happen since roles cannot be swapped
                 throw new IllegalStateException(String.format(Person.MESSAGE_NO_ATTENDANCE_HISTORY, Tutor.PERSON_WORD));
             }
-            return new Tutor(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedClasses, updatedJoinDate);
+            return new Tutor(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedClasses,
+                    updatedJoinDate, updatedPaymentHistory);
         }
     }
 

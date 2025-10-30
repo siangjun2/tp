@@ -4,6 +4,8 @@ import static java.util.Objects.requireNonNull;
 import static seedu.tutorpal.logic.parser.CliSyntax.PREFIX_ATTENDANCE_WEEK;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import seedu.tutorpal.commons.core.index.Index;
 import seedu.tutorpal.commons.util.ToStringBuilder;
@@ -26,17 +28,20 @@ public class MarkCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Marks the attendance of the student as having attended class for the specified week.\n"
-            + "Parameters: INDEX     "
+            + "Parameters: INDEX "
             + PREFIX_ATTENDANCE_WEEK + "WEEK"
             + "\n"
             + "Example: " + COMMAND_WORD + " 3 " + PREFIX_ATTENDANCE_WEEK + "W26-2025";
 
     // SHORTENED is used for help command
-    public static final String MESSAGE_USAGE_SHORTENED = COMMAND_WORD + ":\t" + COMMAND_WORD + " INDEX "
-            + PREFIX_ATTENDANCE_WEEK + "WEEK" + "\n\t\tExample: " + COMMAND_WORD + " 1";
+    public static final String MESSAGE_USAGE_SHORTENED = COMMAND_WORD + ":\t\t" + COMMAND_WORD + " INDEX "
+        + PREFIX_ATTENDANCE_WEEK + "WEEK"
+        + "\n\t\tExample: " + COMMAND_WORD + " 1 " + PREFIX_ATTENDANCE_WEEK + "W26-2025";
 
     public static final String MESSAGE_SUCCESS = "Marked attendance for: %1$s on %2$s.";
     public static final String MESSAGE_CANNOT_MARK_FOR_ROLE = "Cannot mark attendance for %1$s.";
+
+    private static final Logger LOGGER = Logger.getLogger(MarkCommand.class.getName());
 
     private final Index index;
     private final WeeklyAttendance week;
@@ -75,11 +80,15 @@ public class MarkCommand extends Command {
         AttendanceHistory newAttendanceHistory;
         AttendanceHistory oldAttendanceHistory = personToMark.getAttendanceHistory(); //Should not throw errors
         try {
+            LOGGER.log(Level.FINE, "Attempting to mark " + personToMark.getName() + " on " + week);
             newAttendanceHistory = oldAttendanceHistory.markAttendance(week);
         } catch (InvalidRangeException e) {
+            LOGGER.log(Level.WARNING, "A date related error occurred!");
             throw new CommandException(e.getMessage()); //For range Messages, no need to append additional details.
         } catch (IllegalStateException e) {
             // Adding Person name for better user feedback.
+            LOGGER.log(Level.WARNING, "Attempted to mark already marked person! Person="
+                    + personToMark.getName() + " Week=" + week);
             throw new CommandException(String.format(e.getMessage(), personToMark.getName()));
         }
 
@@ -95,7 +104,7 @@ public class MarkCommand extends Command {
                 personToMark.getPaymentHistory());
 
         model.setPerson(personToMark, markedPerson);
-
+        LOGGER.log(Level.FINE, "Mark success! Marked " + markedPerson.getName() + " on " + week);
         return new CommandResult(String.format(MESSAGE_SUCCESS, markedPerson.getName(), this.week));
     }
 

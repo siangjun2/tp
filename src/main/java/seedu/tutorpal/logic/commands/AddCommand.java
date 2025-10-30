@@ -61,8 +61,7 @@ public class AddCommand extends Command {
         + PREFIX_PHONE + "98761234 "
         + PREFIX_EMAIL + "kevin@gmail.com "
         + PREFIX_ADDRESS + "Kent Ridge "
-        + PREFIX_CLASS + "s4mon1600 "
-        + PREFIX_CLASS + "s4wed1400";
+        + PREFIX_CLASS + "s4mon1600 ";
 
     public static final String MESSAGE_SUCCESS = "%1$s %2$s added successfully";
     public static final String MESSAGE_DUPLICATE_PERSON = "This student/tutor already exists in the system";
