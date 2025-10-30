@@ -3,6 +3,7 @@ package seedu.tutorpal.model.person;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -42,8 +43,8 @@ public class PaymentHistory {
         YearMonth joinMonth = YearMonth.from(joinDate);
         // Filter out payments before join date to maintain data validity
         this.monthlyPayments = monthlyPayments.stream()
-                .filter(payment -> !payment.getMonth().isBefore(joinMonth))
-                .collect(Collectors.toSet());
+            .filter(payment -> !payment.getMonth().isBefore(joinMonth))
+            .collect(Collectors.toSet());
         assert this.monthlyPayments != null : "Monthly payments should not be null after filtering";
     }
     /**
@@ -84,6 +85,16 @@ public class PaymentHistory {
     public Set<MonthlyPayment> getMonthlyPayments() {
         return new HashSet<>(monthlyPayments);
     }
+
+    public List<MonthlyPayment> getLatestPayments() {
+        List<MonthlyPayment> sorted = monthlyPayments.stream()
+            .sorted((a, b) -> b.getMonth().compareTo(a.getMonth()))
+            .limit(6)
+            .toList();
+
+        return sorted;
+    }
+
     /**
      * Marks a specific month as unpaid.
      *
@@ -164,10 +175,10 @@ public class PaymentHistory {
     public boolean isMonthPaid(YearMonth month) {
         assert month != null : "Month cannot be null";
         return monthlyPayments.stream()
-                .filter(payment -> payment.getMonth().equals(month))
-                .findFirst()
-                .map(MonthlyPayment::isPaid)
-                .orElse(false);
+            .filter(payment -> payment.getMonth().equals(month))
+            .findFirst()
+            .map(MonthlyPayment::isPaid)
+            .orElse(false);
     }
     @Override
     public boolean equals(Object other) {
@@ -179,7 +190,7 @@ public class PaymentHistory {
         }
         PaymentHistory otherHistory = (PaymentHistory) other;
         return joinDate.equals(otherHistory.joinDate)
-                && monthlyPayments.equals(otherHistory.monthlyPayments);
+            && monthlyPayments.equals(otherHistory.monthlyPayments);
     }
     @Override
     public int hashCode() {
@@ -210,11 +221,11 @@ public class PaymentHistory {
     @Override
     public String toString() {
         return "PaymentHistory{"
-                + "joinDate=" + joinDate
-                + ", monthlyPayments="
-                + monthlyPayments
-                + ", status="
-                + getOverallStatus()
-                + '}';
+            + "joinDate=" + joinDate
+            + ", monthlyPayments="
+            + monthlyPayments
+            + ", status="
+            + getOverallStatus()
+            + '}';
     }
 }
