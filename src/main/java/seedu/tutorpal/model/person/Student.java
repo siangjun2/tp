@@ -4,7 +4,6 @@ import static seedu.tutorpal.model.person.Role.STUDENT;
 
 import java.time.Clock;
 import java.time.LocalDate;
-import java.time.YearMonth;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
@@ -156,9 +155,7 @@ public class Student extends Person {
 
         List<WeeklyAttendance> attendanceList = attendanceHistory.getLatestAttendance();
         for (WeeklyAttendance weeklyAttendance : attendanceList) {
-            //if (weeklyAttendance.isPaid()) {
-                attendanceWeeks.replace(weeklyAttendance, true);
-            //}
+            attendanceWeeks.replace(weeklyAttendance, true);
         }
 
         String output = "";
