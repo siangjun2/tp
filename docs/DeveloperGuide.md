@@ -130,6 +130,7 @@ The `Model` component,
 <box type="info" seamless>
 
 **Note:** An alternative (arguably, a more OOP) model is given below. It has a `Tag` list in the `AddressBook`, which `Person` references. This allows `AddressBook` to only require one `Tag` object per unique tag, instead of each `Person` needing their own `Tag` objects.<br>
++This alternative is not used in TutorPal; it’s included for reference only.
 
 <puml src="diagrams/BetterModelClassDiagram.puml" width="450" />
 
@@ -355,7 +356,7 @@ _{More to be added}_
 
 **Extensions**
 
-- 1a. TutorPal detects an invalid filter (e.g., both class and tutor, or invalid format).
+- 1a. TutorPal detects an invalid filter (e.g., invalid format or filter).
 
   - 1a1. TutorPal displays an error message and requests a valid filter.
   - 1a2. Admin enters a new filter.
@@ -392,7 +393,7 @@ _{More to be added}_
 
 **MSS**
 
-1.  Admin enters the payment command with a valid index and status (e.g., payment 3 s/paid).
+1.  Admin enters the pay command with a valid index and status (e.g., pay 3 s/paid).
 2.  TutorPal updates the payment status for the student and displays a success message.
 
     Use case ends.
@@ -425,11 +426,11 @@ _{More to be added}_
   - `ddd` represents the day of the week (mon, tue, wed, thu, fri)
   - `HHMM` represents the time in 24-hour format (e.g., s4mon1600 means Secondary 4, Monday, 4:00 PM)
 * **Payment Status**: The current state of a student's tuition fee payment. Can be `paid` (fees received), `unpaid` (fees due but not received), or `overdue` (fees past due date)
-* **Index**: A positive integer used to identify a specific entry in the currently displayed contact list. Used in commands like `delete` and `payment`
+* **Index**: A positive integer used to identify a specific entry in the currently displayed contact list. Used in commands like `delete` and `pay`
 * **Contact**: A record in TutorPal containing information about a student or tutor, including name, phone number, email, and address
 * **Parameter**: A value provided by the user as part of a command, prefixed with identifiers like `n/` (name), `p/` (phone), `e/` (email), `c/` (class)
 * **Role**: The classification of a contact as either a `student` or `tutor` in the system
-* **Command**: An instruction typed by the user to perform an action in TutorPal (e.g., `add`, `delete`, `list`, `find`, `payment`)
+* **Command**: An instruction typed by the user to perform an action in TutorPal (e.g., `add`, `delete`, `list`, `find`, `pay`)
 
 --------------------------------------------------------------------------------------------------------------------
 

@@ -113,7 +113,7 @@ Shows a list of students and tutors, optionally filtered by criterias.
 Formats:
 * `list`
 * `list c/CLASS`
-* `list tu/TUTOR`
+* `list t/TUTOR`
 * `list ps/STATUS`
 
 What to know:
@@ -141,7 +141,7 @@ Examples:
 * `list` - shows all persons
 * `list c/s4` - shows **all Sec 4 students** across day/time
 * `list c/s4mon1600` - shows **Sec 4 Monday 1600** students only
-* `list tu/Alex` - **students** taught by any tutor whose name contains `Alex`
+* `list t/Alex` - **students** taught by any tutor whose name contains `Alex`
 * `list ps/paid` - shows persons whose payment status is **Paid**
 
 ### Editing a person : `edit`
@@ -235,7 +235,7 @@ Corner cases:
 
 Records monthly fee payments and show each person's payment status
 
-Format: `pay INDEX m/MM-YYYY [m/MM-YYYY]`
+Format: `pay INDEX [m/MM-YYYY]`
 
 Details:
 * Marks the specified month and year as paid for the person at `INDEX`
@@ -318,7 +318,7 @@ Action     | Format, Examples
 **Edit**   | `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [j/JOINDATE] [c/CLASS]…`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
 **Exit**   | `exit`
 **Find**   | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
-**List**   | `list [c/CLASS] [tu/TUTOR]`
+**List**   | `list [c/CLASS] [t/TUTOR]`
 **Mark**   | `mark INDEX w/[ATTENDANCEWEEK]`<br> e.g., `mark 3 w/W10-2024`
 **Unmark** | `unmark INDEX w/[ATTENDANCEWEEK]`<br> e.g., `unmark 3 w/W10-2024`
 **Help**   | `help [COMMAND_WORD]`
