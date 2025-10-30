@@ -32,7 +32,7 @@ public class UnpayCommand extends Command {
             + "Example: " + COMMAND_WORD + " 1 m/01-2024";
 
     // SHORTENED is used for help command
-    public static final String MESSAGE_USAGE_SHORTENED = COMMAND_WORD + ":\t" + COMMAND_WORD
+    public static final String MESSAGE_USAGE_SHORTENED = COMMAND_WORD + ":\t\t" + COMMAND_WORD
         + " INDEX " + PREFIX_JOIN_DATE + "MM-yyyy\n"
         + "\t\tExample: " + COMMAND_WORD + " 1 m/01-2024";
 

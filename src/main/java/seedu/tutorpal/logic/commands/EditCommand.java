@@ -126,8 +126,28 @@ public class EditCommand extends Command {
 
         model.setPerson(personToEdit, editedPerson);
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
-        return new CommandResult(String.format(MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson)));
+        String editedSummary = summarizeEditedFields(editPersonDescriptor);
+        return new CommandResult(String.format(MESSAGE_EDIT_PERSON_SUCCESS, editedSummary));
     }
+
+    private static String summarizeEditedFields(EditPersonDescriptor d) {
+        StringBuilder sb = new StringBuilder();
+        d.getName().ifPresent(v -> sb.append("name: ").append(v).append("; "));
+        d.getPhone().ifPresent(v -> sb.append("phone: ").append(v).append("; "));
+        d.getEmail().ifPresent(v -> sb.append("email: ").append(v).append("; "));
+        d.getAddress().ifPresent(v -> sb.append("address: ").append(v).append("; "));
+        d.getClasses().ifPresent(v -> sb.append("class(es): ").append(v).append("; "));
+        d.getJoinDate().ifPresent(v -> sb.append("joinDate: ").append(v).append("; "));
+        if (sb.length() == 0) {
+            return "No fields edited"; // (Optional: you may have a separate guard that throws)
+        }
+        // trim trailing space+semicolon
+        if (sb.charAt(sb.length() - 2) == ';') {
+            sb.setLength(sb.length() - 2);
+        }
+        return sb.toString();
+    }
+
 
     /**
      * Creates and returns a {@code Person} with the details of {@code personToEdit}
