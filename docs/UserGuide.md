@@ -28,8 +28,14 @@ TutorPal helps small, single-subject tuition centres manage students effortlessl
 
 1. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
    Some example commands you can try:
+   `add r/student n/Kevin p/98761234 e/kevin@gmail.com a/Kent Ridge c/s4mon1600 d/06-10-2025`
+   `add r/tutor n/Calvin p/99998888 e/calvin@gmail.com c/s4mon1600 d/29-10-2025 c/s1mon1800`
+   `pay 1 m/10-2025`
+   `mark 1 w/W44-2025`
+   `delete 2`
+   `find Kevin`
+   `list c/s4mon1600`
 
-TODO
 
 1. Refer to the [Features](#features) below for details of each command.
 
@@ -61,12 +67,17 @@ TODO
 
 ### Viewing help : `help`
 
-Shows a message explaining how to access the [help page](https://ay2526s1-cs2103t-f11-2.github.io/tp/UserGuide.html), as well as a quick summary of all commands and how to use them.
+Shows a message explaining how to access the [help page](https://ay2526s1-cs2103t-f11-2.github.io/tp/UserGuide.html), as well as a quick summary of all commands and how to use them. 
+When used with a command, it displays a detailed description of how the command should be used.
 
-![help message](images/helpMessage.png) #TODO
+![help message](images/helpMessage.png)
 
 Format: 
-`help`
+`help [COMMAND_WORD]`
+
+Examples:
+- help add
+- help delete
 
 
 ### Adding a person: `add`
@@ -135,7 +146,7 @@ Examples:
 
 ### Editing a person : `edit`
 
-Edits an existing person in the address book.
+Edits an existing person in TutorPal.
 
 Format:
 `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [j/JOINDATE] [c/CLASS]…`
@@ -231,6 +242,7 @@ Details:
 * Each person has a **Join Month** in MMMM-YYYY. Billing starts from this month inclusive
 * Month format must be MM-YYYY (e.g., 04-2025)
 * By default, paying for months **after the current month** and **before Join Month** are not allowed
+* Only one m/ is allowed, providing m/ more than once is rejected.
 * Paid - every month from **Join Month** up to **and including** the current month is paid
 * Unpaid - all months **before** the current month are paid, but the **current month** is not yet paid
 * Overdue - there exists **any unpaid month** before the current month 
@@ -240,9 +252,26 @@ Examples (assume today is Oct 2025):
 
 --------------------------------------------------------------------------------------------------------------------
 
+### Managing payments : `unpay`
+
+Reverts monthly fee payments and show each person's payment status
+
+Format: `unpay INDEX m/MM-YYYY [m/MM-YYYY]`
+
+Details:
+* Marks the specified month and year as unpaid for the person at `INDEX`
+* Month format must be MM-YYYY (e.g., 04-2025)
+* By default, unpaying months **after the current month** and **before Join Month** are not allowed
+* Only one m/ is allowed, providing m/ more than once is rejected.
+
+Examples (assume today is Oct 2025):
+* `unpay 3 m/09-2025`- marks Sept 2025 as unpaid for person #3
+
+--------------------------------------------------------------------------------------------------------------------
+
 ## Deleting a person : `delete`
 
-Deletes the specified person from the address book.
+Deletes the specified person from TutorPal.
 
 Format: `delete INDEX`
 
@@ -251,12 +280,12 @@ Format: `delete INDEX`
 * The index **must be a positive integer** 1, 2, 3, …​
 
 Examples:
-* `list` followed by `delete 2` deletes the 2nd person in the address book.
+* `list` followed by `delete 2` deletes the 2nd person in TutorPal.
 * `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
 
 ### Clearing all entries : `clear`
 
-Clears all entries from the address book.
+Clears all entries from TutorPal.
 
 Format: `clear`
 
@@ -310,4 +339,6 @@ Action     | Format, Examples
 **List**   | `list [c/CLASS] [tu/TUTOR]`
 **Mark**   | `mark INDEX w/[ATTENDANCEWEEK]`<br> e.g., `mark 3 w/W10-2024`
 **Unmark** | `unmark INDEX w/[ATTENDANCEWEEK]`<br> e.g., `unmark 3 w/W10-2024`
+**Pay**    | `pay INDEX m/MM-YYYY [m/MM-YYYY]`
+**Unpay**  | `unpay INDEX m/MM-YYYY [m/MM-YYYY]`
 **Help**   | `help`
