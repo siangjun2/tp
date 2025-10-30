@@ -47,7 +47,7 @@ public class HelpCommandTest {
     }
 
     @Test
-    public void execute_help_NoPerson() {
+    public void execute_help_noPerson() {
         CommandResult result = new HelpCommand().execute(model);
 
         // Ensure we are not triggering any display panel behaviour
