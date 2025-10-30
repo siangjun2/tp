@@ -123,6 +123,12 @@ public final class WeeklyAttendance implements Comparable<WeeklyAttendance> {
         return date.get(IsoFields.WEEK_OF_WEEK_BASED_YEAR);
     }
 
+    public static WeeklyAttendance of(LocalDate localDate) {
+        int weekIndex = localDate.get(IsoFields.WEEK_OF_WEEK_BASED_YEAR);
+        Year year = Year.of(localDate.getYear());
+        return new WeeklyAttendance(weekIndex, year);
+    }
+
     public int getWeekIndex() {
         return this.weekIndex;
     }
@@ -171,6 +177,40 @@ public final class WeeklyAttendance implements Comparable<WeeklyAttendance> {
         int weekIndex = date.get(IsoFields.WEEK_OF_WEEK_BASED_YEAR);
         int weekYear = date.get(IsoFields.WEEK_BASED_YEAR);
         return new WeeklyAttendance(weekIndex, Year.of(weekYear));
+    }
+
+    public WeeklyAttendance minusWeeks(int weeksToSubtract) {
+        int temp = this.weekIndex - weeksToSubtract;
+        if (temp > 0) {
+            return new WeeklyAttendance(temp, this.year);
+        } else {
+            Year previousYear = this.year.minusYears(1);
+            temp += getNumberOfWeeksInIsoYear(previousYear.getValue());
+            return new WeeklyAttendance(temp, previousYear);
+        }
+    }
+
+    public int subtractWeeklyAttendance(WeeklyAttendance other) {
+        assert !(other.isAfter(this));
+
+        if (other.isAfter(this)) {
+            throw new IllegalArgumentException();
+        }
+
+        if (this.year.equals(other.year)) {
+            return this.weekIndex - other.weekIndex;
+        }
+
+        int thisYearInt = this.year.getValue();
+        int otherYearInt = other.year.getValue();
+        int thisWeek = this.weekIndex;
+        int otherWeek = other.weekIndex;
+        while (thisYearInt > otherYearInt) {
+            thisYearInt--;
+            thisWeek += getNumberOfWeeksInIsoYear(thisYearInt);
+        }
+
+        return thisWeek - otherWeek;
     }
 
     @Override
