@@ -23,6 +23,8 @@
         <ColumnConstraints hgrow="NEVER" minWidth="200" prefWidth="200" maxWidth="200" />
         <!-- Address -->
         <ColumnConstraints hgrow="ALWAYS" minWidth="100" prefWidth="180" />
+        <!-- Join Date -->
+        <ColumnConstraints hgrow="NEVER" minWidth="90" prefWidth="90" maxWidth="90" />
         <!-- Attendance -->
         <ColumnConstraints hgrow="NEVER" minWidth="80" prefWidth="80" maxWidth="80" />
         <!-- Payment -->
@@ -64,14 +66,21 @@
         </padding>
       </Label>
 
-      <Label text="ATTEND" GridPane.columnIndex="5" GridPane.halignment="CENTER"
+      <Label text="JOIN DATE" GridPane.columnIndex="5" GridPane.halignment="CENTER"
              style="-fx-text-fill: #cccccc; -fx-font-size: 10px; -fx-font-weight: bold; -fx-font-family: 'Consolas', monospace;">
         <padding>
           <Insets top="8" right="8" bottom="8" left="8" />
         </padding>
       </Label>
 
-      <Label text="PAYMENT" GridPane.columnIndex="6" GridPane.halignment="CENTER"
+      <Label text="ATTEND" GridPane.columnIndex="6" GridPane.halignment="CENTER"
+             style="-fx-text-fill: #cccccc; -fx-font-size: 10px; -fx-font-weight: bold; -fx-font-family: 'Consolas', monospace;">
+        <padding>
+          <Insets top="8" right="8" bottom="8" left="8" />
+        </padding>
+      </Label>
+
+      <Label text="PAYMENT" GridPane.columnIndex="7" GridPane.halignment="CENTER"
              style="-fx-text-fill: #cccccc; -fx-font-size: 10px; -fx-font-weight: bold; -fx-font-family: 'Consolas', monospace;">
         <padding>
           <Insets top="8" right="8" bottom="8" left="8" />
