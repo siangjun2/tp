@@ -110,19 +110,10 @@ Corner cases:
 <box type="tip" seamless>
 Legal names are not required in the context of tuition centre owners keeping track of student and tutor names, hence names with only alphanumeric characters are sufficient.
 </box>
-<<<<<<< HEAD
-<box type="tip" seamless>
-Two persons are considered the same if they have the same name and phone number. Name is case-insensitive.
-</box>
-<box type="tip" seamless>
-Tip: For tutors, add more classes by repeating c/, e.g., c/s4mon1600 c/s4wed1400.
-</box>
-=======
 
 <box type="tip" seamless>
 Two persons are considered the same if they have the same name and phone number. Name is case-insensitive.
 </box>
->>>>>>> 31f4be4fdadd285560c6d15ab3515ff7b1b94adc
 
 <box type="tip" seamless>
 Tip: For tutors, add more classes by repeating c/, e.g., c/s4mon1600 c/s4wed1400.
