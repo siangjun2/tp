@@ -140,36 +140,58 @@ class JsonAdaptedPerson {
         }
         final Address modelAddress = new Address(address);
 
+        // JoinDate is mandatory
+        if (joinDate == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                    JoinDate.class.getSimpleName()));
+        }
+        if (!JoinDate.isValidJoinDate(joinDate)) {
+            throw new IllegalValueException(JoinDate.MESSAGE_CONSTRAINTS);
+        }
+        final JoinDate modelJoinDate = new JoinDate(joinDate);
+
         // Backward compatibility: if old JSON lacks paymentHistory, initialize from
         // current date
         final PaymentHistory modelPaymentHistory = (paymentHistory == null)
-                ? new PaymentHistory(java.time.LocalDate.now())
+                ? new PaymentHistory(modelJoinDate.toLocalDate())
                 : paymentHistory.toModelType();
 
-        // Backward compatibility: if old JSON lacks joinDate, initialize to current date
-        final JoinDate modelJoinDate;
-        if (joinDate == null) {
-            modelJoinDate = JoinDate.now();
-        } else {
-            if (!JoinDate.isValidJoinDate(joinDate)) {
-                throw new IllegalValueException(JoinDate.MESSAGE_CONSTRAINTS);
-            }
-            modelJoinDate = new JoinDate(joinDate);
+        // Validate JoinDate sync between Person and PaymentHistory
+        if (!modelPaymentHistory.getJoinDate().equals(modelJoinDate.toLocalDate())) {
+            throw new IllegalValueException("Person's joinDate must match PaymentHistory's joinDate.");
         }
 
         final Set<Class> modelClasses = new HashSet<>(personClasses);
 
         // Create Student or Tutor based on role
         if (modelRole == Role.STUDENT) {
+            // Validate Student must have exactly one class
+            if (modelClasses.size() != 1) {
+                throw new IllegalValueException(
+                        String.format("Student must have exactly one class. Found %d class(es).",
+                        modelClasses.size()));
+            }
+
             // Preserve attendance history if present in JSON; otherwise initialize empty history
             final seedu.tutorpal.model.person.AttendanceHistory modelAttendanceHistory = (attendanceHistory == null)
                     ? null
                     : attendanceHistory.toModelType();
 
+            // Validate JoinDate sync between Person and AttendanceHistory
+            if (modelAttendanceHistory != null
+                    && !modelAttendanceHistory.getJoinDate().equals(modelJoinDate)) {
+                throw new IllegalValueException("Person's joinDate must match AttendanceHistory's joinDate.");
+            }
+
             // Use constructor that accepts attendance history to avoid wiping existing records
             return new Student(modelName, modelPhone, modelEmail, modelAddress,
                     modelClasses, modelJoinDate, modelAttendanceHistory, modelPaymentHistory);
         } else {
+            // Validate Tutor must have at least one class
+            if (modelClasses.isEmpty()) {
+                throw new IllegalValueException("Tutor must have at least one class.");
+            }
+
             return new Tutor(modelName, modelPhone, modelEmail, modelAddress,
                     modelClasses, modelJoinDate, modelPaymentHistory);
         }
