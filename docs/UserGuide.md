@@ -281,13 +281,13 @@ Examples (assume today is Oct 2025):
 
 Reverts monthly fee payments and show each person's payment status
 
-Format: `unpay INDEX m/MM-YYYY [m/MM-YYYY]`
+Format: `unpay INDEX m/MM-yyyy`
 
 Details:
 * Marks the specified month and year as unpaid for the person at `INDEX`
-* Month format must be MM-YYYY (e.g., 04-2025)
+* Month format must be MM-yyyy (e.g., 04-2025)
 * By default, unpaying months **after the current month** and **before Join Month** are not allowed
-* Only one m/ is allowed, providing m/ more than once is rejected.
+* Only one `m/` is allowed, providing `m/` more than once is rejected.
 
 Examples (assume today is Oct 2025):
 * `unpay 3 m/09-2025`- marks Sept 2025 as unpaid for person #3
@@ -384,6 +384,6 @@ Action     | Format, Examples
 **Mark**   | `mark INDEX w/ATTENDANCEWEEK`<br> e.g., `mark 3 w/W10-2024`
 **Unmark** | `unmark INDEX w/[ATTENDANCEWEEK]`<br> e.g., `unmark 3 w/W10-2024`
 **Pay**    | `pay INDEX m/MM-yyyy`
-**Unpay**  | `unpay INDEX m/MM-YYYY [m/MM-YYYY]`
+**Unpay**  | `unpay INDEX m/MM-yyyy`
 **Delpay** | `delpay INDEX m/MM-YYYY`
 **Help**   | `help`
