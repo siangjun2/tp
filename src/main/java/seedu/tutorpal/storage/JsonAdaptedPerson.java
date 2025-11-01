@@ -165,6 +165,13 @@ class JsonAdaptedPerson {
 
         // Create Student or Tutor based on role
         if (modelRole == Role.STUDENT) {
+            // Validate Student must have exactly one class
+            if (modelClasses.size() != 1) {
+                throw new IllegalValueException(
+                        String.format("Student must have exactly one class. Found %d class(es).", 
+                        modelClasses.size()));
+            }
+
             // Preserve attendance history if present in JSON; otherwise initialize empty history
             final seedu.tutorpal.model.person.AttendanceHistory modelAttendanceHistory = (attendanceHistory == null)
                     ? null
