@@ -168,7 +168,7 @@ class JsonAdaptedPerson {
             // Validate Student must have exactly one class
             if (modelClasses.size() != 1) {
                 throw new IllegalValueException(
-                        String.format("Student must have exactly one class. Found %d class(es).", 
+                        String.format("Student must have exactly one class. Found %d class(es).",
                         modelClasses.size()));
             }
 
