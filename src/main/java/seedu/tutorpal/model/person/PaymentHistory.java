@@ -1,7 +1,5 @@
 package seedu.tutorpal.model.person;
 
-import seedu.tutorpal.logic.commands.exceptions.CommandException;
-
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.HashSet;
@@ -9,6 +7,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import seedu.tutorpal.logic.commands.exceptions.CommandException;
 
 /**
  * Represents a person's payment history across multiple months.
