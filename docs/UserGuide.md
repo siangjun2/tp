@@ -28,12 +28,12 @@ TutorPal helps small, single-subject tuition centres manage students effortlessl
 
 5. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
    Some example commands you can try:
-   `add r/student n/Kevin p/98761234 e/kevin@gmail.com a/Kent Ridge c/s4mon1600 d/06-10-2025`
-   `add r/tutor n/Calvin p/99998888 e/calvin@gmail.com c/s4mon1600 d/29-10-2025 c/s1mon1800`
-   `pay 1 m/10-2025`
-   `mark 1 w/W44-2025`
-   `delete 2`
-   `find Kevin`
+   `add r/student n/Kevin p/98761234 e/kevin@gmail.com a/Kent Ridge c/s4mon1600 d/06-10-2025`<br>
+   `add r/tutor n/Calvin p/99998888 e/calvin@gmail.com c/s4mon1600 d/29-10-2025 c/s1mon1800`<br>
+   `pay 1 m/10-2025`<br>
+   `mark 1 w/W44-2025`<br>
+   `delete 2`<br>
+   `find Kevin`<br>
    `list c/s4mon1600`
 
 
@@ -259,12 +259,12 @@ Corner cases:
 
 Records monthly fee payments and show each person's payment status
 
-Format: `pay INDEX [m/MM-YYYY]`
+Format: `pay INDEX m/MM-yyyy`
 
 Details:
 * Marks the specified month and year as paid for the person at `INDEX`
-* Each person has a **Join Month** in MMMM-YYYY. Billing starts from this month inclusive
-* Month format must be MM-YYYY (e.g., 04-2025)
+* Each person has a **Join Month** in MM-yyyy. Billing starts from this month inclusive
+* Month format must be MM-yyyy (e.g., 04-2025)
 * By default, paying for months **after the current month** and **before Join Month** are not allowed
 * Only one m/ is allowed, providing m/ more than once is rejected.
 * Paid - every month from **Join Month** up to **and including** the current month is paid
@@ -308,7 +308,7 @@ Example:
 
 --------------------------------------------------------------------------------------------------------------------
 
-## Deleting a person : `delete`
+### Deleting a person : `delete`
 
 Deletes the specified person from TutorPal.
 
@@ -379,10 +379,10 @@ Action     | Format, Examples
 **Edit**   | `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [d/JOINDATE] [c/CLASS]…`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
 **Exit**   | `exit`
 **Find**   | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
-**List**   | `list [c/CLASS] [t/TUTOR]`
+**List**   | `list [c/CLASS] [t/TUTOR] [ps/STATUS]`
 **Mark**   | `mark INDEX w/[ATTENDANCEWEEK]`<br> e.g., `mark 3 w/W10-2024`
 **Unmark** | `unmark INDEX w/[ATTENDANCEWEEK]`<br> e.g., `unmark 3 w/W10-2024`
-**Pay**    | `pay INDEX m/MM-YYYY [m/MM-YYYY]`
+**Pay**    | `pay INDEX m/MM-yyyy`
 **Unpay**  | `unpay INDEX m/MM-YYYY [m/MM-YYYY]`
 **Delpay** | `delpay INDEX m/MM-YYYY`
 **Help**   | `help`
