@@ -1,5 +1,7 @@
 package seedu.tutorpal.model.person;
 
+import seedu.tutorpal.logic.commands.exceptions.CommandException;
+
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.HashSet;
@@ -139,10 +141,13 @@ public class PaymentHistory {
      * @return A new PaymentHistory without an entry for the specified month
      * @throws IllegalArgumentException if the month is before join date or in the future
      */
-    public PaymentHistory deleteMonth(YearMonth month) {
+    public PaymentHistory deleteMonth(YearMonth month) throws CommandException {
         assert month != null : "Month cannot be null";
         validateMonth(month);
         Set<MonthlyPayment> newPayments = new HashSet<>(monthlyPayments);
+        if (newPayments.stream().map(p -> p.getMonth()).filter(m -> m.equals(month)).count() == 0) {
+            throw new CommandException("Payment record for the specified MM-yyyy not found.");
+        }
         newPayments.removeIf(payment -> payment.getMonth().equals(month));
         return new PaymentHistory(joinDate, newPayments);
     }
