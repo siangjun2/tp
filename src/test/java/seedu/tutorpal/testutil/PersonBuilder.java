@@ -1,6 +1,5 @@
 package seedu.tutorpal.testutil;
 
-import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -55,7 +54,7 @@ public class PersonBuilder {
         classes = new HashSet<>();
         classes.add(new Class(DEFAULT_CLASS));
         joinDate = new JoinDate(DEFAULT_JOIN_DATE);
-        paymentHistory = new PaymentHistory(LocalDate.now());
+        paymentHistory = new PaymentHistory(joinDate.toLocalDate());
         if (role == Role.STUDENT) {
             attendanceHistory = new AttendanceHistory(joinDate);
         } else {
@@ -156,8 +155,9 @@ public class PersonBuilder {
      */
     public PersonBuilder withJoinDate(String joinDate) {
         this.joinDate = new JoinDate(joinDate);
-        // NOTE : also update attendance history to use the new join date
-        // This resets the attendance history
+        // NOTE : also update payment history and attendance history to use the new join date
+        // This resets the histories
+        this.paymentHistory = new PaymentHistory(this.joinDate.toLocalDate());
         if (role == Role.STUDENT) {
             this.attendanceHistory = new AttendanceHistory(this.joinDate);
         }
