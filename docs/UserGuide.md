@@ -287,6 +287,15 @@ Details:
 Examples (assume today is Oct 2025):
 * `pay 3 m/09-2025` - marks Sept 2025 as paid for person #3
 
+Examples (assume today is Oct 2025):
+pay 3 m/09-2025 - marks Sept 2025 as paid for person #3
+
+> [!NOTE]
+TutorPal uses your computer’s **local system date and time** to determine the current month.  
+This means payment validation (e.g., blocking future months) follows your device’s clock and timezone.  
+If your system date/time is incorrect or set to a different timezone, payment restrictions may not behave as expected.  
+Ensure your computer’s date and time are accurate for consistent results.
+
 <box type="tip" seamless>
 `pay` has different meanings for tutors and students. `pay` on tutor means paying the tutor whereas `pay` on student means collecting payment from the student.
 </box>
