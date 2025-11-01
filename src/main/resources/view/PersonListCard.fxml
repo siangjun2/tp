@@ -23,7 +23,7 @@
       <!-- Contact: Phone + Email -->
       <ColumnConstraints hgrow="NEVER" minWidth="200" prefWidth="200" maxWidth="200" />
       <!-- Address -->
-      <ColumnConstraints hgrow="ALWAYS" minWidth="100" prefWidth="180" />
+      <ColumnConstraints hgrow="ALWAYS" minWidth="100" prefWidth="100" />
       <!-- Join Date -->
       <ColumnConstraints hgrow="NEVER" minWidth="90" prefWidth="90" maxWidth="90" />
       <!-- Attendance -->
