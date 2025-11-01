@@ -317,7 +317,7 @@ _{More to be added}_
 
 1.  Admin enters the add command with all required details in the correct format (e.g., add r/student n/Kevin p/98761234 e/kevin@gmail.com a/Kent Ridge c/s4mon1600).
 2.  TutorPal checks the entered details.
-3.  TutorPal adds the new student/tuitor and displays a success message
+3.  TutorPal adds the new student/tutor and displays a success message
 
     Use case ends.
 
@@ -325,7 +325,7 @@ _{More to be added}_
 
 - 2a. Missing required parameter: TutorPal detects an error in the entered details (e.g. missing or invalid parameter).
 
-  - 2a1. TutorPal displays an error message ad requests the correct input.
+  - 2a1. TutorPal displays an error message and requests the correct input.
   - 2a2. Admin enters new details.
   - Steps 2a1-2a2 are repeated until the details are correct.
   - Use case resumes from step 3.
@@ -411,6 +411,34 @@ _{More to be added}_
   - 1a2. Admin enters new input.
   - Steps 1a1-1a2 are repeated until a valid name is entered.
   - Use case resumes from step 2.
+
+**Use case: Record tutor’s monthly salary**
+
+**MSS**
+
+1. Admin enters the pay command with a valid index referring to a tutor and the month to be marked as paid.
+e.g., pay 5 m/10-2025
+
+2. TutorPal records the specified month as paid for the selected tutor.
+
+3. TutorPal updates the tutor’s payment status accordingly and displays a success message.
+
+Use case ends.
+
+Extensions
+
+- 1a. TutorPal detects a missing or invalid month parameter. 
+  - 1a1. TutorPal displays an error message indicating that the month format is invalid and provides the correct format to follow.
+  - 1a2. Admin re-enters the command with a valid month.
+  - Use case resumes from step 2.
+
+- 1b. TutorPal detects that the month entered is earlier than the tutor’s join month or later than the current month.
+  - 1b1. TutorPal rejects the command and displays an error message informing the user that payment cannot be marked for a future month.
+  - Use case ends.
+
+- 1c. TutorPal detects that the month has already been marked as paid.
+  - 1c1. TutorPal displays an error message stating that payment for the specified month has already been recorded.
+  - Use case ends.
 
 ### Non-Functional Requirements
 1.  Should run on Windows 10+, macOS 12+, Ubuntu 22.04+ with Java 17+.
