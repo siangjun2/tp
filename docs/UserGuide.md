@@ -27,7 +27,7 @@ TutorPal helps small, single-subject tuition centres manage students effortlessl
    ![Ui](images/Ui.png)
 
 5. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
-   Some example commands you can try:
+   Some example commands you can try:<br>
    `add r/student n/Kevin p/98761234 e/kevin@gmail.com a/Kent Ridge c/s4mon1600 d/06-10-2025`<br>
    `add r/tutor n/Calvin p/99998888 e/calvin@gmail.com c/s4mon1600 d/29-10-2025 c/s1mon1800`<br>
    `pay 1 m/10-2025`<br>
@@ -68,7 +68,8 @@ TutorPal helps small, single-subject tuition centres manage students effortlessl
 ### Viewing help : `help`
 
 Shows a message explaining how to access the [help page](https://ay2526s1-cs2103t-f11-2.github.io/tp/UserGuide.html), as well as a quick summary of all commands and how to use them. 
-When used with a command, it displays a detailed description of how the command should be used.
+When used with a command, it displays a detailed description of how the command should be used.<br>
+Note that `help` is not a valid `COMMAND_WORD` i.e. `help help` is not valid. 
 
 ![help message](images/helpMessage.png)
 
@@ -95,7 +96,7 @@ What to know:
 - ROLE must be student or tutor.
 - At least one class is required (`c/`). Class format: s[level][day][time], e.g., s4mon1600.
 - Address (`a/`) is optional.
-- Join date (`d/`) is optional; defaults to today. Format: dd-MM-yyyy. Year must be from 2000 onwards.
+- Join date (`d/`) is optional; defaults to today. Format: `dd-MM-yyyy`. Year must be from 2000 onwards.
 
 Corner cases:
 - Students can have exactly one class; tutors can have one or more classes (repeat `c/`).
@@ -208,17 +209,17 @@ Examples:
 Marks the selected student as having attended a specific ISO week.
 
 Format:
-`mark INDEX w/[ATTENDANCEWEEK]`
+`mark INDEX w/ATTENDANCEWEEK`
 
 Example:
 - `mark 3 w/W10-2024`
 
 What to know:
 - Only students can be marked; marking tutors shows an error.
-- Attendance weeks are in WXX-YYYY format (ISO-8601), same as [unmark](#unmark).
-    - Where W is case-insensitive,
-    - XX represents the ISO week, the student attended,
-    - and YYYY represents the corresponding year. Supported years are year 2000 and onwards.
+- Attendance weeks are in `WXX-yyyy` format (ISO-8601), same as [unmark](#unmark).
+    - Where `W` is case-insensitive,
+    - `XX` represents the ISO week, the student attended,
+    - and `yyyy` represents the corresponding year. Supported years are year 2000 and onwards.
 - We are using weeks defined according to ISO-8601, which is an international standard. 
     - This is also a common standard used in the education industry.
     - To find out more, please visit [this page](https://www.iso.org/iso-8601-date-and-time-format.html).
@@ -234,17 +235,17 @@ Corner cases:
 Unmarks the selected student as having attended a specific ISO week.
 
 Format:
-`unmark INDEX w/[ATTENDANCEWEEK]`
+`unmark INDEX w/ATTENDANCEWEEK`
 
 Example:
 - `unmark 3 w/W10-2024`
 
 What to know:
 - Only students can be unmarked; attempting to unmark a tutor shows an error.
-- Attendance weeks are in WXX-YYYY format (ISO-8601), same as [mark](#mark).
-    - W is case-insensitive,
-    - XX is the ISO week the student was previously marked for,
-    - YYYY is the corresponding year (2000 and onwards supported).
+- Attendance weeks are in `WXX-yyyy` format (ISO-8601), same as [mark](#mark).
+    - `W` is case-insensitive,
+    - `XX` is the ISO week the student was previously marked for,
+    - and `yyyy` is the corresponding year (2000 and onwards supported).
 - We are using weeks defined according to ISO-8601, which is an international standard.
     - This is also a common standard used in the education industry.
     - To find out more, please visit [this page](https://www.iso.org/iso-8601-date-and-time-format.html).
@@ -280,13 +281,13 @@ Examples (assume today is Oct 2025):
 
 Reverts monthly fee payments and show each person's payment status
 
-Format: `unpay INDEX m/MM-YYYY [m/MM-YYYY]`
+Format: `unpay INDEX m/MM-yyyy`
 
 Details:
 * Marks the specified month and year as unpaid for the person at `INDEX`
-* Month format must be MM-YYYY (e.g., 04-2025)
+* Month format must be MM-yyyy (e.g., 04-2025)
 * By default, unpaying months **after the current month** and **before Join Month** are not allowed
-* Only one m/ is allowed, providing m/ more than once is rejected.
+* Only one `m/` is allowed, providing `m/` more than once is rejected.
 
 Examples (assume today is Oct 2025):
 * `unpay 3 m/09-2025`- marks Sept 2025 as unpaid for person #3
@@ -295,11 +296,11 @@ Examples (assume today is Oct 2025):
 
 Removes the stored payment record for a specific month.
 
-Format: `delpay INDEX m/MM-YYYY`
+Format: `delpay INDEX m/MM-yyyy`
 
 Details:
 * Deletes the record for the specified month and year for the person at `INDEX`
-* Month format must be MM-YYYY (e.g., 04-2025)
+* Month format must be MM-yyyy (e.g., 04-2025)
 * You can only delete months from the Join Month up to the current month
 * After deletion, the month is treated as unpaid for display and status
 
@@ -380,9 +381,9 @@ Action     | Format, Examples
 **Exit**   | `exit`
 **Find**   | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
 **List**   | `list [c/CLASS] [t/TUTOR] [ps/STATUS]`
-**Mark**   | `mark INDEX w/[ATTENDANCEWEEK]`<br> e.g., `mark 3 w/W10-2024`
-**Unmark** | `unmark INDEX w/[ATTENDANCEWEEK]`<br> e.g., `unmark 3 w/W10-2024`
+**Mark**   | `mark INDEX w/ATTENDANCEWEEK`<br> e.g., `mark 3 w/W10-2024`
+**Unmark** | `unmark INDEX w/ATTENDANCEWEEK`<br> e.g., `unmark 3 w/W10-2024`
 **Pay**    | `pay INDEX m/MM-yyyy`
-**Unpay**  | `unpay INDEX m/MM-YYYY [m/MM-YYYY]`
-**Delpay** | `delpay INDEX m/MM-YYYY`
+**Unpay**  | `unpay INDEX m/MM-yyyy`
+**Delpay** | `delpay INDEX m/MM-yyyy`
 **Help**   | `help`
