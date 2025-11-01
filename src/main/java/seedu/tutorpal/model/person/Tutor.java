@@ -3,7 +3,6 @@ package seedu.tutorpal.model.person;
 import static seedu.tutorpal.model.person.Role.TUTOR;
 
 import java.time.Clock;
-import java.time.LocalDate;
 import java.util.Set;
 
 import seedu.tutorpal.commons.util.ToStringBuilder;
