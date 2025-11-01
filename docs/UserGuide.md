@@ -96,7 +96,7 @@ What to know:
 - ROLE must be student or tutor.
 - At least one class is required (`c/`). Class format: s[level][day][time], e.g., s4mon1600.
 - Address (`a/`) is optional.
-- Join date (`d/`) is optional; defaults to today. Format: dd-MM-yyyy. Year must be from 2000 onwards.
+- Join date (`d/`) is optional; defaults to today. Format: `dd-MM-yyyy`. Year must be from 2000 onwards.
 
 Corner cases:
 - Students can have exactly one class; tutors can have one or more classes (repeat `c/`).
@@ -216,10 +216,10 @@ Example:
 
 What to know:
 - Only students can be marked; marking tutors shows an error.
-- Attendance weeks are in WXX-yyyy format (ISO-8601), same as [unmark](#unmark).
-    - Where W is case-insensitive,
-    - XX represents the ISO week, the student attended,
-    - and yyyy represents the corresponding year. Supported years are year 2000 and onwards.
+- Attendance weeks are in `WXX-yyyy` format (ISO-8601), same as [unmark](#unmark).
+    - Where `W` is case-insensitive,
+    - `XX` represents the ISO week, the student attended,
+    - and `yyyy` represents the corresponding year. Supported years are year 2000 and onwards.
 - We are using weeks defined according to ISO-8601, which is an international standard. 
     - This is also a common standard used in the education industry.
     - To find out more, please visit [this page](https://www.iso.org/iso-8601-date-and-time-format.html).
@@ -235,17 +235,17 @@ Corner cases:
 Unmarks the selected student as having attended a specific ISO week.
 
 Format:
-`unmark INDEX w/[ATTENDANCEWEEK]`
+`unmark INDEX w/ATTENDANCEWEEK`
 
 Example:
 - `unmark 3 w/W10-2024`
 
 What to know:
 - Only students can be unmarked; attempting to unmark a tutor shows an error.
-- Attendance weeks are in WXX-YYYY format (ISO-8601), same as [mark](#mark).
-    - W is case-insensitive,
-    - XX is the ISO week the student was previously marked for,
-    - YYYY is the corresponding year (2000 and onwards supported).
+- Attendance weeks are in `WXX-yyyy` format (ISO-8601), same as [mark](#mark).
+    - `W` is case-insensitive,
+    - `XX` is the ISO week the student was previously marked for,
+    - and `yyyy` is the corresponding year (2000 and onwards supported).
 - We are using weeks defined according to ISO-8601, which is an international standard.
     - This is also a common standard used in the education industry.
     - To find out more, please visit [this page](https://www.iso.org/iso-8601-date-and-time-format.html).
@@ -296,11 +296,11 @@ Examples (assume today is Oct 2025):
 
 Removes the stored payment record for a specific month.
 
-Format: `delpay INDEX m/MM-YYYY`
+Format: `delpay INDEX m/MM-yyyy`
 
 Details:
 * Deletes the record for the specified month and year for the person at `INDEX`
-* Month format must be MM-YYYY (e.g., 04-2025)
+* Month format must be MM-yyyy (e.g., 04-2025)
 * You can only delete months from the Join Month up to the current month
 * After deletion, the month is treated as unpaid for display and status
 
@@ -382,8 +382,8 @@ Action     | Format, Examples
 **Find**   | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
 **List**   | `list [c/CLASS] [t/TUTOR] [ps/STATUS]`
 **Mark**   | `mark INDEX w/ATTENDANCEWEEK`<br> e.g., `mark 3 w/W10-2024`
-**Unmark** | `unmark INDEX w/[ATTENDANCEWEEK]`<br> e.g., `unmark 3 w/W10-2024`
+**Unmark** | `unmark INDEX w/ATTENDANCEWEEK`<br> e.g., `unmark 3 w/W10-2024`
 **Pay**    | `pay INDEX m/MM-yyyy`
 **Unpay**  | `unpay INDEX m/MM-yyyy`
-**Delpay** | `delpay INDEX m/MM-YYYY`
+**Delpay** | `delpay INDEX m/MM-yyyy`
 **Help**   | `help`
