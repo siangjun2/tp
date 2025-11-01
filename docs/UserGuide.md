@@ -27,7 +27,7 @@ TutorPal helps small, single-subject tuition centres manage students effortlessl
    ![Ui](images/Ui.png)
 
 5. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
-   Some example commands you can try:
+   Some example commands you can try:<br>
    `add r/student n/Kevin p/98761234 e/kevin@gmail.com a/Kent Ridge c/s4mon1600 d/06-10-2025`<br>
    `add r/tutor n/Calvin p/99998888 e/calvin@gmail.com c/s4mon1600 d/29-10-2025 c/s1mon1800`<br>
    `pay 1 m/10-2025`<br>
@@ -208,17 +208,17 @@ Examples:
 Marks the selected student as having attended a specific ISO week.
 
 Format:
-`mark INDEX w/[ATTENDANCEWEEK]`
+`mark INDEX w/ATTENDANCEWEEK`
 
 Example:
 - `mark 3 w/W10-2024`
 
 What to know:
 - Only students can be marked; marking tutors shows an error.
-- Attendance weeks are in WXX-YYYY format (ISO-8601), same as [unmark](#unmark).
+- Attendance weeks are in WXX-yyyy format (ISO-8601), same as [unmark](#unmark).
     - Where W is case-insensitive,
     - XX represents the ISO week, the student attended,
-    - and YYYY represents the corresponding year. Supported years are year 2000 and onwards.
+    - and yyyy represents the corresponding year. Supported years are year 2000 and onwards.
 - We are using weeks defined according to ISO-8601, which is an international standard. 
     - This is also a common standard used in the education industry.
     - To find out more, please visit [this page](https://www.iso.org/iso-8601-date-and-time-format.html).
@@ -380,7 +380,7 @@ Action     | Format, Examples
 **Exit**   | `exit`
 **Find**   | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
 **List**   | `list [c/CLASS] [t/TUTOR] [ps/STATUS]`
-**Mark**   | `mark INDEX w/[ATTENDANCEWEEK]`<br> e.g., `mark 3 w/W10-2024`
+**Mark**   | `mark INDEX w/ATTENDANCEWEEK`<br> e.g., `mark 3 w/W10-2024`
 **Unmark** | `unmark INDEX w/[ATTENDANCEWEEK]`<br> e.g., `unmark 3 w/W10-2024`
 **Pay**    | `pay INDEX m/MM-yyyy`
 **Unpay**  | `unpay INDEX m/MM-YYYY [m/MM-YYYY]`
