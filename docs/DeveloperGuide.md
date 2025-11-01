@@ -409,12 +409,32 @@ _{More to be added}_
   - Steps 1a1-1a2 are repeated until valid input is entered.
   - Use case resumes from step 2.
 
-- 1b. Month is before Join Month or after the current month (disallowed by default).
-  - 1b1. TutorPal displays a validation error.
+**Use case: Record tutor’s monthly salary**
+
+**MSS**
+
+1. Admin enters the pay command with a valid index referring to a tutor and the month to be marked as paid.
+e.g., pay 5 m/10-2025
+
+2. TutorPal records the specified month as paid for the selected tutor.
+
+3. TutorPal updates the tutor’s payment status accordingly and displays a success message.
+
+Use case ends.
+
+Extensions
+
+- 1a. TutorPal detects a missing or invalid month parameter. 
+  - 1a1. TutorPal displays an error message indicating that the month format is invalid and provides the correct format to follow.
+  - 1a2. Admin re-enters the command with a valid month.
+  - Use case resumes from step 2.
+
+- 1b. TutorPal detects that the month entered is earlier than the tutor’s join month or later than the current month.
+  - 1b1. TutorPal rejects the command and displays an error message informing the user that payment cannot be marked for a future month.
   - Use case ends.
 
-- 1c. Duplicate m/ provided more than once.
-  - 1c1. TutorPal displays a “duplicate month parameter” error.
+- 1c. TutorPal detects that the month has already been marked as paid.
+  - 1c1. TutorPal displays an error message stating that payment for the specified month has already been recorded.
   - Use case ends.
 
 ### Non-Functional Requirements
