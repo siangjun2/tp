@@ -70,8 +70,9 @@ TutorPal helps small, single-subject tuition centres manage students effortlessl
 Shows a message explaining how to access the [help page](https://ay2526s1-cs2103t-f11-2.github.io/tp/UserGuide.html), as well as a quick summary of all commands and how to use them. 
 When used with a command, it displays a detailed description of how the command should be used.<br>
 
-> [!CAUTION]  
-> `help` is not a valid `COMMAND_WORD` i.e. `help help` is not valid. 
+<box type="warning" seamless>
+`help` is not a valid `COMMAND_WORD` i.e. `help help` is not valid. 
+</box>
 
 ![help message](images/helpMessage.png)
 
@@ -106,11 +107,15 @@ Corner cases:
 - Repeating the same non-repeatable field (`r/`, `n/`, `p/`, `e/`, `a/`, `d/`) is not allowed and shows a “repeated field” error.
 - If any value is invalid (e.g., phone, email, class), the command fails with a clear message.
 
-> [!NOTE]  
-> Legal names are not required in the context of tuition centre owners keeping track of student and tutor names, hence names with only alphanumeric characters are sufficient.
-
-> [!NOTE]  
-> Two persons are considered the same if they have the same name and phone number. Name is case-insensitive.
+<box type="tip" seamless>
+Legal names are not required in the context of tuition centre owners keeping track of student and tutor names, hence names with only alphanumeric characters are sufficient.
+</box>
+<box type="tip" seamless>
+Two persons are considered the same if they have the same name and phone number. Name is case-insensitive.
+</box>
+<box type="tip" seamless>
+Tip: For tutors, add more classes by repeating c/, e.g., c/s4mon1600 c/s4wed1400.
+</box>
 
 <box type="tip" seamless>
 Tip: For tutors, add more classes by repeating c/, e.g., c/s4mon1600 c/s4wed1400.
@@ -288,14 +293,16 @@ Examples (assume today is Oct 2025):
 
 pay 3 m/09-2025 - marks Sept 2025 as paid for person #3
 
-> [!NOTE]
+<box type="tip" seamless>
 TutorPal uses your computer’s **local system date and time** to determine the current month.  
 This means payment validation (e.g., blocking future months) follows your device’s clock and timezone.  
 If your system date/time is incorrect or set to a different timezone, payment restrictions may not behave as expected.  
 Ensure your computer’s date and time are accurate for consistent results.
+</box>
 
-> [!NOTE]  
-> `pay` has different meanings for tutors and students. `pay` on tutor means paying the tutor whereas `pay` on student means collecting payment from the student.
+<box type="tip" seamless>
+`pay` has different meanings for tutors and students. `pay` on tutor means paying the tutor whereas `pay` on student means collecting payment from the student.
+</box>
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -313,6 +320,16 @@ Details:
 
 Examples (assume today is Oct 2025):
 * `unpay 3 m/09-2025`- marks Sept 2025 as unpaid for person #3
+
+<box type="tip" seamless>
+TutorPal uses your computer’s **local system date and time** to determine the current month.  
+This means payment validation (e.g., blocking future months) follows your device’s clock and timezone.  
+If your system date/time is incorrect or set to a different timezone, payment restrictions may not behave as expected.  
+Ensure your computer’s date and time are accurate for consistent results.
+</box>
+<box type="tip" seamless>
+`unpay` has different meanings for tutors and students. `unpay` on a tutor means reversing a salary payment made to the tutor, whereas unpay on a student means reverting a fee payment received from the student.
+</box>
 
 ### Deleting a payment record: `delpay`
 
