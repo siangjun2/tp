@@ -68,7 +68,8 @@ TutorPal helps small, single-subject tuition centres manage students effortlessl
 ### Viewing help : `help`
 
 Shows a message explaining how to access the [help page](https://ay2526s1-cs2103t-f11-2.github.io/tp/UserGuide.html), as well as a quick summary of all commands and how to use them. 
-When used with a command, it displays a detailed description of how the command should be used.
+When used with a command, it displays a detailed description of how the command should be used.<br>
+Note that `help` is not a valid `COMMAND_WORD` i.e. `help help` is not valid. 
 
 ![help message](images/helpMessage.png)
 
