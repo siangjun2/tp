@@ -8,7 +8,8 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<HBox id="cardPane" fx:id="cardPane" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+<HBox id="cardPane" fx:id="cardPane"
+      xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
       style="-fx-background-color: transparent; -fx-border-color: #3c3c3c; -fx-border-width: 0 0 1 0;"
       minHeight="50">
   <GridPane HBox.hgrow="ALWAYS">
@@ -23,6 +24,8 @@
       <ColumnConstraints hgrow="NEVER" minWidth="200" prefWidth="200" maxWidth="200" />
       <!-- Address -->
       <ColumnConstraints hgrow="ALWAYS" minWidth="100" prefWidth="180" />
+      <!-- Join Date -->
+      <ColumnConstraints hgrow="NEVER" minWidth="90" prefWidth="90" maxWidth="90" />
       <!-- Attendance -->
       <ColumnConstraints hgrow="NEVER" minWidth="80" prefWidth="80" maxWidth="80" />
       <!-- Payment -->
@@ -71,8 +74,20 @@
       <Label fx:id="address" text="\$address" alignment="CENTER" styleClass="cell_small_label" wrapText="true" maxWidth="Infinity" />
     </VBox>
 
-    <!-- Column 6: Attendance -->
+    <!-- Column 6: Join Date -->
     <VBox alignment="CENTER" GridPane.columnIndex="5">
+      <padding>
+        <Insets top="10" right="8" bottom="10" left="8" />
+      </padding>
+      <Label fx:id="joinDate" text="\$joinDate"
+             alignment="CENTER"
+             styleClass="cell_small_label"
+             wrapText="true"
+             maxWidth="80" />
+    </VBox>
+
+    <!-- Column 6: Attendance -->
+    <VBox alignment="CENTER" GridPane.columnIndex="6">
       <padding>
         <Insets top="10" right="8" bottom="10" left="8" />
       </padding>
@@ -80,7 +95,7 @@
     </VBox>
 
     <!-- Column 7: Payment Status -->
-    <VBox alignment="CENTER" GridPane.columnIndex="6">
+    <VBox alignment="CENTER" GridPane.columnIndex="7">
       <padding>
         <Insets top="10" right="8" bottom="10" left="8" />
       </padding>
