@@ -284,6 +284,9 @@ Details:
 Examples (assume today is Oct 2025):
 * `pay 3 m/09-2025` - marks Sept 2025 as paid for person #3
 
+> [!NOTE]  
+> `pay` has different meanings for tutors and students. `pay` on tutor means paying the tutor whereas `pay` on student means collecting payment from the student.
+
 --------------------------------------------------------------------------------------------------------------------
 
 ### Managing payments : `unpay`
