@@ -69,7 +69,9 @@ TutorPal helps small, single-subject tuition centres manage students effortlessl
 
 Shows a message explaining how to access the [help page](https://ay2526s1-cs2103t-f11-2.github.io/tp/UserGuide.html), as well as a quick summary of all commands and how to use them. 
 When used with a command, it displays a detailed description of how the command should be used.<br>
-Note that `help` is not a valid `COMMAND_WORD` i.e. `help help` is not valid. 
+
+> [!CAUTION]  
+> `help` is not a valid `COMMAND_WORD` i.e. `help help` is not valid. 
 
 ![help message](images/helpMessage.png)
 
@@ -93,8 +95,9 @@ Examples:
 - `add r/tutor n/Calvin p/99998888 e/calvin@gmail.com c/s4mon1600 d/29-10-2025 c/s1mon1800`
 
 What to know:
-- ROLE must be student or tutor.
-- At least one class is required (`c/`). Class format: s[level][day][time], e.g., s4mon1600.
+- `ROLE` must be `student` or `tutor`.
+- `NAME` must only contain alphanumeric characters and space, with no consecutive double spaces.
+- At least one class is required (`c/`). Class format: `s[level][day][time]`, e.g., `s4mon1600`.
 - Address (`a/`) is optional.
 - Join date (`d/`) is optional; defaults to today. Format: `dd-MM-yyyy`. Year must be from 2000 onwards.
 
@@ -102,6 +105,12 @@ Corner cases:
 - Students can have exactly one class; tutors can have one or more classes (repeat `c/`).
 - Repeating the same non-repeatable field (`r/`, `n/`, `p/`, `e/`, `a/`, `d/`) is not allowed and shows a “repeated field” error.
 - If any value is invalid (e.g., phone, email, class), the command fails with a clear message.
+
+> [!NOTE]  
+> Legal names are not required in the context of tuition centre owners keeping track of student and tutor names, hence names with only alphanumeric characters are sufficient.
+
+> [!NOTE]  
+> Two persons are considered the same if they have the same name and phone number. Name is case-insensitive.
 
 <box type="tip" seamless>
 Tip: For tutors, add more classes by repeating c/, e.g., c/s4mon1600 c/s4wed1400.
@@ -274,6 +283,9 @@ Details:
 
 Examples (assume today is Oct 2025):
 * `pay 3 m/09-2025` - marks Sept 2025 as paid for person #3
+
+> [!NOTE]  
+> `pay` has different meanings for tutors and students. `pay` on tutor means paying the tutor whereas `pay` on student means collecting payment from the student.
 
 --------------------------------------------------------------------------------------------------------------------
 
