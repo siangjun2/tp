@@ -6,7 +6,7 @@
 
 # TutorPal User Guide
 
-TutorPal helps small, single-subject tuition centres manage students effortlessly by centralising contact details, grades, attendance, payment status, subject assignments, tutors, and class schedules in one easy-to-use command-line system (with a simple GUI). Designed for owners, tutors, and admins who are familiar with CLI workflows, it saves time, reduces errors, and lets you focus on teaching instead of paperwork.
+TutorPal helps small, single-subject tuition centre owners manage students and tutors effortlessly by centralizing contact info, attendance and monthly payment tracking (student fees and tutor salaries) in one easy-to-use command-line system. Designed for owners, tutors, and admins who are familiar with CLI workflows, it saves time, reduces errors, and lets you focus on teaching instead of paperwork.
 
 <!-- * Table of Contents -->
 <page-nav-print />

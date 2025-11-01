@@ -14,8 +14,6 @@
 ## **Acknowledgements**
 
 This project is based on the AddressBook-Level3 project created by the [SE-EDU initiative](https://se-education.org).
-This project is based on the AddressBook-Level3 project created by the [SE-EDU initiative](https://se-education.org).
-This project is based on the AddressBook-Level3 project created by the [SE-EDU initiative](https://se-education.org).
 _{ list here sources of all reused/adapted ideas, code, documentation, and third-party libraries -- include links to the original source as well }_
 
 --------------------------------------------------------------------------------------------------------------------
@@ -38,7 +36,7 @@ Given below is a quick overview of main components and how they interact with ea
 
 **Main components of the architecture**
 
-**`Main`** (consisting of classes [`Main`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/Main.java) and [`MainApp`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/MainApp.java)) is in charge of the app launch and shut down.
+**`Main`** (consisting of classes [`Main`](https://github.com/AY2526S1-CS2103T-F11-2/tp/tree/master/src/main/java/seedu/tutorpal/Main.java) and [`MainApp`](https://github.com/AY2526S1-CS2103T-F11-2/tp/tree/master/src/main/java/seedu/tutorpal/MainApp.java)) is in charge of the app launch and shut down.
 * At app launch, it initializes the other components in the correct sequence, and connects them up with each other.
 * At shut down, it shuts down the other components and invokes cleanup methods where necessary.
 
@@ -70,13 +68,13 @@ The sections below give more details of each component.
 
 ### UI component
 
-The **API** of this component is specified in [`Ui.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/ui/Ui.java)
+The **API** of this component is specified in [`Ui.java`](https://github.com/AY2526S1-CS2103T-F11-2/tp/tree/master/src/main/java/seedu/tutorpal/ui/Ui.java)
 
 <puml src="diagrams/UiClassDiagram.puml" alt="Structure of the UI Component"/>
 
 The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `PersonListPanel`, `StatusBarFooter` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class which captures the commonalities between classes that represent parts of the visible GUI.
 
-The `UI` component uses the JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the [`MainWindow`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/ui/MainWindow.java) is specified in [`MainWindow.fxml`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/resources/view/MainWindow.fxml)
+The `UI` component uses the JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the [`MainWindow`](https://github.com/AY2526S1-CS2103T-F11-2/tp/tree/master/src/main/java/seedu/tutorpal/ui/MainWindow.java) is specified in [`MainWindow.fxml`](https://github.com/AY2526S1-CS2103T-F11-2/tp/tree/master/src/main/resources/view/MainWindow.fxml)
 
 The `UI` component,
 
@@ -87,7 +85,7 @@ The `UI` component,
 
 ### Logic component
 
-**API** : [`Logic.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/logic/Logic.java)
+**API** : [`Logic.java`](https://github.com/AY2526S1-CS2103T-F11-2/tp/tree/master/src/main/java/seedu/tutorpal/logic/Logic.java)
 
 Here's a (partial) class diagram of the `Logic` component:
 
@@ -119,7 +117,7 @@ How the parsing works:
 * All `XYZCommandParser` classes (e.g., `AddCommandParser`, `DeleteCommandParser`, ...) inherit from the `Parser` interface so that they can be treated similarly where possible e.g, during testing.
 
 ### Model component
-**API** : [`Model.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/model/Model.java)
+**API** : [`Model.java`](https://github.com/AY2526S1-CS2103T-F11-2/tp/tree/master/src/main/java/seedu/tutorpal/model/Model.java)
 
 <puml src="diagrams/ModelClassDiagram.puml" width="450" />
 
@@ -141,7 +139,7 @@ The `Model` component,
 
 ### Storage component
 
-**API** : [`Storage.java`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/storage/Storage.java)
+**API** : [`Storage.java`](https://github.com/AY2526S1-CS2103T-F11-2/tp/tree/master/src/main/java/seedu/tutorpal/storage/Storage.java)
 
 <puml src="diagrams/StorageClassDiagram.puml" width="550" />
 
@@ -282,13 +280,11 @@ _{Explain here how the data archiving feature will be implemented}_
 * prefers typing to mouse interactions
 * is reasonably comfortable using CLI apps
 
-**Value proposition**: TutorPal helps small tuition centre owners
-manage students effortlessly by centralizing student contact info,
-grades, attendance, payment status, subject assignments, tutors,
-and class schedules in one easy-to-use command-line system.
-This helps save time, reduce errors, and focus on teaching
-instead of paperwork.
-
+**Value proposition**: TutorPal helps small, single-subject tuition centre owners
+manage students and tutors effortlessly by centralizing contact info,
+grades, attendance, monthly payment tracking (student fees and tutor salaries),
+subject assignments, and class schedules in one easy-to-use command-line system.
+This helps save time, reduce errors, and focus on teaching instead of paperwork.
 
 ### User stories
 
@@ -298,6 +294,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 |----------|----------------------|------------------------------|------------------------------------------------------------------------|
 | `* * *`  | new user             | see usage instructions       | refer to instructions when I forget how to use the App                 |
 | `* * *`  | user                 | add a student's contact      | collate all students' details in one place                             |
+| `* * *`  | admin                | add a tutor's contact        | onboard tutors and assign them to classes                              |
 | `* * *`  | user                 | delete a student's contact   | remove entries that I no longer need, maintaining a clean record       |
 | `* * *`  | user                 | find a person by name        | locate details of persons without having to go through the entire list |
 | `* * *`  | tuition centre owner | record payment status        | collect my fees on time                                                |
@@ -317,7 +314,7 @@ _{More to be added}_
 
 1.  Admin enters the add command with all required details in the correct format (e.g., add r/student n/Kevin p/98761234 e/kevin@gmail.com a/Kent Ridge c/s4mon1600).
 2.  TutorPal checks the entered details.
-3.  TutorPal adds the new student/tuitor and displays a success message
+3.  TutorPal adds the new student/tutor and displays a success message
 
     Use case ends.
 
@@ -325,7 +322,7 @@ _{More to be added}_
 
 - 2a. Missing required parameter: TutorPal detects an error in the entered details (e.g. missing or invalid parameter).
 
-  - 2a1. TutorPal displays an error message ad requests the correct input.
+  - 2a1. TutorPal displays an error message and requests the correct input.
   - 2a2. Admin enters new details.
   - Steps 2a1-2a2 are repeated until the details are correct.
   - Use case resumes from step 3.
@@ -395,22 +392,30 @@ _{More to be added}_
   - 2a1. TutorPal displays a 'not found' message.
   - Use case ends.
 
-**Use case: Mark payment status for student**
+**Use case: Mark monthly payment status (student or tutor)**
 
 **MSS**
 
-1.  Admin enters the pay command with a valid index and status (e.g., pay 3 s/paid).
-2.  TutorPal updates the payment status for the student and displays a success message.
+1.  Admin enters the pay command with a valid index and month (e.g., pay 3 m/09-2025).
+2.  TutorPal marks the specified month as paid for the selected person (student: tuition fee; tutor: salary) and displays a success message.
 
     Use case ends.
 
 **Extensions**
 
-- 1a. TutorPal detects an invalid index or status, or the index refers to a tutor.
+- 1a. TutorPal detects an invalid index or month format.
   - 1a1. TutorPal displays an error message and requests correct input.
   - 1a2. Admin enters new input.
-  - Steps 1a1-1a2 are repeated until a valid name is entered.
+  - Steps 1a1-1a2 are repeated until valid input is entered.
   - Use case resumes from step 2.
+
+- 1b. Month is before Join Month or after the current month (disallowed by default).
+  - 1b1. TutorPal displays a validation error.
+  - Use case ends.
+
+- 1c. Duplicate m/ provided more than once.
+  - 1c1. TutorPal displays a “duplicate month parameter” error.
+  - Use case ends.
 
 ### Non-Functional Requirements
 1.  Should run on Windows 10+, macOS 12+, Ubuntu 22.04+ with Java 17+.
