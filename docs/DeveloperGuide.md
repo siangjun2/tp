@@ -425,6 +425,7 @@ _{More to be added}_
 
 * **Mainstream OS**: Windows, macOS, and major Unix-like systems (e.g., Linux).
 * **CLI (Command Line Interface)**: A text-based interface where users interact with the application by typing commands instead of using graphical buttons and menus
+* **GUI (Graphical User Interface)**: The visual interface built with JavaFX, comprising `MainWindow`, `CommandBox`, `ResultDisplay`, `PersonListPanel`, `StatusBarFooter`, etc. Layouts are defined in FXML under `src/main/resources/view`.
 * **Student**: A person enrolled in the tuition centre who receives educational instruction. Their information includes contact details, class assignments, payment status, and academic records
 * **Tutor**: An educator employed by the tuition centre to teach students. Can be assigned to multiple classes
 * **Class Code**: A standardized identifier for classes in the format `sXdddHHMM` where:
@@ -444,7 +445,6 @@ _{More to be added}_
 * **Join Month**: The first billing month for payments. Format: `MM-yyyy`. Payment tracking starts from this month (inclusive).
 * **Current Month**: Determined by the local system date/time and timezone of the device running TutorPal; used for payment validation.
 * **Payment Record**: A stored entry representing the payment status for a specific month (`MM-yyyy`) associated with a student or tutor.
-* **GUI (Graphical User Interface)**: The visual interface built with JavaFX, comprising `MainWindow`, `CommandBox`, `ResultDisplay`, `PersonListPanel`, `StatusBarFooter`, etc. Layouts are defined in FXML under `src/main/resources/view`.
 
 --------------------------------------------------------------------------------------------------------------------
 
