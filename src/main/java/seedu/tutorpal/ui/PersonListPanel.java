@@ -25,8 +25,11 @@ public class PersonListPanel extends UiPart<Region> {
      */
     public PersonListPanel(ObservableList<Person> personList) {
         super(FXML);
+        assert personList != null : "Person list should not be null";
+
         personListView.setItems(personList);
         personListView.setCellFactory(listView -> new PersonListViewCell());
+        logger.fine("PersonListPanel created with " + personList.size() + " persons");
     }
 
     /**
@@ -41,6 +44,7 @@ public class PersonListPanel extends UiPart<Region> {
                 setGraphic(null);
                 setText(null);
             } else {
+                assert getIndex() >= 0 : "Index should be non-negative";
                 setGraphic(new PersonCard(person, getIndex() + 1).getRoot());
             }
         }

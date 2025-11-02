@@ -43,16 +43,17 @@ public class DisplayWindow extends UiPart<Stage> {
      * Builds coloured text into the TextFlow.
      */
     private void setRichMessage(String message) {
+        assert message != null : "Message should not be null";
         Set<String> greenWords = new HashSet<>(Arrays.asList("paid", "present"));
         Set<String> redWords = new HashSet<>(Arrays.asList("unpaid", "absent", "overdue"));
         Set<String> blueWords = new HashSet<>(Arrays.asList("student", "tutor"));
         Set<String> yellowWords = new HashSet<>(Arrays.asList("pending"));
-
         messageFlow.getChildren().clear();
-
         String[] parts = message.split("(?<=\\b)|(?=\\b)");
-
         for (String part : parts) {
+            if (part == null || part.isEmpty()) {
+                continue;
+            }
             Text t = new Text(part);
             t.setStyle("-fx-font-family: 'Consolas', monospace; -fx-font-size: 11pt; -fx-fill: #cccccc;");
 
