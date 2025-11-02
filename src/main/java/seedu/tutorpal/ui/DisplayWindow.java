@@ -48,8 +48,11 @@ public class DisplayWindow extends UiPart<Stage> {
         Set<String> redWords = new HashSet<>(Arrays.asList("unpaid", "absent", "overdue"));
         Set<String> blueWords = new HashSet<>(Arrays.asList("student", "tutor"));
         Set<String> yellowWords = new HashSet<>(Arrays.asList("pending"));
+
         messageFlow.getChildren().clear();
+
         String[] parts = message.split("(?<=\\b)|(?=\\b)");
+        
         for (String part : parts) {
             if (part == null || part.isEmpty()) {
                 continue;
