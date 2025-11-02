@@ -410,16 +410,168 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 - 1c. TutorPal detects that the month has already been marked as paid.
     - 1c1. TutorPal displays an error message stating that payment for the specified month has already been recorded.
     - Use case ends.
+
 <br>
-    
+**Use case: Mark student attendance**
+
+**MSS**
+
+1. Admin enters the mark command with a valid index and attendance week (e.g., mark 3 w/W10-2025).
+2. TutorPal checks that the person at the index is a student and validates the attendance week.
+3. TutorPal marks the attendance for the specified week and displays a success message.
+
+Use case ends.
+
+**Extensions**
+
+- 1a. TutorPal detects an invalid index (non-numeric or out of range).
+    - 1a1. TutorPal displays an error message and requests a valid index.
+    - 1a2. Admin enters a new index.
+    - Steps 1a1-1a2 are repeated until a valid index is entered.
+    - Use case resumes from step 2.
+
+- 2a. TutorPal detects that the person at the index is a tutor.
+    - 2a1. TutorPal displays an error message indicating that attendance can only be marked for students.
+    - Use case ends.
+
+- 2b. TutorPal detects an invalid or missing attendance week parameter.
+    - 2b1. TutorPal displays an error message and requests the correct format.
+    - 2b2. Admin enters a new attendance week.
+    - Steps 2b1-2b2 are repeated until a valid attendance week is entered.
+    - Use case resumes from step 3.
+
+- 2c. TutorPal detects that the attendance week is outside the valid range (before join week or after current week).
+    - 2c1. TutorPal displays an error message indicating the valid range.
+    - Use case ends.
+
+- 2d. TutorPal detects that the attendance week has already been marked.
+    - 2d1. TutorPal displays an error message indicating that attendance for this week is already marked.
+    - Use case ends.
+
+<br>
+**Use case: Unmark student attendance**
+
+**MSS**
+
+1. Admin enters the unmark command with a valid index and attendance week (e.g., unmark 3 w/W10-2025).
+2. TutorPal checks that the person at the index is a student and validates the attendance week.
+3. TutorPal unmarks the attendance for the specified week and displays a success message.
+
+Use case ends.
+
+**Extensions**
+
+- 1a. TutorPal detects an invalid index (non-numeric or out of range).
+    - 1a1. TutorPal displays an error message and requests a valid index.
+    - 1a2. Admin enters a new index.
+    - Steps 1a1-1a2 are repeated until a valid index is entered.
+    - Use case resumes from step 2.
+
+- 2a. TutorPal detects that the person at the index is a tutor.
+    - 2a1. TutorPal displays an error message indicating that attendance can only be unmarked for students.
+    - Use case ends.
+
+- 2b. TutorPal detects an invalid or missing attendance week parameter.
+    - 2b1. TutorPal displays an error message and requests the correct format.
+    - 2b2. Admin enters a new attendance week.
+    - Steps 2b1-2b2 are repeated until a valid attendance week is entered.
+    - Use case resumes from step 3.
+
+- 2c. TutorPal detects that the attendance week is outside the valid range (before join week or after current week).
+    - 2c1. TutorPal displays an error message indicating the valid range.
+    - Use case ends.
+
+- 2d. TutorPal detects that the attendance week was never marked.
+    - 2d1. TutorPal displays an error message indicating that attendance for this week was not previously marked.
+    - Use case ends.
+
+<br>
+**Use case: Edit person details**
+
+**MSS**
+
+1. Admin enters the edit command with a valid index and at least one field to edit (e.g., edit 2 p/91234567 e/johndoe@example.com).
+2. TutorPal validates the edit parameters.
+3. TutorPal updates the person's details and displays a success message.
+
+Use case ends.
+
+**Extensions**
+
+- 1a. TutorPal detects an invalid index (non-numeric or out of range).
+    - 1a1. TutorPal displays an error message and requests a valid index.
+    - 1a2. Admin enters a new index.
+    - Steps 1a1-1a2 are repeated until a valid index is entered.
+    - Use case resumes from step 2.
+
+- 1b. Admin provides no fields to edit.
+    - 1b1. TutorPal displays an error message indicating that at least one field must be provided.
+    - Use case ends.
+
+- 1c. Admin attempts to edit the role field.
+    - 1c1. TutorPal displays an error message indicating that role cannot be edited.
+    - Use case ends.
+
+- 2a. TutorPal detects invalid field values (e.g., invalid phone, email, or class format).
+    - 2a1. TutorPal displays an error message specific to the invalid field.
+    - 2a2. Admin enters corrected values.
+    - Steps 2a1-2a2 are repeated until all values are valid.
+    - Use case resumes from step 3.
+
+- 2b. Admin edits a student's classes and provides more than one class.
+    - 2b1. TutorPal displays an error message indicating that students can only have one class.
+    - Use case ends.
+
+- 2c. Admin edits classes and provides no classes (empty class list).
+    - 2c1. TutorPal displays an error message indicating that at least one class is required.
+    - Use case ends.
+
+- 2d. Admin changes a student's join date, and the new join date would invalidate existing marked attendance.
+    - 2d1. TutorPal displays an error message indicating that attendance records would become invalid.
+    - Use case ends.
+
+- 2e. TutorPal detects that the edited person would create a duplicate (same name and phone number as another person).
+    - 2e1. TutorPal displays an error message indicating a duplicate person would be created.
+    - Use case ends.
+
+<br>
+**Use case: Clear all entries**
+
+**MSS**
+
+1. Admin enters the clear command.
+2. TutorPal clears all entries from the address book and displays a success message.
+
+Use case ends.
+
+**Extensions**
+
+None.
+
+**Use case: Exit application**
+
+**MSS**
+
+1. Admin enters the exit command.
+2. TutorPal displays an exit acknowledgment message and closes the application.
+
+Use case ends.
+
+**Extensions**
+
+None.
+
 ### Non-Functional Requirements
 1.  Should run on Windows 10+, macOS 12+, Ubuntu 22.04+ with Java 17+.
 2.  Should have relatively fast startup on boot i.e. < 3000ms.
 3.  Should have relatively smooth usage up to 1,000 persons; no UI freezes >1000 ms.
-4.  Should be able to execute commands e.g. add/edit/delete/find/list in <1000 ms on a dataset of 1,000 persons.
-5.  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
-6.  Should function offline without internet access.
-7.  Data should be saved locally. Local data loaded on startup.
+4.  The application interface (window, scrolling, and input fields) should remain responsive,
+    with no unresponsiveness or noticeable lag lasting longer than 1 second (1000 ms)
+    during normal operations such as typing, scrolling, or executing commands.
+5.  Should be able to execute commands e.g. add/edit/delete/find/list in <1000 ms on a dataset of 1,000 persons.
+6.  A user with above average typing speed of at least 50 words per minute (wpm) for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
+7.  Should function offline without internet access.
+8.  Data should be saved locally. Local data loaded on startup.
 
 ### Glossary
 
