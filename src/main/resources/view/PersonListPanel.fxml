@@ -8,6 +8,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.control.ScrollPane?>
 <VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
   <!-- Table Header -->
   <HBox style="-fx-background-color: #2d2d30; -fx-border-color: #3c3c3c; -fx-border-width: 0 0 1 0;">
@@ -89,7 +90,9 @@
     </GridPane>
   </HBox>
 
-  <!-- List View -->
-  <ListView fx:id="personListView" VBox.vgrow="ALWAYS"
-            style="-fx-background-color: #252526; -fx-background-insets: 0; -fx-padding: 0; -fx-border-color: transparent;" />
+  <ScrollPane VBox.vgrow="ALWAYS" fitToWidth="true" vbarPolicy="ALWAYS" hbarPolicy="NEVER"
+              style="-fx-background: #252526; -fx-background-color: #252526;">
+    <ListView fx:id="personListView"
+              style="-fx-background-color: #252526; -fx-background-insets: 0; -fx-padding: 0; -fx-border-color: transparent;" />
+  </ScrollPane>
 </VBox>
