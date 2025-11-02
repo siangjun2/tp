@@ -6,6 +6,15 @@
     "role": "student",
     "address": "4th street",
     "classes": [ "s4mon1600" ],
+    "joinDate": "2024-01-01",
+    "paymentHistory": {
+      "joinDate": "2024-01-01",
+      "monthlyPayments": []
+    },
+    "attendanceHistory": {
+      "joinDate": "2024-01-01",
+      "weeklyAttendances": []
+    },
     "payment" : "unpaid"
   } ]
 }

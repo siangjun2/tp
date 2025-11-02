@@ -8,6 +8,8 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import seedu.tutorpal.logic.commands.exceptions.CommandException;
+
 /**
  * Represents a person's payment history across multiple months.
  * Guarantees: immutable value object that manages monthly payment statuses.
@@ -139,10 +141,13 @@ public class PaymentHistory {
      * @return A new PaymentHistory without an entry for the specified month
      * @throws IllegalArgumentException if the month is before join date or in the future
      */
-    public PaymentHistory deleteMonth(YearMonth month) {
+    public PaymentHistory deleteMonth(YearMonth month) throws CommandException {
         assert month != null : "Month cannot be null";
         validateMonth(month);
         Set<MonthlyPayment> newPayments = new HashSet<>(monthlyPayments);
+        if (newPayments.stream().map(p -> p.getMonth()).filter(m -> m.equals(month)).count() == 0) {
+            throw new CommandException("Payment record for the specified MM-yyyy not found.");
+        }
         newPayments.removeIf(payment -> payment.getMonth().equals(month));
         return new PaymentHistory(joinDate, newPayments);
     }

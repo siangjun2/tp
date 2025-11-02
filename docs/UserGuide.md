@@ -6,7 +6,7 @@
 
 # TutorPal User Guide
 
-TutorPal helps small, single-subject tuition centres manage students effortlessly by centralising contact details, grades, attendance, payment status, subject assignments, tutors, and class schedules in one easy-to-use command-line system (with a simple GUI). Designed for owners, tutors, and admins who are familiar with CLI workflows, it saves time, reduces errors, and lets you focus on teaching instead of paperwork.
+TutorPal helps small, single-subject tuition centre owners manage students and tutors effortlessly by centralizing contact info, attendance and monthly payment tracking (student fees and tutor salaries) in one easy-to-use command-line system. Designed for owners, tutors, and admins who are familiar with CLI workflows, it saves time, reduces errors, and lets you focus on teaching instead of paperwork.
 
 <!-- * Table of Contents -->
 <page-nav-print />
@@ -69,7 +69,10 @@ TutorPal helps small, single-subject tuition centres manage students effortlessl
 
 Shows a message explaining how to access the [help page](https://ay2526s1-cs2103t-f11-2.github.io/tp/UserGuide.html), as well as a quick summary of all commands and how to use them. 
 When used with a command, it displays a detailed description of how the command should be used.<br>
-Note that `help` is not a valid `COMMAND_WORD` i.e. `help help` is not valid. 
+
+<box type="warning" seamless>
+`help` is not a valid `COMMAND_WORD` i.e. `help help` is not valid. 
+</box>
 
 ![help message](images/helpMessage.png)
 
@@ -93,8 +96,9 @@ Examples:
 - `add r/tutor n/Calvin p/99998888 e/calvin@gmail.com c/s4mon1600 d/29-10-2025 c/s1mon1800`
 
 What to know:
-- ROLE must be student or tutor.
-- At least one class is required (`c/`). Class format: s[level][day][time], e.g., s4mon1600.
+- `ROLE` must be `student` or `tutor`.
+- `NAME` must only contain alphanumeric characters and space, with no consecutive double spaces.
+- At least one class is required (`c/`). Class format: `s[level][day][time]`, e.g., `s4mon1600`.
 - Address (`a/`) is optional.
 - Join date (`d/`) is optional; defaults to today. Format: `dd-MM-yyyy`. Year must be from 2000 onwards.
 
@@ -102,6 +106,14 @@ Corner cases:
 - Students can have exactly one class; tutors can have one or more classes (repeat `c/`).
 - Repeating the same non-repeatable field (`r/`, `n/`, `p/`, `e/`, `a/`, `d/`) is not allowed and shows a “repeated field” error.
 - If any value is invalid (e.g., phone, email, class), the command fails with a clear message.
+
+<box type="tip" seamless>
+Legal names are not required in the context of tuition centre owners keeping track of student and tutor names, hence names with only alphanumeric characters are sufficient.
+</box>
+
+<box type="tip" seamless>
+Two persons are considered the same if they have the same name and phone number. Name is case-insensitive.
+</box>
 
 <box type="tip" seamless>
 Tip: For tutors, add more classes by repeating c/, e.g., c/s4mon1600 c/s4wed1400.
@@ -275,6 +287,20 @@ Details:
 Examples (assume today is Oct 2025):
 * `pay 3 m/09-2025` - marks Sept 2025 as paid for person #3
 
+Examples (assume today is Oct 2025):
+pay 3 m/09-2025 - marks Sept 2025 as paid for person #3
+
+<box type="tip" seamless>
+TutorPal uses your computer’s **local system date and time** to determine the current month.  
+This means payment validation (e.g., blocking future months) follows your device’s clock and timezone.  
+If your system date/time is incorrect or set to a different timezone, payment restrictions may not behave as expected.  
+Ensure your computer’s date and time are accurate for consistent results.
+</box>
+
+<box type="tip" seamless>
+`pay` has different meanings for tutors and students. `pay` on tutor means paying the tutor whereas `pay` on student means collecting payment from the student.
+</box>
+
 --------------------------------------------------------------------------------------------------------------------
 
 ### Managing payments : `unpay`
@@ -291,6 +317,16 @@ Details:
 
 Examples (assume today is Oct 2025):
 * `unpay 3 m/09-2025`- marks Sept 2025 as unpaid for person #3
+
+<box type="tip" seamless>
+TutorPal uses your computer’s **local system date and time** to determine the current month.  
+This means payment validation (e.g., blocking future months) follows your device’s clock and timezone.  
+If your system date/time is incorrect or set to a different timezone, payment restrictions may not behave as expected.  
+Ensure your computer’s date and time are accurate for consistent results.
+</box>
+<box type="tip" seamless>
+`unpay` has different meanings for tutors and students. `unpay` on a tutor means reversing a salary payment made to the tutor, whereas unpay on a student means reverting a fee payment received from the student.
+</box>
 
 ### Deleting a payment record: `delpay`
 
@@ -348,6 +384,32 @@ TutorPal data are saved automatically as a JSON file `[JAR file location]/data/a
 **Caution:**
 If your changes to the data file makes its format invalid, TutorPal will discard all data and start with an empty data file at the next run.  Hence, it is recommended to take a backup of the file before editing it.<br>
 Furthermore, certain edits can cause the TutorPal to behave in unexpected ways (e.g., if a value entered is outside the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
+</box>
+
+### Keeping data consistent when editing manually
+
+When manually editing the JSON data file, ensure that all **join-date values** across different parts of each person’s record are kept in sync.
+
+<box type="warning" seamless>
+
+**Important:**
+
+TutorPal stores the join date in three separate places:
+
+1. In the main person object (`joinDate`) — uses the format **DD-MM-YYYY**
+2. In the payment history — uses the format **YYYY-MM-DD**
+3. In the attendance history’s `joinDate` — uses the format **DD-MM-YYYY**
+
+All three must refer to the **same date**.  
+If they are not consistent, TutorPal may display incorrect payment or attendance information.
+</box>
+
+<box type="tip" seamless>
+
+Before saving, double-check that:
+- The `joinDate` in the main person record matches the one in the attendance history.
+- The payment history uses the correct format (**YYYY-MM-DD**).
+- You have created a backup copy of the data file before making changes.
 </box>
 
 --------------------------------------------------------------------------------------------------------------------
