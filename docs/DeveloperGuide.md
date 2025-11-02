@@ -626,7 +626,6 @@ testers are expected to do more *exploratory* testing.
    1. Re-launch the app by double-clicking the jar file.<br>
        Expected: The most recent window size and location is retained.
 
-1. _{ more test cases …​ }_
 
 ### Deleting a person
 
@@ -651,7 +650,6 @@ testers are expected to do more *exploratory* testing.
     1. Test case: `pay 1 m/09-2025 m/09-2025`<br>
       Expected: Command rejected with a “duplicate month” error. No changes applied.
 
-1. _{ more test cases …​ }_
 
 ### Saving data
 
@@ -659,4 +657,3 @@ testers are expected to do more *exploratory* testing.
 
    1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
 
-1. _{ more test cases …​ }_

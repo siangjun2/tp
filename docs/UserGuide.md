@@ -76,7 +76,7 @@ When used with a command, it displays a detailed description of how the command 
 
 ![help message](images/helpMessage.png)
 
-Format: 
+Format:
 `help [COMMAND_WORD]`
 
 Examples:
@@ -203,7 +203,7 @@ Corner cases:
 
 Finds students and tutors whose names contain any of the given keywords.
 
-Format: 
+Format:
 `find KEYWORD [MORE_KEYWORDS]`
 
 * The search is case-insensitive. e.g `chong` will match `Chong`
@@ -215,7 +215,7 @@ Format:
 Examples:
 * `find Sheng` returns `Sheng` and `Yong Sheng`
 * `find Lee Sen More` returns `Lee Ze Xuan`, `Sen Yong Sheng` and `More Robin`
-  
+
 ### Marking attendance for students : `mark` {: #mark}
 
 Marks the selected student as having attended a specific ISO week.
@@ -400,7 +400,7 @@ TutorPal stores the join date in three separate places:
 2. In the payment history — uses the format **YYYY-MM-DD**
 3. In the attendance history’s `joinDate` — uses the format **DD-MM-YYYY**
 
-All three must refer to the **same date**.  
+All three must refer to the **same date**. 
 If they are not consistent, TutorPal may display incorrect payment or attendance information.
 </box>
 
