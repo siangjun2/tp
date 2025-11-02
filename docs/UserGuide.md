@@ -388,7 +388,7 @@ Furthermore, certain edits can cause the TutorPal to behave in unexpected ways (
 
 ### Keeping data consistent when editing manually
 
-When manually editing the JSON data file, ensure that all join-date values across different parts of each person’s record are kept in sync.
+When manually editing the JSON data file, ensure that all **join-date values** across different parts of each person’s record are kept in sync.
 
 <box type="warning" seamless>
 
@@ -404,8 +404,14 @@ All three must refer to the **same date**.
 If they are not consistent, TutorPal may display incorrect payment or attendance information.
 </box>
 
+<box type="tip" seamless>
 
-<box type="tip" seamless> Before saving, double-check that: - The `joinDate` in the main person record matches the one in the attendance history. - The payment history uses the correct format (**YYYY-MM-DD**). - You have created a backup copy of the data file before making changes. </box>
+Before saving, double-check that:
+- The `joinDate` in the main person record matches the one in the attendance history.
+- The payment history uses the correct format (**YYYY-MM-DD**).
+- You have created a backup copy of the data file before making changes.
+</box>
+
 --------------------------------------------------------------------------------------------------------------------
 
 ## FAQ
