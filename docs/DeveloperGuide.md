@@ -19,7 +19,7 @@ This project is based on the AddressBook-Level3 project created by the [SE-EDU i
 
 ## **Setting up, getting started**
 
-Refer to the guide [_Setting up and getting started_](https://se-education.org/addressbook-level3/SettingUp.html). TutorPal follows the same setup as AddressBook.
+Refer to the guide [_Setting up and getting started_](SettingUp.md). TutorPal follows the same setup as AddressBook.
 
 --------------------------------------------------------------------------------------------------------------------
 
