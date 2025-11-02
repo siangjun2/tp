@@ -37,6 +37,7 @@ public class UnmarkCommandTest {
 
     @Test
     public void execute_nullModel_throwsNullPointerException() {
+        // EP: null model
         UnmarkCommand cmd = new UnmarkCommand(Index.fromOneBased(1), new WeeklyAttendance("W01-2025"));
         assertThrows(NullPointerException.class, () -> cmd.execute(null));
     }
@@ -71,6 +72,7 @@ public class UnmarkCommandTest {
 
     @Test
     public void execute_markedWeek_unmarksSuccessfully() throws Exception {
+        // EP: valid index, valid week, week already marked, week within valid range
         Clock fixedClock = fixedClock(LocalDate.of(2025, 7, 1)); // around W27-2025
         JoinDate joinDate = new JoinDate(LocalDate.of(2025, 1, 15));
         WeeklyAttendance week = new WeeklyAttendance("W26-2025");
@@ -99,6 +101,7 @@ public class UnmarkCommandTest {
 
     @Test
     public void execute_notMarked_throwsCommandException() {
+        // EP: week not marked (cannot unmark what's not marked)
         Clock fixedClock = fixedClock(LocalDate.of(2025, 7, 1));
         JoinDate joinDate = new JoinDate(LocalDate.of(2025, 1, 15));
         WeeklyAttendance week = new WeeklyAttendance("W26-2025");
@@ -123,6 +126,7 @@ public class UnmarkCommandTest {
 
     @Test
     public void execute_weekOutOfRange_throwsCommandException() {
+        // EP: week out of valid range (before join date)
         Clock fixedClock = fixedClock(LocalDate.of(2025, 3, 1)); // ~W09-2025
         JoinDate joinDate = new JoinDate(LocalDate.of(2025, 3, 1)); // join ~W09-2025
         WeeklyAttendance outOfRange = new WeeklyAttendance("W05-2025");
@@ -147,6 +151,7 @@ public class UnmarkCommandTest {
 
     @Test
     public void execute_invalidIndex_throwsCommandException() {
+        // EP: index > size of list
         Clock fixedClock = fixedClock(LocalDate.of(2025, 7, 1));
         JoinDate joinDate = new JoinDate(LocalDate.of(2025, 1, 1));
         AttendanceHistory history = new AttendanceHistory(joinDate, fixedClock);

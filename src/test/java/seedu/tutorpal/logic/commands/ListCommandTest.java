@@ -34,18 +34,20 @@ public class ListCommandTest {
 
     @Test
     public void execute_listIsNotFiltered_showsSameList() {
+        // EP: no filter (lists all persons)
         assertCommandSuccess(new ListCommand(), model, ListCommand.MESSAGE_SUCCESS, expectedModel);
     }
 
     @Test
     public void execute_listIsFiltered_showsEverything() {
+        // EP: no filter (resets previously filtered list to show all persons)
         showPersonAtIndex(model, INDEX_FIRST_PERSON);
         assertCommandSuccess(new ListCommand(), model, ListCommand.MESSAGE_SUCCESS, expectedModel);
     }
 
     @Test
     public void execute_listWithClassFilter_showsFilteredList() {
-        // Test with a class filter
+        // EP: full class code matches valid format (single class filter)
         ClassContainsKeywordsPredicate predicate =
                 new ClassContainsKeywordsPredicate(java.util.Arrays.asList("s4mon1600"));
         ListCommand listCommand = new ListCommand(predicate, null, null);
@@ -63,6 +65,7 @@ public class ListCommandTest {
 
     @Test
     public void execute_class_orMatch() {
+        // EP: multiple class filters (OR logic)
         ClassContainsKeywordsPredicate classPred =
             new ClassContainsKeywordsPredicate(Arrays.asList("s2", "s4"));
         ListCommand cmd = new ListCommand(classPred, null, null);
@@ -77,7 +80,7 @@ public class ListCommandTest {
 
     @Test
     public void execute_tutor_only() {
-        // Ensure "John Doe" exists as a tutor in your TypicalPersons; otherwise change the name.
+        // EP: tutor name keyword (single tutor filter)
         StudentBelongsToTutorPredicate tutorPred =
             new StudentBelongsToTutorPredicate(Arrays.asList("John Doe"));
 
@@ -98,10 +101,11 @@ public class ListCommandTest {
 
     @Test
     public void execute_classAndTutor() {
+        // EP: different filter types combined (AND logic - class + tutor)
         ClassContainsKeywordsPredicate classPred =
             new ClassContainsKeywordsPredicate(Arrays.asList("s4"));
 
-        // Ensure these tutor names exist in your dataset
+        // EP: multiple tutor filters (OR logic) combined with class filter (AND logic)
         StudentBelongsToTutorPredicate tutorPred =
             new StudentBelongsToTutorPredicate(Arrays.asList("John", "Jane"));
         tutorPred.setTutorClassKeywords(
