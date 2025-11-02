@@ -52,7 +52,6 @@ public class DisplayWindow extends UiPart<Stage> {
         messageFlow.getChildren().clear();
 
         String[] parts = message.split("(?<=\\b)|(?=\\b)");
-        
         for (String part : parts) {
             if (part == null || part.isEmpty()) {
                 continue;
