@@ -48,6 +48,7 @@ PersonListPanel --|> UiPart
 PersonCard --|> UiPart
 StatusBarFooter --|> UiPart
 HelpWindow --|> UiPart
+DisplayWindow --|> UiPart
 
 PersonCard ..> Model
 UiManager -right-> Logic
