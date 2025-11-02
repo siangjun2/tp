@@ -19,7 +19,7 @@ This project is based on the AddressBook-Level3 project created by the [SE-EDU i
 
 ## **Setting up, getting started**
 
-Refer to the guide [_Setting up and getting started_](https://se-education.org/addressbook-level3/SettingUp.html). TutorPal follows the same setup as AddressBook.
+Refer to the guide [_Setting up and getting started_](SettingUp.md). TutorPal follows the same setup as AddressBook.
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -295,37 +295,38 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `* *`    | admin                | filter students by `class`, `tutor`, or `payment status` | find the right group of people easily                                  |
 | `*`      | tuition centre owner | Set reminders for payments   | do not forget to ask for pending payments                              |
 
-_{More to be added}_
+### Use cases
 (For all use cases below, the **System** is the `TutorPal` and the **Actor** is the `Tuition Centre Admin`, unless specified otherwise)
 
+<br>
 **Use case: Add new student/tutor**
 
 **MSS**
 
-1.  Admin enters the add command with all required details in the correct format (e.g., add r/student n/Kevin p/98761234 e/kevin@gmail.com a/Kent Ridge c/s4mon1600).
-2.  TutorPal checks the entered details.
-3.  TutorPal adds the new student/tutor and displays a success message
+1.  Admin enters the add command with all required details in the correct format (e.g., `add r/student n/Kevin p/98761234 e/kevin@gmail.com a/Kent Ridge c/s4mon1600`).
+2.  TutorPal adds the new student/tutor and displays a success message.
 
     Use case ends.
 
 **Extensions**
 
-- 2a. Missing required parameter: TutorPal detects an error in the entered details (e.g. missing or invalid parameter).
+- 1a. Missing required parameter: TutorPal detects an error in the entered details (e.g. missing or invalid parameter).
 
-  - 2a1. TutorPal displays an error message and requests the correct input.
-  - 2a2. Admin enters new details.
-  - Steps 2a1-2a2 are repeated until the details are correct.
-  - Use case resumes from step 3.
+  - 1a1. TutorPal displays an error message and requests the correct input.
+  - 1a2. Admin enters new details.
+  - Steps 1a1-1a2 are repeated until the details are correct.
+  - Use case resumes from step 2.
 
-- 2b. TutorPal detects a duplicate (same name and phone number).
-  - 2b1. TutorPal displays a duplicate error message.
+- 1b. TutorPal detects a duplicate (same name and phone number).
+  - 1b1. TutorPal displays a duplicate error message.
   - Use case ends.
 
+<br>
 **Use case: Delete student/tutor**
 
 **MSS**
 
-1.  Admin enters the delete command with a valid index (e.g., delete 5).
+1.  Admin enters the delete command with a valid index (e.g., `delete 5`).
 2.  TutorPal deletes the contact at the specified index and displays a success message.
 
     Use case ends.
@@ -338,12 +339,13 @@ _{More to be added}_
   - Steps 1a1-1a2 are repeated until a valid index is entered.
   - Use case resumes from step 2.
 
+<br>
 **Use case: List students/tutors (with optional filter)**
 
 **MSS**
 
-1.  Admin enters the list command, optionally with a filter (e.g., list, list c/s4mon1600, list t/Yeo Yong Sheng).
-2.  If the filter is valid, TutorPal displays the list of matching contacts with all attributes in a table format.
+1.  Admin enters the list command, optionally with a filter (e.g., `list`, `list c/s4mon1600`, `list t/Yeo Yong Sheng`).
+2.  TutorPal displays the list of matching contacts with all attributes in a table format.
 
     Use case ends.
 
@@ -353,25 +355,26 @@ _{More to be added}_
 
   - 1a1. TutorPal displays an error message and requests a valid filter.
   - 1a2. Admin enters a new filter.
-  - Steps 1a1-1a2 are repeated until a valid filter is entered.
+  - Steps 1a1-1a2 are repeated until a valid filter or no filter is entered.
   - Use case resumes from step 2.
 
 - 2a. No matching records found.
-  - 2a1. TutorPal displays a 'not found' message.
+  - 2a1. TutorPal displays a `0 persons listed!` message.
   - Use case ends.
 
+<br>
 **Use case: Find student/tutor by name**
 
 **MSS**
 
-1.  Admin enters the find command with a name parameter (e.g., find n/chong).
+1.  Admin enters the find command with a name parameter (e.g., `find chong`).
 2.  TutorPal displays matching contacts with their information and index.
 
     Use case ends.
 
 **Extensions**
 
-- 1a. TutorPal detects a missing or invalid name parameter.
+- 1a. TutorPal detects a missing or invalid name parameter i.e. empty string.
 
   - 1a1. TutorPal displays an error message and requests a valid name.
   - 1a2. Admin enters a new name.
@@ -379,14 +382,15 @@ _{More to be added}_
   - Use case resumes from step 2.
 
 - 2a. No matching records found.
-  - 2a1. TutorPal displays a 'not found' message.
+  - 2a1. TutorPal displays a `0 persons listed!` message.
   - Use case ends.
 
+<br>
 **Use case: Mark monthly payment status (student or tutor)**
 
 **MSS**
 
-1.  Admin enters the pay command with a valid index and month (e.g., pay 3 m/09-2025).
+1.  Admin enters the pay command with a valid index and month (e.g., `pay 3 m/09-2025`).
 2.  TutorPal marks the specified month as paid for the selected person (student: tuition fee; tutor: salary) and displays a success message.
 
     Use case ends.
@@ -399,34 +403,15 @@ _{More to be added}_
   - Steps 1a1-1a2 are repeated until valid input is entered.
   - Use case resumes from step 2.
 
-**Use case: Record tutor’s monthly salary**
-
-**MSS**
-
-1. Admin enters the pay command with a valid index referring to a tutor and the month to be marked as paid.
-e.g., pay 5 m/10-2025
-
-2. TutorPal records the specified month as paid for the selected tutor.
-
-3. TutorPal updates the tutor’s payment status accordingly and displays a success message.
-
-Use case ends.
-
-Extensions
-
-- 1a. TutorPal detects a missing or invalid month parameter. 
-  - 1a1. TutorPal displays an error message indicating that the month format is invalid and provides the correct format to follow.
-  - 1a2. Admin re-enters the command with a valid month.
-  - Use case resumes from step 2.
-
 - 1b. TutorPal detects that the month entered is earlier than the tutor’s join month or later than the current month.
-  - 1b1. TutorPal rejects the command and displays an error message informing the user that payment cannot be marked for a future month.
-  - Use case ends.
+    - 1b1. TutorPal rejects the command and displays an error message informing the user that payment cannot be marked for a future month.
+    - Use case ends.
 
 - 1c. TutorPal detects that the month has already been marked as paid.
-  - 1c1. TutorPal displays an error message stating that payment for the specified month has already been recorded.
-  - Use case ends.
+    - 1c1. TutorPal displays an error message stating that payment for the specified month has already been recorded.
+    - Use case ends.
 
+<br>
 **Use case: Mark student attendance**
 
 **MSS**
@@ -463,6 +448,7 @@ Use case ends.
     - 2d1. TutorPal displays an error message indicating that attendance for this week is already marked.
     - Use case ends.
 
+<br>
 **Use case: Unmark student attendance**
 
 **MSS**
@@ -499,6 +485,7 @@ Use case ends.
     - 2d1. TutorPal displays an error message indicating that attendance for this week was not previously marked.
     - Use case ends.
 
+<br>
 **Use case: Edit person details**
 
 **MSS**
@@ -547,6 +534,7 @@ Use case ends.
     - 2e1. TutorPal displays an error message indicating a duplicate person would be created.
     - Use case ends.
 
+<br>
 **Use case: Clear all entries**
 
 **MSS**
@@ -577,13 +565,13 @@ None.
 1.  Should run on Windows 10+, macOS 12+, Ubuntu 22.04+ with Java 17+.
 2.  Should have relatively fast startup on boot i.e. < 3000ms.
 3.  Should have relatively smooth usage up to 1,000 persons; no UI freezes >1000 ms.
-    The application interface (window, scrolling, and input fields) should remain responsive,
+4.  The application interface (window, scrolling, and input fields) should remain responsive,
     with no unresponsiveness or noticeable lag lasting longer than 1 second (1000 ms)
     during normal operations such as typing, scrolling, or executing commands.
-4.  Should be able to execute commands e.g. add/edit/delete/find/list in <1000 ms on a dataset of 1,000 persons.
-5.  A user with above average typing speed of at least 50 words per minute (wpm) for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
-6.  Should function offline without internet access.
-7.  Data should be saved locally. Local data loaded on startup.
+5.  Should be able to execute commands e.g. add/edit/delete/find/list in <1000 ms on a dataset of 1,000 persons.
+6.  A user with above average typing speed of at least 50 words per minute (wpm) for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
+7.  Should function offline without internet access.
+8.  Data should be saved locally. Local data loaded on startup.
 
 ### Glossary
 
