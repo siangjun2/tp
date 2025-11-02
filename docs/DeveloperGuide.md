@@ -4,7 +4,7 @@
   pageNav: 3
 ---
 
-# Tutorpal Developer Guide
+# TutorPal Developer Guide
 
 <!-- * Table of Contents -->
 <page-nav-print />
@@ -14,13 +14,12 @@
 ## **Acknowledgements**
 
 This project is based on the AddressBook-Level3 project created by the [SE-EDU initiative](https://se-education.org).
-_{ list here sources of all reused/adapted ideas, code, documentation, and third-party libraries -- include links to the original source as well }_
 
 --------------------------------------------------------------------------------------------------------------------
 
 ## **Setting up, getting started**
 
-Refer to the guide [_Setting up and getting started_](SettingUp.md).
+Refer to the guide [_Setting up and getting started_](https://se-education.org/addressbook-level3/SettingUp.html). TutorPal follows the same setup as AddressBook.
 
 --------------------------------------------------------------------------------------------------------------------
 
