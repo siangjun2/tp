@@ -310,6 +310,26 @@ If your changes to the data file makes its format invalid, TutorPal will discard
 Furthermore, certain edits can cause the TutorPal to behave in unexpected ways (e.g., if a value entered is outside the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
 </box>
 
+### Keeping data consistent when editing manually
+
+When manually editing the JSON data file, ensure that all join-date values across different parts of each person’s record are kept in sync.
+
+<box type="warning" seamless>
+
+**Important:**
+
+TutorPal stores the join date in three separate places:
+
+1. In the main person object (`joinDate`) — uses the format **DD-MM-YYYY**
+2. In the payment history — uses the format **YYYY-MM-DD**
+3. In the attendance history’s `joinDate` — uses the format **DD-MM-YYYY**
+
+All three must refer to the **same date**.  
+If they are not consistent, TutorPal may display incorrect payment or attendance information.
+</box>
+
+
+<box type="tip" seamless> Before saving, double-check that: - The `joinDate` in the main person record matches the one in the attendance history. - The payment history uses the correct format (**YYYY-MM-DD**). - You have created a backup copy of the data file before making changes. </box>
 --------------------------------------------------------------------------------------------------------------------
 
 ## FAQ
