@@ -302,7 +302,7 @@ _{More to be added}_
 
 **MSS**
 
-1.  Admin enters the add command with all required details in the correct format (e.g., add r/student n/Kevin p/98761234 e/kevin@gmail.com a/Kent Ridge c/s4mon1600).
+1.  Admin enters the add command with all required details in the correct format (e.g., `add r/student n/Kevin p/98761234 e/kevin@gmail.com a/Kent Ridge c/s4mon1600`).
 2.  TutorPal checks the entered details.
 3.  TutorPal adds the new student/tutor and displays a success message
 
@@ -325,7 +325,7 @@ _{More to be added}_
 
 **MSS**
 
-1.  Admin enters the delete command with a valid index (e.g., delete 5).
+1.  Admin enters the delete command with a valid index (e.g., `delete 5`).
 2.  TutorPal deletes the contact at the specified index and displays a success message.
 
     Use case ends.
@@ -342,7 +342,7 @@ _{More to be added}_
 
 **MSS**
 
-1.  Admin enters the list command, optionally with a filter (e.g., list, list c/s4mon1600, list t/Yeo Yong Sheng).
+1.  Admin enters the list command, optionally with a filter (e.g., `list`, `list c/s4mon1600`, `list t/Yeo Yong Sheng`).
 2.  If the filter is valid, TutorPal displays the list of matching contacts with all attributes in a table format.
 
     Use case ends.
@@ -364,7 +364,7 @@ _{More to be added}_
 
 **MSS**
 
-1.  Admin enters the find command with a name parameter (e.g., find n/chong).
+1.  Admin enters the find command with a name parameter (e.g., `find chong`).
 2.  TutorPal displays matching contacts with their information and index.
 
     Use case ends.
