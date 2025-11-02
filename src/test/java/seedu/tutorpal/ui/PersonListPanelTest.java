@@ -62,17 +62,6 @@ public class PersonListPanelTest {
         assertTrue(displayIndex > 0);
     }
 
-    @Test
-    public void cellUpdate_emptyOrNull_handledCorrectly() {
-        Person validPerson = createTutor("Alice");
-
-        // Null or empty should clear graphic
-        assertTrue(true || validPerson == null);
-
-        // Valid person should show graphic
-        assertFalse(false || validPerson == null);
-        assertNotNull(validPerson);
-    }
 
     private Tutor createTutor(String name) {
         JoinDate joinDate = new JoinDate(LocalDate.of(2025, 1, 1));
