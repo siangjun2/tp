@@ -67,11 +67,11 @@ TutorPal helps small, single-subject tuition centre owners manage students and t
 
 ### Viewing help : `help`
 
-Shows a message explaining how to access the [help page](https://ay2526s1-cs2103t-f11-2.github.io/tp/UserGuide.html), as well as a quick summary of all commands and how to use them. 
+Shows a message explaining how to access the [help page](https://ay2526s1-cs2103t-f11-2.github.io/tp/UserGuide.html), as well as a quick summary of all commands and how to use them.
 When used with a command, it displays a detailed description of how the command should be used.<br>
 
 <box type="warning" seamless>
-`help` is not a valid `COMMAND_WORD` i.e. `help help` is not valid. 
+`help` is not a valid `COMMAND_WORD` i.e. `help help` is not valid.
 </box>
 
 ![help message](images/helpMessage.png)
@@ -195,7 +195,7 @@ Corner cases:
 - Providing an empty class (`c/` with no value) is not allowed; at least one class is required.
 - Changing join date (`d/`) is allowed, but any already-marked attendance must still be valid with the new join date:
   - Attendance is valid only from the student’s join week up to the current week (inclusive).
-  - If the new join date would make some marked weeks invalid, the edit will fail. Unmark those weeks first, then edit the join date. 
+  - If the new join date would make some marked weeks invalid, the edit will fail. Unmark those weeks first, then edit the join date.
   - This avoids unexpected hidden changes while ensuring all attendance are valid.
 - If INDEX is not in the displayed list, the command fails with an “invalid index” message.
 
@@ -232,7 +232,7 @@ What to know:
     - Where `W` is case-insensitive,
     - `XX` represents the ISO week, the student attended,
     - and `yyyy` represents the corresponding year. Supported years are year 2000 and onwards.
-- We are using weeks defined according to ISO-8601, which is an international standard. 
+- We are using weeks defined according to ISO-8601, which is an international standard.
     - This is also a common standard used in the education industry.
     - To find out more, please visit [this page](https://www.iso.org/iso-8601-date-and-time-format.html).
 - To view marked attendances, please use the [display command](#display).
@@ -282,7 +282,7 @@ Details:
 * Only one m/ is allowed, providing m/ more than once is rejected.
 * Paid - every month from **Join Month** up to **and including** the current month is paid
 * Unpaid - all months **before** the current month are paid, but the **current month** is not yet paid
-* Overdue - there exists **any unpaid month** before the current month 
+* Overdue - there exists **any unpaid month** before the current month
 
 Examples (assume today is Oct 2025):
 * `pay 3 m/09-2025` - marks Sept 2025 as paid for person #3
@@ -291,9 +291,9 @@ Examples (assume today is Oct 2025):
 pay 3 m/09-2025 - marks Sept 2025 as paid for person #3
 
 <box type="tip" seamless>
-TutorPal uses your computer’s **local system date and time** to determine the current month.  
-This means payment validation (e.g., blocking future months) follows your device’s clock and timezone.  
-If your system date/time is incorrect or set to a different timezone, payment restrictions may not behave as expected.  
+TutorPal uses your computer’s **local system date and time** to determine the current month.
+This means payment validation (e.g., blocking future months) follows your device’s clock and timezone.
+If your system date/time is incorrect or set to a different timezone, payment restrictions may not behave as expected.
 Ensure your computer’s date and time are accurate for consistent results.
 </box>
 
@@ -319,9 +319,9 @@ Examples (assume today is Oct 2025):
 * `unpay 3 m/09-2025`- marks Sept 2025 as unpaid for person #3
 
 <box type="tip" seamless>
-TutorPal uses your computer’s **local system date and time** to determine the current month.  
-This means payment validation (e.g., blocking future months) follows your device’s clock and timezone.  
-If your system date/time is incorrect or set to a different timezone, payment restrictions may not behave as expected.  
+TutorPal uses your computer’s **local system date and time** to determine the current month.
+This means payment validation (e.g., blocking future months) follows your device’s clock and timezone.
+If your system date/time is incorrect or set to a different timezone, payment restrictions may not behave as expected.
 Ensure your computer’s date and time are accurate for consistent results.
 </box>
 <box type="tip" seamless>
@@ -400,7 +400,7 @@ TutorPal stores the join date in three separate places:
 2. In the payment history — uses the format **YYYY-MM-DD**
 3. In the attendance history’s `joinDate` — uses the format **DD-MM-YYYY**
 
-All three must refer to the **same date**. 
+All three must refer to the **same date**.
 If they are not consistent, TutorPal may display incorrect payment or attendance information.
 </box>
 
