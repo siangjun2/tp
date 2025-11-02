@@ -49,6 +49,9 @@ public class PersonCard extends UiPart<Region> {
     private Label paymentStatus;
     @FXML
     private Label attendance;
+    @FXML
+    private Label joinDate;
+
 
     /**
      * Creates a {@code PersonCard} with the given {@code Person} and index to display.
@@ -80,6 +83,11 @@ public class PersonCard extends UiPart<Region> {
         // Address
         address.setText(person.getAddress().value);
         address.setStyle("-fx-font-family: 'Consolas', monospace; -fx-font-size: 10px; "
+                + "-fx-text-fill: " + COLOR_TEXT + ";");
+
+        //Joindate
+        joinDate.setText(person.getJoinDate().toString());
+        joinDate.setStyle("-fx-font-family: 'Consolas', monospace; -fx-font-size: 10px; "
                 + "-fx-text-fill: " + COLOR_TEXT + ";");
 
         // Role

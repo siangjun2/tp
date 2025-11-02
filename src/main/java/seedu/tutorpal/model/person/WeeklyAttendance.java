@@ -36,22 +36,19 @@ public final class WeeklyAttendance implements Comparable<WeeklyAttendance> {
      * Example: {@code W04-2025} represents the fourth ISO week of 2025.
      */
     public static final String MESSAGE_CONSTRAINTS = "Weekly attendance must be in the format W[XX]-YYYY, "
-        + "where:\n"
-        + "1) W is case insensitive,\n"
-        + "2) week number [XX] is between 01 and 52 (or 53 if that year has 53 weeks), and\n"
-        + "3) YYYY is a 4-digit year between 0001 and 9999. "
-        + "This week format is following the international standard of ISO-8601 week numbering.\n"
-        + "Example: W04-2025 represents the fourth ISO week of 2025.";
+            + "where:\n"
+            + "1) W is case insensitive,\n"
+            + "2) week number [XX] is between 01 and 52 (or 53 if that year has 53 weeks), and\n"
+            + "3) YYYY is a 4-digit year between 2000 and 9999 inclusive. "
+            + "This week format is following the international standard of ISO-8601 week numbering.\n"
+            + "Example: W04-2025 represents the fourth ISO week of 2025.";
 
     /** The first valid ISO week number in any week-based year. */
     public static final int FIRST_WEEK_NUMBER = 1;
 
-    /**
-     * Case-insensitive pattern enforcing {@code W[01-53]-YYYY}, disallowing year {@code 0000}.
-     * <p>Note: Some ISO week-based years contain 53 weeks; this is further validated against the supplied year.
-     */
+    // Allow up to 53 weeks (some ISO years have 53)
     public static final String WEEKLY_ATTENDANCE_REGEX =
-        "(?i)^W(0[1-9]|[1-4][0-9]|5[0-3])-(?!0000)(\\d{4})$";
+            "(?i)^W(0[1-9]|[1-4][0-9]|5[0-3])-([2-9]\\d{3})$";
 
     /** ISO week index within the ISO week-based year (01–52 or 53 where applicable). */
     private final int weekIndex; // 01 to 52 or 53 depending on year
@@ -68,6 +65,7 @@ public final class WeeklyAttendance implements Comparable<WeeklyAttendance> {
     public WeeklyAttendance(int weekIndex, Year year) {
         requireAllNonNull(weekIndex, year);
         checkArgument(isValidWeekIndex(weekIndex, year), MESSAGE_CONSTRAINTS);
+        checkArgument(isValidYear(year), MESSAGE_CONSTRAINTS);
         this.weekIndex = weekIndex;
         this.year = year;
     }
@@ -95,6 +93,7 @@ public final class WeeklyAttendance implements Comparable<WeeklyAttendance> {
         int yearValue = Integer.parseInt(matcher.group(2));
         Year year = Year.of(yearValue);
         assert isValidWeekIndex(weekIndex, year);
+        assert isValidYear(year);
 
         this.weekIndex = weekIndex;
         this.year = year;
@@ -120,7 +119,7 @@ public final class WeeklyAttendance implements Comparable<WeeklyAttendance> {
             int yearValue = Integer.parseInt(matcher.group(2));
             Year year = Year.of(yearValue);
 
-            return isValidWeekIndex(weekIndex, year);
+            return isValidWeekIndex(weekIndex, year) && isValidYear(year);
         }
         return false;
     }
@@ -137,6 +136,15 @@ public final class WeeklyAttendance implements Comparable<WeeklyAttendance> {
         requireNonNull(year);
         return WeeklyAttendance.FIRST_WEEK_NUMBER <= weekIndex
             && weekIndex <= getNumberOfWeeksInIsoYear(year.getValue());
+    }
+
+    /**
+     * Returns true if a given year is valid. ie 2000 <= year <= 9999
+     */
+    private static boolean isValidYear(Year year) {
+        // Enforce year 2000–9999 and valid ISO week for that year
+        int yearValue = year.getValue();
+        return yearValue >= 2000 && yearValue <= 9999;
     }
 
     /**

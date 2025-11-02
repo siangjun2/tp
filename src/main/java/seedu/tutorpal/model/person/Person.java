@@ -211,11 +211,12 @@ public abstract class Person {
      * Returns a String representation of the detailed information of the Person.
      */
     public String displayInfo() {
-        return name.fullName + "\n"
+        return "\n" + name.fullName + "\n"
             + phone.value + "\n"
             + email.value + "\n"
             + address.value + "\n"
-            + this.printPaymentHistory();
+            + "Joined on " + joinDate.toString() + "\n\n"
+            + this.printPaymentHistory() + "\n";
     }
 
     @Override

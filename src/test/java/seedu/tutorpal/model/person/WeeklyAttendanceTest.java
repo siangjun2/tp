@@ -142,6 +142,16 @@ public class WeeklyAttendanceTest {
         assertThrows(IllegalArgumentException.class, () -> new WeeklyAttendance("W01-0000"));
     }
 
+    @Test
+    public void constructor_yearBelowLowerBoundString_throwsIllegalArgumentException() {
+        assertThrows(IllegalArgumentException.class, () -> new WeeklyAttendance("W01-1999"));
+    }
+
+    @Test
+    public void constructor_yearBelowLowerBoundNumeric_throwsIllegalArgumentException() {
+        assertThrows(IllegalArgumentException.class, () -> new WeeklyAttendance(1, Year.of(1999)));
+    }
+
     // ===== ISO WEEK VALIDATION TESTS =====
 
     @Test
@@ -548,16 +558,17 @@ public class WeeklyAttendanceTest {
 
     @Test
     public void isValidWeeklyAttendance_extremeYears_respectsIsoWeekCount() {
-        int weeksYear1 = getNumberOfWeeksInIsoYear(1);
-        assertTrue(isValidWeeklyAttendance(String.format("W%02d-0001", weeksYear1)));
-        assertFalse(isValidWeeklyAttendance(String.format("W%02d-0001", weeksYear1 + 1)));
+        int weeks2000 = getNumberOfWeeksInIsoYear(2000);
+        assertTrue(isValidWeeklyAttendance(String.format("W%02d-2000", weeks2000)));
+        assertFalse(isValidWeeklyAttendance(String.format("W%02d-2000", weeks2000 + 1)));
 
         int weeks9999 = getNumberOfWeeksInIsoYear(9999);
         assertTrue(isValidWeeklyAttendance(String.format("W%02d-9999", weeks9999)));
         assertFalse(isValidWeeklyAttendance(String.format("W%02d-9999", weeks9999 + 1)));
 
-        // Also ensure lower bound is valid for extreme years
-        assertTrue(isValidWeeklyAttendance("W01-0001"));
+        // Lower bound is 2000; below that should be rejected
+        assertFalse(isValidWeeklyAttendance("W01-1999"));
+        assertTrue(isValidWeeklyAttendance("W01-2000"));
         assertTrue(isValidWeeklyAttendance("W01-9999"));
     }
 
@@ -618,7 +629,7 @@ public class WeeklyAttendanceTest {
     void validation_respects53WeekYearsOnlyWhenApplicable() {
         assertTrue(WeeklyAttendance.isValidWeeklyAttendance("W53-2020"));
         assertFalse(WeeklyAttendance.isValidWeeklyAttendance("W53-2021"));
-        assertTrue(WeeklyAttendance.isValidWeeklyAttendance("w01-0001")); // case-insensitive, min year
+        assertFalse(WeeklyAttendance.isValidWeeklyAttendance("w01-0001")); // below lower bound
         assertFalse(WeeklyAttendance.isValidWeeklyAttendance("W00-2020"));
         assertFalse(WeeklyAttendance.isValidWeeklyAttendance("W54-2020"));
         assertFalse(WeeklyAttendance.isValidWeeklyAttendance("W01-0000")); // 0000 disallowed

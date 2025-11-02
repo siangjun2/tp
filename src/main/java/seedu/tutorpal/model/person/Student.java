@@ -26,7 +26,7 @@ public class Student extends Person {
     public Student(Name name, Phone phone, Email email, Address address, Set<Class> classes,
             JoinDate joinDate) {
         this(name, phone, email, address, classes, joinDate, null, Clock.systemDefaultZone(),
-                new PaymentHistory(LocalDate.now()));
+                new PaymentHistory(joinDate.toLocalDate()));
     }
 
     /**
@@ -45,7 +45,7 @@ public class Student extends Person {
     public Student(Name name, Phone phone, Email email, Address address, Set<Class> classes,
             JoinDate joinDate, Clock nowClock) {
         this(name, phone, email, address, classes, joinDate, null, nowClock,
-                new PaymentHistory(LocalDate.now(nowClock)));
+                new PaymentHistory(joinDate.toLocalDate()));
     }
 
     /**
@@ -55,7 +55,7 @@ public class Student extends Person {
     public Student(Name name, Phone phone, Email email, Address address, Set<Class> classes,
                    JoinDate joinDate, AttendanceHistory attendanceHistory) {
         this(name, phone, email, address, classes, joinDate, attendanceHistory, Clock.systemDefaultZone(),
-                new PaymentHistory(LocalDate.now()));
+                new PaymentHistory(joinDate.toLocalDate()));
     }
 
     /**
@@ -65,7 +65,7 @@ public class Student extends Person {
     public Student(Name name, Phone phone, Email email, Address address, Set<Class> classes,
                    JoinDate joinDate, AttendanceHistory attendanceHistory, Clock nowClock) {
         this(name, phone, email, address, classes, joinDate, attendanceHistory, nowClock,
-                new PaymentHistory(LocalDate.now(nowClock)));
+                new PaymentHistory(joinDate.toLocalDate()));
     }
 
     /**
@@ -202,7 +202,7 @@ public class Student extends Person {
 
     @Override
     public String displayInfo() {
-        return super.displayInfo() + "\n" + printAttendanceHistory();
+        return super.displayInfo() + "\n" + printAttendanceHistory() + "\n";
     }
 
     @Override

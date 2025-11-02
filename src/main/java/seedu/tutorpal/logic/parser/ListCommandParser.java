@@ -38,6 +38,12 @@ public class ListCommandParser implements Parser<ListCommand> {
             return new ListCommand();
         }
 
+        // Reject any non-empty preamble (extraneous free text like: "list foo c/s4")
+        String preamble = argMultimap.getPreamble().trim();
+        if (!preamble.isEmpty()) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, ListCommand.MESSAGE_USAGE));
+        }
+
         boolean hasClassFilter = argMultimap.getValue(PREFIX_CLASS).isPresent();
         boolean hasTutorFilter = argMultimap.getValue(PREFIX_TUTOR).isPresent();
         boolean hasPaymentStatusFilter = argMultimap.getValue(PREFIX_PAYMENT_STATUS).isPresent();

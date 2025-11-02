@@ -3,7 +3,6 @@ package seedu.tutorpal.model.person;
 import static seedu.tutorpal.model.person.Role.TUTOR;
 
 import java.time.Clock;
-import java.time.LocalDate;
 import java.util.Set;
 
 import seedu.tutorpal.commons.util.ToStringBuilder;
@@ -21,7 +20,7 @@ public class Tutor extends Person {
     public Tutor(Name name, Phone phone, Email email, Address address, Set<Class> classes,
                  JoinDate joinDate) {
         this(name, phone, email, address, classes, joinDate, null, Clock.systemDefaultZone(),
-                new PaymentHistory(LocalDate.now()));
+                new PaymentHistory(joinDate.toLocalDate()));
     }
 
     /**
@@ -40,7 +39,7 @@ public class Tutor extends Person {
     protected Tutor(Name name, Phone phone, Email email, Address address, Set<Class> classes,
                     JoinDate joinDate, Clock nowClock) {
         this(name, phone, email, address, classes, joinDate, null, nowClock,
-                new PaymentHistory(LocalDate.now(nowClock)));
+                new PaymentHistory(joinDate.toLocalDate()));
     }
 
     /**
