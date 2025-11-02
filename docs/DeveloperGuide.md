@@ -147,6 +147,7 @@ Classes used by multiple components are in the `seedu.tutorpal.commons` package.
 ## **Implementation**
 
 This section describes some noteworthy details on how certain features are implemented.
+<br>
 
 
 ### \[Proposed\] Undo/redo feature
@@ -264,17 +265,16 @@ _{Explain here how the data archiving feature will be implemented}_
 
 **Target user profile**:
 
-* tuition centre is of small scale (around 50 students
-* and 3 tutors)
+* tuition centre is of small scale (around 50 students and 3 tutors)
 * prefer desktop apps over other types
 * prefers typing to mouse interactions
 * is reasonably comfortable using CLI apps
 
 **Value proposition**: TutorPal helps small, single-subject tuition centre owners
-manage students and tutors effortlessly by centralizing contact info,
-grades, attendance, monthly payment tracking (student fees and tutor salaries),
-subject assignments, and class schedules in one easy-to-use command-line system.
-This helps save time, reduce errors, and focus on teaching instead of paperwork.
+manage students and tutors effortlessly by centralizing contact info, 
+attendance and monthly payment tracking (student fees and tutor salaries)
+in one easy-to-use command-line system. Designed for owners, tutors, and admins who are familiar with CLI workflows,
+it helps save time, reduce errors, and  lets them focus on teaching instead of paperwork.
 
 ### User stories
 
