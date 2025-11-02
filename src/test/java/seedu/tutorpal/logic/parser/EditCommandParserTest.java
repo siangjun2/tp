@@ -113,6 +113,7 @@ public class EditCommandParserTest {
 
     @Test
     public void parse_someFieldsSpecified_success() {
+        // EP: some fields specified (subset of editable fields)
         Index targetIndex = INDEX_FIRST_PERSON;
         String userInput = targetIndex.getOneBased() + PHONE_DESC_BOB + EMAIL_DESC_AMY;
 
@@ -189,6 +190,7 @@ public class EditCommandParserTest {
 
     @Test
     public void parse_classFieldSpecified_success() {
+        // EP: class field specified
         Index targetIndex = INDEX_THIRD_PERSON;
         String userInput = targetIndex.getOneBased() + CLASS_DESC_AMY;
 
@@ -200,6 +202,7 @@ public class EditCommandParserTest {
 
     @Test
     public void parse_duplicateJoinDate_failure() {
+        // EP: duplicate join date prefix
         Index targetIndex = INDEX_FIRST_PERSON;
         String userInput = targetIndex.getOneBased() + " "
                 + PREFIX_JOIN_DATE + "01-01-2024 "
@@ -209,6 +212,7 @@ public class EditCommandParserTest {
 
     @Test
     public void parse_invalidJoinDate_failure() {
+        // EP: invalid join date format
         Index targetIndex = INDEX_FIRST_PERSON;
         String userInput = targetIndex.getOneBased() + " " + PREFIX_JOIN_DATE + "32-13-2024";
         assertParseFailure(parser, userInput, JoinDate.MESSAGE_CONSTRAINTS);

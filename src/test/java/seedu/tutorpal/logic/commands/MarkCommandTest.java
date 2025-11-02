@@ -46,6 +46,7 @@ public class MarkCommandTest {
 
     @Test
     public void execute_nullModel_throwsNullPointerException() {
+        // EP: null model
         MarkCommand cmd = new MarkCommand(Index.fromOneBased(1), new WeeklyAttendance("W01-2025"));
         assertThrows(NullPointerException.class, () -> cmd.execute(null));
     }
@@ -134,6 +135,7 @@ public class MarkCommandTest {
 
     @Test
     public void execute_alreadyMarked_throwsCommandException() throws Exception {
+        // EP: week already marked
         Clock fixedClock = fixedClock(LocalDate.of(2025, 7, 1));
         JoinDate joinDate = new JoinDate(LocalDate.of(2025, 1, 15));
         WeeklyAttendance week = new WeeklyAttendance("W26-2025");
@@ -164,6 +166,7 @@ public class MarkCommandTest {
     @Test
     public void execute_weekOutOfRange_throwsCommandException() throws Exception {
         // Fix "now" to a week before the attempted mark (or join too late)
+        // EP: week out of valid range (before join date)
         Clock fixedClock = fixedClock(LocalDate.of(2025, 3, 1)); // ~W09-2025
         JoinDate joinDate = new JoinDate(LocalDate.of(2025, 3, 1)); // join ~W09-2025
 
@@ -193,6 +196,7 @@ public class MarkCommandTest {
 
     @Test
     public void execute_invalidIndex_throwsCommandException() {
+        // EP: index > size of list
         // One person in list, but use index=2
         Clock fixedClock = fixedClock(LocalDate.of(2025, 7, 1));
         JoinDate joinDate = new JoinDate(LocalDate.of(2025, 1, 1));
