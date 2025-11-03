@@ -15,6 +15,15 @@
 
 This project is based on the AddressBook-Level3 project created by the [SE-EDU initiative](https://se-education.org).
 
+**Code reuse and AI-assisted development:**
+
+* **Widespread use of AI tools (Yeo Yong Sheng)**: GitHub Copilot was used as an auto-complete and code-assistance tool throughout development, including logic, model, and test code.
+* **GPT for test cases (Yeo Yong Sheng)**: ChatGPT generated some test cases to improve coverage, with adjustments for the codebase.
+
+* **Widespread use of AI tools (Lee Chong Rui)**: GitHub Copilot was used as an auto-complete and code-assistance tool throughout development, including logic, model, and test code.
+* **GPT for test cases (Lee Chong Rui)**: ChatGPT generated some test cases to improve coverage, with adjustments for the codebase.
+
+
 --------------------------------------------------------------------------------------------------------------------
 
 ## **Setting up, getting started**
@@ -358,6 +367,18 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
   - Steps 1a1-1a2 are repeated until a valid filter or no filter is entered.
   - Use case resumes from step 2.
 
+- 1b. Admin provides multiple filters of the same type (e.g., `list c/s4 c/s2`, `list t/Alex t/John`).
+    - 1b1. TutorPal applies OR logic: filters of the same type are combined with OR.
+    - Use case resumes from step 2.
+
+- 1c. Admin provides multiple filters of different types (e.g., `list c/s4 ps/unpaid`, `list t/Alex ps/paid`).
+    - 1c1. TutorPal applies AND logic: filters of different types are combined with AND.
+    - Use case resumes from step 2.
+
+- 1d. Admin provides both multiple same-type filters and multiple different-type filters (e.g., `list c/s4 c/s2 ps/unpaid`).
+    - 1d1. TutorPal applies combined logic: same-type filters are OR-ed, then different-type filters are AND-ed.
+    - Use case resumes from step 2.
+
 - 2a. No matching records found.
   - 2a1. TutorPal displays a `0 persons listed!` message.
   - Use case ends.
@@ -556,7 +577,7 @@ None.
 1. Admin enters the exit command.
 2. TutorPal displays an exit acknowledgment message and closes the application.
 
-Use case ends.
+    Use case ends.
 
 **Extensions**
 
