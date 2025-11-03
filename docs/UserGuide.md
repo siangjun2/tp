@@ -31,7 +31,12 @@ TutorPal helps small, single-subject tuition centre owners manage students and t
 <!-- * Table of Contents -->
 <page-nav-print />
 
---------------------------------------------------------------------------------------------------------------------
+## Table of contents
+- [Quick start](#quick-start)
+- [Features](#features)
+- [FAQ](#faq)
+- [Known issues](#known-issues)
+- [Command summary](#command-summary)
 
 ## Quick start
 
@@ -58,8 +63,6 @@ TutorPal helps small, single-subject tuition centre owners manage students and t
 
 
 1. Refer to the [Features](#features) below for details of each command.
-
---------------------------------------------------------------------------------------------------------------------
 
 ## Features
 
@@ -102,7 +105,6 @@ Format:
 Examples:
 - help add
 - help delete
-
 
 ### Adding a person: `add`
 
@@ -187,7 +189,7 @@ Examples:
 * `list t/Alex` - **students** taught by any tutor whose name contains `Alex`
 * `list ps/paid` - shows persons whose payment status is **Paid**
 
-### Displaying a person: `display` {: #display}
+### Displaying a person: `display`
 
 Displays detailed information about a person in TutorPal.
 
@@ -248,7 +250,7 @@ Examples:
 * `find Sheng` returns `Sheng` and `Yong Sheng`
 * `find Lee Sen More` returns `Lee Ze Xuan`, `Sen Yong Sheng` and `More Robin`
 
-### Marking attendance for students : `mark` {: #mark}
+### Marking attendance for students : `mark`
 
 Marks the selected student as having attended a specific ISO week.
 
@@ -260,21 +262,21 @@ Example:
 
 What to know:
 - Only students can be marked; marking tutors shows an error.
-- Attendance weeks are in `WXX-yyyy` format (ISO-8601), same as [unmark](#unmark).
+- Attendance weeks are in `WXX-yyyy` format (ISO-8601), same as `unmark`.
     - Where `W` is case-insensitive,
     - `XX` represents the ISO week, the student attended,
     - and `yyyy` represents the corresponding year. Supported years are year 2000 and onwards.
 - We are using weeks defined according to ISO-8601, which is an international standard.
     - This is also a common standard used in the education industry.
     - To find out more, please visit [this page](https://www.iso.org/iso-8601-date-and-time-format.html).
-- To view marked attendances, please use the [display command](#display).
+- To view marked attendances, please use the `display` command.
 
 Corner cases:
 - You can only mark weeks from the student’s join week up to the current week inclusive.
 - Marking the same week again fails with an error.
 - Week 53 is only valid in years that actually have 53 weeks.
 
-### Unmarking attendance for students : `unmark` {: #unmark}
+### Unmarking attendance for students : `unmark`
 
 Unmarks the selected student as having attended a specific ISO week.
 
@@ -286,14 +288,14 @@ Example:
 
 What to know:
 - Only students can be unmarked; attempting to unmark a tutor shows an error.
-- Attendance weeks are in `WXX-yyyy` format (ISO-8601), same as [mark](#mark).
+- Attendance weeks are in `WXX-yyyy` format (ISO-8601), same as `mark`.
     - `W` is case-insensitive,
     - `XX` is the ISO week the student was previously marked for,
     - and `yyyy` is the corresponding year (2000 and onwards supported).
 - We are using weeks defined according to ISO-8601, which is an international standard.
     - This is also a common standard used in the education industry.
     - To find out more, please visit [this page](https://www.iso.org/iso-8601-date-and-time-format.html).
-- To view marked attendances before unmarking, use the [display command](#display).
+- To view marked attendances before unmarking, use the `display` command.
 
 Corner cases:
 - You can only unmark weeks from the student’s join week up to the current week inclusive.
@@ -332,8 +334,6 @@ Ensure your computer’s date and time are accurate for consistent results.
 `pay` has different meanings for tutors and students. `pay` on tutor means paying the tutor whereas `pay` on student means collecting payment from the student.
 
 </box>
-
---------------------------------------------------------------------------------------------------------------------
 
 ### Managing payments : `unpay`
 
@@ -378,8 +378,6 @@ Details:
 
 Example:
 * `delpay 2 m/08-2025`
-
---------------------------------------------------------------------------------------------------------------------
 
 ### Deleting a person : `delete`
 
