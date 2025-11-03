@@ -65,7 +65,8 @@ public final class WeeklyAttendance implements Comparable<WeeklyAttendance> {
     public WeeklyAttendance(int weekIndex, Year year) {
         requireAllNonNull(weekIndex, year);
         checkArgument(isValidWeekIndex(weekIndex, year), MESSAGE_CONSTRAINTS);
-        checkArgument(isValidYear(year), MESSAGE_CONSTRAINTS);
+        boolean specialCase = year.equals(Year.of(1999)) && weekIndex == getNumberOfWeeksInIsoYear(1999);
+        checkArgument(isValidYear(year) || specialCase, MESSAGE_CONSTRAINTS);
         this.weekIndex = weekIndex;
         this.year = year;
     }
