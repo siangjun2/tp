@@ -110,7 +110,7 @@ public class EditCommandTest {
 
         String expectedMessage = String.format(
             EditCommand.MESSAGE_EDIT_PERSON_SUCCESS,
-            "name: " + editedPerson.getName() + "; " + summarizeEditedFields(new EditPersonDescriptor())); // -> "No fields edited"
+            "name: " + editedPerson.getName() + "; " + summarizeEditedFields(new EditPersonDescriptor()));
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
 
