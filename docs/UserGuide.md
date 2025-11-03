@@ -231,6 +231,9 @@ Corner cases:
   - Attendance is valid only from the student’s join week up to the current week (inclusive).
   - If the new join date would make some marked weeks invalid, the edit will fail. Unmark those weeks first, then edit the join date.
   - This avoids unexpected hidden changes while ensuring all attendance are valid.
+- Payment behave similarly to attendance: monthly payment records are valid only from the join month up to the current month (inclusive).
+    - If changing the join date would make some existing payment months fall before the new join month, the edit fails.
+    - Remove those months first with `delpay INDEX m/MM-YYYY`, then re-run the `edit` command.
 - If INDEX is not in the displayed list, the command fails with an “invalid index” message.
 
 ### Locating students and tutors by name: `find`
