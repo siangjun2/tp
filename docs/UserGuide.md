@@ -157,7 +157,7 @@ Examples:
 * `list t/Alex` - **students** taught by any tutor whose name contains `Alex`
 * `list ps/paid` - shows persons whose payment status is **Paid**
 
-### Displaying a person: `display`
+### Displaying a person: `display` {: #display}
 
 Displays detailed information about a person in TutorPal.
 
