@@ -8,7 +8,7 @@ import seedu.tutorpal.model.Model;
 import seedu.tutorpal.model.person.NameContainsKeywordsPredicate;
 
 /**
- * Finds and lists all students/ tutors in address book whose name contains any of the argument keywords.
+ * Finds and lists all students/ tutors in tutorPal whose name contains any of the argument keywords.
  * Keyword matching is case-insensitive. Must be full word to match.
  */
 public class FindCommand extends Command {
