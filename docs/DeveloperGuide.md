@@ -297,7 +297,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ### Use cases
 (For all use cases below, the **System** is the `TutorPal` and the **Actor** is the `Tuition Centre Admin`, unless specified otherwise)
-<br>
+<br><br>
 
 **Use case: Add new student/tutor**
 
@@ -320,7 +320,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 - 1b. TutorPal detects a duplicate (same name and phone number).
   - 1b1. TutorPal displays a duplicate error message.
   - Use case ends.
-<br>
+<br><br>
 
 **Use case: Delete student/tutor**
 
@@ -338,7 +338,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
   - 1a2. Admin enters a new index.
   - Steps 1a1-1a2 are repeated until a valid index is entered.
   - Use case resumes from step 2.
-<br>
+<br><br>
 
 **Use case: List students/tutors (with optional filter)**
 
@@ -361,7 +361,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 - 2a. No matching records found.
   - 2a1. TutorPal displays a `0 persons listed!` message.
   - Use case ends.
-<br>
+<br><br>
 
 **Use case: Find student/tutor by name**
 
@@ -384,7 +384,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 - 2a. No matching records found.
   - 2a1. TutorPal displays a `0 persons listed!` message.
   - Use case ends.
-<br>
+<br><br>
 
 **Use case: Mark monthly payment status (student or tutor)**
 
@@ -410,7 +410,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 - 1c. TutorPal detects that the month has already been marked as paid.
     - 1c1. TutorPal displays an error message stating that payment for the specified month has already been recorded.
     - Use case ends.
-<br>
+<br><br>
 
 **Use case: Mark student attendance**
 
@@ -447,7 +447,7 @@ Use case ends.
 - 2d. TutorPal detects that the attendance week has already been marked.
     - 2d1. TutorPal displays an error message indicating that attendance for this week is already marked.
     - Use case ends.
-<br>
+<br><br>
 
 **Use case: Unmark student attendance**
 
@@ -484,7 +484,7 @@ Use case ends.
 - 2d. TutorPal detects that the attendance week was never marked.
     - 2d1. TutorPal displays an error message indicating that attendance for this week was not previously marked.
     - Use case ends.
-<br>
+<br><br>
 
 **Use case: Edit person details**
 
@@ -533,7 +533,7 @@ Use case ends.
 - 2e. TutorPal detects that the edited person would create a duplicate (same name and phone number as another person).
     - 2e1. TutorPal displays an error message indicating a duplicate person would be created.
     - Use case ends.
-<br>
+<br><br>
 
 **Use case: Clear all entries**
 
@@ -547,7 +547,7 @@ Use case ends.
 **Extensions**
 
 None.
-<br>
+<br><br>
 
 **Use case: Exit application**
 
