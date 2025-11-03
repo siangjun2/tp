@@ -1,6 +1,10 @@
 package seedu.tutorpal.model.person.exceptions;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
@@ -30,8 +34,7 @@ class InvalidRangeExceptionTest {
     void assertThrows_capturesExceptionAndMessage() {
         String message = "Throwing invalid range";
         InvalidRangeException ex = assertThrows(
-                InvalidRangeException.class,
-                () -> {
+                InvalidRangeException.class, () -> {
                     throw new InvalidRangeException(message);
                 });
 

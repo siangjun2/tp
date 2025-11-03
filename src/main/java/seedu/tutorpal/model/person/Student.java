@@ -143,7 +143,6 @@ public class Student extends Person {
      * <p>
      * Example output:
      * </p>
-     * 
      * <pre>{@code
      * W35:absent W36:present W37:present W38:absent W39:present
      * W40:present W41:present W42:absent W43:present W44:present

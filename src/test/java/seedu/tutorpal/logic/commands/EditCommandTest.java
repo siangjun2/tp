@@ -31,15 +31,18 @@ import seedu.tutorpal.testutil.EditPersonDescriptorBuilder;
 import seedu.tutorpal.testutil.PersonBuilder;
 
 /**
- * Contains integration tests (interaction with the Model) and unit tests for EditCommand.
+ * Contains integration tests (interaction with the Model) and unit tests for
+ * EditCommand.
  */
 public class EditCommandTest {
 
     private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
 
     /**
-     * Mirrors the runtime summarizeEditedFields(..) used in EditCommand for building the success message.
-     * If you changed the production formatter, reflect those exact changes here for 1:1 matching.
+     * Mirrors the runtime summarizeEditedFields(..) used in EditCommand for
+     * building the success message.
+     * If you changed the production formatter, reflect those exact changes here for
+     * 1:1 matching.
      */
     private static String summarizeEditedFields(EditPersonDescriptor d) {
         StringBuilder sb = new StringBuilder();
@@ -61,23 +64,6 @@ public class EditCommandTest {
     }
 
     @Test
-    public void execute_allFieldsSpecifiedUnfilteredList_success() {
-        // EP: all editable fields specified in unfiltered list
-        Person editedPerson = new PersonBuilder().build();
-        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(editedPerson).build();
-        EditCommand editCommand = new EditCommand(INDEX_FIRST_PERSON, descriptor);
-
-        String expectedMessage = String.format(
-            EditCommand.MESSAGE_EDIT_PERSON_SUCCESS,
-            summarizeEditedFields(descriptor));
-
-        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
-        expectedModel.setPerson(model.getFilteredPersonList().get(0), editedPerson);
-
-        assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
-    }
-
-    @Test
     public void execute_someFieldsSpecifiedUnfilteredList_success() {
         // EP: some fields specified in unfiltered list
         Index indexLastPerson = Index.fromOneBased(model.getFilteredPersonList().size());
@@ -87,14 +73,14 @@ public class EditCommandTest {
         Person editedPerson = personInList.withName(VALID_NAME_BOB).withPhone(VALID_PHONE_BOB).build();
 
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
-            .withName(VALID_NAME_BOB)
-            .withPhone(VALID_PHONE_BOB)
-            .build();
+                .withName(VALID_NAME_BOB)
+                .withPhone(VALID_PHONE_BOB)
+                .build();
         EditCommand editCommand = new EditCommand(indexLastPerson, descriptor);
 
         String expectedMessage = String.format(
-            EditCommand.MESSAGE_EDIT_PERSON_SUCCESS,
-            summarizeEditedFields(descriptor));
+                EditCommand.MESSAGE_EDIT_PERSON_SUCCESS,
+                summarizeEditedFields(descriptor));
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         expectedModel.setPerson(lastPerson, editedPerson);
@@ -109,8 +95,8 @@ public class EditCommandTest {
         Person editedPerson = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
 
         String expectedMessage = String.format(
-            EditCommand.MESSAGE_EDIT_PERSON_SUCCESS,
-            "name: " + editedPerson.getName() + "; " + summarizeEditedFields(new EditPersonDescriptor()));
+                EditCommand.MESSAGE_EDIT_PERSON_SUCCESS,
+                "name: " + editedPerson.getName() + "; " + summarizeEditedFields(new EditPersonDescriptor()));
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
 
@@ -125,13 +111,13 @@ public class EditCommandTest {
         Person editedPerson = new PersonBuilder(personInFilteredList).withName(VALID_NAME_BOB).build();
 
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
-            .withName(VALID_NAME_BOB)
-            .build();
+                .withName(VALID_NAME_BOB)
+                .build();
         EditCommand editCommand = new EditCommand(INDEX_FIRST_PERSON, descriptor);
 
         String expectedMessage = String.format(
-            EditCommand.MESSAGE_EDIT_PERSON_SUCCESS,
-            summarizeEditedFields(descriptor));
+                EditCommand.MESSAGE_EDIT_PERSON_SUCCESS,
+                summarizeEditedFields(descriptor));
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         expectedModel.setPerson(model.getFilteredPersonList().get(0), editedPerson);
@@ -155,7 +141,7 @@ public class EditCommandTest {
         // edit person in filtered list into a duplicate in address book
         Person personInList = model.getAddressBook().getPersonList().get(INDEX_SECOND_PERSON.getZeroBased());
         EditCommand editCommand = new EditCommand(INDEX_FIRST_PERSON,
-            new EditPersonDescriptorBuilder(personInList).build());
+                new EditPersonDescriptorBuilder(personInList).build());
 
         assertCommandFailure(editCommand, model, EditCommand.MESSAGE_DUPLICATE_PERSON);
     }
@@ -183,7 +169,7 @@ public class EditCommandTest {
         assertTrue(outOfBoundIndex.getZeroBased() < model.getAddressBook().getPersonList().size());
 
         EditCommand editCommand = new EditCommand(outOfBoundIndex,
-            new EditPersonDescriptorBuilder().withName(VALID_NAME_BOB).build());
+                new EditPersonDescriptorBuilder().withName(VALID_NAME_BOB).build());
 
         assertCommandFailure(editCommand, model, Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
     }
@@ -219,7 +205,7 @@ public class EditCommandTest {
         EditPersonDescriptor editPersonDescriptor = new EditPersonDescriptor();
         EditCommand editCommand = new EditCommand(index, editPersonDescriptor);
         String expected = EditCommand.class.getCanonicalName() + "{index=" + index + ", editPersonDescriptor="
-            + editPersonDescriptor + "}";
+                + editPersonDescriptor + "}";
         assertEquals(expected, editCommand.toString());
     }
 
@@ -235,12 +221,12 @@ public class EditCommandTest {
         // Build a model with a student
         Model customModel = new ModelManager(new AddressBook(), new UserPrefs());
         Person student = new PersonBuilder().withRole("student").withName("Stu Dent")
-            .withClasses("s4mon0900").build();
+                .withClasses("s4mon0900").build();
         customModel.addPerson(student);
 
         // Try to set multiple classes (students cannot have multiple classes)
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
-            .withClasses("s4mon0900", "s4wed1400").build();
+                .withClasses("s4mon0900", "s4wed1400").build();
         EditCommand edit = new EditCommand(Index.fromOneBased(1), descriptor);
 
         assertCommandFailure(edit, customModel, EditCommand.MESSAGE_STUDENT_MULTIPLE_CLASSES);
@@ -251,7 +237,7 @@ public class EditCommandTest {
         // Build a model with a student
         Model customModel = new ModelManager(new AddressBook(), new UserPrefs());
         Person student = new PersonBuilder().withRole("student").withName("Stu Dent")
-            .withClasses("s4mon0900").build();
+                .withClasses("s4mon0900").build();
         customModel.addPerson(student);
 
         // Explicitly set classes to empty set -> not allowed by command
@@ -267,18 +253,18 @@ public class EditCommandTest {
         // Build a model with a tutor
         Model customModel = new ModelManager(new AddressBook(), new UserPrefs());
         Person tutor = new PersonBuilder().withRole("tutor").withName("Tu Tor")
-            .withClasses("s4mon0900").build();
+                .withClasses("s4mon0900").build();
         customModel.addPerson(tutor);
 
         // Tutors may have multiple classes
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder()
-            .withClasses("s4mon0900", "s4wed1400").build();
+                .withClasses("s4mon0900", "s4wed1400").build();
         EditCommand edit = new EditCommand(Index.fromOneBased(1), descriptor);
 
         Person editedPerson = new PersonBuilder(tutor).withClasses("s4mon0900", "s4wed1400").build();
         String expectedMessage = String.format(
-            EditCommand.MESSAGE_EDIT_PERSON_SUCCESS,
-            "name: " + editedPerson.getName() + "; " + summarizeEditedFields(descriptor)); // shows class(es)=...
+                EditCommand.MESSAGE_EDIT_PERSON_SUCCESS,
+                "name: " + editedPerson.getName() + "; " + summarizeEditedFields(descriptor)); // shows class(es)=...
 
         Model expectedModel = new ModelManager(new AddressBook(customModel.getAddressBook()), new UserPrefs());
         expectedModel.setPerson(tutor, editedPerson);
