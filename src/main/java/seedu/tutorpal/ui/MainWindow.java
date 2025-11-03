@@ -155,13 +155,15 @@ public class MainWindow extends UiPart<Stage> {
      */
     @FXML
     public void handleDisplay(String personInfo) {
-        this.displayWindow = new DisplayWindow(personInfo);
+        assert personInfo != null : "Person info should not be null";
 
-        if (!displayWindow.isShowing()) {
-            displayWindow.show();
-        } else {
-            displayWindow.focus();
+        if (this.displayWindow != null && this.displayWindow.isShowing()) {
+            this.displayWindow.hide();
         }
+
+        this.displayWindow = new DisplayWindow(personInfo);
+        displayWindow.show();
+        logger.fine("Display window shown for person");
     }
 
     void show() {

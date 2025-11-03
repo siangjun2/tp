@@ -58,6 +58,9 @@ public class PersonCard extends UiPart<Region> {
      */
     public PersonCard(Person person, int displayedIndex) {
         super(FXML);
+        assert person != null : "Person should not be null";
+        assert displayedIndex > 0 : "Displayed index should be positive";
+
         this.person = person;
 
         // Set ID with monospace font

@@ -433,6 +433,59 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
     - Use case ends.
 <br><br>
 
+<br>
+**Use case: Unmark monthly payment status (student or tutor)**
+
+**MSS**
+
+1. Admin enters the unpay command with a valid index and month (e.g., `unpay 3 m/09-2025`).
+2. TutorPal marks the specified month as unpaid for the selected person and displays a success message.
+
+Use case ends.
+
+**Extensions**
+
+- 1a. TutorPal detects an invalid index or month format.
+    - 1a1. TutorPal displays an error message and requests correct input.
+    - 1a2. Admin enters new input.
+    - Steps 1a1-1a2 are repeated until valid input is entered.
+    - Use case resumes from step 2.
+
+- 1b. TutorPal detects that the month entered is earlier than the person's join month or later than the current month.
+    - 1b1. TutorPal rejects the command and displays an error message.
+    - Use case ends.
+
+- 1c. TutorPal detects that the month is already marked as unpaid.
+    - 1c1. TutorPal displays an error message stating that payment for the specified month is already unpaid.
+    - Use case ends.
+
+<br>
+**Use case: Delete payment record**
+
+**MSS**
+
+1. Admin enters the delpay command with a valid index and month (e.g., `delpay 2 m/08-2025`).
+2. TutorPal deletes the payment record for the specified month and displays a success message.
+
+Use case ends.
+
+**Extensions**
+
+- 1a. TutorPal detects an invalid index or month format.
+    - 1a1. TutorPal displays an error message and requests correct input.
+    - 1a2. Admin enters new input.
+    - Steps 1a1-1a2 are repeated until valid input is entered.
+    - Use case resumes from step 2.
+
+- 1b. TutorPal detects that the month is outside the valid range (before join month or after current month).
+    - 1b1. TutorPal displays an error message indicating the valid range.
+    - Use case ends.
+
+- 1c. TutorPal detects that no payment record exists for the specified month.
+    - 1c1. TutorPal displays an error message stating that the payment record was not found.
+    - Use case ends.
+
+<br>
 **Use case: Mark student attendance**
 
 **MSS**
@@ -648,7 +701,6 @@ testers are expected to do more *exploratory* testing.
    1. Re-launch the app by double-clicking the jar file.<br>
        Expected: The most recent window size and location is retained.
 
-1. _{ more test cases …​ }_
 
 ### Deleting a person
 
@@ -673,7 +725,6 @@ testers are expected to do more *exploratory* testing.
     1. Test case: `pay 1 m/09-2025 m/09-2025`<br>
       Expected: Command rejected with a “duplicate month” error. No changes applied.
 
-1. _{ more test cases …​ }_
 
 ### Saving data
 
@@ -681,4 +732,3 @@ testers are expected to do more *exploratory* testing.
 
    1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
 
-1. _{ more test cases …​ }_
