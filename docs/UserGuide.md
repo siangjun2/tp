@@ -252,6 +252,8 @@ Examples:
 
 Marks the selected student as having attended a specific ISO week.
 
+![mark command](images/mark2.png)
+
 Format:
 `mark INDEX w/ATTENDANCEWEEK`
 
@@ -303,6 +305,8 @@ Corner cases:
 ### Managing payments : `pay`
 
 Records monthly fee payments and show each person's payment status
+
+![pay command](images/pay.png)
 
 Format: `pay INDEX m/MM-yyyy`
 
@@ -367,6 +371,8 @@ Ensure your computer’s date and time are accurate for consistent results.
 ### Deleting a payment record: `delpay`
 
 Removes the stored payment record for a specific month.
+
+![delpay command](images/delpay.png)
 
 Format: `delpay INDEX m/MM-yyyy`
 
