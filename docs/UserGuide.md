@@ -326,6 +326,7 @@ Examples (assume today is Oct 2025):
 * `pay 3 m/09-2025` - marks Sept 2025 as paid for person #3
 
 <box type="tip" seamless>
+
 TutorPal uses your computer’s **local system date and time** to determine the current month.
 This means payment validation (e.g., blocking future months) follows your device’s clock and timezone.
 If your system date/time is incorrect or set to a different timezone, payment restrictions may not behave as expected.
@@ -355,6 +356,7 @@ Examples (assume today is Oct 2025):
 * `unpay 3 m/09-2025` - marks Sept 2025 as unpaid for person #3
 
 <box type="tip" seamless>
+
 TutorPal uses your computer’s **local system date and time** to determine the current month.
 This means payment validation (e.g., blocking future months) follows your device’s clock and timezone.
 If your system date/time is incorrect or set to a different timezone, payment restrictions may not behave as expected.
