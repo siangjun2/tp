@@ -175,29 +175,6 @@ public class Student extends Person {
         }
 
         return output;
-        /*List<WeeklyAttendance> attendanceList = attendanceHistory.getLatestAttendance();
-        boolean[] latestTenWeeks = new boolean[10];
-        LocalDate today = LocalDate.now();
-        int nowWeek = today.get(IsoFields.WEEK_OF_WEEK_BASED_YEAR);
-
-        for (WeeklyAttendance weeklyAttendance: attendanceList) {
-            int attendanceWeek = weeklyAttendance.getWeekIndex();
-            if (attendanceWeek <= nowWeek && attendanceWeek >= nowWeek - 9) {
-                latestTenWeeks[attendanceWeek - nowWeek + 9] = true;
-            }
-        }
-
-        String output = "";
-
-        for (int i = 0; i < latestTenWeeks.length; i++) {
-            if (latestTenWeeks[i]) {
-                output += String.format("W%d:present ", i + nowWeek - 9);
-            } else {
-                output += String.format("W%d:absent ", i + nowWeek - 9);
-            }
-        }
-
-        return output;*/
     }
 
     @Override
