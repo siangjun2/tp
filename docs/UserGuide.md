@@ -97,8 +97,11 @@ Examples:
 
 What to know:
 - `ROLE` must be `student` or `tutor`.
-- `NAME` must only contain alphanumeric characters and space, with no consecutive double spaces.
+- `NAME` must only contain alphanumeric characters and space, with no consecutive spaces.
+- Leading and trailing spaces are ignored for `NAME`.
+- `ADDRESS` can contain any characters (except leading spaces); multiple spaces are allowed.
 - At least one class is required (`c/`). Class format: `s[level][day][time]`, e.g., `s4mon1600`.
+- `PHONE` must be exactly 8 digits and start with 6, 8, or 9.
 - Address (`a/`) is optional.
 - Join date (`d/`) is optional; defaults to today. Format: `dd-MM-yyyy`. Year must be from 2000 onwards.
 
