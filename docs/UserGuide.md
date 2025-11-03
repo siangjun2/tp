@@ -77,7 +77,7 @@ TutorPal helps small, single-subject tuition centre owners manage students and t
   e.g `n/NAME [a/ADDRESS]` can be used as `n/John Doe a/Kent Ridge` or as `n/John Doe`.
 
 * Items with `…`​ after them can be used multiple times including zero times.<br>
-  e.g. `[c/MORE_CLASSES]…​` can be used as ` ` (i.e. 0 times), `c/s4mon1600`, `c/s4mon1600 c/s4mon1400` etc.
+  e.g. `[c/MORE_CLASSES]…​` can be used as `…` (i.e. 0 times), `c/s4mon1600`, `c/s4mon1600 c/s4mon1400` etc.
 
 * Parameters can be in any order.<br>
   e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
