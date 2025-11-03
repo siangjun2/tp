@@ -26,6 +26,8 @@ This project is based on the AddressBook-Level3 project created by the [SE-EDU i
 * **GPT for test cases (Low Voon Bin Robin)**: ChatGPT generated test cases to improve coverage, with adjustments for the codebase.
 * **GPT for Javadocs (Low Voon Bin Robin)**: ChatGPT improved Javadocs comments for better readability and clarity.
 
+* **GPT for test cases (Lee Siang Jun)**: ChatGPT generated some test cases to improve coverage, with adjustments for the codebase.
+
 --------------------------------------------------------------------------------------------------------------------
 
 ## **Setting up, getting started**
