@@ -90,9 +90,7 @@
     </GridPane>
   </HBox>
 
-  <ScrollPane VBox.vgrow="ALWAYS" fitToWidth="true" vbarPolicy="ALWAYS" hbarPolicy="NEVER"
-              style="-fx-background: #252526; -fx-background-color: #252526;">
-    <ListView fx:id="personListView"
-              style="-fx-background-color: #252526; -fx-background-insets: 0; -fx-padding: 0; -fx-border-color: transparent;" />
-  </ScrollPane>
+
+  <ListView fx:id="personListView" VBox.vgrow="ALWAYS"
+            style="-fx-background-color: #252526; -fx-background-insets: 0; -fx-padding: 0; -fx-border-color: transparent;" />
 </VBox>

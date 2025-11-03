@@ -12,7 +12,7 @@
       xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
       style="-fx-background-color: transparent; -fx-border-color: #3c3c3c; -fx-border-width: 0 0 1 0;"
       minHeight="50">
-  <GridPane HBox.hgrow="ALWAYS">
+  <GridPane HBox.hgrow="ALWAYS" style="-fx-padding: 0 12 0 0;">
     <columnConstraints>
       <!-- Person: ID + Name -->
       <ColumnConstraints hgrow="NEVER" minWidth="100" prefWidth="100" maxWidth="100" />
