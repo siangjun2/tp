@@ -167,7 +167,7 @@ public class PaymentHistory {
             if (payment.getMonth().isBefore(newJoinMonth)) {
                 throw new seedu.tutorpal.model.person.exceptions.InvalidRangeException(
                         String.format("Cannot set join date to %s as there are existing payment records "
-                                + "before this date. Earliest payment record: %s",
+                                + "before this date. Invalid month found: %s",
                                 newJoinDate.toString(), payment.getMonth()));
             }
         }
@@ -256,7 +256,7 @@ public class PaymentHistory {
             if (payment.getMonth().isBefore(newJoinMonth)) {
                 throw new seedu.tutorpal.model.person.exceptions.InvalidRangeException(
                     String.format("Cannot set join date to %s as there are existing payment records "
-                        + "before this date. Earliest payment record: %s",
+                        + "before this date. Invalid month found: %s",
                         newJoinDate.toString(), payment.getMonth()));
             }
         }
