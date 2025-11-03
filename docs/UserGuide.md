@@ -91,7 +91,7 @@ Shows a message explaining how to access the [help page](https://ay2526s1-cs2103
 When used with a command, it displays a detailed description of how the command should be used.<br>
 
 <box type="warning" seamless>
-`help` is not a valid `COMMAND_WORD` i.e. `help help` is not valid.
+help is not a valid COMMAND_WORD i.e. help help is not valid.
 </box>
 
 ![help message](images/helpMessage.png)
