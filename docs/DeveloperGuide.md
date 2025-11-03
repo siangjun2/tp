@@ -741,3 +741,16 @@ testers are expected to do more *exploratory* testing.
 
    1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
 
+--------------------------------------------------------------------------------------------------------------------
+
+## **Appendix: Planned Enhancements**
+
+**Team size:** 5
+
+1. **Support guardian contact number in Add command**: Currently, the `add` command only allows storing a single phone number per contact. This is limiting for parents who need to provide both a primary contact and an emergency/guardian contact number. We plan to add an optional guardian contact field (prefix `g/`) to the `add` and `edit` commands. For example: `add r/student n/John Doe p/98765432 g/91234567 e/john@example.com a/123 Street c/s4mon1600`. The UI will display both the primary phone and guardian contact (if provided) in the person card, with the guardian contact labeled as "Guardian: 91234567".
+
+2. **Display full attendance and payment history**: Currently, the person list view only shows recent or summary information for attendance and payment records, making it difficult for users to review complete historical data. We plan to introduce a `display INDEX` command that opens a dedicated window or panel showing the full attendance history (all marked weeks) and complete payment history (all months with their paid/unpaid status) for the person at the specified index. The display will be formatted in a user-friendly, scrollable table with columns for dates and status.
+
+3. **Bulk delete payment and attendance records with adapted delpay command**: Currently, the `delpay` command only deletes a single payment record for a specified month (e.g., `delpay 2 m/08-2025`). If a user needs to adjust a person's join date to an earlier date, they must manually delete each subsequent payment and attendance record one by one, which is tedious and error-prone. We plan to introduce a new `clearhistory` command that deletes all payment and attendance records from the join date up to and including the specified date. For example: `clearhistory 2 upto/08-2025` would delete all payment records from the person's join month up to August 2025, as well as all attendance records from the join week up to the last week of August 2025. A confirmation message will be displayed: "Deleted all payment and attendance records for John Doe up to 08-2025 (5 payment records, 20 attendance records deleted)."
+
+4. **Standardize date format for paymentHistory's join date**: Currently, the join date displayed in the UI and the join date stored in the data file's `paymentHistory` use inconsistent date formats, which makes manual editing of the data file difficult and error-prone. For instance, the data file's paymentHistory stores the join date as `2024-08-15` while the UI displays it as `15-08-2024`. We plan to standardize both representations to use the same format: `dd-MM-yyyy` (e.g., `15-08-2024`). This will ensure consistency across the application and make it easier for advanced users to manually edit the data file when necessary.
