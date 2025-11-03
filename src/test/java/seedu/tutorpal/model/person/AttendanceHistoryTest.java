@@ -9,6 +9,7 @@ import java.time.Clock;
 import java.time.Instant;
 import java.time.Year;
 import java.time.ZoneId;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
@@ -272,8 +273,7 @@ public class AttendanceHistoryTest {
         JoinDate joinDate = new JoinDate("01-01-2024");
         WeeklyAttendance week2 = new WeeklyAttendance(2, Year.of(2024));
 
-        final AttendanceHistory history =
-                new AttendanceHistory(joinDate, FIXED_CLOCK_2024_W10).markAttendance(week2);
+        final AttendanceHistory history = new AttendanceHistory(joinDate, FIXED_CLOCK_2024_W10).markAttendance(week2);
 
         JoinDate newJoinDate = new JoinDate("15-02-2024"); // W7 — after week2
         assertThrows(InvalidRangeException.class, () -> history.changeJoinDate(newJoinDate));
@@ -291,5 +291,70 @@ public class AttendanceHistoryTest {
 
         assertEquals(earlierJoinDate, result.getJoinDate());
         assertTrue(result.hasBeenMarked(week8));
+    }
+
+    @Test
+    public void getLatestAttendance_empty_returnsEmptyList() {
+        JoinDate joinDate = new JoinDate("01-01-2024");
+        AttendanceHistory history = new AttendanceHistory(joinDate, FIXED_CLOCK_2024_W10);
+
+        List<WeeklyAttendance> latest = history.getLatestAttendance();
+        assertTrue(latest.isEmpty());
+    }
+
+    @Test
+    public void getLatestAttendance_sortedDescending_withinSameYear() {
+        JoinDate joinDate = new JoinDate("01-01-2024");
+        AttendanceHistory history = new AttendanceHistory(joinDate, FIXED_CLOCK_2024_W10);
+
+        WeeklyAttendance w1 = new WeeklyAttendance(1, Year.of(2024));
+        WeeklyAttendance w2 = new WeeklyAttendance(2, Year.of(2024));
+        WeeklyAttendance w3 = new WeeklyAttendance(3, Year.of(2024));
+
+        history = history.markAttendance(w2);
+        history = history.markAttendance(w1);
+        history = history.markAttendance(w3);
+
+        List<WeeklyAttendance> latest = history.getLatestAttendance();
+        assertEquals(List.of(w3, w2, w1), latest);
+    }
+
+    @Test
+    public void getLatestAttendance_crossYearOrdering_descending() {
+        // Allow marking 2023 weeks by choosing an earlier join date
+        JoinDate joinDate = new JoinDate("01-01-2023");
+        AttendanceHistory history = new AttendanceHistory(joinDate, FIXED_CLOCK_2024_W10);
+
+        WeeklyAttendance w522023 = new WeeklyAttendance(52, Year.of(2023));
+        WeeklyAttendance w12024 = new WeeklyAttendance(1, Year.of(2024));
+        WeeklyAttendance w22024 = new WeeklyAttendance(2, Year.of(2024));
+
+        history = history.markAttendance(w522023);
+        history = history.markAttendance(w12024);
+        history = history.markAttendance(w22024);
+
+        List<WeeklyAttendance> latest = history.getLatestAttendance();
+        assertEquals(List.of(w22024, w12024, w522023), latest);
+    }
+
+    @Test
+    public void getLatestAttendance_limitsTo10_latestTenOnly() {
+        // Join early to allow marking across years up to current week (W10-2024)
+        JoinDate joinDate = new JoinDate("01-01-2023");
+        AttendanceHistory history = new AttendanceHistory(joinDate, FIXED_CLOCK_2024_W10);
+
+        // Mark 11 weeks: W52-2023 and W01..W10-2024 (current week is W10-2024)
+        WeeklyAttendance w522023 = new WeeklyAttendance(52, Year.of(2023));
+        history = history.markAttendance(w522023);
+
+        for (int w = 1; w <= 10; w++) {
+            history = history.markAttendance(new WeeklyAttendance(w, Year.of(2024)));
+        }
+
+        List<WeeklyAttendance> latest = history.getLatestAttendance();
+        assertEquals(10, latest.size());
+        // Should be W10 down to W01 (W52-2023 excluded)
+        assertEquals(new WeeklyAttendance(10, Year.of(2024)), latest.get(0));
+        assertEquals(new WeeklyAttendance(1, Year.of(2024)), latest.get(9));
     }
 }

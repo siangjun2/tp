@@ -155,7 +155,8 @@ public class PersonBuilder {
      */
     public PersonBuilder withJoinDate(String joinDate) {
         this.joinDate = new JoinDate(joinDate);
-        // NOTE : also update payment history and attendance history to use the new join date
+        // NOTE : also update payment history and attendance history to use the new join
+        // date
         // This resets the histories
         this.paymentHistory = new PaymentHistory(this.joinDate.toLocalDate());
         if (role == Role.STUDENT) {
@@ -180,7 +181,16 @@ public class PersonBuilder {
     }
 
     /**
+     * Sets the {@code PaymentHistory} of the {@code Person} that we are building.
+     */
+    public PersonBuilder withPaymentHistory(PaymentHistory paymentHistory) {
+        this.paymentHistory = paymentHistory;
+        return this;
+    }
+
+    /**
      * Builds the person using edited fields.
+     * 
      * @return
      */
     public Person build() {

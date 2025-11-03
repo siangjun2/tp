@@ -649,4 +649,36 @@ public class WeeklyAttendanceTest {
         WeeklyAttendance cur = WeeklyAttendance.getCurrentWeek(fixed);
         assertEquals("W53-2020", cur.toString());
     }
+
+    @Test
+    public void subtractWeeklyAttendance_sameYear_returnsDifference() {
+        WeeklyAttendance later = new WeeklyAttendance(10, Year.of(2024));
+        WeeklyAttendance earlier = new WeeklyAttendance(3, Year.of(2024));
+        assertEquals(7, later.subtractWeeklyAttendance(earlier));
+    }
+
+    @Test
+    public void subtractWeeklyAttendance_acrossYears_accumulatesWeeks() {
+        WeeklyAttendance later = new WeeklyAttendance(2, Year.of(2025));
+        WeeklyAttendance earlier = new WeeklyAttendance(52, Year.of(2024)); // 2024 has 52 ISO weeks
+        assertEquals(2, later.subtractWeeklyAttendance(earlier));
+    }
+
+    @Test
+    public void minusWeeks_withinSameYear_staysInYear() {
+        WeeklyAttendance start = new WeeklyAttendance(10, Year.of(2024));
+        assertEquals(new WeeklyAttendance(7, Year.of(2024)), start.minusWeeks(3));
+    }
+
+    @Test
+    public void minusWeeks_crossYearBoundary_movesToPreviousYear() {
+        WeeklyAttendance start = new WeeklyAttendance(2, Year.of(2025));
+        assertEquals(new WeeklyAttendance(51, Year.of(2024)), start.minusWeeks(3));
+    }
+
+    @Test
+    public void minusWeeks_exactBoundary_previousYearLastWeek() {
+        WeeklyAttendance start = new WeeklyAttendance(1, Year.of(2025));
+        assertEquals(new WeeklyAttendance(52, Year.of(2024)), start.minusWeeks(1)); // 2024 has 52 weeks
+    }
 }

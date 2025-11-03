@@ -15,13 +15,17 @@ import static seedu.tutorpal.testutil.TypicalPersons.BOB;
 import java.time.Clock;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 
 import org.junit.jupiter.api.Test;
 
 import seedu.tutorpal.testutil.PersonBuilder;
 
 public class PersonTest {
+
+    private static final DateTimeFormatter JOIN_FMT = DateTimeFormatter.ofPattern("dd-MM-uuuu");
 
     @Test
     public void asObservableList_modifyList_throwsUnsupportedOperationException() {
@@ -50,7 +54,8 @@ public class PersonTest {
         editedAlice = new PersonBuilder(ALICE).withPhone(VALID_PHONE_BOB).build();
         assertFalse(ALICE.isSamePerson(editedAlice));
 
-        // name differs in case, all other attributes same -> returns true (case-insensitive)
+        // name differs in case, all other attributes same -> returns true
+        // (case-insensitive)
         Person editedBob = new PersonBuilder(BOB).withName(VALID_NAME_BOB.toLowerCase()).build();
         assertTrue(BOB.isSamePerson(editedBob));
 
@@ -138,5 +143,31 @@ public class PersonTest {
 
         assertTrue(s1.equals(s2));
         assertEquals(s1.hashCode(), s2.hashCode());
+    }
+
+    @Test
+    public void printPaymentHistory_lastSixMonths_paidUnpaidOverdue() {
+        YearMonth today = YearMonth.now();
+        // Join 5 months ago (inclusive) to cover exactly 6 months window
+        LocalDate joinLocal = today.minusMonths(5).atDay(1);
+
+        PaymentHistory ph = new PaymentHistory(joinLocal);
+        // Mark last month and 3 months ago as paid
+        ph = ph.markMonthAsPaid(today.minusMonths(1));
+        ph = ph.markMonthAsPaid(today.minusMonths(3));
+
+        Person student = new PersonBuilder()
+                .withRole("student")
+                .withJoinDate(JOIN_FMT.format(joinLocal))
+                .withPaymentHistory(ph)
+                .build();
+
+        String out = student.printPaymentHistory();
+        String[] tokens = out.trim().split("\\s+");
+        assertEquals(6, tokens.length);
+
+        assertTrue(out.contains(today.toString() + ":unpaid"));
+        assertTrue(out.contains(today.minusMonths(1).toString() + ":paid")); // last month paid
+        assertTrue(out.contains(today.minusMonths(2).toString() + ":overdue")); // an older unpaid month becomes overdue
     }
 }
