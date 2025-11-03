@@ -285,26 +285,33 @@ _{Explain here how the data archiving feature will be implemented}_
 manage students and tutors effortlessly by centralizing contact info, 
 attendance and monthly payment tracking (student fees and tutor salaries)
 in one easy-to-use command-line system. Designed for owners, tutors, and admins who are familiar with CLI workflows,
-it helps save time, reduce errors, and  lets them focus on teaching instead of paperwork.
+it helps save time, reduce errors, and lets them focus on teaching instead of paperwork.
 
 ### User stories
 
 Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
-| Priority | As a …​               | I want to …​                  | So that I can…​                                                        |
-|----------|----------------------|------------------------------|------------------------------------------------------------------------|
-| `* * *`  | new user             | see usage instructions       | refer to instructions when I forget how to use the App                 |
-| `* * *`  | user                 | add a student's contact      | collate all students' details in one place                             |
-| `* * *`  | admin                | add a tutor's contact        | onboard tutors and assign them to classes                              |
-| `* * *`  | user                 | delete a student's contact   | remove entries that I no longer need, maintaining a clean record       |
-| `* * *`  | user                 | find a person by name        | locate details of persons without having to go through the entire list |
-| `* * *`  | tuition centre owner | record payment status        | collect my fees on time                                                |
-| `* * *`  | tuition centre owner | list all my student details  | get a overview of the students in my tuition centre                    |
-| `* * *`  | tuition centre owner | unpay a month's payment      | correct payment mistakes quickly                                       |
-| `* * *`  | tuition centre owner | view monthly payment summary | see paid/unpaid/overdue at a glance                                    |
-| `* *`    | tutor                | record attendance            | track any students who may be missing classes                          |
-| `* *`    | admin                | filter students by `class`, `tutor`, or `payment status` | find the right group of people easily                                  |
-| `*`      | tuition centre owner | Set reminders for payments   | do not forget to ask for pending payments                              |
+| Priority | As a …​              | I want to …​                                            | So that I can…​                                                        |
+|----------|----------------------|---------------------------------------------------------|------------------------------------------------------------------------|
+| `* * *`  | new user             | see usage instructions                                  | refer to instructions when I forget how to use the App                 |
+| `* * *`  | user                 | add a student's contact                                 | collate all students' details in one place                             |
+| `* * *`  | admin                | add a tutor's contact                                   | onboard tutors and assign them to classes                              |
+| `* * *`  | user                 | delete a person's contact                                | remove entries I no longer need, maintaining a clean record            |
+| `* * *`  | user                 | find a person by name                                    | locate details without scanning the whole list                         |
+| `* * *`  | tuition centre owner | record a student's monthly fee payment                   | track fee collections accurately                                       |
+| `* * *`  | tuition centre owner | record a tutor's monthly salary payment                  | track salary payouts accurately                                        |
+| `* * *`  | tuition centre owner | unpay a month's payment for a student or tutor           | correct payment mistakes quickly                                       |
+| `* * *`  | tuition centre owner | view monthly payment summary                             | see paid/unpaid/overdue at a glance                                    |
+| `* *`    | user                 | display a person's full details                          | view classes, attendance, and payment history in one place             |
+| `* *`    | admin                | edit a person's details                                  | fix mistakes without re-adding the person                              |
+| `* *`    | tutor                | record attendance                                        | track any students who may be missing classes                          |
+| `* *`    | tutor                | unmark a student's attendance for a specific week        | correct accidental attendance markings                                 |
+| `* *`    | admin                | filter persons by `class`, `tutor`, or `payment status`  | find the right group of people easily                                  |
+| `* *`    | tuition centre owner | delete a payment record for a specific month             | remove duplicate or erroneous payment records                          |
+| `*`      | admin                | clear all entries                                        | reset the app data for testing or a new term                           |
+| `*`      | user                 | exit the application                                     | close the app when done                                                |
+| `*`      | user                 | have my data auto-saved                                  | avoid losing data without manual save                                  |
+| `*`      | tuition centre owner | set reminders for payments                               | not forget to ask for pending payments                                 |
 
 ### Use cases
 (For all use cases below, the **System** is the `TutorPal` and the **Actor** is the `Tuition Centre Admin`, unless specified otherwise)
