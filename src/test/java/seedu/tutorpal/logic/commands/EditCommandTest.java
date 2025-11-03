@@ -110,7 +110,7 @@ public class EditCommandTest {
 
         String expectedMessage = String.format(
             EditCommand.MESSAGE_EDIT_PERSON_SUCCESS,
-            summarizeEditedFields(new EditPersonDescriptor())); // -> "No fields edited"
+            "name: " + editedPerson.getName() + "; " + summarizeEditedFields(new EditPersonDescriptor())); // -> "No fields edited"
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
 
@@ -278,7 +278,7 @@ public class EditCommandTest {
         Person editedPerson = new PersonBuilder(tutor).withClasses("s4mon0900", "s4wed1400").build();
         String expectedMessage = String.format(
             EditCommand.MESSAGE_EDIT_PERSON_SUCCESS,
-            summarizeEditedFields(descriptor)); // shows class(es)=...
+            "name: " + editedPerson.getName() + "; " + summarizeEditedFields(descriptor)); // shows class(es)=...
 
         Model expectedModel = new ModelManager(new AddressBook(customModel.getAddressBook()), new UserPrefs());
         expectedModel.setPerson(tutor, editedPerson);
