@@ -4,6 +4,26 @@
   pageNav: 3
 ---
 
+<style>
+
+h2 {
+  margin-top: 70px !important; 
+  padding-top: 25px !important;   
+  border-top: 2px solid #e0e0e0; 
+}
+
+h3 {
+  margin-top: 70px !important;
+  padding-top: 15px !important;
+  border-top: 1px dashed #e5e5e5;
+}
+
+pre, img {
+  margin-bottom: 20px !important;
+}
+
+</style>
+
 # TutorPal User Guide
 
 TutorPal helps small, single-subject tuition centre owners manage students and tutors effortlessly by centralizing contact info, attendance and monthly payment tracking (student fees and tutor salaries) in one easy-to-use command-line system. Designed for owners, tutors, and admins who are familiar with CLI workflows, it saves time, reduces errors, and lets you focus on teaching instead of paperwork.
