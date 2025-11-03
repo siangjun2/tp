@@ -23,6 +23,8 @@ This project is based on the AddressBook-Level3 project created by the [SE-EDU i
 * **Widespread use of AI tools (Lee Chong Rui)**: GitHub Copilot was used as an auto-complete and code-assistance tool throughout development, including logic, model, and test code.
 * **GPT for test cases (Lee Chong Rui)**: ChatGPT generated some test cases to improve coverage, with adjustments for the codebase.
 
+* **GPT for test cases (Low Voon Bin Robin)**: ChatGPT generated test cases to improve coverage, with adjustments for the codebase.
+* **GPT for Javadocs (Low Voon Bin Robin)**: ChatGPT improved Javadocs comments for better readability and clarity.
 
 --------------------------------------------------------------------------------------------------------------------
 
