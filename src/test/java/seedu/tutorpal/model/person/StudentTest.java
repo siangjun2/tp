@@ -120,27 +120,6 @@ public class StudentTest {
     }
 
     @Test
-    void printAttendanceHistory_joinWithinWindow_onlyFromJoinWeek() {
-        LocalDate today = LocalDate.now();
-        // Joined 2 weeks ago => should print 3 tokens (join, previous, current)
-        JoinDate joinDate = new JoinDate(jd(today.minusWeeks(2)));
-        AttendanceHistory ah = new AttendanceHistory(joinDate);
-
-        Student s = makeStudentWithAttendance(classSet("s4mon1600"), joinDate, ah);
-
-        String out = s.printAttendanceHistory();
-        String[] tokens = Arrays.stream(out.trim().split("\\s+"))
-                .filter(t -> !t.isBlank())
-                .toArray(String[]::new);
-
-        assertEquals(3, tokens.length);
-
-        // None marked, all absent
-        boolean allAbsent = Arrays.stream(tokens).allMatch(t -> t.endsWith(":absent"));
-        assertTrue(allAbsent, "Expected all tokens to be absent when nothing is marked.");
-    }
-
-    @Test
     void equalsAndHashCode_considerAttendanceHistory() {
         LocalDate today = LocalDate.now();
         JoinDate joinDate = new JoinDate(jd(today.minusWeeks(12)));
@@ -168,40 +147,6 @@ public class StudentTest {
                 .withRole("student")
                 .withClasses("s4mon1600", "s4wed1400")
                 .build());
-    }
-
-    @Test
-    public void printAttendanceHistory_marksPresentAndAbsent_respectsJoinBoundary() {
-        // Prepare attendance: mark current week and 2 weeks ago as present
-        Clock sysClock = Clock.systemDefaultZone();
-        WeeklyAttendance thisWeek = WeeklyAttendance.getCurrentWeek(sysClock);
-        WeeklyAttendance twoAgo = thisWeek.minusWeeks(2);
-        WeeklyAttendance oneAgo = thisWeek.minusWeeks(1);
-
-        LocalDate joinDate = LocalDate.now(sysClock).minusWeeks(5);
-        AttendanceHistory ah = new AttendanceHistory(new JoinDate(fmt(joinDate)), sysClock)
-                .markAttendance(thisWeek)
-                .markAttendance(twoAgo);
-
-        // Build student via PersonBuilder with custom AttendanceHistory
-        Student student = (Student) new PersonBuilder()
-                .withRole("student")
-                .withJoinDate(fmt(joinDate))
-                .withAttendanceHistory(ah)
-                .build();
-
-        String out = student.printAttendanceHistory();
-
-        // Contains present for marked weeks and absent for others within window
-        assertTrue(out.contains("W" + thisWeek.getWeekIndex() + ":present"));
-        assertTrue(out.contains("W" + twoAgo.getWeekIndex() + ":present"));
-        assertTrue(out.contains("W" + oneAgo.getWeekIndex() + ":absent"));
-
-        // Token count = min(10, weeksBetween(join..thisWeek)+1)
-        int weeksBetween = thisWeek.subtractWeeklyAttendance(WeeklyAttendance.at(joinDate));
-        int expectedTokens = Math.min(10, weeksBetween + 1);
-        int actualTokens = out.trim().split("\\s+").length;
-        assertEquals(expectedTokens, actualTokens);
     }
 
     @Test

@@ -24,7 +24,7 @@ public class Student extends Person {
      * Public constructor with explicit joinDate (uses system clock for defaults).
      */
     public Student(Name name, Phone phone, Email email, Address address, Set<Class> classes,
-            JoinDate joinDate) {
+                   JoinDate joinDate) {
         this(name, phone, email, address, classes, joinDate, null, Clock.systemDefaultZone(),
                 new PaymentHistory(joinDate.toLocalDate()));
     }
@@ -34,16 +34,16 @@ public class Student extends Person {
      * Used by Storage when restoring from JSON.
      */
     public Student(Name name, Phone phone, Email email, Address address, Set<Class> classes,
-            JoinDate joinDate, PaymentHistory paymentHistory) {
+                   JoinDate joinDate, PaymentHistory paymentHistory) {
         this(name, phone, email, address, classes, joinDate, null, Clock.systemDefaultZone(), paymentHistory);
     }
 
     /**
      * For Add Command
-     * Allows injecting of clock to control
+     *  Allows injecting of clock to control
      */
     public Student(Name name, Phone phone, Email email, Address address, Set<Class> classes,
-            JoinDate joinDate, Clock nowClock) {
+                   JoinDate joinDate, Clock nowClock) {
         this(name, phone, email, address, classes, joinDate, null, nowClock,
                 new PaymentHistory(joinDate.toLocalDate()));
     }
@@ -53,7 +53,7 @@ public class Student extends Person {
      * Public constructor with attendance history
      */
     public Student(Name name, Phone phone, Email email, Address address, Set<Class> classes,
-            JoinDate joinDate, AttendanceHistory attendanceHistory) {
+                   JoinDate joinDate, AttendanceHistory attendanceHistory) {
         this(name, phone, email, address, classes, joinDate, attendanceHistory, Clock.systemDefaultZone(),
                 new PaymentHistory(joinDate.toLocalDate()));
     }
@@ -63,7 +63,7 @@ public class Student extends Person {
      * Allows injecting of clock to control
      */
     public Student(Name name, Phone phone, Email email, Address address, Set<Class> classes,
-            JoinDate joinDate, AttendanceHistory attendanceHistory, Clock nowClock) {
+                   JoinDate joinDate, AttendanceHistory attendanceHistory, Clock nowClock) {
         this(name, phone, email, address, classes, joinDate, attendanceHistory, nowClock,
                 new PaymentHistory(joinDate.toLocalDate()));
     }
@@ -72,7 +72,7 @@ public class Student extends Person {
      * With all fields except clock
      */
     public Student(Name name, Phone phone, Email email, Address address, Set<Class> classes,
-            JoinDate joinDate, AttendanceHistory attendanceHistory, PaymentHistory paymentHistory) {
+                   JoinDate joinDate, AttendanceHistory attendanceHistory, PaymentHistory paymentHistory) {
         this(name, phone, email, address, classes, joinDate, attendanceHistory, Clock.systemDefaultZone(),
                 paymentHistory);
     }
@@ -83,8 +83,8 @@ public class Student extends Person {
      * nowClock.
      */
     private Student(Name name, Phone phone, Email email, Address address, Set<Class> classes,
-            JoinDate joinDate, AttendanceHistory attendanceHistory, Clock nowClock,
-            PaymentHistory paymentHistory) {
+                    JoinDate joinDate, AttendanceHistory attendanceHistory, Clock nowClock,
+                    PaymentHistory paymentHistory) {
         super(name, phone, email, address, classes, joinDate, paymentHistory, nowClock);
         validateClassSize(classes);
         AttendanceHistory normalized = attendanceHistory != null
@@ -127,29 +127,21 @@ public class Student extends Person {
      * Generates a formatted string summarizing the student's attendance
      * over the most recent ten ISO weeks.
      *
-     * <p>
-     * The method retrieves the student's latest weekly attendance records
+     * <p>The method retrieves the student's latest weekly attendance records
      * from {@code attendanceHistory.getLatestAttendance()}, determines which of the
      * past ten ISO weeks (including the current week) the student attended, and
-     * constructs a textual summary marking each week as either "present" or
-     * "absent".
-     * </p>
+     * constructs a textual summary marking each week as either "present" or "absent".</p>
      *
-     * <p>
-     * Weeks are labeled using their ISO week numbers (as defined by
-     * {@link java.time.temporal.IsoFields#WEEK_OF_WEEK_BASED_YEAR}).
-     * </p>
+     * <p>Weeks are labeled using their ISO week numbers (as defined by
+     * {@link java.time.temporal.IsoFields#WEEK_OF_WEEK_BASED_YEAR}).</p>
      *
-     * <p>
-     * Example output:
-     * </p>
+     * <p>Example output:</p>
      * <pre>{@code
      * W35:absent W36:present W37:present W38:absent W39:present
      * W40:present W41:present W42:absent W43:present W44:present
      * }</pre>
      *
-     * @return a formatted {@link String} listing attendance status for each of the
-     *         last ten ISO weeks
+     * @return a formatted {@link String} listing attendance status for each of the last ten ISO weeks
      * @see java.time.temporal.IsoFields#WEEK_OF_WEEK_BASED_YEAR
      * @see WeeklyAttendance
      */
@@ -171,9 +163,7 @@ public class Student extends Person {
         LocalDate joinDate = super.getJoinDate().toLocalDate();
         WeeklyAttendance joinWeeklyAttendance = WeeklyAttendance.of(joinDate);
         if (joinWeeklyAttendance.isAfter(todayWeeklyAttendance.minusWeeks(10 - 1))) {
-            // Start printing from the join week (inclusive) within the 10-week window.
-            int diff = todayWeeklyAttendance.subtractWeeklyAttendance(joinWeeklyAttendance);
-            iterator = (10 - 1) - diff; // iStart = 9 - diff
+            iterator = todayWeeklyAttendance.subtractWeeklyAttendance(joinWeeklyAttendance);
         }
         for (int i = iterator; i < 10; i++) {
             WeeklyAttendance currWeeklyAttendance = todayWeeklyAttendance.minusWeeks(10 - 1 - i);
