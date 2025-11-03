@@ -348,7 +348,7 @@ Details:
 * Only one `m/` is allowed, providing `m/` more than once is rejected.
 
 Examples (assume today is Oct 2025):
-* `unpay 3 m/09-2025`- marks Sept 2025 as unpaid for person #3
+* `unpay 3 m/09-2025` - marks Sept 2025 as unpaid for person #3
 
 <box type="tip" seamless>
 TutorPal uses your computer’s **local system date and time** to determine the current month.
@@ -475,7 +475,7 @@ Action     | Format, Examples
 **Clear**  | `clear`
 **Delete** | `delete INDEX`<br> e.g., `delete 3`
 **Display** | `display INDEX`<br> e.g., `display 4`
-**Edit**   | `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [d/JOINDATE] [c/CLASS]…`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
+**Edit**   | `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [d/JOINDATE] [c/CLASS]…`<br> e.g., `edit 2 n/James Lee e/jameslee@example.com`
 **Exit**   | `exit`
 **Find**   | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
 **List**   | `list [c/CLASS] [t/TUTOR] [ps/STATUS]`
