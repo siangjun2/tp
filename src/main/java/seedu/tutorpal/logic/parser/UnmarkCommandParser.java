@@ -17,6 +17,7 @@ import seedu.tutorpal.model.person.WeeklyAttendance;
  */
 public class UnmarkCommandParser implements Parser<UnmarkCommand> {
     private static Logger logger = Logger.getLogger(MarkCommandParser.class.getName());
+
     /**
      * Parses the given {@code String} of arguments in the context of the
      * UnmarkCommand
@@ -28,8 +29,7 @@ public class UnmarkCommandParser implements Parser<UnmarkCommand> {
         requireNonNull(args);
         logger.log(Level.INFO, "Parsing UnmarkCommand with args: \"" + args + "\"");
 
-        ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, PREFIX_ATTENDANCE_WEEK);
+        ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_ATTENDANCE_WEEK);
         argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_ATTENDANCE_WEEK);
 
         if (argMultimap.getPreamble().isEmpty()
@@ -43,14 +43,8 @@ public class UnmarkCommandParser implements Parser<UnmarkCommand> {
         Index index = ParserUtil.parseIndex(argMultimap.getPreamble());
 
         String weekStr = argMultimap.getValue(PREFIX_ATTENDANCE_WEEK).get();
-        WeeklyAttendance week;
-        try {
-            week = new WeeklyAttendance(weekStr);
-        } catch (IllegalArgumentException e) {
-            // Wrap validation error into a ParseException for the parser layer
-            logger.log(Level.WARNING, "WeeklyAttendance format is wrong! Given : " + weekStr);
-            throw new ParseException(WeeklyAttendance.MESSAGE_CONSTRAINTS);
-        }
+        WeeklyAttendance week = ParserUtil.parseWeeklyAttendance(weekStr);
+
         logger.log(Level.FINE, "Unmark Command parsed with index =" + index + " and week=" + week);
         return new UnmarkCommand(index, week);
     }

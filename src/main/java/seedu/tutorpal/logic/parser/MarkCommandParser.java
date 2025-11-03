@@ -43,14 +43,8 @@ public class MarkCommandParser implements Parser<MarkCommand> {
         Index index = ParserUtil.parseIndex(argMultimap.getPreamble());
 
         String weekStr = argMultimap.getValue(PREFIX_ATTENDANCE_WEEK).get();
-        WeeklyAttendance week;
-        try {
-            week = new WeeklyAttendance(weekStr);
-        } catch (IllegalArgumentException e) {
-            // Wrap validation error into a ParseException for the parser layer
-            logger.log(Level.WARNING, "WeeklyAttendance format is wrong! Given : " + weekStr);
-            throw new ParseException(WeeklyAttendance.MESSAGE_CONSTRAINTS);
-        }
+        WeeklyAttendance week = ParserUtil.parseWeeklyAttendance(weekStr);
+
         logger.log(Level.FINE, "Mark Command parsed with index =" + index + " and week=" + week);
         return new MarkCommand(index, week);
     }
