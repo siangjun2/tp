@@ -15,6 +15,15 @@
 
 This project is based on the AddressBook-Level3 project created by the [SE-EDU initiative](https://se-education.org).
 
+**Code reuse and AI-assisted development:**
+
+* **Widespread use of AI tools (Yeo Yong Sheng)**: GitHub Copilot was used as an auto-complete and code-assistance tool throughout development, including logic, model, and test code.
+* **GPT for test cases (Yeo Yong Sheng)**: ChatGPT generated some test cases to improve coverage, with adjustments for the codebase.
+
+* **Widespread use of AI tools (Lee Chong Rui)**: GitHub Copilot was used as an auto-complete and code-assistance tool throughout development, including logic, model, and test code.
+* **GPT for test cases (Lee Chong Rui)**: ChatGPT generated some test cases to improve coverage, with adjustments for the codebase.
+
+
 --------------------------------------------------------------------------------------------------------------------
 
 ## **Setting up, getting started**
@@ -297,8 +306,8 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ### Use cases
 (For all use cases below, the **System** is the `TutorPal` and the **Actor** is the `Tuition Centre Admin`, unless specified otherwise)
+<br><br>
 
-<br>
 **Use case: Add new student/tutor**
 
 **MSS**
@@ -320,8 +329,8 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 - 1b. TutorPal detects a duplicate (same name and phone number).
   - 1b1. TutorPal displays a duplicate error message.
   - Use case ends.
+<br><br>
 
-<br>
 **Use case: Delete student/tutor**
 
 **MSS**
@@ -338,8 +347,8 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
   - 1a2. Admin enters a new index.
   - Steps 1a1-1a2 are repeated until a valid index is entered.
   - Use case resumes from step 2.
+<br><br>
 
-<br>
 **Use case: List students/tutors (with optional filter)**
 
 **MSS**
@@ -358,11 +367,23 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
   - Steps 1a1-1a2 are repeated until a valid filter or no filter is entered.
   - Use case resumes from step 2.
 
+- 1b. Admin provides multiple filters of the same type (e.g., `list c/s4 c/s2`, `list t/Alex t/John`).
+    - 1b1. TutorPal applies OR logic: filters of the same type are combined with OR.
+    - Use case resumes from step 2.
+
+- 1c. Admin provides multiple filters of different types (e.g., `list c/s4 ps/unpaid`, `list t/Alex ps/paid`).
+    - 1c1. TutorPal applies AND logic: filters of different types are combined with AND.
+    - Use case resumes from step 2.
+
+- 1d. Admin provides both multiple same-type filters and multiple different-type filters (e.g., `list c/s4 c/s2 ps/unpaid`).
+    - 1d1. TutorPal applies combined logic: same-type filters are OR-ed, then different-type filters are AND-ed.
+    - Use case resumes from step 2.
+
 - 2a. No matching records found.
   - 2a1. TutorPal displays a `0 persons listed!` message.
   - Use case ends.
+<br><br>
 
-<br>
 **Use case: Find student/tutor by name**
 
 **MSS**
@@ -384,8 +405,8 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 - 2a. No matching records found.
   - 2a1. TutorPal displays a `0 persons listed!` message.
   - Use case ends.
+<br><br>
 
-<br>
 **Use case: Mark monthly payment status (student or tutor)**
 
 **MSS**
@@ -410,6 +431,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 - 1c. TutorPal detects that the month has already been marked as paid.
     - 1c1. TutorPal displays an error message stating that payment for the specified month has already been recorded.
     - Use case ends.
+<br><br>
 
 <br>
 **Use case: Unmark monthly payment status (student or tutor)**
@@ -499,8 +521,8 @@ Use case ends.
 - 2d. TutorPal detects that the attendance week has already been marked.
     - 2d1. TutorPal displays an error message indicating that attendance for this week is already marked.
     - Use case ends.
+<br><br>
 
-<br>
 **Use case: Unmark student attendance**
 
 **MSS**
@@ -536,8 +558,8 @@ Use case ends.
 - 2d. TutorPal detects that the attendance week was never marked.
     - 2d1. TutorPal displays an error message indicating that attendance for this week was not previously marked.
     - Use case ends.
+<br><br>
 
-<br>
 **Use case: Edit person details**
 
 **MSS**
@@ -585,8 +607,8 @@ Use case ends.
 - 2e. TutorPal detects that the edited person would create a duplicate (same name and phone number as another person).
     - 2e1. TutorPal displays an error message indicating a duplicate person would be created.
     - Use case ends.
+<br><br>
 
-<br>
 **Use case: Clear all entries**
 
 **MSS**
@@ -599,6 +621,7 @@ Use case ends.
 **Extensions**
 
 None.
+<br><br>
 
 **Use case: Exit application**
 
@@ -607,7 +630,7 @@ None.
 1. Admin enters the exit command.
 2. TutorPal displays an exit acknowledgment message and closes the application.
 
-Use case ends.
+    Use case ends.
 
 **Extensions**
 

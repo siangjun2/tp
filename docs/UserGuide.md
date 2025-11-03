@@ -97,8 +97,11 @@ Examples:
 
 What to know:
 - `ROLE` must be `student` or `tutor`.
-- `NAME` must only contain alphanumeric characters and space, with no consecutive double spaces.
+- `NAME` must only contain alphanumeric characters and space, with no consecutive spaces.
+- Leading and trailing spaces are ignored for `NAME`.
+- `ADDRESS` can contain any characters (except leading spaces); multiple spaces are allowed.
 - At least one class is required (`c/`). Class format: `s[level][day][time]`, e.g., `s4mon1600`.
+- `PHONE` must be exactly 8 digits and start with 6, 8, or 9.
 - Address (`a/`) is optional.
 - Join date (`d/`) is optional; defaults to today. Format: `dd-MM-yyyy`. Year must be from 2000 onwards.
 
@@ -119,9 +122,16 @@ Two persons are considered the same if they have the same name and phone number.
 Tip: For tutors, add more classes by repeating c/, e.g., c/s4mon1600 c/s4wed1400.
 </box>
 
+<box type="tip" seamless>
+
+To maintain high data quality and ensure consistent reporting, **joinDate** must be between 01-01-2000 and
+**your computer's local system date and time**.   
+This range reflects realistic onboarding windows for current operations and prevents entry of implausible historical dates.
+</box>
+
 ### Listing all persons : `list`
 
-Shows a list of students and tutors, optionally filtered by criterias.
+Shows a list of students and tutors, optionally filtered by criteria.
 
 Formats:
 * `list`
@@ -157,9 +167,11 @@ Examples:
 * `list t/Alex` - **students** taught by any tutor whose name contains `Alex`
 * `list ps/paid` - shows persons whose payment status is **Paid**
 
-### Displaying a person: `display`
+### Displaying a person: `display` {: #display}
 
 Displays detailed information about a person in TutorPal.
+
+![display window](images/display.png)
 
 Format:
 `display INDEX`
@@ -287,18 +299,18 @@ Details:
 Examples (assume today is Oct 2025):
 * `pay 3 m/09-2025` - marks Sept 2025 as paid for person #3
 
-Examples (assume today is Oct 2025):
-pay 3 m/09-2025 - marks Sept 2025 as paid for person #3
-
 <box type="tip" seamless>
 TutorPal uses your computer’s **local system date and time** to determine the current month.
 This means payment validation (e.g., blocking future months) follows your device’s clock and timezone.
 If your system date/time is incorrect or set to a different timezone, payment restrictions may not behave as expected.
 Ensure your computer’s date and time are accurate for consistent results.
+
 </box>
 
 <box type="tip" seamless>
+
 `pay` has different meanings for tutors and students. `pay` on tutor means paying the tutor whereas `pay` on student means collecting payment from the student.
+
 </box>
 
 --------------------------------------------------------------------------------------------------------------------
@@ -323,9 +335,13 @@ TutorPal uses your computer’s **local system date and time** to determine the 
 This means payment validation (e.g., blocking future months) follows your device’s clock and timezone.
 If your system date/time is incorrect or set to a different timezone, payment restrictions may not behave as expected.
 Ensure your computer’s date and time are accurate for consistent results.
+
 </box>
+
 <box type="tip" seamless>
+
 `unpay` has different meanings for tutors and students. `unpay` on a tutor means reversing a salary payment made to the tutor, whereas unpay on a student means reverting a fee payment received from the student.
+
 </box>
 
 ### Deleting a payment record: `delpay`
@@ -407,7 +423,7 @@ If they are not consistent, TutorPal may display incorrect payment or attendance
 <box type="tip" seamless>
 
 Before saving, double-check that:
-- The `joinDate` in the main person record matches the one in the attendance history.
+- The `joinDate` in the main person record matches the one in the attendance/payment history.
 - The payment history uses the correct format (**YYYY-MM-DD**).
 - You have created a backup copy of the data file before making changes.
 </box>
