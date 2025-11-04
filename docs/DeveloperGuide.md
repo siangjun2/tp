@@ -23,6 +23,10 @@ This project is based on the AddressBook-Level3 project created by the [SE-EDU i
 * **Widespread use of AI tools (Lee Chong Rui)**: GitHub Copilot was used as an auto-complete and code-assistance tool throughout development, including logic, model, and test code.
 * **GPT for test cases (Lee Chong Rui)**: ChatGPT generated some test cases to improve coverage, with adjustments for the codebase.
 
+* **GPT for test cases (Low Voon Bin Robin)**: ChatGPT generated test cases to improve coverage, with adjustments for the codebase.
+* **GPT for Javadocs (Low Voon Bin Robin)**: ChatGPT improved Javadocs comments for better readability and clarity.
+
+* **GPT for test cases (Lee Siang Jun)**: ChatGPT generated some test cases to improve coverage, with adjustments for the codebase.
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -153,111 +157,6 @@ Classes used by multiple components are in the `seedu.tutorpal.commons` package.
 
 --------------------------------------------------------------------------------------------------------------------
 
-## **Implementation**
-
-This section describes some noteworthy details on how certain features are implemented.
-<br>
-
-
-### \[Proposed\] Undo/redo feature
-
-#### Proposed Implementation
-
-The proposed undo/redo mechanism is facilitated by `VersionedAddressBook`. It extends `AddressBook` with an undo/redo history, stored internally as an `addressBookStateList` and `currentStatePointer`. Additionally, it implements the following operations:
-
-* `VersionedAddressBook#commit()` — Saves the current address book state in its history.
-* `VersionedAddressBook#undo()` — Restores the previous address book state from its history.
-* `VersionedAddressBook#redo()` — Restores a previously undone address book state from its history.
-
-These operations are exposed in the `Model` interface as `Model#commitAddressBook()`, `Model#undoAddressBook()` and `Model#redoAddressBook()` respectively.
-
-Given below is an example usage scenario and how the undo/redo mechanism behaves at each step.
-
-Step 1. The user launches the application for the first time. The `VersionedAddressBook` will be initialized with the initial address book state, and the `currentStatePointer` pointing to that single address book state.
-
-<puml src="diagrams/UndoRedoState0.puml" alt="UndoRedoState0" />
-
-Step 2. The user executes `delete 5` command to delete the 5th person in the address book. The `delete` command calls `Model#commitAddressBook()`, causing the modified state of the address book after the `delete 5` command executes to be saved in the `addressBookStateList`, and the `currentStatePointer` is shifted to the newly inserted address book state.
-
-<puml src="diagrams/UndoRedoState1.puml" alt="UndoRedoState1" />
-
-Step 3. The user executes `add n/David …​` to add a new person. The `add` command also calls `Model#commitAddressBook()`, causing another modified address book state to be saved into the `addressBookStateList`.
-
-<puml src="diagrams/UndoRedoState2.puml" alt="UndoRedoState2" />
-
-<box type="info" seamless>
-
-**Note:** If a command fails its execution, it will not call `Model#commitAddressBook()`, so the address book state will not be saved into the `addressBookStateList`.
-
-</box>
-
-Step 4. The user now decides that adding the person was a mistake, and decides to undo that action by executing the `undo` command. The `undo` command will call `Model#undoAddressBook()`, which will shift the `currentStatePointer` once to the left, pointing it to the previous address book state, and restores the address book to that state.
-
-<puml src="diagrams/UndoRedoState3.puml" alt="UndoRedoState3" />
-
-<box type="info" seamless>
-
-**Note:** If the `currentStatePointer` is at index 0, pointing to the initial AddressBook state, then there are no previous AddressBook states to restore. The `undo` command uses `Model#canUndoAddressBook()` to check if this is the case. If so, it will return an error to the user rather
-than attempting to perform the undo.
-
-</box>
-
-The following sequence diagram shows how an undo operation goes through the `Logic` component:
-
-<puml src="diagrams/UndoSequenceDiagram-Logic.puml" alt="UndoSequenceDiagram-Logic" />
-
-<box type="info" seamless>
-
-**Note:** The lifeline for `UndoCommand` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
-
-</box>
-
-Similarly, how an undo operation goes through the `Model` component is shown below:
-
-<puml src="diagrams/UndoSequenceDiagram-Model.puml" alt="UndoSequenceDiagram-Model" />
-
-The `redo` command does the opposite — it calls `Model#redoAddressBook()`, which shifts the `currentStatePointer` once to the right, pointing to the previously undone state, and restores the address book to that state.
-
-<box type="info" seamless>
-
-**Note:** If the `currentStatePointer` is at index `addressBookStateList.size() - 1`, pointing to the latest address book state, then there are no undone AddressBook states to restore. The `redo` command uses `Model#canRedoAddressBook()` to check if this is the case. If so, it will return an error to the user rather than attempting to perform the redo.
-
-</box>
-
-Step 5. The user then decides to execute the command `list`. Commands that do not modify the address book, such as `list`, will usually not call `Model#commitAddressBook()`, `Model#undoAddressBook()` or `Model#redoAddressBook()`. Thus, the `addressBookStateList` remains unchanged.
-
-<puml src="diagrams/UndoRedoState4.puml" alt="UndoRedoState4" />
-
-Step 6. The user executes `clear`, which calls `Model#commitAddressBook()`. Since the `currentStatePointer` is not pointing at the end of the `addressBookStateList`, all address book states after the `currentStatePointer` will be purged. Reason: It no longer makes sense to redo the `add n/David …​` command. This is the behavior that most modern desktop applications follow.
-
-<puml src="diagrams/UndoRedoState5.puml" alt="UndoRedoState5" />
-
-The following activity diagram summarizes what happens when a user executes a new command:
-
-<puml src="diagrams/CommitActivityDiagram.puml" width="250" />
-
-#### Design considerations:
-
-**Aspect: How undo & redo executes:**
-
-* **Alternative 1 (current choice):** Saves the entire address book.
-  * Pros: Easy to implement.
-  * Cons: May have performance issues in terms of memory usage.
-
-* **Alternative 2:** Individual command knows how to undo/redo by
-  itself.
-  * Pros: Will use less memory (e.g. for `delete`, just save the person being deleted).
-  * Cons: We must ensure that the implementation of each individual command are correct.
-
-_{more aspects and alternatives to be added}_
-
-### \[Proposed\] Data archiving
-
-_{Explain here how the data archiving feature will be implemented}_
-
-
---------------------------------------------------------------------------------------------------------------------
-
 ## **Documentation, logging, testing, configuration, dev-ops**
 
 * [Documentation guide](Documentation.md)
@@ -283,26 +182,33 @@ _{Explain here how the data archiving feature will be implemented}_
 manage students and tutors effortlessly by centralizing contact info, 
 attendance and monthly payment tracking (student fees and tutor salaries)
 in one easy-to-use command-line system. Designed for owners, tutors, and admins who are familiar with CLI workflows,
-it helps save time, reduce errors, and  lets them focus on teaching instead of paperwork.
+it helps save time, reduce errors, and lets them focus on teaching instead of paperwork.
 
 ### User stories
 
 Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
-| Priority | As a …​               | I want to …​                  | So that I can…​                                                        |
-|----------|----------------------|------------------------------|------------------------------------------------------------------------|
-| `* * *`  | new user             | see usage instructions       | refer to instructions when I forget how to use the App                 |
-| `* * *`  | user                 | add a student's contact      | collate all students' details in one place                             |
-| `* * *`  | admin                | add a tutor's contact        | onboard tutors and assign them to classes                              |
-| `* * *`  | user                 | delete a student's contact   | remove entries that I no longer need, maintaining a clean record       |
-| `* * *`  | user                 | find a person by name        | locate details of persons without having to go through the entire list |
-| `* * *`  | tuition centre owner | record payment status        | collect my fees on time                                                |
-| `* * *`  | tuition centre owner | list all my student details  | get a overview of the students in my tuition centre                    |
-| `* * *`  | tuition centre owner | unpay a month's payment      | correct payment mistakes quickly                                       |
-| `* * *`  | tuition centre owner | view monthly payment summary | see paid/unpaid/overdue at a glance                                    |
-| `* *`    | tutor                | record attendance            | track any students who may be missing classes                          |
-| `* *`    | admin                | filter students by `class`, `tutor`, or `payment status` | find the right group of people easily                                  |
-| `*`      | tuition centre owner | Set reminders for payments   | do not forget to ask for pending payments                              |
+| Priority | As a …​              | I want to …​                                            | So that I can…​                                                        |
+|----------|----------------------|---------------------------------------------------------|------------------------------------------------------------------------|
+| `* * *`  | new user             | see usage instructions                                  | refer to instructions when I forget how to use the App                 |
+| `* * *`  | user                 | add a student's contact                                 | collate all students' details in one place                             |
+| `* * *`  | admin                | add a tutor's contact                                   | onboard tutors and assign them to classes                              |
+| `* * *`  | user                 | delete a person's contact                                | remove entries I no longer need, maintaining a clean record            |
+| `* * *`  | user                 | find a person by name                                    | locate details without scanning the whole list                         |
+| `* * *`  | tuition centre owner | record a student's monthly fee payment                   | track fee collections accurately                                       |
+| `* * *`  | tuition centre owner | record a tutor's monthly salary payment                  | track salary payouts accurately                                        |
+| `* * *`  | tuition centre owner | unpay a month's payment for a student or tutor           | correct payment mistakes quickly                                       |
+| `* * *`  | tuition centre owner | view monthly payment summary                             | see paid/unpaid/overdue at a glance                                    |
+| `* *`    | user                 | display a person's full details                          | view classes, attendance, and payment history in one place             |
+| `* *`    | admin                | edit a person's details                                  | fix mistakes without re-adding the person                              |
+| `* *`    | tutor                | record attendance                                        | track any students who may be missing classes                          |
+| `* *`    | tutor                | unmark a student's attendance for a specific week        | correct accidental attendance markings                                 |
+| `* *`    | admin                | filter persons by `class`, `tutor`, or `payment status`  | find the right group of people easily                                  |
+| `* *`    | tuition centre owner | delete a payment record for a specific month             | remove duplicate or erroneous payment records                          |
+| `*`      | admin                | clear all entries                                        | reset the app data for testing or a new term                           |
+| `*`      | user                 | exit the application                                     | close the app when done                                                |
+| `*`      | user                 | have my data auto-saved                                  | avoid losing data without manual save                                  |
+| `*`      | tuition centre owner | set reminders for payments                               | not forget to ask for pending payments                                 |
 
 ### Use cases
 (For all use cases below, the **System** is the `TutorPal` and the **Actor** is the `Tuition Centre Admin`, unless specified otherwise)
@@ -433,15 +339,14 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
     - Use case ends.
 <br><br>
 
-<br>
 **Use case: Unmark monthly payment status (student or tutor)**
 
 **MSS**
 
-1. Admin enters the unpay command with a valid index and month (e.g., `unpay 3 m/09-2025`).
-2. TutorPal marks the specified month as unpaid for the selected person and displays a success message.
+1.  Admin enters the unpay command with a valid index and month (e.g., `unpay 3 m/09-2025`).
+2.  TutorPal marks the specified month as unpaid for the selected person and displays a success message. 
 
-Use case ends.
+    Use case ends.
 
 **Extensions**
 
@@ -458,16 +363,16 @@ Use case ends.
 - 1c. TutorPal detects that the month is already marked as unpaid.
     - 1c1. TutorPal displays an error message stating that payment for the specified month is already unpaid.
     - Use case ends.
+<br><br>
 
-<br>
 **Use case: Delete payment record**
 
 **MSS**
 
-1. Admin enters the delpay command with a valid index and month (e.g., `delpay 2 m/08-2025`).
-2. TutorPal deletes the payment record for the specified month and displays a success message.
+1.  Admin enters the delpay command with a valid index and month (e.g., `delpay 2 m/08-2025`).
+2.  TutorPal deletes the payment record for the specified month and displays a success message.
 
-Use case ends.
+    Use case ends.
 
 **Extensions**
 
@@ -484,17 +389,17 @@ Use case ends.
 - 1c. TutorPal detects that no payment record exists for the specified month.
     - 1c1. TutorPal displays an error message stating that the payment record was not found.
     - Use case ends.
+<br><br>
 
-<br>
 **Use case: Mark student attendance**
 
 **MSS**
 
-1. Admin enters the mark command with a valid index and attendance week (e.g., mark 3 w/W10-2025).
-2. TutorPal checks that the person at the index is a student and validates the attendance week.
-3. TutorPal marks the attendance for the specified week and displays a success message.
+1.  Admin enters the mark command with a valid index and attendance week (e.g., `mark 3 w/W10-2025`).
+2.  TutorPal checks that the person at the index is a student and validates the attendance week.
+3.  TutorPal marks the attendance for the specified week and displays a success message.
 
-Use case ends.
+    Use case ends.
 
 **Extensions**
 
@@ -527,11 +432,11 @@ Use case ends.
 
 **MSS**
 
-1. Admin enters the unmark command with a valid index and attendance week (e.g., unmark 3 w/W10-2025).
-2. TutorPal checks that the person at the index is a student and validates the attendance week.
-3. TutorPal unmarks the attendance for the specified week and displays a success message.
+1.  Admin enters the unmark command with a valid index and attendance week (e.g., `unmark 3 w/W10-2025`).
+2.  TutorPal checks that the person at the index is a student and validates the attendance week.
+3.  TutorPal unmarks the attendance for the specified week and displays a success message.
 
-Use case ends.
+    Use case ends.
 
 **Extensions**
 
@@ -564,11 +469,11 @@ Use case ends.
 
 **MSS**
 
-1. Admin enters the edit command with a valid index and at least one field to edit (e.g., edit 2 p/91234567 e/johndoe@example.com).
-2. TutorPal validates the edit parameters.
-3. TutorPal updates the person's details and displays a success message.
+1.  Admin enters the edit command with a valid index and at least one field to edit (e.g., `edit 2 p/91234567 e/johndoe@example.com`).
+2.  TutorPal validates the edit parameters.
+3.  TutorPal updates the person's details and displays a success message.
 
-Use case ends.
+    Use case ends.
 
 **Extensions**
 
@@ -613,10 +518,10 @@ Use case ends.
 
 **MSS**
 
-1. Admin enters the clear command.
-2. TutorPal clears all entries from the address book and displays a success message.
+1.  Admin enters the clear command.
+2.  TutorPal clears all entries from the address book and displays a success message.
 
-Use case ends.
+    Use case ends.
 
 **Extensions**
 
@@ -655,10 +560,10 @@ None.
 * **GUI (Graphical User Interface)**: The visual interface built with JavaFX, comprising `MainWindow`, `CommandBox`, `ResultDisplay`, `PersonListPanel`, `StatusBarFooter`, etc. Layouts are defined in FXML under `src/main/resources/view`.
 * **Student**: A person enrolled in the tuition centre who receives educational instruction. Their information includes contact details, class assignments, payment status, and academic records
 * **Tutor**: An educator employed by the tuition centre to teach students. Can be assigned to multiple classes
-* **Class Code**: A standardized identifier for classes in the format `sXdddHHMM` where:
+* **Class Code**: A standardized identifier for classes in the format `sXdddHHmm` where:
   - `sX` represents the secondary level (s1-s5)
   - `ddd` represents the day of the week (mon, tue, wed, thu, fri)
-  - `HHMM` represents the time in 24-hour format (e.g., s4mon1600 means Secondary 4, Monday, 4:00 PM)
+  - `HHmm` represents the time in 24-hour format (e.g., s4mon1600 means Secondary 4, Monday, 4:00 PM)
 * **Payment Status**: The current state of monthly payments. For students, this refers to tuition fees; for tutors, this refers to salaries. Can be `paid` (months up to current are paid), `unpaid` (current month not yet paid, earlier months paid), or `overdue` (there exists any unpaid month before the current month).
 * **Index**: A positive integer used to identify a specific entry in the currently displayed contact list. Used in commands like `delete` and `pay`
 * **Contact**: A record in TutorPal containing information about a student or tutor, including name, phone number, email, and address
@@ -732,3 +637,16 @@ testers are expected to do more *exploratory* testing.
 
    1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
 
+--------------------------------------------------------------------------------------------------------------------
+
+## **Appendix: Planned Enhancements**
+
+**Team size:** 5
+
+1. **Support guardian contact number in Add command**: Currently, the `add` command only allows storing a single phone number per contact. This is limiting for parents who need to provide both a primary contact and an emergency/guardian contact number. We plan to add an optional guardian contact field (prefix `g/`) to the `add` and `edit` commands. For example: `add r/student n/John Doe p/98765432 g/91234567 e/john@example.com a/123 Street c/s4mon1600`. The UI will display both the primary phone and guardian contact (if provided) in the person card, with the guardian contact labeled as "Guardian: 91234567".
+
+2. **Display full attendance and payment history**: Currently, the person list view only shows recent or summary information for attendance and payment records, making it difficult for users to review complete historical data. We plan to introduce a `display INDEX` command that opens a dedicated window or panel showing the full attendance history (all marked weeks) and complete payment history (all months with their paid/unpaid status) for the person at the specified index. The display will be formatted in a user-friendly, scrollable table with columns for dates and status.
+
+3. **Bulk delete payment and attendance records with adapted delpay command**: Currently, the `delpay` command only deletes a single payment record for a specified month (e.g., `delpay 2 m/08-2025`). If a user needs to adjust a person's join date to an earlier date, they must manually delete each subsequent payment and attendance record one by one, which is tedious and error-prone. We plan to introduce a new `clearhistory` command that deletes all payment and attendance records from the join date up to and including the specified date. For example: `clearhistory 2 upto/08-2025` would delete all payment records from the person's join month up to August 2025, as well as all attendance records from the join week up to the last week of August 2025. A confirmation message will be displayed: "Deleted all payment and attendance records for John Doe up to 08-2025 (5 payment records, 20 attendance records deleted)."
+
+4. **Standardize date format for paymentHistory's join date**: Currently, the join date displayed in the UI and the join date stored in the data file's `paymentHistory` use inconsistent date formats, which makes manual editing of the data file difficult and error-prone. For instance, the data file's paymentHistory stores the join date as `2024-08-15` while the UI displays it as `15-08-2024`. We plan to standardize both representations to use the same format: `dd-MM-yyyy` (e.g., `15-08-2024`). This will ensure consistency across the application and make it easier for advanced users to manually edit the data file when necessary.

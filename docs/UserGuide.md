@@ -4,6 +4,26 @@
   pageNav: 3
 ---
 
+<style>
+
+h2 {
+  margin-top: 70px !important; 
+  padding-top: 25px !important;   
+  border-top: 2px solid #e0e0e0; 
+}
+
+h3 {
+  margin-top: 70px !important;
+  padding-top: 15px !important;
+  border-top: 1px dashed #e5e5e5;
+}
+
+pre, img {
+  margin-bottom: 20px !important;
+}
+
+</style>
+
 # TutorPal User Guide
 
 TutorPal helps small, single-subject tuition centre owners manage students and tutors effortlessly by centralizing contact info, attendance and monthly payment tracking (student fees and tutor salaries) in one easy-to-use command-line system. Designed for owners, tutors, and admins who are familiar with CLI workflows, it saves time, reduces errors, and lets you focus on teaching instead of paperwork.
@@ -11,23 +31,34 @@ TutorPal helps small, single-subject tuition centre owners manage students and t
 <!-- * Table of Contents -->
 <page-nav-print />
 
---------------------------------------------------------------------------------------------------------------------
+## Table of contents
+- [Quick start](#quick-start)
+- [Features](#features)
+- [FAQ](#faq)
+- [Known issues](#known-issues)
+- [Command summary](#command-summary)
 
 ## Quick start
 
-1. Ensure you have Java `17` or above installed in your Computer.<br>
-   **Mac users:** Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
+1. Ensure you have Java `17` or above installed on your computer.
+   - Windows: Open Command Prompt and run `java -version` (expect 17 or higher).
+   - macOS: Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
 
 2. Download the latest `.jar` file from [here](https://github.com/AY2526S1-CS2103T-F11-2/tp/releases).
 
-1. Copy the file to the folder you want to use as the _home folder_ for your TutorPal.
+3. Copy the file to the folder you want to use as the _home folder_ for your TutorPal.
 
-4. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar tutorpal.jar` command to run the application.<br>
-   A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
-   ![Ui](images/Ui.png)
+4. Open a command terminal, `cd` into the folder you put the jar file in, and run:
+   `java -jar tutorpal.jar`
+   <box type="info" seamless>
+   Note that the actual jar file name may differ due to version differences.
+   </box>
+   A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data. <br>
+
+    ![Ui](images/Ui.png)
 
 5. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
-   Some example commands you can try:<br>
+   Some example commands you can try:<br><br>
    `add r/student n/Kevin p/98761234 e/kevin@gmail.com a/Kent Ridge c/s4mon1600 d/06-10-2025`<br>
    `add r/tutor n/Calvin p/99998888 e/calvin@gmail.com c/s4mon1600 d/29-10-2025 c/s1mon1800`<br>
    `pay 1 m/10-2025`<br>
@@ -36,10 +67,7 @@ TutorPal helps small, single-subject tuition centre owners manage students and t
    `find Kevin`<br>
    `list c/s4mon1600`
 
-
-1. Refer to the [Features](#features) below for details of each command.
-
---------------------------------------------------------------------------------------------------------------------
+6. Refer to the [Features](#features) below for details of each command.
 
 ## Features
 
@@ -54,7 +82,7 @@ TutorPal helps small, single-subject tuition centre owners manage students and t
   e.g `n/NAME [a/ADDRESS]` can be used as `n/John Doe a/Kent Ridge` or as `n/John Doe`.
 
 * Items with `…`​ after them can be used multiple times including zero times.<br>
-  e.g. `[c/MORE_CLASSES]…​` can be used as ` ` (i.e. 0 times), `c/s4mon1600`, `c/s4mon1600 c/s4mon1400` etc.
+  e.g. `[c/MORE_CLASSES]…​` can be used as `…` (i.e. 0 times), `c/s4mon1600`, `c/s4mon1600 c/s4mon1400` etc.
 
 * Parameters can be in any order.<br>
   e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
@@ -65,13 +93,13 @@ TutorPal helps small, single-subject tuition centre owners manage students and t
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
 </box>
 
-### Viewing help : `help`
+### Viewing help: `help`
 
 Shows a message explaining how to access the [help page](https://ay2526s1-cs2103t-f11-2.github.io/tp/UserGuide.html), as well as a quick summary of all commands and how to use them.
 When used with a command, it displays a detailed description of how the command should be used.<br>
 
 <box type="warning" seamless>
-`help` is not a valid `COMMAND_WORD` i.e. `help help` is not valid.
+Do not pass help as a COMMAND_WORD. help is not a valid COMMAND_WORD i.e. help help is not valid.
 </box>
 
 ![help message](images/helpMessage.png)
@@ -80,9 +108,8 @@ Format:
 `help [COMMAND_WORD]`
 
 Examples:
-- help add
-- help delete
-
+- `help add`
+- `help delete`
 
 ### Adding a person: `add`
 
@@ -123,13 +150,12 @@ Tip: For tutors, add more classes by repeating c/, e.g., c/s4mon1600 c/s4wed1400
 </box>
 
 <box type="tip" seamless>
-
-To maintain high data quality and ensure consistent reporting, **joinDate** must be between 01-01-2000 and
-**your computer's local system date and time**.   
+To maintain high data quality and ensure consistent reporting, **Join date** must be between 01-01-2000 and
+your computer's local system date and time.   
 This range reflects realistic onboarding windows for current operations and prevents entry of implausible historical dates.
 </box>
 
-### Listing all persons : `list`
+### Listing all persons: `list`
 
 Shows a list of students and tutors, optionally filtered by criteria.
 
@@ -142,10 +168,10 @@ Formats:
 What to know:
 * `list` shows **all contacts** (students and tutors)
 * `list c/...` shows **students/tutors** whose class code matches the given code or prefix
-    * Accepts same class format as add: s[1-5][day][time] (e.g. s4mon1600)
+    * Accepts same class format as add: `s[1-5][day][time]` (e.g. `s4mon1600`)
     * Prefix matching is allowed:
-        * s4 - all Secondary 4 classes (any day/time)
-        * s4mon - all Secondary 4 Monday classes (any time)
+        * `s4` - all Secondary 4 classes (any day/time)
+        * `s4mon` - all Secondary 4 Monday classes (any time)
     * If you provide only part of the class, it acts as a wildcard for the remaining parts
 * `list t/...` shows **students** enrolled in any class taught by tutors whose name contains the given keyword
     * The keyword can be **any continuous part** of the name (in order), and matching is case-insensitive
@@ -155,7 +181,7 @@ What to know:
     * Paid — every month from Join Month up to and including the current month is paid
     * Unpaid — all months before the current month are paid, but the current month is not yet paid
     * Overdue — there exists any unpaid month before the current month
-* Combining Filters
+* Combining filters
     * Filters of the same type are **OR-ed**: e.g. `list c/s4 c/s2` returns students in class s4 or s2.
     * Filters of different types are **AND-ed**: e.g. `list c/s4 ps/unpaid` returns students in s4 and with unpaid fees.
     * Used together: e.g. `list c/s4 c/s2 ps/unpaid` returns students in s4 or s2 and with unpaid fees (duplicates removed).
@@ -167,7 +193,7 @@ Examples:
 * `list t/Alex` - **students** taught by any tutor whose name contains `Alex`
 * `list ps/paid` - shows persons whose payment status is **Paid**
 
-### Displaying a person: `display` {: #display}
+### Displaying a person: `display`
 
 Displays detailed information about a person in TutorPal.
 
@@ -183,7 +209,7 @@ Format:
 Examples:
 - `display 3`
 
-### Editing a person : `edit`
+### Editing a person: `edit`
 
 Edits an existing person in TutorPal.
 
@@ -196,7 +222,7 @@ Examples:
 - `edit 3 d/15-02-2024`
 
 What to know:
-- INDEX refers to the number shown in the list (1-based).
+- `INDEX` refers to the number shown in the list (1-based).
 - At least one field must be provided.
 - Role (`r/`) cannot be edited.
 - Editing classes replaces all existing classes (not added on top).
@@ -209,7 +235,10 @@ Corner cases:
   - Attendance is valid only from the student’s join week up to the current week (inclusive).
   - If the new join date would make some marked weeks invalid, the edit will fail. Unmark those weeks first, then edit the join date.
   - This avoids unexpected hidden changes while ensuring all attendance are valid.
-- If INDEX is not in the displayed list, the command fails with an “invalid index” message.
+- Payments behave similarly to attendance: monthly payment records are valid only from the Join Month up to the current month (inclusive).
+    - If changing the join date would make some existing payment months fall before the new join month, the edit fails.
+    - Remove those months first with `delpay INDEX m/MM-yyyy`, then re-run the `edit` command.
+- If `INDEX` is not in the displayed list, the command fails with a `The person index provided is invalid!` message.
 
 ### Locating students and tutors by name: `find`
 
@@ -228,9 +257,11 @@ Examples:
 * `find Sheng` returns `Sheng` and `Yong Sheng`
 * `find Lee Sen More` returns `Lee Ze Xuan`, `Sen Yong Sheng` and `More Robin`
 
-### Marking attendance for students : `mark` {: #mark}
+### Marking attendance for students: `mark`
 
 Marks the selected student as having attended a specific ISO week.
+
+![mark command](images/mark2.png)
 
 Format:
 `mark INDEX w/ATTENDANCEWEEK`
@@ -240,21 +271,30 @@ Example:
 
 What to know:
 - Only students can be marked; marking tutors shows an error.
-- Attendance weeks are in `WXX-yyyy` format (ISO-8601), same as [unmark](#unmark).
+- Attendance weeks are in `WXX-yyyy` format (ISO-8601), same as `unmark`.
     - Where `W` is case-insensitive,
     - `XX` represents the ISO week, the student attended,
     - and `yyyy` represents the corresponding year. Supported years are year 2000 and onwards.
 - We are using weeks defined according to ISO-8601, which is an international standard.
     - This is also a common standard used in the education industry.
     - To find out more, please visit [this page](https://www.iso.org/iso-8601-date-and-time-format.html).
-- To view marked attendances, please use the [display command](#display).
+- To view marked attendances, please use the `display` command.
 
 Corner cases:
 - You can only mark weeks from the student’s join week up to the current week inclusive.
 - Marking the same week again fails with an error.
 - Week 53 is only valid in years that actually have 53 weeks.
 
-### Unmarking attendance for students : `unmark` {: #unmark}
+<box type="tip" seamless>
+
+TutorPal uses your computer’s **local system date and time** to determine the current week.
+This means attendance validation follows your device’s clock and timezone.
+If your system date/time is incorrect or set to a different timezone, attendance restrictions may not behave as expected.
+Ensure your computer’s date and time are accurate for consistent results.
+
+</box>
+
+### Unmarking attendance for students: `unmark`
 
 Unmarks the selected student as having attended a specific ISO week.
 
@@ -266,30 +306,41 @@ Example:
 
 What to know:
 - Only students can be unmarked; attempting to unmark a tutor shows an error.
-- Attendance weeks are in `WXX-yyyy` format (ISO-8601), same as [mark](#mark).
+- Attendance weeks are in `WXX-yyyy` format (ISO-8601), same as `mark`.
     - `W` is case-insensitive,
     - `XX` is the ISO week the student was previously marked for,
     - and `yyyy` is the corresponding year (2000 and onwards supported).
 - We are using weeks defined according to ISO-8601, which is an international standard.
     - This is also a common standard used in the education industry.
     - To find out more, please visit [this page](https://www.iso.org/iso-8601-date-and-time-format.html).
-- To view marked attendances before unmarking, use the [display command](#display).
+- To view marked attendances before unmarking, use the `display` command.
 
 Corner cases:
 - You can only unmark weeks from the student’s join week up to the current week inclusive.
 - Unmarking a week that was never marked fails with an error.
 - Week 53 is only valid in years that actually have ISO week 53.
 
-### Managing payments : `pay`
+<box type="tip" seamless>
 
-Records monthly fee payments and show each person's payment status
+TutorPal uses your computer’s **local system date and time** to determine the current week.
+This means attendance validation follows your device’s clock and timezone.
+If your system date/time is incorrect or set to a different timezone, attendance restrictions may not behave as expected.
+Ensure your computer’s date and time are accurate for consistent results.
+
+</box>
+
+### Managing payments: `pay`
+
+Records monthly fee payments and shows each person's payment status
+
+![pay command](images/pay.png)
 
 Format: `pay INDEX m/MM-yyyy`
 
 Details:
 * Marks the specified month and year as paid for the person at `INDEX`
 * Each person has a **Join Month** in MM-yyyy. Billing starts from this month inclusive
-* Month format must be MM-yyyy (e.g., 04-2025)
+* Month format must be `MM-yyyy` (e.g., 04-2025)
 * By default, paying for months **after the current month** and **before Join Month** are not allowed
 * Only one m/ is allowed, providing m/ more than once is rejected.
 * Paid - every month from **Join Month** up to **and including** the current month is paid
@@ -300,6 +351,7 @@ Examples (assume today is Oct 2025):
 * `pay 3 m/09-2025` - marks Sept 2025 as paid for person #3
 
 <box type="tip" seamless>
+
 TutorPal uses your computer’s **local system date and time** to determine the current month.
 This means payment validation (e.g., blocking future months) follows your device’s clock and timezone.
 If your system date/time is incorrect or set to a different timezone, payment restrictions may not behave as expected.
@@ -313,24 +365,23 @@ Ensure your computer’s date and time are accurate for consistent results.
 
 </box>
 
---------------------------------------------------------------------------------------------------------------------
+### Managing payments: `unpay`
 
-### Managing payments : `unpay`
-
-Reverts monthly fee payments and show each person's payment status
+Reverts monthly fee payments and shows each person's payment status
 
 Format: `unpay INDEX m/MM-yyyy`
 
 Details:
 * Marks the specified month and year as unpaid for the person at `INDEX`
-* Month format must be MM-yyyy (e.g., 04-2025)
+* Month format must be `MM-yyyy` (e.g., 04-2025)
 * By default, unpaying months **after the current month** and **before Join Month** are not allowed
 * Only one `m/` is allowed, providing `m/` more than once is rejected.
 
 Examples (assume today is Oct 2025):
-* `unpay 3 m/09-2025`- marks Sept 2025 as unpaid for person #3
+* `unpay 3 m/09-2025` - marks Sept 2025 as unpaid for person #3
 
 <box type="tip" seamless>
+
 TutorPal uses your computer’s **local system date and time** to determine the current month.
 This means payment validation (e.g., blocking future months) follows your device’s clock and timezone.
 If your system date/time is incorrect or set to a different timezone, payment restrictions may not behave as expected.
@@ -347,6 +398,8 @@ Ensure your computer’s date and time are accurate for consistent results.
 ### Deleting a payment record: `delpay`
 
 Removes the stored payment record for a specific month.
+
+![delpay command](images/delpay.png)
 
 Format: `delpay INDEX m/MM-yyyy`
 
@@ -380,7 +433,7 @@ Example:
 
 --------------------------------------------------------------------------------------------------------------------
 
-### Deleting a person : `delete`
+### Deleting a person: `delete`
 
 Deletes the specified person from TutorPal.
 
@@ -394,13 +447,13 @@ Examples:
 * `list` followed by `delete 2` deletes the 2nd person in TutorPal.
 * `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
 
-### Clearing all entries : `clear`
+### Clearing all entries: `clear`
 
 Clears all entries from TutorPal.
 
 Format: `clear`
 
-### Exiting the program : `exit`
+### Exiting the program: `exit`
 
 Exits the program.
 
@@ -408,7 +461,7 @@ Format: `exit`
 
 ### Saving the data
 
-TutorPal data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
+TutorPal data are saved on disk automatically after any command that changes the data. There is no need to save manually.
 
 ### Editing the data file
 
@@ -451,8 +504,8 @@ Before saving, double-check that:
 
 ## FAQ
 
-**Q**: How do I transfer my data to another Computer?<br>
-**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous TutorPal home folder.
+**Q**: How do I transfer my data to another computer?<br>
+**A**: Install the app on the other computer and overwrite the empty data file it creates with the file that contains the data of your previous TutorPal home folder.
 
 **Q**: Can I back up my data?<br>
 **A**: Yes. Simply copy the data folder (containing addressbook.json) to another location.
@@ -474,7 +527,7 @@ Action     | Format, Examples
 **Clear**  | `clear`
 **Delete** | `delete INDEX`<br> e.g., `delete 3`
 **Display** | `display INDEX`<br> e.g., `display 4`
-**Edit**   | `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [d/JOINDATE] [c/CLASS]…`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
+**Edit**   | `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [d/JOINDATE] [c/CLASS]…`<br> e.g., `edit 2 n/James Lee e/jameslee@example.com`
 **Exit**   | `exit`
 **Find**   | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
 **List**   | `list [c/CLASS] [t/TUTOR] [ps/STATUS]`
