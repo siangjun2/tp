@@ -53,7 +53,6 @@ public class CommandWord {
         MarkCommand.class,
         UnmarkCommand.class,
         PaymentCommand.class,
-        UnmarkCommand.class,
         UnpayCommand.class
     );
 
