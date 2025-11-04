@@ -359,6 +359,25 @@ Details:
 Example:
 * `delpay 2 m/08-2025`
 
+<box type="tip" seamless>
+
+**Understanding `delpay` vs `unpay`:**
+
+* **`unpay`**: Changes an existing payment record's status to unpaid. The record still exists in the system.
+* **`delpay`**: Completely removes the payment record for a month. After deletion, the month has no payment record.
+
+**When to use `delpay`:**
+
+`delpay` is primarily used when you need to **edit a person's join date to a later date**. If you change the join date via `edit` and there are payment records before the new join date, the edit will fail. Use `delpay` first to remove those conflicting payment records, then proceed with the `edit` command.
+
+**Example workflow:**
+1. Person joined in Jan 2025 with payments marked for Jan and Feb 2025
+2. To change join date to Mar 2025: First use `delpay INDEX m/01-2025` and `delpay INDEX m/02-2025` to remove conflicting records
+3. Then use `edit INDEX d/01-03-2025` to successfully change the join date
+
+**Note:** For simply correcting a payment status (changing from paid to unpaid), use `unpay` instead.
+</box>
+
 --------------------------------------------------------------------------------------------------------------------
 
 ### Deleting a person : `delete`
