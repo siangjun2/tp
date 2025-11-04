@@ -28,6 +28,9 @@ This project is based on the AddressBook-Level3 project created by the [SE-EDU i
 
 * **GPT for test cases (Lee Siang Jun)**: ChatGPT generated some test cases to improve coverage, with adjustments for the codebase.
 
+* **Widespread use of AI tools (Jiang Zichen)**: GitHub Copilot was used as an auto-complete and code-assistance tool throughout development, including logic, model, and test code.
+* **GPT for test cases (Jiang Zichen)**: ChatGPT generated some test cases to improve coverage, with adjustments for the codebase.
+
 --------------------------------------------------------------------------------------------------------------------
 
 ## **Setting up, getting started**
