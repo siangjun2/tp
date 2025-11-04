@@ -53,11 +53,11 @@ TutorPal helps small, single-subject tuition centre owners manage students and t
    <box type="info" seamless>
    Note that the actual jar file name may differ due to version differences.
    </box>
-   A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.
+   A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data. <br>
    ![Ui](images/Ui.png)
 
 5. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
-   Some example commands you can try:<br>
+   Some example commands you can try:<br><br>
    `add r/student n/Kevin p/98761234 e/kevin@gmail.com a/Kent Ridge c/s4mon1600 d/06-10-2025`<br>
    `add r/tutor n/Calvin p/99998888 e/calvin@gmail.com c/s4mon1600 d/29-10-2025 c/s1mon1800`<br>
    `pay 1 m/10-2025`<br>
@@ -107,8 +107,8 @@ Format:
 `help [COMMAND_WORD]`
 
 Examples:
-- help add
-- help delete
+- `help add`
+- `help delete`
 
 ### Adding a person: `add`
 
@@ -150,7 +150,7 @@ Tip: For tutors, add more classes by repeating c/, e.g., c/s4mon1600 c/s4wed1400
 
 <box type="tip" seamless>
 To maintain high data quality and ensure consistent reporting, **Join date** must be between 01-01-2000 and
-**your computer's local system date and time**.   
+your computer's local system date and time.   
 This range reflects realistic onboarding windows for current operations and prevents entry of implausible historical dates.
 </box>
 
@@ -167,10 +167,10 @@ Formats:
 What to know:
 * `list` shows **all contacts** (students and tutors)
 * `list c/...` shows **students/tutors** whose class code matches the given code or prefix
-    * Accepts same class format as add: s[1-5][day][time] (e.g. s4mon1600)
+    * Accepts same class format as add: `s[1-5][day][time]` (e.g. `s4mon1600`)
     * Prefix matching is allowed:
-        * s4 - all Secondary 4 classes (any day/time)
-        * s4mon - all Secondary 4 Monday classes (any time)
+        * `s4` - all Secondary 4 classes (any day/time)
+        * `s4mon` - all Secondary 4 Monday classes (any time)
     * If you provide only part of the class, it acts as a wildcard for the remaining parts
 * `list t/...` shows **students** enrolled in any class taught by tutors whose name contains the given keyword
     * The keyword can be **any continuous part** of the name (in order), and matching is case-insensitive
@@ -221,7 +221,7 @@ Examples:
 - `edit 3 d/15-02-2024`
 
 What to know:
-- INDEX refers to the number shown in the list (1-based).
+- `INDEX` refers to the number shown in the list (1-based).
 - At least one field must be provided.
 - Role (`r/`) cannot be edited.
 - Editing classes replaces all existing classes (not added on top).
@@ -237,7 +237,7 @@ Corner cases:
 - Payments behave similarly to attendance: monthly payment records are valid only from the Join Month up to the current month (inclusive).
     - If changing the join date would make some existing payment months fall before the new join month, the edit fails.
     - Remove those months first with `delpay INDEX m/MM-yyyy`, then re-run the `edit` command.
-- If INDEX is not in the displayed list, the command fails with an “invalid index” message.
+- If `INDEX` is not in the displayed list, the command fails with a `The person index provided is invalid!` message.
 
 ### Locating students and tutors by name: `find`
 
@@ -339,7 +339,7 @@ Format: `pay INDEX m/MM-yyyy`
 Details:
 * Marks the specified month and year as paid for the person at `INDEX`
 * Each person has a **Join Month** in MM-yyyy. Billing starts from this month inclusive
-* Month format must be MM-yyyy (e.g., 04-2025)
+* Month format must be `MM-yyyy` (e.g., 04-2025)
 * By default, paying for months **after the current month** and **before Join Month** are not allowed
 * Only one m/ is allowed, providing m/ more than once is rejected.
 * Paid - every month from **Join Month** up to **and including** the current month is paid
@@ -372,7 +372,7 @@ Format: `unpay INDEX m/MM-yyyy`
 
 Details:
 * Marks the specified month and year as unpaid for the person at `INDEX`
-* Month format must be MM-yyyy (e.g., 04-2025)
+* Month format must be `MM-yyyy` (e.g., 04-2025)
 * By default, unpaying months **after the current month** and **before Join Month** are not allowed
 * Only one `m/` is allowed, providing `m/` more than once is rejected.
 
