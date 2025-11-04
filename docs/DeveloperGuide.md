@@ -214,7 +214,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 (For all use cases below, the **System** is the `TutorPal` and the **Actor** is the `Tuition Centre Admin`, unless specified otherwise)
 <br><br>
 
-**Use case: Add new student/tutor**
+**Use case: UC1 - Add new student/tutor**
 
 **MSS**
 
@@ -237,7 +237,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
   - Use case ends.
 <br><br>
 
-**Use case: Delete student/tutor**
+**Use case: UC2 - Delete student/tutor**
 
 **MSS**
 
@@ -255,7 +255,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
   - Use case resumes from step 2.
 <br><br>
 
-**Use case: List students/tutors (with optional filter)**
+**Use case: UC3 - List students/tutors (with optional filter)**
 
 **MSS**
 
@@ -290,7 +290,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
   - Use case ends.
 <br><br>
 
-**Use case: Find student/tutor by name**
+**Use case: UC4 - Find student/tutor by name**
 
 **MSS**
 
@@ -313,7 +313,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
   - Use case ends.
 <br><br>
 
-**Use case: Mark monthly payment status (student or tutor)**
+**Use case: UC5 - Mark monthly payment status (student or tutor)**
 
 **MSS**
 
@@ -339,7 +339,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
     - Use case ends.
 <br><br>
 
-**Use case: Unmark monthly payment status (student or tutor)**
+**Use case: UC6 - Unmark monthly payment status (student or tutor)**
 
 **MSS**
 
@@ -365,7 +365,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
     - Use case ends.
 <br><br>
 
-**Use case: Delete payment record**
+**Use case: UC7 - Delete payment record**
 
 **MSS**
 
@@ -391,7 +391,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
     - Use case ends.
 <br><br>
 
-**Use case: Mark student attendance**
+**Use case: UC8 - Mark student attendance**
 
 **MSS**
 
@@ -428,7 +428,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
     - Use case ends.
 <br><br>
 
-**Use case: Unmark student attendance**
+**Use case: UC9 - Unmark student attendance**
 
 **MSS**
 
@@ -465,7 +465,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
     - Use case ends.
 <br><br>
 
-**Use case: Edit person details**
+**Use case: UC10 - Edit person details**
 
 **MSS**
 
@@ -514,7 +514,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
     - Use case ends.
 <br><br>
 
-**Use case: Clear all entries**
+**Use case: UC11 - Clear all entries**
 
 **MSS**
 
@@ -528,7 +528,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 None.
 <br><br>
 
-**Use case: Exit application**
+**Use case: UC12 - Exit application**
 
 **MSS**
 
