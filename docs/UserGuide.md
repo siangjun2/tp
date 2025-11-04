@@ -339,7 +339,7 @@ Format: `pay INDEX m/MM-yyyy`
 
 Details:
 * Marks the specified month and year as paid for the person at `INDEX`
-* Each person has a **Join Month** in MM-yyyy. Billing starts from this month inclusive
+* Each person has a **Join Month** in `MM-yyyy`. Billing starts from this month inclusive
 * Month format must be `MM-yyyy` (e.g., 04-2025)
 * By default, paying for months **after the current month** and **before Join Month** are not allowed
 * Only one m/ is allowed, providing m/ more than once is rejected.
@@ -405,7 +405,7 @@ Format: `delpay INDEX m/MM-yyyy`
 
 Details:
 * Deletes the record for the specified month and year for the person at `INDEX`
-* Month format must be MM-yyyy (e.g., 04-2025)
+* Month format must be `MM-yyyy` (e.g., 04-2025)
 * You can only delete months from the Join Month up to the current month
 * After deletion, the month is treated as unpaid for display and status
 
@@ -536,4 +536,4 @@ Action     | Format, Examples
 **Pay**    | `pay INDEX m/MM-yyyy`
 **Unpay**  | `unpay INDEX m/MM-yyyy`
 **Delpay** | `delpay INDEX m/MM-yyyy`
-**Help**   | `help`
+**Help**   | `help [COMMAND_WORD]`
