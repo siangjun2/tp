@@ -339,15 +339,14 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
     - Use case ends.
 <br><br>
 
-<br>
 **Use case: Unmark monthly payment status (student or tutor)**
 
 **MSS**
 
-1. Admin enters the unpay command with a valid index and month (e.g., `unpay 3 m/09-2025`).
-2. TutorPal marks the specified month as unpaid for the selected person and displays a success message.
+1.  Admin enters the unpay command with a valid index and month (e.g., `unpay 3 m/09-2025`).
+2.  TutorPal marks the specified month as unpaid for the selected person and displays a success message. 
 
-Use case ends.
+    Use case ends.
 
 **Extensions**
 
@@ -364,16 +363,16 @@ Use case ends.
 - 1c. TutorPal detects that the month is already marked as unpaid.
     - 1c1. TutorPal displays an error message stating that payment for the specified month is already unpaid.
     - Use case ends.
+<br><br>
 
-<br>
 **Use case: Delete payment record**
 
 **MSS**
 
-1. Admin enters the delpay command with a valid index and month (e.g., `delpay 2 m/08-2025`).
-2. TutorPal deletes the payment record for the specified month and displays a success message.
+1.  Admin enters the delpay command with a valid index and month (e.g., `delpay 2 m/08-2025`).
+2.  TutorPal deletes the payment record for the specified month and displays a success message.
 
-Use case ends.
+    Use case ends.
 
 **Extensions**
 
@@ -390,17 +389,17 @@ Use case ends.
 - 1c. TutorPal detects that no payment record exists for the specified month.
     - 1c1. TutorPal displays an error message stating that the payment record was not found.
     - Use case ends.
+<br><br>
 
-<br>
 **Use case: Mark student attendance**
 
 **MSS**
 
-1. Admin enters the mark command with a valid index and attendance week (e.g., mark 3 w/W10-2025).
-2. TutorPal checks that the person at the index is a student and validates the attendance week.
-3. TutorPal marks the attendance for the specified week and displays a success message.
+1.  Admin enters the mark command with a valid index and attendance week (e.g., `mark 3 w/W10-2025`).
+2.  TutorPal checks that the person at the index is a student and validates the attendance week.
+3.  TutorPal marks the attendance for the specified week and displays a success message.
 
-Use case ends.
+    Use case ends.
 
 **Extensions**
 
@@ -433,11 +432,11 @@ Use case ends.
 
 **MSS**
 
-1. Admin enters the unmark command with a valid index and attendance week (e.g., unmark 3 w/W10-2025).
-2. TutorPal checks that the person at the index is a student and validates the attendance week.
-3. TutorPal unmarks the attendance for the specified week and displays a success message.
+1.  Admin enters the unmark command with a valid index and attendance week (e.g., `unmark 3 w/W10-2025`).
+2.  TutorPal checks that the person at the index is a student and validates the attendance week.
+3.  TutorPal unmarks the attendance for the specified week and displays a success message.
 
-Use case ends.
+    Use case ends.
 
 **Extensions**
 
@@ -470,11 +469,11 @@ Use case ends.
 
 **MSS**
 
-1. Admin enters the edit command with a valid index and at least one field to edit (e.g., edit 2 p/91234567 e/johndoe@example.com).
-2. TutorPal validates the edit parameters.
-3. TutorPal updates the person's details and displays a success message.
+1.  Admin enters the edit command with a valid index and at least one field to edit (e.g., `edit 2 p/91234567 e/johndoe@example.com`).
+2.  TutorPal validates the edit parameters.
+3.  TutorPal updates the person's details and displays a success message.
 
-Use case ends.
+    Use case ends.
 
 **Extensions**
 
@@ -519,10 +518,10 @@ Use case ends.
 
 **MSS**
 
-1. Admin enters the clear command.
-2. TutorPal clears all entries from the address book and displays a success message.
+1.  Admin enters the clear command.
+2.  TutorPal clears all entries from the address book and displays a success message.
 
-Use case ends.
+    Use case ends.
 
 **Extensions**
 
@@ -561,10 +560,10 @@ None.
 * **GUI (Graphical User Interface)**: The visual interface built with JavaFX, comprising `MainWindow`, `CommandBox`, `ResultDisplay`, `PersonListPanel`, `StatusBarFooter`, etc. Layouts are defined in FXML under `src/main/resources/view`.
 * **Student**: A person enrolled in the tuition centre who receives educational instruction. Their information includes contact details, class assignments, payment status, and academic records
 * **Tutor**: An educator employed by the tuition centre to teach students. Can be assigned to multiple classes
-* **Class Code**: A standardized identifier for classes in the format `sXdddHHMM` where:
+* **Class Code**: A standardized identifier for classes in the format `sXdddHHmm` where:
   - `sX` represents the secondary level (s1-s5)
   - `ddd` represents the day of the week (mon, tue, wed, thu, fri)
-  - `HHMM` represents the time in 24-hour format (e.g., s4mon1600 means Secondary 4, Monday, 4:00 PM)
+  - `HHmm` represents the time in 24-hour format (e.g., s4mon1600 means Secondary 4, Monday, 4:00 PM)
 * **Payment Status**: The current state of monthly payments. For students, this refers to tuition fees; for tutors, this refers to salaries. Can be `paid` (months up to current are paid), `unpaid` (current month not yet paid, earlier months paid), or `overdue` (there exists any unpaid month before the current month).
 * **Index**: A positive integer used to identify a specific entry in the currently displayed contact list. Used in commands like `delete` and `pay`
 * **Contact**: A record in TutorPal containing information about a student or tutor, including name, phone number, email, and address
